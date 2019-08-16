@@ -1,8 +1,9 @@
 #ifndef APIHANDLER_H
 #define APIHANDLER_H
 
-#include <QObject>
 #include "sites/pixiv/pixivapi.h"
+#include "sites/mangarock/mangarockapi.h"
+#include <QObject>
 #include <QThread>
 #include "logging.h"
 #include <QQmlApplicationEngine>
@@ -14,7 +15,7 @@ class ApiHandler : public QObject
 public:
     ApiHandler();
 
-    Logging *logging;
+    Logging *logger;
     QQmlApplicationEngine *engine;
 
 private:

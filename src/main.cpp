@@ -15,13 +15,13 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    Logging *logging = new Logging();
+    Logging *logger = new Logging();
     ApiHandler *apiHandler = new ApiHandler();
-    apiHandler->logging = logging;
+    apiHandler->logger = logger;
     QQmlApplicationEngine engine;
     apiHandler->engine = &engine;
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);
-    engine.rootContext()->setContextProperty("logging", logging);
+    engine.rootContext()->setContextProperty("logging", logger);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

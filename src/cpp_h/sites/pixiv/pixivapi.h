@@ -2,7 +2,6 @@
 #define PIXIVAPI_H
 
 #include "cpp_h/parserclass.h"
-#include "cpp_h/logging.h"
 
 class PixivApi : public ParserClass
 {
@@ -12,7 +11,6 @@ public:
     ~PixivApi();
 
     std::string userId; // artist's id entered by user
-    Logging *logging;
     QStringList imagesFromApi;
     QJsonObject userData;
     QJsonObject userAllData;

@@ -6,7 +6,7 @@ ParserClass::~ParserClass() { }
 
 
 
-void ParserClass::doWork() { }
+/*void ParserClass::doWork() { }*/
 
 QJsonObject ParserClass::jsonObjectFromString(QString &content)
 {

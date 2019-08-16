@@ -8,7 +8,6 @@
 #include <QDir>
 #include <fstream>
 #include <QVariant>
-//#include <QPlainTextEdit>
 #include <ctime>
 #include "curlclass.h"
 #include <QObject>
@@ -17,6 +16,7 @@
 #include <chrono>
 #include <QDataStream>
 #include <QJsonValue>
+#include "logging.h"
 
 class ParserClass : public QObject
 {
@@ -26,7 +26,10 @@ public:
     ~ParserClass();
 
     std::string basePath; // path entered by user
+    Logging *logger;
 
+
+protected:
     QJsonObject jsonObjectFromString(QString &content);
     bool writeFile(std::string &data, std::string directory, std::string fileName);
     void recExtractJson(QJsonObject rootObject, std::string offset, std::string &data);
@@ -46,8 +49,8 @@ public:
     std::vector<std::string> chunk;
     std::string pattern;
 
-public slots:
-    void doWork();
+//public slots:
+//    void doWork();
 
 signals:
     void downloadingFinished();

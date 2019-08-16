@@ -17,7 +17,7 @@ void ApiHandler::pixivStartDownloading(const QString &userId)
 
         pApi->userId = userId.toStdString();
         pApi->basePath = "H:\\KawaiClient\\downloaded\\pixiv";
-        pApi->logging = this->logging;
+        pApi->logger = this->logger;
 
         pApi->moveToThread(thread);
 
@@ -51,7 +51,7 @@ void ApiHandler::pixivViewUser(const QString &userId)
 
         pApi->userId = userId.toStdString();
         pApi->basePath = "H:\\KawaiClient\\downloaded\\pixiv";
-        pApi->logging = this->logging;
+        pApi->logger = this->logger;
 
         pApi->moveToThread(thread);
 
@@ -79,29 +79,29 @@ void ApiHandler::pixivEmitViewDataDownloaded(QJsonObject userData, QJsonObject u
 
 
 
-void ApiHandler::mangarockStartDownloading(const QString &userId)
+void ApiHandler::mangarockStartDownloading(const QString &oid)
 {
     if (!mangarockWorkInProggress)
     {
         mangarockWorkInProggress = true;
-        emit pixivDownloadingStarted();
+        emit mangarockDownloadingStarted();
 
         QThread *thread = new QThread();
-        PixivApi *pApi = new PixivApi();
+        MangarockApi *mApi = new MangarockApi();
 
-        pApi->userId = userId.toStdString();
-        pApi->basePath = "H:\\KawaiClient\\downloaded\\pixiv";
-        pApi->logging = this->logging;
+        mApi->oid = oid.toStdString();
+        mApi->basePath = "H:\\KawaiClient\\downloaded\\mangarock";
+        mApi->logger = this->logger;
 
-        pApi->moveToThread(thread);
+        mApi->moveToThread(thread);
 
-        connect(thread, SIGNAL(started()), pApi, SLOT(downloadUser()));
-        connect(pApi, SIGNAL(downloadingFinished()), thread, SLOT(quit()));
+        connect(thread, SIGNAL(started()), mApi, SLOT(downloadUser()));
+        connect(mApi, SIGNAL(downloadingFinished()), thread, SLOT(quit()));
 
-        connect(pApi, SIGNAL(downloadingFinished()), pApi, SLOT(deleteLater()));
+        connect(mApi, SIGNAL(downloadingFinished()), mApi, SLOT(deleteLater()));
         connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
-        connect(pApi, SIGNAL(downloadingFinished()), this, SLOT(pixivEmitSignalDownloadingFinished()));
+        connect(mApi, SIGNAL(downloadingFinished()), this, SLOT(mangarockEmitSignalDownloadingFinished()));
 
         thread->start();
     }
