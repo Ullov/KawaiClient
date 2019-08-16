@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>resources/icons/4272e394f5ad(instagram).png</file>
+        <file>resources/icons/apple-icon-57x57(mangarock).webp</file>
+        <file>resources/icons/apple-touch-icon(pixiv).png</file>
+        <file>resources/icons/favicon(exhentai).ico</file>
+        <file>resources/icons/favicon(nhentai).ico</file>
+        <file>resources/other/cacert.pem</file>
+        <file>js/pageloader.js</file>
+        <file>qml/sites/pixiv/pixiv.qml</file>
+        <file>qml/logWindow.qml</file>
+        <file>qml/sites/mangarock/mangarock.qml</file>
+    </qresource>
+    <qresource prefix="/icons"/>
+    <qresource prefix="/other"/>
+    <qresource prefix="/QmlIncludes">
+        <file>qml/QmlIncludes/KawaiLoadTabButton.qml</file>
+        <file>qml/QmlIncludes/KawaiDownloadBar.qml</file>
+        <file>qml/QmlIncludes/KawaiButton.qml</file>
+    </qresource>
+</RCC>
