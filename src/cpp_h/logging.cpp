@@ -14,10 +14,10 @@ void Logging::performLogging(const QString &message, const QString &type)
     dt.pop_back();
     dt = '[' + type.toStdString() + ']' + dt + ' ' + message.toStdString() + '\n';
 
-    std::string tmp = dt;
+    /*std::string tmp = dt;
     tmp.pop_back();
-    QVariant forSlot = tmp.c_str();
-    emit logMessage(forSlot);
+    QString forSlot = tmp.c_str();
+    emit logMessage(forSlot);*/
 
     QDir dir = QDir(systemLogPath.c_str());
     bool pathExist = dir.exists();
@@ -46,10 +46,10 @@ void Logging::performDelayedLogging(const QString &message, QString const &type)
     dt.pop_back();
     dt = '[' + type.toStdString() + ']' + dt + ' ' + message.toStdString() + '\n';
 
-    std::string tmp = dt;
+    /*std::string tmp = dt;
     tmp.pop_back();
-    QVariant forSlot = tmp.c_str();
-    emit logMessage(forSlot);
+    QString forSlot = tmp.c_str();
+    emit logMessage(forSlot);*/
 
     delayedMessagesBuffer += dt;
 }
@@ -84,10 +84,10 @@ void Logging::cppPerformLogging(std::string message, std::string &type, std::str
     dt.pop_back();
     dt = '[' + type + ']' + dt + ' ' + message + '\n';
 
-    std::string tmp = dt;
+    /*std::string tmp = dt;
     tmp.pop_back();
-    QVariant forSlot = tmp.c_str();
-    emit logMessage(forSlot);
+    QString forSlot = tmp.c_str();
+    emit logMessage(forSlot);*/
 
     QDir dir = QDir(path.c_str());
     bool pathExist = dir.exists();

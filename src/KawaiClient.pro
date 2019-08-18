@@ -22,7 +22,8 @@ SOURCES += \
     cpp_h/sites/nhentai/nhentaiapi.cpp \
     cpp_h/sites/pixiv/pixivapi.cpp \
     cpp_h/apihandler.cpp \
-    cpp_h/logging.cpp
+    cpp_h/logging.cpp \
+    cpp_h/optionshandler.cpp
 
 RESOURCES += qml.qrc
 
@@ -46,7 +47,8 @@ HEADERS += \
     cpp_h/sites/nhentai/nhentaiapi.h \
     cpp_h/sites/pixiv/pixivapi.h \
     cpp_h/apihandler.h \
-    cpp_h/logging.h
+    cpp_h/logging.h \
+    cpp_h/optionshandler.h
 
 
 LIBS += -L$$PWD/libs/curl-x64/lib/dll/ -llibcurl.dll

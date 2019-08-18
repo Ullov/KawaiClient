@@ -27,7 +27,7 @@ private:
     std::string delayedMessagesBuffer;
 
 signals:
-    void logMessage(QVariant message);
+    void logMessage(const QString &message);
 };
 
 #endif // LOGGING_H

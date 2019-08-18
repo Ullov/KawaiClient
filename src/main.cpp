@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     apiHandler->engine = &engine;
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);
-    engine.rootContext()->setContextProperty("logging", logger);
+    engine.rootContext()->setContextProperty("logger", logger);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
