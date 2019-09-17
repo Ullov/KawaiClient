@@ -8,9 +8,8 @@
         <file>resources/icons/favicon(nhentai).ico</file>
         <file>resources/other/cacert.pem</file>
         <file>js/pageloader.js</file>
-        <file>qml/sites/pixiv/pixiv.qml</file>
         <file>qml/logWindow.qml</file>
-        <file>qml/sites/mangarock/mangarock.qml</file>
+        <file>qml/settingsWindow.qml</file>
     </qresource>
     <qresource prefix="/icons"/>
     <qresource prefix="/other"/>
@@ -18,5 +17,8 @@
         <file>qml/QmlIncludes/KawaiLoadTabButton.qml</file>
         <file>qml/QmlIncludes/KawaiDownloadBar.qml</file>
         <file>qml/QmlIncludes/KawaiButton.qml</file>
+        <file>qml/QmlIncludes/SiteTabs/Pixiv/PixivMainFrame.qml</file>
+        <file>qml/QmlIncludes/SiteTabs/Mangarock/MangarockMainFrame.qml</file>
+        <file>qml/QmlIncludes/SiteTabs/Exhentai/ExhentaiMainFrame.qml</file>
     </qresource>
 </RCC>

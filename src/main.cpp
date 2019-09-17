@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include "cpp_h/apihandler.h"
 #include "cpp_h/logging.h"
+#include "cpp_h/optionshandler.h"
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>
@@ -15,6 +16,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    OptionsHandler *options = new OptionsHandler();
     Logging *logger = new Logging();
     ApiHandler *apiHandler = new ApiHandler();
     apiHandler->logger = logger;
@@ -22,6 +24,7 @@ int main(int argc, char *argv[])
     apiHandler->engine = &engine;
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);
     engine.rootContext()->setContextProperty("logger", logger);
+    engine.rootContext()->setContextProperty("options", options);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;

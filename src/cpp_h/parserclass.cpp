@@ -4,10 +4,6 @@ ParserClass::ParserClass() { }
 
 ParserClass::~ParserClass() { }
 
-
-
-/*void ParserClass::doWork() { }*/
-
 QJsonObject ParserClass::jsonObjectFromString(QString &content)
 {
     QJsonObject obj;
@@ -221,7 +217,7 @@ QJsonArray ParserClass::downloadJsonAsArray(std::string url, CurlClass &pq)
 
 void ParserClass::eraseForbiddenChars(std::string &directory)
 {
-    char chars[] = ":*?<>\"|";
+    char chars[] = "\\:*?<>\"|";
     for (int i = 0; i < 5; i++)
     {
         directory.erase(std::remove(directory.begin(), directory.end(), chars[i]), directory.end());
@@ -253,7 +249,7 @@ void ParserClass::replaceHtmlEntities(std::string &wrongString)
     std::vector<std::string> rightSumbols;
     rightSumbols.push_back("&");
 
-    for (int i = 0; i < htmlEntities.size(); i++)
+    /*for (int i = 0; i < htmlEntities.size(); i++)
     {
         size_t startPos = 0;
         while ((startPos = wrongString.find(htmlEntities[i], startPos)) != std::string::npos)
@@ -261,7 +257,8 @@ void ParserClass::replaceHtmlEntities(std::string &wrongString)
             wrongString.replace(startPos, htmlEntities[i].length(), rightSumbols[i]);
             startPos += rightSumbols[i].length();
         }
-    }
+    }*/
+    replace(wrongString, htmlEntities, rightSumbols);
 }
 
 QStringList ParserClass::downloadAllUrls(QJsonObject rootObject, CurlClass &pq)
@@ -311,4 +308,17 @@ QStringList ParserClass::downloadAllUrls(QJsonObject rootObject, CurlClass &pq)
         }
     }
     return  result;
+}
+
+void ParserClass::replace(std::string &input, std::vector<std::string> whatReplace, std::vector<std::string> onWhatReplace)
+{
+    for (int i = 0; i < whatReplace.size(); i++)
+    {
+        size_t startPos = 0;
+        while ((startPos = input.find(whatReplace[i], startPos)) != std::string::npos)
+        {
+            input.replace(startPos, whatReplace[i].length(), onWhatReplace[i]);
+            startPos += onWhatReplace[i].length();
+        }
+    }
 }

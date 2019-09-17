@@ -61,7 +61,10 @@ void MangarockApi::downloadUser()
         }
     }
 
-    emit downloadingFinished();
+    QStringList mode;
+    mode.push_back("mangarock");
+    mode.push_back("void");
+    emit downloadingFinished(mode, QJsonObject());
 }
 
 

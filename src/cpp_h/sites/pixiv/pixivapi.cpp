@@ -35,9 +35,6 @@ void PixivApi::downloadUser()
     std::string type = "Pixiv";
     std::string logPath;
 
-
-    //logging("Downloading user with ID " + userId + " started.");
-
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId, *cc);
     userName = object.value("body").toObject().value("name").toString().toStdString();
     halfPath = basePath + "\\" + '[' + userId + "](" + userName + ')';
@@ -162,7 +159,10 @@ void PixivApi::downloadUser()
     }
 
     logger->cppPerformLogging("Downloading user with ID " + userId + " and name " + userName + " completed.", type, logPath);
-    emit downloadingFinished();
+    QStringList mode;
+    mode.push_back("pixiv");
+    mode.push_back("void");
+    emit downloadingFinished(mode, QJsonObject());
 }
 
 void PixivApi::viewUser()

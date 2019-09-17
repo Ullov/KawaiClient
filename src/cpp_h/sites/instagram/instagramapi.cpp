@@ -168,7 +168,10 @@ void InstagramApi::doWork()
         }
     }
 
-    emit downloadingFinished();
+    QStringList mode;
+    mode.push_back("instagram");
+    mode.push_back("void");
+    emit downloadingFinished(mode, QJsonObject());
 }
 
 

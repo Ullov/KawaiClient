@@ -10,6 +10,7 @@ Rectangle {
     border.color: "Black"
     radius: 6
     color: "#dadada"
+
     Label {
         id: tetxtLabel
         anchors.centerIn: parent

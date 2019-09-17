@@ -42,18 +42,16 @@ protected:
     void findMatchChars(std::string &data, std::string &pattern, std::vector<std::string> &result);
     void delay(int seconds);
     void replaceHtmlEntities(std::string &wrongString);
-    QStringList downloadAllUrls(QJsonObject rootObject, CurlClass &pq);
+    QStringList downloadAllUrls(QJsonObject rootObject, CurlClass &pq); // downloading all urls from QJsonObject
+    void replace(std::string &input, std::vector<std::string> whatReplace, std::vector<std::string> onWhatReplace);
 
     std::string currUrl; // string for current link. added for simplification code
     std::string halfPath; // part file path that permanent
     std::vector<std::string> chunk;
     std::string pattern;
 
-//public slots:
-//    void doWork();
-
 signals:
-    void downloadingFinished();
+    void downloadingFinished(QStringList mode, QJsonObject data);
     void logMessage(QString message);
 };
 

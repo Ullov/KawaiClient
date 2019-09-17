@@ -9,14 +9,18 @@ class ExhentaiApi : public ParserClass
 public:
     ExhentaiApi();
 
-    std::string galleryUrl;
+    std::string url;
 
 public slots:
-    void doWork();
+    void download();
+    void viewFrontPage();
 
 private:
     std::vector<std::string> regexRersult;
     std::string pattern;
+
+signals:
+    //void sendViewFrontPage(QString mode, QJsonObject data);
 };
 
 #endif // EXHENTAIAPI_H

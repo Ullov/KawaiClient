@@ -16,17 +16,25 @@ Rectangle {
             id: pixivDownloadRectangle
             Connections {
                 target: apiHandler
-                onPixivDownloadingFinished: {
-                    pixivStatusRectangle.color = "#00ff08"
-                    //buttonOninputUserId.enabled = true
-                    //viewButton.enabled = true
+                onUniversalDownloadingFinished: {
+                    if (mode[0] == "pixiv")
+                    {
+                        pixivStatusRectangle.color = "#00ff08"
+                        //buttonOninputUserId.enabled = true
+                        //viewButton.enabled = true
+                    }
                 }
             }
             Connections {
                 target: apiHandler
-                onPixivDownloadingStarted: pixivStatusRectangle.color = "#ff0000"
+                onUniversalDownloadingStarted: {
+                    if (mode[0] == "pixiv")
+                    {
+                        pixivStatusRectangle.color = "#ff0000"
+                    }
+                }
             }
-            Connections {
+            /*Connections {
                 target: apiHandler
                 onPixivViewDataDownloaded: {
                     pixivStatusRectangle.color = "#00ff08"
@@ -35,7 +43,7 @@ Rectangle {
                     //statusLabel.text = userData["body"]["name"].toString()
                     //testImage.source = "image://myImageProvider/" + imagesFromApi[0]
                 }
-            }
+            }*/
             width: gridItemWidth
             height: 40
             color: "#292225"
@@ -65,7 +73,11 @@ Rectangle {
                 labelText: "Start download"
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: apiHandler.pixivStartDownloading(pixivTextField.text)
+                    onClicked: {
+                        var param = [pixivTextField.text]
+                        var mode = ["pixiv"]
+                        apiHandler.universalStartDownloading(param, mode)
+                    }
                 }
             }
             Rectangle {
@@ -83,15 +95,21 @@ Rectangle {
             id: mangarockDownloadRectangle
             Connections {
                 target: apiHandler
-                onMangarockDownloadingFinished: {
-                    mangarockStatusRectangle.color = "#00ff08"
-                    //buttonOninputUserId.enabled = true
-                    //viewButton.enabled = true
+                onUniversalDownloadingFinished: {
+                    if (mode[0] == "mangarock")
+                    {
+                        mangarockStatusRectangle.color = "#00ff08"
+                    }
                 }
             }
             Connections {
                 target: apiHandler
-                onMangarockDownloadingStarted: mangarockStatusRectangle.color = "#ff0000"
+                onUniversalDownloadingStarted: {
+                    if (mode[0] == "mangarock")
+                    {
+                        mangarockStatusRectangle.color = "#ff0000"
+                    }
+                }
             }
             width: gridItemWidth
             height: 40
@@ -122,7 +140,11 @@ Rectangle {
                 labelText: "Start download"
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: apiHandler.mangarockStartDownloading(mangarockTextField.text)
+                    onClicked: {
+                        var param = [mangarockTextField.text]
+                        var mode = ["mangarock"]
+                        apiHandler.universalStartDownloading(param, mode)
+                    }
                 }
             }
             Rectangle {
@@ -130,6 +152,70 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: mangarockStartDownloadButton.right
                 anchors.leftMargin: 10
+                color: "#00ff08"
+                height: 20
+                width: 20
+            }
+        }
+
+        Rectangle {
+            Connections {
+                target: apiHandler
+                onUniversalDownloadingFinished: {
+                    if (mode[0] == "exhentai" && mode[1] == "void")
+                    {
+                        exhentaiStatusRectangle.color = "#00ff08"
+                    }
+                }
+            }
+            Connections {
+                target: apiHandler
+                onUniversalDownloadingStarted: {
+                    if (mode[0] == "exhentai")
+                    {
+                        exhentaiStatusRectangle.color = "#ff0000"
+                    }
+                }
+            }
+            height: 40
+            radius: 6
+            width: gridItemWidth
+            color: "#292225"
+            Label {
+                id: exhentaiLabel
+                text: "ExHentai"
+                anchors.verticalCenter: parent.verticalCenter
+                color: "White"
+                font.pixelSize: 14
+                x: 5
+            }
+            TextField {
+                id: galleryUrl
+                anchors.left: exhentaiLabel.right
+                anchors.margins: 5
+                placeholderText: "Enter gallery URL..."
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            KawaiButton {
+                id: exhentaiButton
+                labelText: "Download"
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: galleryUrl.right
+                anchors.margins: 5
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        var param = [galleryUrl.text]
+                        var mode = ["exhentai", "download"]
+                        apiHandler.universalStartDownloading(param, mode)
+                    }
+                }
+            }
+            Rectangle {
+                id: exhentaiStatusRectangle
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: exhentaiButton.right
+                anchors.margins: 5
                 color: "#00ff08"
                 height: 20
                 width: 20

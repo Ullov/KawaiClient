@@ -2,9 +2,11 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import "qrc:/js/pageloader.js" as Pageloader
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.4
 import "qrc:/QmlIncludes/qml/QmlIncludes/" as QmlIncludes
-//import "qrc:KawaiButton.qml"
+import "qrc:/QmlIncludes/qml/QmlIncludes/SiteTabs/Pixiv" as PixivTabs
+import "qrc:/QmlIncludes/qml/QmlIncludes/SiteTabs/Exhentai" as ExhentaiTabs
 
 Window {
     id: baseItem
@@ -22,6 +24,23 @@ Window {
         Component.onCompleted: {
             addTab("Home Tab",homeTab)
             addTab("Log Tab", Qt.createComponent("qrc:/qml/logWindow.qml"))
+            addTab("Settings Tab", Qt.createComponent("qrc:/qml/settingsWindow.qml"))
+        }
+
+
+        Rectangle {
+            id: loadTabButtonStyle
+            implicitWidth: 100
+            implicitHeight: 40
+//            border.width: control.activeFocus ? 2 : 1
+            border.color: "Black"
+            color: "#dadada"
+            radius: 5
+        }
+
+        Component {
+            id: exhentaiTab
+            ExhentaiTabs.ExhentaiMainFrame {}
         }
 
         Component {
@@ -47,6 +66,11 @@ Window {
                         labelText: "MangaRock"
                         siteFile: "qrc:/qml/sites/mangarock/mangarock.qml"
                         tabTitle: "MangaRock"
+                    }
+                    Button {
+                        text: "ExHentai"
+                        onClicked: tabs.addTab("ExHentai", exhentaiTab)
+                        background: loadTabButtonStyle
                     }
                 }
             }

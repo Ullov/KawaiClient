@@ -26,7 +26,10 @@ void NhentaiApi::doWork()
 
     downloadAndWriteFile("https://i.nhentai.net/galleries/885361/2.png", *cc, halfPath, "example.txt");
 
-    emit downloadingFinished();
+    QStringList mode;
+    mode.push_back("nhentai");
+    mode.push_back("void");
+    emit downloadingFinished(mode, QJsonObject());
 }
 
 

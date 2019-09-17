@@ -3,6 +3,7 @@
 
 #include "sites/pixiv/pixivapi.h"
 #include "sites/mangarock/mangarockapi.h"
+#include "sites/exhentai/exhentaiapi.h"
 #include <QObject>
 #include <QThread>
 #include "logging.h"
@@ -18,29 +19,44 @@ public:
     Logging *logger;
     QQmlApplicationEngine *engine;
 
-private:
-    bool pixivWorkInProggress;
-    bool mangarockWorkInProggress;
+//private:
+    //bool pixivWorkInProggress;
+    //bool mangarockWorkInProggress;
+    //bool exhentaiWorkInProggress;
 
 public slots:
-    void pixivStartDownloading(const QString &userId);
+    /*void pixivStartDownloading(const QString &userId);
     void pixivViewUser(const QString &userId);
 
     void mangarockStartDownloading(const QString &oid);
 
-private slots:
-    void pixivEmitSignalDownloadingFinished();
-    void pixivEmitViewDataDownloaded(QJsonObject userData, QJsonObject userAllData, QStringList imagesFromApi);
+    void exhentaiStartDownloading(const QString &url, const QString &mode = "download");*/
 
-    void mangarockEmitSignalDownloadingFinished();
+    void universalStartDownloading(const QStringList &param, const QStringList &mode);
+
+private slots:
+    //void pixivEmitSignalDownloadingFinished();
+    //void pixivEmitViewDataDownloaded(QJsonObject userData, QJsonObject userAllData, QStringList imagesFromApi);
+
+    //void mangarockEmitSignalDownloadingFinished();
+
+    //void exhentaiEmitSignalDownloadingFinished(QString mode, QJsonObject data);
+
+    void universalEmitSignalDownloadingFinished(QStringList mode, QJsonObject data);
 
 signals:
-    void pixivDownloadingStarted();
-    void pixivDownloadingFinished();
-    void pixivViewDataDownloaded();
+    //void pixivDownloadingStarted();
+    //void pixivDownloadingFinished();
+    //void pixivViewDataDownloaded();
 
-    void mangarockDownloadingStarted();
-    void mangarockDownloadingFinished();
+    //void mangarockDownloadingStarted();
+    //void mangarockDownloadingFinished();
+
+    //void exhentaiDownloadingStarted();
+    //void exhentaiDownloadingFinished(QString mode, QJsonObject data);
+
+    void universalDownloadingStarted(QStringList mode);
+    void universalDownloadingFinished(QStringList mode, QJsonObject data);
 };
 
 #endif // APIHANDLER_H
