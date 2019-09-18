@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
+import "qrc:/QmlIncludes/qml/QmlIncludes/" as QmlIncludes
 
 Rectangle {
     anchors.fill: parent
@@ -62,135 +63,105 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: 5
                 columns: 5
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: doujinshiSelectRectangle
-                    color: "#9E2720"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Doujinshi"
-                    }
+                    standartColor: "#9E2720"
+                    heightC: 20
+                    labelText: "Doujinshi"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: mangaSelectRectangle
-                    color: "#DB6C24"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Manga"
-                    }
+                    standartColor: "#DB6C24"
+                    heightC: 20
+                    labelText: "Manga"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: artistCgSelectRectangle
-                    color: "#D38F1D"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Artist CG"
-                    }
+                    standartColor: "#D38F1D"
+                    heightC: 20
+                    labelText: "Artist CG"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: gameCgSelectRectangle
-                    color: "#6A936D"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Game CG"
-                    }
+                    standartColor: "#6A936D"
+                    heightC: 20
+                    labelText: "Game CG"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: westernSelectRectangle
-                    color: "#AB9F60"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Western"
-                    }
+                    standartColor: "#AB9F60"
+                    heightC: 20
+                    labelText: "Western"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: nonHSelectRectangle
-                    color: "#5FA9CF"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Non-H"
-                    }
+                    standartColor: "#5FA9CF"
+                    heightC: 20
+                    labelText: "Non-H"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: imageSetSelectRectangle
-                    color: "#325CA2"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Image Set"
-                    }
+                    standartColor: "#325CA2"
+                    heightC: 20
+                    labelText: "Image Set"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: cosplaySelectRectangle
-                    color: "#6A32A2"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Cosplay"
-                    }
+                    standartColor: "#6A32A2"
+                    heightC: 20
+                    labelText: "Cosplay"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: asianPornSelectRectangle
-                    color: "#A23282"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Asian Porn"
-                    }
+                    standartColor: "#A23282"
+                    heightC: 20
+                    labelText: "Asian Porn"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
-                Rectangle {
+                QmlIncludes.KawaiButton {
                     id: miscSelectRectangle
-                    color: "#777777"
-                    height: 20
-                    width: 100
-                    radius: 5
-                    Label {
-                        anchors.centerIn: parent
-                        color: "White"
-                        font.weight: "Bold"
-                        text: "Misc"
-                    }
+                    standartColor: "#777777"
+                    heightC: 20
+                    labelText: "Misc"
+                    labelTextColor: "White"
+                    labelTextWeight: Font.Bold
+                    borderWidthC: 0
+                    onHoveredColor: "#571c1c"
                 }
             }
 
@@ -215,64 +186,47 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 5
                 width: applyFilterButton.width + clearFilterButton.width + refreshButton.width
-                Button {
+                QmlIncludes.KawaiButton {
                     id: applyFilterButton
                     anchors.left: parent.left
-                    width: 100
-                    height: 30
-                    background: Rectangle {
-                        color: "#34353b"
-                        border.color: "#8d8d8d"
-                        border.width: 2
-                        radius: 3
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Apply filter"
-                            color: "White"
-                        }
-                    }
+                    anchors.margins: 5
+                    labelText: "Apply filter"
+                    standartColor: "#34353b"
+                    borderColorC: "#8d8d8d"
+                    labelTextColor: "White"
+                    borderWidthC: 2
+                    borderRadiusC: 3
+                    heightC: 30
                     onClicked: {
                         var param = [filterInputTextField.text]
                         var mode = ["exhentai", "viewFrontPage"]
                         apiHandler.universalStartDownloading(param, mode)
                     }
                 }
-                Button {
+                QmlIncludes.KawaiButton {
                     id: clearFilterButton
                     anchors.left: applyFilterButton.right
                     anchors.margins: 5
-                    width: 100
-                    height: 30
-                    background: Rectangle {
-                        color: "#34353b"
-                        border.color: "#8d8d8d"
-                        border.width: 2
-                        radius: 3
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Clear filter"
-                            color: "White"
-                        }
-                    }
+                    labelText: "Clear filter"
+                    standartColor: "#34353b"
+                    borderColorC: "#8d8d8d"
+                    labelTextColor: "White"
+                    borderWidthC: 2
+                    borderRadiusC: 3
+                    heightC: 30
                     onClicked: filterInputTextField.text = ""
                 }
-                Button {
+                QmlIncludes.KawaiButton {
                     id: refreshButton
                     anchors.left: clearFilterButton.right
                     anchors.margins: 5
-                    width: 100
-                    height: 30
-                    background: Rectangle {
-                        color: "#34353b"
-                        border.color: "#8d8d8d"
-                        border.width: 2
-                        radius: 3
-                        Text {
-                            anchors.centerIn: parent
-                            text: "Refresh"
-                            color: "White"
-                        }
-                    }
+                    labelText: "Refresh"
+                    standartColor: "#34353b"
+                    borderColorC: "#8d8d8d"
+                    labelTextColor: "White"
+                    borderWidthC: 2
+                    borderRadiusC: 3
+                    heightC: 30
                 }
             }
         }
@@ -283,6 +237,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.top: filterRectangle.bottom
             anchors.margins: 5
+
         }
     }
 }
