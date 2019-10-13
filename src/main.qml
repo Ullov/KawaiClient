@@ -30,7 +30,8 @@ Window {
 
         Component {
             id: exhentaiTab
-            ExhentaiTabs.ExhentaiMainFrame {}
+            ExhentaiTabs.ExhentaiMainFrame {
+            }
         }
         Component {
             id: pixivTab
@@ -64,6 +65,10 @@ Window {
                     QmlIncludes.KawaiButton {
                         labelText: "ExHentai"
                         onClicked: tabs.addTab("ExHentai", exhentaiTab)
+                    }
+                    QmlIncludes.KawaiButton {
+                        labelText: "MangaDex"
+                        //onClicked: tabs.addTab("ExHentai", exhentaiTab)
                     }
                 }
             }

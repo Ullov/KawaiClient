@@ -4,6 +4,7 @@
 #include "sites/pixiv/pixivapi.h"
 #include "sites/mangarock/mangarockapi.h"
 #include "sites/exhentai/exhentaiapi.h"
+#include "sites/mangadex/mangadexapi.h"
 #include <QObject>
 #include <QThread>
 #include "logging.h"

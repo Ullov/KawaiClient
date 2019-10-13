@@ -20,5 +20,7 @@
         <file>qml/QmlIncludes/SiteTabs/Pixiv/PixivMainFrame.qml</file>
         <file>qml/QmlIncludes/SiteTabs/Mangarock/MangarockMainFrame.qml</file>
         <file>qml/QmlIncludes/SiteTabs/Exhentai/ExhentaiMainFrame.qml</file>
+        <file>qml/QmlIncludes/KawaiVerticalLine.qml</file>
+        <file>qml/QmlIncludes/KawaiHorisontalLine.qml</file>
     </qresource>
 </RCC>

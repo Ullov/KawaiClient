@@ -185,7 +185,7 @@ Rectangle {
                 anchors.top: filterInputTextField.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.topMargin: 5
-                width: applyFilterButton.width + clearFilterButton.width + refreshButton.width
+                width: applyFilterButton.width + clearFilterButton.width
                 QmlIncludes.KawaiButton {
                     id: applyFilterButton
                     anchors.left: parent.left
@@ -216,18 +216,6 @@ Rectangle {
                     heightC: 30
                     onClicked: filterInputTextField.text = ""
                 }
-                QmlIncludes.KawaiButton {
-                    id: refreshButton
-                    anchors.left: clearFilterButton.right
-                    anchors.margins: 5
-                    labelText: "Refresh"
-                    standartColor: "#34353b"
-                    borderColorC: "#8d8d8d"
-                    labelTextColor: "White"
-                    borderWidthC: 2
-                    borderRadiusC: 3
-                    heightC: 30
-                }
             }
         }
         Rectangle {
@@ -237,6 +225,176 @@ Rectangle {
             anchors.bottom: parent.bottom
             anchors.top: filterRectangle.bottom
             anchors.margins: 5
+
+            Component {
+                id: delegateItem
+                Rectangle {
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    height: 300
+                    border.color: "Black"
+                    radius: 5
+                    Image {
+                        id: coverImage
+                        anchors.top: parent.top
+                        anchors.bottom: parent.bottom
+                        anchors.left: parent.left
+                        anchors.margins: 5
+                        width: 230
+                    }
+                    Rectangle {
+                        id: infoRectangle
+                        anchors.top: parent.top
+                        anchors.left: coverImage.right
+                        anchors.bottom: parent.bottom
+                        anchors.right: parent.right
+                        anchors.margins: 5
+                        radius: 5
+                        border.color: "Black"
+                        /*Text {
+                            anchors.fill: parent
+                            anchors.margins: 5
+                            text: "#:" + index + "\t" + name + "\n" + url + "\n" + coverUrl + "\n" + tagBlock;
+
+                        }*/
+                        Rectangle {
+                            id: indexRectangle
+                            anchors.left: parent.left
+                            anchors.top: parent.top
+                            height: 20
+                            width: 40
+                            border.color: "Black"
+                            radius: 5
+                            Text {
+                                anchors.centerIn: parent
+                                text: "# " + index
+                            }
+                        }
+                        Rectangle {
+                            id: nameRectangle
+                            anchors.left: indexRectangle.right
+                            anchors.top: parent.top
+                            height: indexRectangle.height
+                            anchors.right: parent.right
+                            border.color: "Black"
+                            radius: 5
+                            Text {
+                                anchors.centerIn: parent
+                                text: name
+                            }
+                        }
+                        Rectangle {
+                            id: typeRectangle
+                            anchors.left: parent.left
+                            anchors.top: indexRectangle.bottom
+                            width: 100
+                            height: 20
+                            border.color: "Black"
+                            radius: 5
+                        }
+                        Rectangle {
+                            id: dataTimeRectangle
+                            anchors.top: typeRectangle.bottom
+                            anchors.left: parent.left
+                            height: 60
+                            width: typeRectangle.width
+                            border.color: "Black"
+                            radius: 5
+                        }
+                        Rectangle {
+                            id: uploaderRectangle
+                            anchors.top: dataTimeRectangle.bottom
+                            anchors.left: parent.left
+                            height: 30
+                            width: typeRectangle.width
+                            border.color: "Black"
+                            radius: 5
+                        }
+                        Rectangle {
+                            id: pagesRectangle
+                            anchors.top: uploaderRectangle.bottom
+                            anchors.left: parent.left
+                            height: 30
+                            width: typeRectangle.width
+                            border.color: "Black"
+                            radius: 5
+                        }
+                        Rectangle {
+                            id: tagsRectangle
+                            anchors.left: typeRectangle.right
+                            anchors.right: parent.right
+                            anchors.top: indexRectangle.bottom
+                            anchors.bottom: parent.bottom
+                            border.color: "Black"
+                            radius: 5
+                            Text {
+                                anchors.fill: parent
+                                anchors.margins: 5
+                                text: tagBlock
+                            }
+                        }
+                    }
+                }
+            }
+            ListModel {
+                id: modelItem
+            }
+            ListView {
+                id:listViewItem
+                model: modelItem
+                delegate: delegateItem
+                anchors.fill: parent
+                anchors.margins: 5
+                clip: true
+                ScrollBar.vertical: ScrollBar {
+                    id: scrollBarItem
+                    policy: ScrollBar.AlwaysOn
+                }
+                Keys.onUpPressed: scrollBarItem.decrease()
+                Keys.onDownPressed: scrollBarItem.increase()
+            }
+        }
+    }
+    Connections {
+        target: apiHandler
+        onUniversalDownloadingFinished: {
+            if (mode[0] == "exhentai" && mode[1] == "viewFrontPage")
+                addingElements(data)
+        }
+    }
+
+    function addingElements(elements) {
+        modelItem.clear()
+        var tagBlock = []
+        var tmpTagBlock = ""
+        for (var j = 0; elements["data"][j]; j++) {
+            var keysArr = Object.keys(elements["data"][j]["tags"])
+            for (var i = 0; i < keysArr.length; i++)
+            {
+                var tagName = keysArr[i]
+                var tagElements = elements["data"][j]["tags"][keysArr[i]]
+                tmpTagBlock += tagName + ": "
+                for (var k = 0; tagElements[k]; k++)
+                {
+                    if (tagElements[k + 1])
+                        tmpTagBlock += tagElements[k] + ", "
+                    else
+                        tmpTagBlock += tagElements[k]
+                }
+                tmpTagBlock += "\n"
+            }
+            tagBlock[j] = tmpTagBlock
+            tmpTagBlock = ""
+        }
+        var jArr = elements["data"]
+        for (var i = 0; jArr[i]; i++) {
+            modelItem.append({
+                index: i,
+                name: jArr[i]["name"],
+                url: jArr[i]["url"],
+                coverUrl: jArr[i]["coverUrl"],
+                tagBlock: tagBlock[i]
+            })
 
         }
     }

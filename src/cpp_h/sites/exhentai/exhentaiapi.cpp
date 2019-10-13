@@ -141,7 +141,7 @@ void ExhentaiApi::viewFrontPage()
 {
     CurlClass *cc = new CurlClass(chunk);
     std::string data = cc->performing("https://exhentai.org?inline_set=dm_e");
-    pattern = "<div style=\"[^\"]+\"><a href=\"([^\"]+)\"><img style=\"[^\"]+\" alt=\"[^\"]+\" title=\"([^\"]+)\" src=\"([^\"]+)\" \\/><\\/a><\\/div>|<div class=\"gtl?\" title=\"([^:]+):([^:\"]+)\">([^<]+)<\\/div>";
+    pattern = "<div style=\"[^\"]+\"><a href=\"([^\"]+)\"><img style=\"[^\"]+\" alt=\"[^\"]+\" title=\"([^\"]+)\" src=\"([^\"]+)\" \\/><\\/a><\\/div>|<div class=\"gtl?\" title=\"([^:]*):([^:\"]+)\">([^<]+)<\\/div>";
     std::vector<std::vector<QString>> result;
     QJsonObject root;
     QJsonArray titles;
@@ -197,7 +197,14 @@ void ExhentaiApi::viewFrontPage()
             {
                 tags[currentTagType] = tagTypeItems;
                 tagTypeItems = QJsonArray();
-                currentTagType = match.captured(4);
+                if (match.captured(4) != "")
+                {
+                    currentTagType = match.captured(4);
+                }
+                else
+                {
+                    currentTagType = "misc";
+                }
                 tagTypeItems.push_back(match.captured(5));
             }
             else

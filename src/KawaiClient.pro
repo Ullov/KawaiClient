@@ -23,7 +23,8 @@ SOURCES += \
     cpp_h/sites/pixiv/pixivapi.cpp \
     cpp_h/apihandler.cpp \
     cpp_h/logging.cpp \
-    cpp_h/optionshandler.cpp
+    cpp_h/optionshandler.cpp \
+    cpp_h/sites/mangadex/mangadexapi.cpp
 
 RESOURCES += qml.qrc
 
@@ -48,7 +49,8 @@ HEADERS += \
     cpp_h/sites/pixiv/pixivapi.h \
     cpp_h/apihandler.h \
     cpp_h/logging.h \
-    cpp_h/optionshandler.h
+    cpp_h/optionshandler.h \
+    cpp_h/sites/mangadex/mangadexapi.h
 
 
 LIBS += -L$$PWD/libs/curl-x64/lib/dll/ -llibcurl.dll

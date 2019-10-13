@@ -164,6 +164,7 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     PixivApi *pApi;
     MangarockApi *mApi;
     ExhentaiApi *eApi;
+    MangadexApi *mdApi;
 
     if (mode[0] == "pixiv")
     {
@@ -208,6 +209,22 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
         connect(eApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), eApi, SLOT(deleteLater()));
         connect(eApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
     }
+    else if (mode[0] == "mangadex")
+    {
+        mdApi = new MangadexApi();
+        mdApi->mangaId = param[0].toStdString();
+        mdApi->enDownload = param[1].toStdString();
+        mdApi->ruDownload = param[2].toStdString();
+        mdApi->otherDownload = param[3].toStdString();
+        mdApi->basePath = "H:\\KawaiClient\\downloaded\\mangadex";
+        mdApi->logger = this->logger;
+
+        mdApi->moveToThread(thread);
+        connect(thread, SIGNAL(started()), mdApi, SLOT(download()));
+        connect(mdApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
+        connect(mdApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), mdApi, SLOT(deleteLater()));
+        connect(mdApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
+    }
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();
 }
@@ -228,5 +245,9 @@ void ApiHandler::universalEmitSignalDownloadingFinished(QStringList mode, QJsonO
             emit universalDownloadingFinished(mode, QJsonObject());
         else if (mode[1] == "viewFrontPage")
             emit universalDownloadingFinished(mode, data);
+    }
+    else if (mode[0] == "mangadex")
+    {
+        emit universalDownloadingFinished(mode, QJsonObject());
     }
 }
