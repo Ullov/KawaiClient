@@ -261,55 +261,6 @@ void ParserClass::replaceHtmlEntities(std::string &wrongString)
     replace(wrongString, htmlEntities, rightSumbols);
 }
 
-QStringList ParserClass::downloadAllUrls(QJsonObject rootObject, CurlClass &pq)
-{
-    QStringList keysChain = rootObject.keys();
-    std::string urlPattern = "(https?:\\/\\/[0-9a-zA-Z-.\\/?&=_]+)";
-    std::vector<std::string> regResult;
-    QStringList result;
-    QStringList tmpResult;
-    for (int i = 0; i < keysChain.length(); i++)
-    {
-        if (rootObject.value(keysChain[i]).isString())
-        {
-            currUrl = rootObject.value(keysChain[i]).toString().toStdString();
-            findMatchChars(currUrl, urlPattern, regResult);
-            if (regResult.size() != 0)
-            {
-                result.push_back(QString::fromStdString(pq.performing(currUrl.c_str())));
-            }
-        }
-        else if (rootObject.value(keysChain[i]).isObject())
-        {
-            tmpResult = downloadAllUrls(rootObject.value(keysChain[i]).toObject(), pq);
-            result.append(tmpResult);
-        }
-        else if (rootObject.value(keysChain[i]).isArray())
-        {
-            QJsonValue val = rootObject.value(keysChain[i]);
-            QJsonArray arr = val.toArray();
-            for (int i = 0; i < arr.size(); i++)
-            {
-                if (arr.at(i).isObject())
-                {
-                    tmpResult = downloadAllUrls(arr.at(i).toObject(), pq);
-                    result.append(tmpResult);
-                }
-                else if (arr.at(i).isString())
-                {
-                    currUrl = arr.at(i).toString().toStdString();
-                    findMatchChars(currUrl, urlPattern, regResult);
-                    if (regResult.size() != 0)
-                    {
-                        result.push_back(QString::fromStdString(pq.performing(currUrl.c_str())));
-                    }
-                }
-            }
-        }
-    }
-    return  result;
-}
-
 void ParserClass::replace(std::string &input, std::vector<std::string> whatReplace, std::vector<std::string> onWhatReplace)
 {
     for (int i = 0; i < whatReplace.size(); i++)
@@ -321,4 +272,9 @@ void ParserClass::replace(std::string &input, std::vector<std::string> whatRepla
             startPos += onWhatReplace[i].length();
         }
     }
+}
+
+std::string ParserClass::defineExtension(const std::string &file)
+{
+
 }

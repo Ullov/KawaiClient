@@ -22,7 +22,7 @@ void MangadexApi::download()
     QJsonObject object = downloadJson("https://mangadex.org/api/manga/" + mangaId, *cc); // mangaId == 24220
     std::string title = object.value("manga").toObject().value("title").toString().toStdString();
     std::string rootPath = basePath + "\\[" + mangaId + "](" + title + ')';
-    writeJsonDataInFile(object, rootPath + "\\json", "chapterData.txt");
+    writeJsonDataInFile(object, rootPath + "\\txt", "chapterData.txt");
     std::string type = "MangaDex";
     std::string logPath = rootPath;
     logger->cppPerformLogging("Manga with mangaId = " + mangaId + " start downloading.", type, logPath);
@@ -38,6 +38,7 @@ void MangadexApi::download()
     std::string chapterOrder;
     std::string pageDownloadUrl;
     std::string chapterTitle;
+    std::string volume;
     logger->cppPerformLogging("Find " + std::to_string(chaptersKeys.length()) + " chapters.", type, logPath);
     for (int i = 0; i < chaptersKeys.length(); i++)
     {
@@ -45,16 +46,17 @@ void MangadexApi::download()
         langPrefix = chapters[chaptersKeys[i]].toObject().value("lang_code").toString().toStdString();
         chapterOrder = chapters[chaptersKeys[i]].toObject().value("chapter").toString().toStdString();
         chapterTitle = chapters[chaptersKeys[i]].toObject().value("title").toString().toStdString();
+        volume = chapters[chaptersKeys[i]].toObject().value("volume").toString().toStdString();
         currUrl = "https://mangadex.org/api/chapter/" + chaptersKeys[i].toStdString();
         chapter = downloadJson(currUrl, *cc);
         pageDownloadUrl = chapter.value("server").toString().toStdString() + chapter.value("hash").toString().toStdString();
         pagesArray = chapter.value("page_array").toArray();
         if ((langPrefix == "gb" && enDownload == "true") || (langPrefix == "ru" && ruDownload == "true") || (langPrefix != "en" && langPrefix != "ru" && otherDownload == "true"))
         {
-            writeJsonDataInFile(chapter, rootPath + "\\json\\chs\\" + langPrefix,"[" + chapterOrder + "](" + chapterTitle + ").txt");
+            writeJsonDataInFile(chapter, rootPath + "\\txt\\chs\\" + langPrefix,"[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ").txt");
             for (int j = 0; j < pagesArray.size(); j++)
             {
-                downloadAndWriteFile(pageDownloadUrl + '/' + pagesArray[j].toString().toStdString(), *cc, rootPath + "\\chs\\" + langPrefix + "\\[" + chapterOrder + "](" + chapterTitle + ')', std::to_string(j) + ".png");
+                downloadAndWriteFile(pageDownloadUrl + '/' + pagesArray[j].toString().toStdString(), *cc, rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', std::to_string(j) + ".png");
                 logger->cppPerformLogging("Page #" + std::to_string(j) + " in chapter #" + std::to_string(i) + " downloaded.", type, logPath);
             }
         }
@@ -67,4 +69,6 @@ void MangadexApi::download()
     mode.push_back("mangadex");
     mode.push_back("void");
     emit downloadingFinished(mode, QJsonObject());
+// https://mangadex.org/api/?id=355650&type=chapter
+// https://mangadex.org/api/?id=15242&type=manga
 }

@@ -42,8 +42,8 @@ protected:
     void findMatchChars(std::string &data, std::string &pattern, std::vector<std::string> &result);
     void delay(int seconds);
     void replaceHtmlEntities(std::string &wrongString);
-    QStringList downloadAllUrls(QJsonObject rootObject, CurlClass &pq); // downloading all urls from QJsonObject
     void replace(std::string &input, std::vector<std::string> whatReplace, std::vector<std::string> onWhatReplace);
+    std::string defineExtension(const std::string &file);
 
     std::string currUrl; // string for current link. added for simplification code
     std::string halfPath; // part file path that permanent
