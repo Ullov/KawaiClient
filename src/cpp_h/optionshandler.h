@@ -14,15 +14,22 @@ class OptionsHandler : public QObject
     Q_OBJECT
 public:
     OptionsHandler();
+    QString getRootProgramPath();
+
+public slots:
+    void setRootProgramPath(QString path);
+    void emitRootProgramPath();
 
 private:
     void writeOnDrive();
-    void setParam(QStringList hierarchyPath, QString param);
-    QString getParam(QStringList hierarchyPath);
 
 private:
-    QJsonObject config;
-    QString configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/config.json";
+    QJsonObject appConfigs;
+    QString configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/config.txt";
+    QString rootProgramPath;
+
+signals:
+    void sendRootProgramPath(QString path);
 };
 
 #endif // OPTIONSHANDLER_H

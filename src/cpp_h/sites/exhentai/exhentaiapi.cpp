@@ -29,7 +29,7 @@ void ExhentaiApi::download()
         //"Referer: https://exhentai.org/g/1446402/6e95de3c54/?p=93",
         "DNT: 1",
         "Connection: keep-alive",
-        "Cookie: ipb_member_id=3603032; ipb_pass_hash=01a83d86714fa441982e362b9e480ca4; igneous=8eb0a9955; sk=rtzh0ml57ih3uhe9232dfnkwuyw3",
+        "Cookie: ipb_member_id=3603032; ipb_pass_hash=01a83d86714fa441982e362b9e480ca4; igneous=8eb0a9955; sk=rtzh0ml57ih3uhe9232dfnkwuyw3; s=440e72582",
         "Upgrade-Insecure-Requests: 1",
         "Pragma: no-cache",
         "Cache-Control: no-cache"
@@ -103,7 +103,7 @@ void ExhentaiApi::download()
             findMatchChars(data, pattern, regexRersult);
             if (regexRersult.empty())
             {
-                pattern = "(http:\\/\\/[0-9\\.:]+\\/h\\/[a-zA-Z0-9-\\/=;_]+.jpg)";
+                pattern = "(https?:\\/\\/[a-z0-9\\.:]+\\/h\\/[a-zA-Z0-9-\\/=;_]+\\.[a-z]{0,3})";
                 findMatchChars(data, pattern, regexRersult);
             }
             replaceHtmlEntities(regexRersult[0]);
@@ -134,6 +134,8 @@ void ExhentaiApi::download()
 //
 
 // (http:\/\/[0-9\.:]+\/h\/[a-zA-Z0-9-\/=;_]+.jpg)
+// (https?:\/\/[0-9\\.:]+\/h\/[a-zA-Z0-9-\/=;_]+\.[a-z]{0,3})
+// (https?:\/\/[a-z0-9\\.:]+\/h\/[a-zA-Z0-9-\/=;_]+\.[a-z]{0,3})
 }
 
 

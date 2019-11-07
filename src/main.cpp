@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
     Logging *logger = new Logging();
     ApiHandler *apiHandler = new ApiHandler();
     apiHandler->logger = logger;
+    apiHandler->options = options;
     QQmlApplicationEngine engine;
     apiHandler->engine = &engine;
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);

@@ -57,3 +57,8 @@ LIBS += -L$$PWD/libs/curl-x64/lib/dll/ -llibcurl.dll
 
 INCLUDEPATH += $$PWD/libs/curl-x64/include
 DEPENDPATH += $$PWD/libs/curl-x64/include
+
+#win32: LIBS += -L'C:/Program Files/OpenSSL-Win64/lib/' -lopenssl
+
+#INCLUDEPATH += 'C:/Program Files/OpenSSL-Win64/include'
+#DEPENDPATH += 'C:/Program Files/OpenSSL-Win64/include'
