@@ -27,7 +27,7 @@ void MangadexApi::download()
     std::string logPath = rootPath;
     logger->cppPerformLogging("Manga with mangaId = " + mangaId + " start downloading.", type, logPath);
     currUrl = "https://mangadex.org/" + object.value("manga").toObject().value("cover_url").toString().toStdString();
-    downloadAndWriteFile(currUrl, *cc, rootPath, "cover.png");
+    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath, "cover");
     logger->cppPerformLogging("Cover downloaded.", type, logPath);
 
     QJsonObject chapters = object.value("chapter").toObject();
@@ -56,7 +56,7 @@ void MangadexApi::download()
             writeJsonDataInFile(chapter, rootPath + "\\txt\\chs\\" + langPrefix,"[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ").txt");
             for (int j = 0; j < pagesArray.size(); j++)
             {
-                downloadAndWriteFile(pageDownloadUrl + '/' + pagesArray[j].toString().toStdString(), *cc, rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', std::to_string(j) + ".png");
+                downloadAndWriteFileWithDefinedExtension(pageDownloadUrl + '/' + pagesArray[j].toString().toStdString(), *cc, rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', std::to_string(j));
                 logger->cppPerformLogging("Page #" + std::to_string(j) + " in chapter #" + std::to_string(i) + " downloaded.", type, logPath);
             }
         }

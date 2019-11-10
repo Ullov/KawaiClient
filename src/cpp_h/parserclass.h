@@ -17,6 +17,7 @@
 #include <QDataStream>
 #include <QJsonValue>
 #include "logging.h"
+#include "fileidentifier.h"
 
 class ParserClass : public QObject
 {
@@ -35,7 +36,7 @@ protected:
     void recExtractJson(QJsonObject rootObject, std::string offset, std::string &data);
     void writeJsonDataInFile(QJsonObject &object, std::string path, std::string fileName);
     QJsonObject downloadJson(std::string url, CurlClass &pq);
-    void downloadAndWriteFile(std::string url, CurlClass &pq, std::string path, std::string fileName);
+    void downloadAndWriteFile(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName);
     void logging(std::string message);
     QJsonArray downloadJsonAsArray(std::string url, CurlClass &pq);
     void eraseForbiddenChars(std::string &line);
@@ -44,11 +45,13 @@ protected:
     void replaceHtmlEntities(std::string &wrongString);
     void replace(std::string &input, std::vector<std::string> whatReplace, std::vector<std::string> onWhatReplace);
     std::string defineExtension(const std::string &file);
+    void downloadAndWriteFileWithDefinedExtension(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName);
 
     std::string currUrl; // string for current link. added for simplification code
     std::string halfPath; // part file path that permanent
     std::vector<std::string> chunk;
     std::string pattern;
+    FileIdentifier *defExt;
 
 signals:
     void downloadingFinished(QStringList mode, QJsonObject data);

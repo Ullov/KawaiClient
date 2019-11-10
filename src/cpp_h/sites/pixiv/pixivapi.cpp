@@ -43,12 +43,12 @@ void PixivApi::downloadUser()
     writeJsonDataInFile(object, halfPath + "\\txt", "userProfile.txt");
 
     currUrl = object.value("body").toObject().value("imageBig").toString().toStdString();
-    downloadAndWriteFile(currUrl, *cc, halfPath + "\\", "icon.png");
+    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, halfPath + "\\", "icon");
 
     currUrl = object.value("body").toObject().value("background").toObject().value("url").toString().toStdString();
     if (!currUrl.empty())
     {
-        downloadAndWriteFile(currUrl, *cc, halfPath + "\\", "background.png");
+        downloadAndWriteFileWithDefinedExtension(currUrl, *cc, halfPath + "\\", "background");
         logger->cppPerformLogging("User background downloaded.", type, logPath);
     }
     else
@@ -93,11 +93,11 @@ void PixivApi::downloadUser()
                 currUrl = arrJ[j].toObject().value("urls").toObject().value("original").toString().toStdString();
                 if (arrJ.size() > 1)
                 {
-                    downloadAndWriteFile(currUrl, *cc, halfPath + "\\illust\\" + illusts[i].toStdString(), std::to_string(j) + ".png");
+                    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, halfPath + "\\illust\\" + illusts[i].toStdString(), std::to_string(j));
                 }
                 else
                 {
-                    downloadAndWriteFile(currUrl, *cc, halfPath + "\\illust", illusts[i].toStdString() + ".png");
+                    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, halfPath + "\\illust", illusts[i].toStdString());
                 }
             }
         }
@@ -130,7 +130,7 @@ void PixivApi::downloadUser()
         for (int j = 0; j < arrJ.size(); j++)
         {
             currUrl = arrJ[j].toObject().value("urls").toObject().value("original").toString().toStdString();
-            downloadAndWriteFile(currUrl, *cc, halfPath + "\\manga\\" + mangas[i].toStdString(), std::to_string(j) + ".png");
+            downloadAndWriteFileWithDefinedExtension(currUrl, *cc, halfPath + "\\manga\\" + mangas[i].toStdString(), std::to_string(j));
         }
 
         logger->cppPerformLogging("Post with ID " + mangas[i].toStdString() + " successfully downloaded.", type, logPath);
@@ -186,10 +186,10 @@ void PixivApi::viewUser()
 
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId, *cc);
     userData = object;
-    imagesFromApi = downloadAllUrls(object, *cc);
+    //imagesFromApi = downloadAllUrls(object, *cc);
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/all", *cc);
     userAllData = object;
-    imagesFromApi.append(downloadAllUrls(object, *cc));
+    //imagesFromApi.append(downloadAllUrls(object, *cc));
     emit viewDataDownloaded(userData, userAllData, imagesFromApi);
 }
 

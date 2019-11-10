@@ -13,6 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cpp_h/fileidentifier.cpp \
         main.cpp \
     cpp_h/curlclass.cpp \
     cpp_h/parserclass.cpp \
@@ -41,6 +42,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     cpp_h/curlclass.h \
+    cpp_h/fileidentifier.h \
     cpp_h/parserclass.h \
     cpp_h/sites/exhentai/exhentaiapi.h \
     cpp_h/sites/instagram/instagramapi.h \

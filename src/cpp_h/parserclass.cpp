@@ -1,8 +1,10 @@
 #include "parserclass.h"
 
-ParserClass::ParserClass() { }
+ParserClass::ParserClass() {
+    defExt = new FileIdentifier();
+}
 
-ParserClass::~ParserClass() { }
+ParserClass::~ParserClass() {}
 
 QJsonObject ParserClass::jsonObjectFromString(QString &content)
 {
@@ -153,7 +155,7 @@ QJsonObject ParserClass::downloadJson(std::string url, CurlClass &pq)
     return object;
 }
 
-void ParserClass::downloadAndWriteFile(std::string url, CurlClass &pq, std::string path, std::string fileName)
+void ParserClass::downloadAndWriteFile(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName)
 {
     std::string result = pq.performing(url.c_str());
     writeFile(result, path, fileName);
@@ -276,5 +278,13 @@ void ParserClass::replace(std::string &input, std::vector<std::string> whatRepla
 
 std::string ParserClass::defineExtension(const std::string &file)
 {
+    QStringList tmp = defExt->identifyFileFromString(QString::fromStdString(file));
+    return tmp[0].toStdString();
+}
 
+void ParserClass::downloadAndWriteFileWithDefinedExtension(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName)
+{
+    std::string fileString = pq.performing(url.c_str());
+    std::string extension = defineExtension(fileString);
+    writeFile(fileString, path, fileName + extension);
 }

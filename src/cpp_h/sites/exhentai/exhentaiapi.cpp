@@ -108,7 +108,7 @@ void ExhentaiApi::download()
             }
             replaceHtmlEntities(regexRersult[0]);
             cc->setHeader(imageChunk);
-            downloadAndWriteFile(regexRersult[0], *cc, halfPath + '\\' + titleName, std::to_string(g) + ".jpg");
+            downloadAndWriteFileWithDefinedExtension(regexRersult[0], *cc, halfPath + '\\' + titleName, std::to_string(g));
             cc->setHeader(chunk);
             logger->cppPerformLogging("Downloaded page (" + std::to_string(i) + '/' + std::to_string(pages.size()) + ").", type, logPath);
             g++;
