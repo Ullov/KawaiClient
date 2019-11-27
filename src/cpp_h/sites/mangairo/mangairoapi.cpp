@@ -44,7 +44,7 @@ void MangairoApi::download()
     patterns.push_back("<a href='(https:\\/\\/mangairo\\.com\\/manga-list\\/type-latest\\/ctg-[\\d]+\\/state-all\\/page-[\\d]+)'>([^<>]+)<\\/a>");
     patterns.push_back("<a href=\"https:\\/\\/mangairo\\.com\\/manga-list\\/type-topview\\/ctg-all\\/state-[a-z]+\\/page-[\\d]\" title=\"[^\"]+\">([a-zA-Z]+)<\\/a>");
     patterns.push_back("<span>Last updated : <\\/span>\n([a-zA-Z]+-[\\d]{1,2}-[\\d]{4} [\\d]{2}:[\\d]{2}) <\\/li>");
-    patterns.push_back("<a href=\"(https:\\/\\/mangairo\\.com\\/series-[\\d]+\\/chapter-[\\d]+)\" title=\"[^\"]+\">[Vol\\.]{0,4}([\\d]{0,4}) ?Chapter ?([\\d]+):? ?([^<>]*)<\\/a>\n<p>[a-zA-Z]+-[\\d]{1,2}-[\\d]{1,2}<\\/p>");
+    patterns.push_back("<a href=\"(https:\\/\\/mangairo\\.com\\/series-[\\d]+\\/chapter-[\\d\\.]+)\" title=\"[^\"]+\">[Vol\\.]{0,4}([\\d]{0,4}) ?Chapter ?([\\d]+\\.?[\\d]*):? ?([^<>]*)<\\/a>\n<p>[a-zA-Z]+-[\\d]{1,2}-[\\d]{1,2}<\\/p>");
     patterns.push_back("<img class=\"avatar\" src=\"([^\"]+)\"");
     regexResult.resize(9);
     for (int ii = 0; ii < 9; ii++)
@@ -149,7 +149,7 @@ void MangairoApi::download()
     // <a href='(https:\/\/mangairo\.com\/manga-list\/type-latest\/ctg-[\d]+\/state-all\/page-[\d]+)'>([^<>]+)<\/a> - Genres names and links
     // <a href="https:\/\/mangairo\.com\/manga-list\/type-topview\/ctg-all\/state-[a-z]+\/page-[\d]" title="[^"]+">([a-zA-Z]+)<\/a> - Title status
     // <span>Last updated : <\/span>\n([a-zA-Z]+-[\d]{1,2}-[\d]{4} [\d]{2}:[\d]{2}) <\/li> - Last upadate date
-    // <a href="(https:\/\/mangairo\.com\/series-[\d]+\/chapter-[\d]+)" title="[^"]+">[Vol\.]{0,4}([\d]{0,4}) ?Chapter ?([\d]+):? ?([^<>]*)<\/a>\n<p>[a-zA-Z]+-[\d]{1,2}-[\d]{1,2}<\/p> - Chapter link, volume number, chapter number, chapter name and chapter upload date
+    // <a href="(https:\/\/mangairo\.com\/series-[\d]+\/chapter-[\d\.]+)" title="[^"]+">[Vol\.]{0,4}([\d]{0,4}) ?Chapter ?([\d]+\.?[\d]*):? ?([^<>]*)<\/a>\n<p>[a-zA-Z]+-[\d]{1,2}-[\d]{1,2}<\/p> - Chapter link, volume number, chapter number, chapter name and chapter upload date
     // <img src="([^"]+)" alt="[^"]+" title="[^"]+" class='img_content' \/> - Chapter pages links
     // <img class="avatar" src="([^"]+)"    - Title cover;
 }
