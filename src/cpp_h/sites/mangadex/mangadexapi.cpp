@@ -18,6 +18,22 @@ void MangadexApi::download()
         "TE: Trailers",
     };
 
+    std::vector<std::string> wrongChars;
+    wrongChars.push_back("\"");
+    wrongChars.push_back("|");
+    wrongChars.push_back("/");
+    wrongChars.push_back(":");
+    wrongChars.push_back("*");
+    wrongChars.push_back("?");
+    wrongChars.push_back(">");
+    wrongChars.push_back("<");
+    std::vector<std::string> voids;
+    for (int i = 0; i < wrongChars.size(); i++)
+    {
+        voids.push_back("");
+    }
+
+
     CurlClass *cc = new CurlClass(chunk);
     QJsonObject object = downloadJson("https://mangadex.org/api/manga/" + mangaId, *cc); // mangaId == 24220
     std::string title = object.value("manga").toObject().value("title").toString().toStdString();
@@ -46,6 +62,7 @@ void MangadexApi::download()
         langPrefix = chapters[chaptersKeys[i]].toObject().value("lang_code").toString().toStdString();
         chapterOrder = chapters[chaptersKeys[i]].toObject().value("chapter").toString().toStdString();
         chapterTitle = chapters[chaptersKeys[i]].toObject().value("title").toString().toStdString();
+        replace(chapterTitle, wrongChars, voids);
         volume = chapters[chaptersKeys[i]].toObject().value("volume").toString().toStdString();
         currUrl = "https://mangadex.org/api/chapter/" + chaptersKeys[i].toStdString();
         chapter = downloadJson(currUrl, *cc);

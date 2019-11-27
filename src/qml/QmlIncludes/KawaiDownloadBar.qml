@@ -245,6 +245,111 @@ Rectangle {
         }
     }
 
+    Rectangle {
+        id: vkDownloadRectangle
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: mangadexDownloadRectangle.bottom
+        anchors.margins: 5
+        height: 40
+        radius: 6
+        color: "#292225"
+        Label {
+            id: vkLabel
+            text: "Vk"
+            width: 120
+            anchors.verticalCenter: parent.verticalCenter
+            color: "White"
+            font.pixelSize: 14
+            x: 5
+        }
+        TextField {
+            id: vkMangaId
+            anchors.left: vkLabel.right
+            anchors.right: vkButton.left
+            anchors.margins: 5
+            height: 30
+            placeholderText: "Enter manga ID..."
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
+        KawaiButton {
+            id: vkButton
+            heightC: 30
+            labelText: "Download"
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: vkStatusRectangle.left
+            anchors.margins: 5
+            onClicked: {
+                var param = [mangadexMangaId.text, enLangChekbox.checked, ruLangChekbox.checked, otherLangChekbox.checked]
+                var mode = ["vk", "downloadPost"]
+                apiHandler.universalStartDownloading(param, mode)
+            }
+        }
+
+        Rectangle {
+            id: vkStatusRectangle
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.margins: 5
+            color: "#00ff08"
+            height: 20
+            width: 20
+        }
+    }
+
+    Rectangle {
+        id: mangairoDownloadRectangle
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: vkDownloadRectangle.bottom
+        anchors.margins: 5
+        height: 40
+        radius: 6
+        color: "#292225"
+        Label {
+            id: mangairoLabel
+            text: "MangaIro"
+            width: 120
+            anchors.verticalCenter: parent.verticalCenter
+            color: "White"
+            font.pixelSize: 14
+            x: 5
+        }
+        TextField {
+            id: mangairoTextField
+            anchors.left: mangairoLabel.right
+            anchors.right: mangairoButton.left
+            anchors.margins: 5
+            height: 30
+            placeholderText: "Enter gallery URL..."
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        KawaiButton {
+            id: mangairoButton
+            heightC: 30
+            labelText: "Download"
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: mangairoStatusRectangle.left
+            anchors.margins: 5
+            onClicked: {
+                var param = [mangairoTextField.text]
+                var mode = ["mangairo", "download"]
+                apiHandler.universalStartDownloading(param, mode)
+            }
+        }
+
+        Rectangle {
+            id: mangairoStatusRectangle
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.margins: 5
+            color: "#00ff08"
+            height: 20
+            width: 20
+        }
+    }
+
     Connections {
         target: apiHandler
         onUniversalDownloadingStarted: {
@@ -256,6 +361,10 @@ Rectangle {
                 pixivStatusRectangle.color = "#ff0000"
             else if (mode[0] == "mangadex")
                 mangadexStatusRectangle.color = "#ff0000"
+            else if (mode[0] == "vk")
+                vkStatusRectangle.color = "#ff0000"
+            else if (mode[0] == "mangairo")
+                mangairoStatusRectangle.color = "#ff0000"
         }
         onUniversalDownloadingFinished: {
             if (mode[0] == "exhentai" && mode[1] == "void")
@@ -266,6 +375,10 @@ Rectangle {
                 pixivStatusRectangle.color = "#00ff08"
             else if (mode[0] == "mangadex")
                 mangadexStatusRectangle.color = "#00ff08"
+            else if (mode[0] == "vk")
+                vkStatusRectangle.color = "#00ff08"
+            else if (mode[0] == "mangairo")
+                mangairoStatusRectangle.color = "#00ff08"
         }
     }
 }

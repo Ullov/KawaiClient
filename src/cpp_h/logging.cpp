@@ -9,10 +9,13 @@ Logging::Logging()
 
 void Logging::performLogging(const QString &message, const QString &type)
 {
+    /*QTime time = QTime::currentTime();
+    QDate date = QDate::currentDate();
+    std::string dateTime = date.toString("yyyy.MM.dd").toStdString() + ' ' + time.toString("hh.mm.ss.zzz").toStdString();*/
     time_t now = time(0);
     std::string dt = ctime(&now);
-    dt.pop_back();
-    dt = '[' + type.toStdString() + ']' + dt + ' ' + message.toStdString() + '\n';
+    /*dt.pop_back();
+    std::string dt = '[' + type + ']' + dateTime + ' ' + message + '\n';*/
 
     /*std::string tmp = dt;
     tmp.pop_back();
@@ -41,17 +44,20 @@ void Logging::performLogging(const QString &message, const QString &type)
 
 void Logging::performDelayedLogging(const QString &message, QString const &type)
 {
-    time_t now = time(0);
-    std::string dt = ctime(&now);
-    dt.pop_back();
-    dt = '[' + type.toStdString() + ']' + dt + ' ' + message.toStdString() + '\n';
+    QTime time = QTime::currentTime();
+    QDate date = QDate::currentDate();
+    std::string dateTime = date.toString("yyyy.MM.dd").toStdString() + ' ' + time.toString("hh.mm.ss.zzz").toStdString();
+    //time_t now = time(0);
+    //std::string dt = ctime(&now);
+    //dt.pop_back();
+    //std::string dt = '[' + ctype + ']' + dateTime + ' ' + message + '\n';
 
     /*std::string tmp = dt;
     tmp.pop_back();
     QString forSlot = tmp.c_str();
     emit logMessage(forSlot);*/
 
-    delayedMessagesBuffer += dt;
+    //delayedMessagesBuffer += dt;
 }
 
 void Logging::flushDelayedMessages()
@@ -79,10 +85,10 @@ void Logging::flushDelayedMessages()
 
 void Logging::cppPerformLogging(std::string message, std::string &type, std::string &path)
 {
-    time_t now = time(0);
-    std::string dt = ctime(&now);
-    dt.pop_back();
-    dt = '[' + type + ']' + dt + ' ' + message + '\n';
+    QTime time = QTime::currentTime();
+    QDate date = QDate::currentDate();
+    std::string dateTime = date.toString("yyyy.MM.dd").toStdString() + ' ' + time.toString("hh:mm:ss:zzz").toStdString();
+    std::string dt = '[' + type + ']' + dateTime + ' ' + message + '\n';
 
     /*std::string tmp = dt;
     tmp.pop_back();

@@ -14,6 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     cpp_h/fileidentifier.cpp \
+    cpp_h/sites/mangairo/mangairoapi.cpp \
+    cpp_h/sites/vk/vkapi.cpp \
         main.cpp \
     cpp_h/curlclass.cpp \
     cpp_h/parserclass.cpp \
@@ -46,13 +48,15 @@ HEADERS += \
     cpp_h/parserclass.h \
     cpp_h/sites/exhentai/exhentaiapi.h \
     cpp_h/sites/instagram/instagramapi.h \
+    cpp_h/sites/mangairo/mangairoapi.h \
     cpp_h/sites/mangarock/mangarockapi.h \
     cpp_h/sites/nhentai/nhentaiapi.h \
     cpp_h/sites/pixiv/pixivapi.h \
     cpp_h/apihandler.h \
     cpp_h/logging.h \
     cpp_h/optionshandler.h \
-    cpp_h/sites/mangadex/mangadexapi.h
+    cpp_h/sites/mangadex/mangadexapi.h \
+    cpp_h/sites/vk/vkapi.h
 
 
 LIBS += -L$$PWD/libs/curl-x64/lib/dll/ -llibcurl.dll

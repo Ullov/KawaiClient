@@ -1,5 +1,6 @@
 #include "parserclass.h"
-
+// \
+//
 ParserClass::ParserClass() {
     defExt = new FileIdentifier();
 }
@@ -250,16 +251,6 @@ void ParserClass::replaceHtmlEntities(std::string &wrongString)
     htmlEntities.push_back("&amp;");
     std::vector<std::string> rightSumbols;
     rightSumbols.push_back("&");
-
-    /*for (int i = 0; i < htmlEntities.size(); i++)
-    {
-        size_t startPos = 0;
-        while ((startPos = wrongString.find(htmlEntities[i], startPos)) != std::string::npos)
-        {
-            wrongString.replace(startPos, htmlEntities[i].length(), rightSumbols[i]);
-            startPos += rightSumbols[i].length();
-        }
-    }*/
     replace(wrongString, htmlEntities, rightSumbols);
 }
 
@@ -287,4 +278,59 @@ void ParserClass::downloadAndWriteFileWithDefinedExtension(const std::string &ur
     std::string fileString = pq.performing(url.c_str());
     std::string extension = defineExtension(fileString);
     writeFile(fileString, path, fileName + extension);
+}
+
+std::vector<QJsonObject> ParserClass::extractJsonObjectFromText(std::string text)
+{
+    std::string pattern;
+    std::vector<std::string> regexResult;
+    std::vector<QJsonObject> objects;
+    pattern = "=*({(\")(.)+})+";
+    findMatchChars(text, pattern, regexResult);
+    for (int i = 0; i < regexResult.size(); i++)
+    {
+        QString tmp = regexResult[i].c_str();
+        QJsonObject obj = jsonObjectFromString(tmp);
+        if (!obj.isEmpty())
+            objects.push_back(obj);
+    }
+    return objects;
+}
+
+std::string ParserClass::intToUtf8(const int &code)
+{
+    unsigned short tmp = static_cast<unsigned short>(code);
+    QString tmp2 = QString::fromUtf16(&tmp);
+    tmp2.resize(1);
+    return tmp2.toStdString();
+}
+
+void ParserClass::textWithWindows1251ToUtf8(std::string &text)
+{
+    std::vector<std::string> windows1251;
+    for (int i = 0; i < 253; i++) // lenght 252
+        windows1251.push_back(intToUtf8(i));
+    std::vector<std::string> utf8; // lenght 254
+    for (int i = 1040; i < 1109; i++)
+        utf8.push_back(intToUtf8(i));
+    replace(text, windows1251, utf8);
+}
+
+void ParserClass::deleteNtfsConflictingChars(std::string &data)
+{
+    std::vector<std::string> wrongChars;
+    wrongChars.push_back("\"");
+    wrongChars.push_back("|");
+    wrongChars.push_back("/");
+    wrongChars.push_back(":");
+    wrongChars.push_back("*");
+    wrongChars.push_back("?");
+    wrongChars.push_back(">");
+    wrongChars.push_back("<");
+    std::vector<std::string> voids;
+    for (int i = 0; i < wrongChars.size(); i++)
+    {
+        voids.push_back("");
+    }
+    replace(data, wrongChars, voids);
 }

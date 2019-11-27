@@ -6,6 +6,8 @@
 #include <QDir>
 #include <QDataStream>
 #include <QVariant>
+#include <QDate>
+#include <QTime>
 
 class Logging : public QObject
 {
