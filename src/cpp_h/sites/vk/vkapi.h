@@ -12,7 +12,7 @@ class VkApi : public ParserClass
 public:
     VkApi();
 
-    std::string postUrl;
+    QString postUrl;
 
 public slots:
     void downloadPost();

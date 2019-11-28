@@ -6,7 +6,7 @@ MangarockApi::~MangarockApi() { }
 
 void MangarockApi::downloadUser()
 {
-
+/*
     chunk = {
         "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:67.0) Gecko/20100101 Firefox/67.0",
         "Accept-Encoding: gzip, deflate, br",
@@ -64,13 +64,13 @@ void MangarockApi::downloadUser()
     QStringList mode;
     mode.push_back("mangarock");
     mode.push_back("void");
-    emit downloadingFinished(mode, QJsonObject());
+    emit downloadingFinished(mode, QJsonObject());*/
 }
 
 
 void MangarockApi::downloadAndWriteMri(std::string url, CurlClass &cc, std::string directory, std::string fileName)
 { // https://developers.google.com/speed/webp/docs/riff_container#webp_file_header
-    std::string bytes = cc.performing(url.c_str());
+    /*std::string bytes = cc.performing(url.c_str());
 
     std::string buffer;
     char first = bytes[0];
@@ -99,7 +99,7 @@ void MangarockApi::downloadAndWriteMri(std::string url, CurlClass &cc, std::stri
         }
     }
 
-    writeFile(buffer, directory, fileName);
+    writeFile(buffer, directory, fileName);*/
 }
 
 // https://api.mangarockhd.com/query/web401/info?oid=mrs-serie-254590

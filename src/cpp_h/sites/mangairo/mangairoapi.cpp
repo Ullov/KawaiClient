@@ -33,10 +33,10 @@ void MangairoApi::download()
 
     CurlClass *cc = new CurlClass(chunk);
     currUrl = "https://mangairo.com/series-" + mangaId;
-    std::string data = cc->performing(currUrl.c_str());
+    QString data = cc->performing(currUrl.toUtf8());
 
-    std::vector<std::vector<std::vector<std::string>>> regexResult;
-    std::vector<std::string> patterns;
+    QVector<QVector<QVector<QString>>> regexResult;
+    QVector<QString> patterns;
     patterns.push_back("<title>([^<>]+) Manga \\| Mangairo\\.com<\\/title>");
     patterns.push_back("<meta name=\"description\" content=\"([^<>]+)\" \\/>([^<>]+)");
     patterns.push_back("<span>Alternative: <\\/span> <h2>([^<>]+)<\\/h2>");
@@ -49,92 +49,92 @@ void MangairoApi::download()
     regexResult.resize(9);
     for (int ii = 0; ii < 9; ii++)
     {
-        QRegularExpression re(patterns[ii].c_str());
-        QRegularExpressionMatchIterator i = re.globalMatch(data.c_str());
+        QRegularExpression re(patterns[ii]);
+        QRegularExpressionMatchIterator i = re.globalMatch(data);
         for (int jj = 0; i.hasNext(); jj++)
         {
             regexResult[ii].resize(regexResult[ii].size() + 1);
             QRegularExpressionMatch match = i.next();
             for (int j = 0; j < 5; j++)
-                regexResult[ii][jj].push_back(match.captured(j).toStdString());
+                regexResult[ii][jj].push_back(match.captured(j));
         }
     }
 
     QJsonObject mangaInfo;
     QJsonObject tmp;
     QJsonArray tmpArr;
-    mangaInfo["mangaName"] = regexResult[0][0][1].c_str();
+    mangaInfo["mangaName"] = regexResult[0][0][1];
     currUrl = regexResult[0][0][1];
     deleteNtfsConflictingChars(currUrl);
-    halfPath = basePath + "\\[" + mangaId + "](" + currUrl + ')';
-    std::string type = "MangaIro";
-    std::string logPath = halfPath;
+    rootPath = basePath + "\\[" + mangaId + "](" + currUrl + ')';
+    QString type = "MangaIro";
+    QString logPath = rootPath;
     logger->cppPerformLogging("Start downloading manga with mangaId = " + mangaId + " and name " + regexResult[0][0][1], type, logPath);
-    mangaInfo["summary"] = regexResult[1][0][1].c_str();
+    mangaInfo["summary"] = regexResult[1][0][1];
     if (!regexResult[2].empty())
-        mangaInfo["alternativeNames"] = regexResult[2][0][1].c_str();
-    tmp["Link"] = regexResult[3][0][1].c_str();
-    tmp["Name"] = regexResult[3][0][2].c_str();
+        mangaInfo["alternativeNames"] = regexResult[2][0][1];
+    tmp["Link"] = regexResult[3][0][1];
+    tmp["Name"] = regexResult[3][0][2];
     mangaInfo["author"] = tmp;
     tmp = QJsonObject();
     for (int i = 0; i < regexResult[4].size(); i++)
     {
-        tmp["link"] = regexResult[4][i][1].c_str();
-        tmp["name"] = regexResult[4][i][2].c_str();
+        tmp["link"] = regexResult[4][i][1];
+        tmp["name"] = regexResult[4][i][2];
         tmpArr.push_back(tmp);
     }
     tmp = QJsonObject();
     mangaInfo["genre"] = tmpArr;
-    mangaInfo["status"] = regexResult[5][0][1].c_str();
-    mangaInfo["lastUpdateDate"] = regexResult[6][0][1].c_str();
+    mangaInfo["status"] = regexResult[5][0][1];
+    mangaInfo["lastUpdateDate"] = regexResult[6][0][1];
     tmpArr = QJsonArray();
     for (int i = 0; i < regexResult[7].size(); i++)
     {
-        tmp["link"] = regexResult[7][i][1].c_str();
-        tmp["volume"] = regexResult[7][i][2].c_str();
-        tmp["number"] = regexResult[7][i][3].c_str();
-        tmp["name"] = regexResult[7][i][4].c_str();
+        tmp["link"] = regexResult[7][i][1];
+        tmp["volume"] = regexResult[7][i][2];
+        tmp["number"] = regexResult[7][i][3];
+        tmp["name"] = regexResult[7][i][4];
         tmpArr.push_front(tmp);
     }
     mangaInfo["chapters"] = tmpArr;
-    mangaInfo["coverLink"] = regexResult[8][0][1].c_str();
+    mangaInfo["coverLink"] = regexResult[8][0][1];
 
-    writeJsonDataInFile(mangaInfo, halfPath, "mangaInfo.txt");
+    writeJsonDataInFile(mangaInfo, rootPath, "mangaInfo.txt");
     logger->cppPerformLogging("Manga metadata parsed and writed", type, logPath);
     cc->setHeader(imagesChunk);
-    downloadAndWriteFileWithDefinedExtension(regexResult[8][0][1], *cc, halfPath, "cover");
+    downloadAndWriteFileWithDefinedExtension(regexResult[8][0][1], *cc, rootPath, "cover");
     cc->setHeader(chunk);
     logger->cppPerformLogging("Cover downloaded and writed", type, logPath);
-    pattern = "<img src=\"([^\"]+)\" alt=\"[^\"]+\" title=\"[^\"]+\" class='img_content' \\/>";
+    QString pattern = "<img src=\"([^\"]+)\" alt=\"[^\"]+\" title=\"[^\"]+\" class='img_content' \\/>";
 
     for (int i = 0; i < tmpArr.size(); i++)
     {
-        logger->cppPerformLogging("Start downloading chapter (" + std::to_string(i) + '/' + std::to_string(tmpArr.size()) + ')', type, logPath);
-        currUrl = tmpArr[i].toObject().value("link").toString().toStdString();
-        data = cc->performing(currUrl.c_str());
-        std::vector<std::string> regexResult1;
+        logger->cppPerformLogging("Start downloading chapter (" + QString::number(i) + '/' + QString::number(tmpArr.size()) + ')', type, logPath);
+        currUrl = tmpArr[i].toObject().value("link").toString();
+        data = cc->performing(currUrl.toStdString().c_str());
+        QVector<QString> regexResult1;
         findMatchChars(data, pattern, regexResult1);
 
-        std::string volume;
-        std::string name;
-        if (tmpArr[i].toObject().value("volume").toString().toStdString() != "")
-            volume = '[' + tmpArr[i].toObject().value("volume").toString().toStdString() + ']';
-        if (tmpArr[i].toObject().value("name").toString().toStdString() != "")
+        QString volume;
+        QString name;
+        if (tmpArr[i].toObject().value("volume").toString() != "")
+            volume = '[' + tmpArr[i].toObject().value("volume").toString() + ']';
+        if (tmpArr[i].toObject().value("name").toString() != "")
         {
-            currUrl = tmpArr[i].toObject().value("name").toString().toStdString();
-            currUrl.erase(0, 2);
+            currUrl = tmpArr[i].toObject().value("name").toString();
+            currUrl.remove(0, 2);
             deleteNtfsConflictingChars(currUrl);
             name = '(' + currUrl + ')';
         }
-        std::string number = '[' + tmpArr[i].toObject().value("number").toString().toStdString() + ']';
+        QString number = '[' + tmpArr[i].toObject().value("number").toString() + ']';
         cc->setHeader(imagesChunk);
         for (int j = 0; j < regexResult1.size(); j++)
         {
-            downloadAndWriteFileWithDefinedExtension(regexResult1[j], *cc, halfPath + "\\chs\\[" + std::to_string(i) + ']' + volume + number  + name, std::to_string(j));
-            logger->cppPerformLogging("Page " + std::to_string(j) + " in chapter " + std::to_string(i) + " downloaded", type, logPath);
+            downloadAndWriteFileWithDefinedExtension(regexResult1[j], *cc, rootPath + "\\chs\\[" + QString::number(i) + ']' + volume + number  + name, QString::number(j));
+            logger->cppPerformLogging("Page " + QString::number(j) + " in chapter " + QString::number(i) + " downloaded", type, logPath);
         }
         cc->setHeader(chunk);
-        logger->cppPerformLogging("Chapter " + std::to_string(i) + " downloaded", type, logPath);
+        logger->cppPerformLogging("Chapter " + QString::number(i) + " downloaded", type, logPath);
     }
     logger->cppPerformLogging("Manga downloaded", type, logPath);
     QStringList mode;

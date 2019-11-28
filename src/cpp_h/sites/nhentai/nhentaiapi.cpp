@@ -24,7 +24,7 @@ void NhentaiApi::doWork()
 //    cc->proxy = "49.231.16.226:8080";
 //    halfPath = basePath;
 
-    downloadAndWriteFile("https://i.nhentai.net/galleries/885361/2.png", *cc, halfPath, "example.txt");
+    //downloadAndWriteFile("https://i.nhentai.net/galleries/885361/2.png", *cc, halfPath, "example.txt");
 
     QStringList mode;
     mode.push_back("nhentai");

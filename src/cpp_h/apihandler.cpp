@@ -5,10 +5,10 @@ ApiHandler::ApiHandler() {}
 void ApiHandler::universalStartDownloading(const QStringList &param, const QStringList &mode)
 {
     emit universalDownloadingStarted(mode);
-    std::string rootPath = options->getRootProgramPath().toStdString();
+    QString rootPath = options->getRootProgramPath();
     QThread *thread = new QThread();
     PixivApi *pApi;
-    MangarockApi *mApi;
+    //MangarockApi *mApi;
     ExhentaiApi *eApi;
     MangadexApi *mdApi;
     VkApi *vApi;
@@ -17,7 +17,7 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     if (mode[0] == "pixiv")
     {
         pApi = new PixivApi();
-        pApi->userId = param[0].toStdString();
+        pApi->userId = param[0];
         pApi->basePath = rootPath + "\\downloaded\\pixiv";
         pApi->logger = this->logger;
 
@@ -27,10 +27,10 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
         connect(pApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), pApi, SLOT(deleteLater()));
         connect(pApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
     }
-    else if (mode[0] == "mangarock")
+    /*else if (mode[0] == "mangarock")
     {
         mApi = new MangarockApi();
-        mApi->oid = param[0].toStdString();
+        mApi->oid = param[0];
         mApi->basePath = rootPath + "\\downloaded\\mangarock";
         mApi->logger = this->logger;
 
@@ -39,11 +39,11 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
         connect(mApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
         connect(mApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), mApi, SLOT(deleteLater()));
         connect(mApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-    }
+    }*/
     else if (mode[0] == "exhentai")
     {
         eApi = new ExhentaiApi();
-        eApi->url = param[0].toStdString();
+        eApi->url = param[0];
         eApi->basePath = rootPath + "\\downloaded\\exhentai";
         eApi->logger = this->logger;
 
@@ -60,10 +60,10 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     else if (mode[0] == "mangadex")
     {
         mdApi = new MangadexApi();
-        mdApi->mangaId = param[0].toStdString();
-        mdApi->enDownload = param[1].toStdString();
-        mdApi->ruDownload = param[2].toStdString();
-        mdApi->otherDownload = param[3].toStdString();
+        mdApi->mangaId = param[0];
+        mdApi->enDownload = param[1];
+        mdApi->ruDownload = param[2];
+        mdApi->otherDownload = param[3];
         mdApi->basePath = rootPath + "\\downloaded\\mangadex";
         mdApi->logger = this->logger;
 
@@ -76,7 +76,7 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     else if (mode[0] == "vk")
     {
         vApi = new VkApi();
-        vApi->postUrl = param[0].toStdString();
+        vApi->postUrl = param[0];
         vApi->basePath = rootPath + "\\downloaded\\vk";
         vApi->logger = this->logger;
 
@@ -89,7 +89,7 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     else if (mode[0] == "mangairo")
     {
         maApi = new MangairoApi();
-        maApi->mangaId = param[0].toStdString();
+        maApi->mangaId = param[0];
         maApi->basePath = rootPath + "\\downloaded\\MangaIro";
         maApi->logger = this->logger;
 
@@ -107,8 +107,8 @@ void ApiHandler::universalEmitSignalDownloadingFinished(QStringList mode, QJsonO
 {
     if (mode[0] == "pixiv")
         emit universalDownloadingFinished(mode, QJsonObject());
-    else if (mode[0] == "mangarock")
-        emit universalDownloadingFinished(mode, QJsonObject());
+    /*else if (mode[0] == "mangarock")
+        emit universalDownloadingFinished(mode, QJsonObject());*/
     else if (mode[0] == "exhentai")
     {
         if (mode[1] == "void")

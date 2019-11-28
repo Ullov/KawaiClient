@@ -21,7 +21,7 @@ CurlClass::CurlClass(std::vector<std::string> chunk)
 
 CurlClass::~CurlClass() { }
 
-std::string CurlClass::performing(const char* url)
+QByteArray CurlClass::performing(const char* url)
 {
     curl_global_init(CURL_GLOBAL_ALL);
     std::string buffer = "";
@@ -55,7 +55,7 @@ std::string CurlClass::performing(const char* url)
     }
     else
     {
-        return buffer;
+        return QByteArray::fromStdString(buffer);
     }
 }
 

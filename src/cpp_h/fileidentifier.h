@@ -11,12 +11,12 @@ public:
     FileIdentifier();
 
     QStringList identifyFileFromFileSystem(const QString &path);
-    QStringList identifyFileFromString(const QString &file);
+    QStringList identifyFileFromString(const QByteArray &file);
 
 private:
-    QString readBytes(QDataStream &fStr, int lenght);
-    QStringList fileTypeSelector(const QString &bytes);
-    QString cutQString(const int &from, const int &lenghtCuttedString, const QString &string);
+    QByteArray readBytes(QDataStream &fStr, int lenght);
+    QStringList fileTypeSelector(const QByteArray &bytes);
+    QByteArray cutQString(const int &from, const int &lenghtCuttedString, const QByteArray &string);
 };
 
 #endif // FILEIDENTIFIER_H

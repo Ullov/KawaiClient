@@ -20,7 +20,6 @@ SOURCES += \
     cpp_h/curlclass.cpp \
     cpp_h/parserclass.cpp \
     cpp_h/sites/exhentai/exhentaiapi.cpp \
-    cpp_h/sites/instagram/instagramapi.cpp \
     cpp_h/sites/mangarock/mangarockapi.cpp \
     cpp_h/sites/nhentai/nhentaiapi.cpp \
     cpp_h/sites/pixiv/pixivapi.cpp \
@@ -47,7 +46,6 @@ HEADERS += \
     cpp_h/fileidentifier.h \
     cpp_h/parserclass.h \
     cpp_h/sites/exhentai/exhentaiapi.h \
-    cpp_h/sites/instagram/instagramapi.h \
     cpp_h/sites/mangairo/mangairoapi.h \
     cpp_h/sites/mangarock/mangarockapi.h \
     cpp_h/sites/nhentai/nhentaiapi.h \

@@ -25,44 +25,41 @@ public:
     ParserClass();
     ~ParserClass();
 
-    std::string basePath; // path entered by user
+    QString basePath; // path entered by user
     Logging *logger;
 
 
 protected:
     // JSON
-    QJsonObject jsonObjectFromString(QString &content);
-    void recExtractJson(QJsonObject rootObject, std::string offset, std::string &data);
-    QJsonObject downloadJson(std::string url, CurlClass &pq);
-    QJsonArray downloadJsonAsArray(std::string url, CurlClass &pq);
+    QJsonObject jsonObjectFromString(const QString &content);
+    void recExtractJson(const QJsonObject &rootObject, QString offset, QString &data);
+    QJsonObject downloadJson(const QString url, CurlClass &pq);
+    QJsonArray downloadJsonAsArray(const QString &url, CurlClass &pq);
 
     // File IO operations
-    bool writeFile(std::string &data, std::string directory, std::string fileName);
-    void downloadAndWriteFile(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName);
-    void downloadAndWriteFileWithDefinedExtension(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName);
+    bool writeFile(const QByteArray &data, const QString &directory, const QString &fileName);
+    void downloadAndWriteFile(const QString &url, CurlClass &pq, const QString &path, const QString &fileName);
+    void downloadAndWriteFileWithDefinedExtension(const QString &url, CurlClass &pq, const QString &path, const QString &fileName);
 
     // String operations
-    void eraseForbiddenChars(std::string &line);
-    void findMatchChars(std::string &data, std::string &pattern, std::vector<std::string> &result);
-    void replace(std::string &input, std::vector<std::string> whatReplace, std::vector<std::string> onWhatReplace);
-    void replaceHtmlEntities(std::string &wrongString);
-    std::string intToUtf8(const int &code);
-    void textWithWindows1251ToUtf8(std::string &text);
-    void deleteNtfsConflictingChars(std::string &data);
+    void findMatchChars(const QString &data, const QString &pattern, QVector<QString> &result);
+    void replace(QString &inp, const QVector<QString> &whatReplace, const QVector<QString> &onWhatReplace);
+    void replaceHtmlEntities(QString &wrongString);
+    QString intToUtf8(const int &code);
+    void textWithWindows1251ToUtf8(QString &text);
+    void deleteNtfsConflictingChars(QString &data);
 
     // Other/Mixed
-    void writeJsonDataInFile(QJsonObject &object, std::string path, std::string fileName);
-    void logging(std::string message);
-    void delay(int seconds);
-    std::vector<QJsonObject> extractJsonObjectFromText(std::string text);
-    std::string defineExtension(const std::string &file);
+    void writeJsonDataInFile(const QJsonObject &object, const QString &path, const QString &fileName);
+    void delay(const int &seconds);
+    QVector<QJsonObject> extractJsonObjectFromText(const QString &text);
+    QString defineExtension(const QByteArray &file);
 
 
     // variables
-    std::string currUrl;
-    std::string halfPath; // part file path that permanent
+    QString currUrl;
+    QString rootPath; // part file path that permanent
     std::vector<std::string> chunk; // header for curl requests
-    std::string pattern; // pattern for regex
     FileIdentifier *defExt;
 
 signals:

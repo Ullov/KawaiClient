@@ -7,28 +7,28 @@ QStringList FileIdentifier::identifyFileFromFileSystem(const QString &path)
     QFile file(path);
     file.open(QIODevice::ReadOnly);
     QDataStream fStr(&file);
-    QString fileSignature = readBytes(fStr, 20);
+    QByteArray fileSignature = readBytes(fStr, 20);
     QStringList fileType = fileTypeSelector(fileSignature);
     return fileType;
 }
 
-QStringList FileIdentifier::identifyFileFromString(const QString &file)
+QStringList FileIdentifier::identifyFileFromString(const QByteArray &file)
 {
-    QString fileSignature = cutQString(0, 20, file);
+    QByteArray fileSignature = cutQString(0, 20, file);
     QStringList fileType = fileTypeSelector(fileSignature);
     return fileType;
 }
 
-QString FileIdentifier::readBytes(QDataStream &fStr, int lenght)
+QByteArray FileIdentifier::readBytes(QDataStream &fStr, int lenght)
 {
     char *s = new char[lenght + 1];
     fStr.readRawData(s, lenght);
-    QString result = s;
+    QByteArray result = s;
     delete [] s;
     return result;
 }
 
-QStringList FileIdentifier::fileTypeSelector(const QString &bytes)
+QStringList FileIdentifier::fileTypeSelector(const QByteArray &bytes)
 {
     QStringList result;
     QStringList stringsForEquations;
@@ -64,7 +64,7 @@ QStringList FileIdentifier::fileTypeSelector(const QString &bytes)
     return result;
 }
 
-QString FileIdentifier::cutQString(const int &from, const int &lenghtCuttedString, const QString &string)
+QByteArray FileIdentifier::cutQString(const int &from, const int &lenghtCuttedString, const QByteArray &string)
 {
     return string.mid(from, lenghtCuttedString);
 }

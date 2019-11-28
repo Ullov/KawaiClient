@@ -9,7 +9,7 @@ class MangairoApi : public ParserClass
 public:
     MangairoApi();
 
-    std::string mangaId;
+    QString mangaId;
 
 public slots:
     void download();

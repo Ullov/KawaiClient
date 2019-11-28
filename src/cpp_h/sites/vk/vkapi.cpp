@@ -20,25 +20,25 @@ void VkApi::downloadPost()
 
     CurlClass *cc = new CurlClass(chunk);
     //std::string pattern;
-    std::vector<std::string> regexResult;
-    std::vector<std::string> all;
-    std::vector<std::string> part;
+    QVector<QString> regexResult;
+    QVector<QString> all;
+    QVector<QString> part;
     currUrl = "https://vk.com/wall-34215577_1200355?hash=6f6a005dc253d8e7e0";
-    std::string data = cc->performing(currUrl.c_str());
+    QString data = cc->performing(currUrl.toUtf8());
     //pattern = "=*({(\")(.)+})+";
     //findMatchChars(data, pattern, regexResult);
 
-    pattern = "&#(\\d+);";
+    QString pattern = "&#(\\d+);";
     findMatchChars(data, pattern, regexResult);
 
-    QRegularExpression re(pattern.c_str());
-    QRegularExpressionMatchIterator i = re.globalMatch(data.c_str());
+    QRegularExpression re(pattern);
+    QRegularExpressionMatchIterator i = re.globalMatch(data);
     while (i.hasNext())
     {
         QRegularExpressionMatch match = i.next();
         QString word = match.captured(1);
-        part.push_back(word.toStdString());
-        all.push_back(match.captured(0).toStdString());
+        //part.push_back(word.toStdString());
+        //all.push_back(match.captured(0).toStdString());
     }
     for (int i = 0; i < part.size(); i++)
     {
@@ -46,7 +46,9 @@ void VkApi::downloadPost()
         //QString tmp2 = QString::fromUtf16(&tmp);
         //tmp2.resize(1);
         //part[i] = tmp2.toStdString();
-        part[i] = intToUtf8(std::stoi(part[i]));
+
+        //part[i] = intToUtf8(std::stoi(part[i]));
+
         //std::u16string source = QString::fromUtf16(&tmp).toStdU16String();
         //source.resize(1);
         //std::wstring_convert<std::codecvt_utf8_utf16<char16_t>,char16_t> convert;
@@ -57,7 +59,7 @@ void VkApi::downloadPost()
     //textWithWindows1251ToUtf8(data);
 
 
-    writeFile(data, "E:\\Win7アプリ\\downloads", "test.txt");
+    //writeFile(data, "E:\\Win7アプリ\\downloads", "test.txt");
 
     std::string someth;
 }

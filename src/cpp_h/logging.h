@@ -17,7 +17,7 @@ public:
 
     std::string filePath;
     std::string systemLogPath;
-    void cppPerformLogging(std::string message, std::string &type, std::string &path);
+    void cppPerformLogging(const QString &message, const QString &type, const QString &path);
 
 public slots:
     void performLogging(const QString &message, const QString &type);

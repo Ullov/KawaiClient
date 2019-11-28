@@ -9,10 +9,10 @@ class MangadexApi : public ParserClass
 public:
     MangadexApi();
 
-    std::string mangaId;
-    std::string enDownload; // bool
-    std::string ruDownload; // bool
-    std::string otherDownload; // bool
+    QString mangaId;
+    QString enDownload; // bool
+    QString ruDownload; // bool
+    QString otherDownload; // bool
 
 public slots:
     void download();

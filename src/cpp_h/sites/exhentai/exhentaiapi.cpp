@@ -26,7 +26,6 @@ void ExhentaiApi::download()
         "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language: en-GB,en;q=0.5",
         "Accept-Encoding: gzip, deflate, br",
-        //"Referer: https://exhentai.org/g/1446402/6e95de3c54/?p=93",
         "DNT: 1",
         "Connection: keep-alive",
         "Cookie: ipb_member_id=3603032; ipb_pass_hash=01a83d86714fa441982e362b9e480ca4; igneous=8eb0a9955; sk=rtzh0ml57ih3uhe9232dfnkwuyw3; s=440e72582",
@@ -34,35 +33,21 @@ void ExhentaiApi::download()
         "Pragma: no-cache",
         "Cache-Control: no-cache"
     };
-    std::vector<std::string> wrongChars;
-    wrongChars.push_back("\"");
-    wrongChars.push_back("|");
-    wrongChars.push_back("/");
-    wrongChars.push_back(":");
-    wrongChars.push_back("*");
-    wrongChars.push_back("?");
-    wrongChars.push_back(">");
-    wrongChars.push_back("<");
-    std::vector<std::string> voids;
-    for (int i = 0; i < wrongChars.size(); i++)
-    {
-        voids.push_back("");
-    }
 
     CurlClass *cc = new CurlClass(chunk);
 
-    std::vector<std::string> pages;
+    QVector<QString> pages;
     int countGalleryPages;
-    halfPath = basePath;
+    rootPath = basePath;
     currUrl = url;
-    std::string data = cc->performing(currUrl.c_str());
+    QString data = cc->performing(currUrl.toUtf8());
 
     pattern = "<title>(.*) - ExHentai.org<\/title>";
     findMatchChars(data, pattern, regexRersult);
-    std::string titleName = regexRersult[0];
-    replace(titleName, wrongChars, voids);
-    std::string type = "ExHentai";
-    std::string logPath = halfPath + '\\' + titleName;
+    QString titleName = regexRersult[0];
+    deleteNtfsConflictingChars(titleName);
+    QString type = "ExHentai";
+    QString logPath = rootPath + '\\' + titleName;
     logger->cppPerformLogging("Gallery with URL " + url + " start downloading.", type, logPath);
     logger->cppPerformLogging("Gallery name: " + titleName + '.', type, logPath);
 
@@ -70,8 +55,8 @@ void ExhentaiApi::download()
     findMatchChars(data, pattern, regexRersult);
     if (!regexRersult.empty())
     {
-        countGalleryPages = std::atoi(regexRersult[regexRersult.size() - 2].c_str()) + 1;
-        logger->cppPerformLogging("Here " + std::to_string(countGalleryPages) + " gallery pages.", type, logPath);
+        countGalleryPages = std::atoi(regexRersult[regexRersult.size() - 2].toUtf8()) + 1;
+        logger->cppPerformLogging("Here " + QString::number(countGalleryPages) + " gallery pages.", type, logPath);
     }
     else
     {
@@ -85,20 +70,20 @@ void ExhentaiApi::download()
     {
         if (j != 0)
         {
-            currUrl = url + "?p=" + std::to_string(j);
-            data = cc->performing(currUrl.c_str());
+            currUrl = url + "?p=" + QString::number(j);
+            data = cc->performing(currUrl.toUtf8());
         }
 
         pattern = "https://exhentai.org/s/([0-9a-z]+/[0-9a-z-]+)";
         findMatchChars(data, pattern, regexRersult);
         pages = regexRersult;
-        logger->cppPerformLogging("In this gallery page " + std::to_string(pages.size()) + " pages.", type, logPath);
+        logger->cppPerformLogging("In this gallery page " + QString::number(pages.size()) + " pages.", type, logPath);
 
         for (int i = 0; i < pages.size(); i++)
         {
-            logger->cppPerformLogging("Start downloading page (" + std::to_string(i) + '/' + std::to_string(pages.size()) + ") from (" + std::to_string(j) + '/' + std::to_string(countGalleryPages) + ") gallery page.", type, logPath);
+            logger->cppPerformLogging("Start downloading page (" + QString::number(i) + '/' + QString::number(pages.size()) + ") from (" + QString::number(j) + '/' + QString::number(countGalleryPages) + ") gallery page.", type, logPath);
             currUrl = "https://exhentai.org/s/" + pages[i];
-            data = cc->performing(currUrl.c_str());
+            data = cc->performing(currUrl.toUtf8());
             pattern = "(https:\\/\\/exhentai\\.org\\/fullimg\\.php\\?gid=[0-9]+&amp;page=[0-9]+&amp;key=[a-z0-9]+)";
             findMatchChars(data, pattern, regexRersult);
             if (regexRersult.empty())
@@ -108,9 +93,9 @@ void ExhentaiApi::download()
             }
             replaceHtmlEntities(regexRersult[0]);
             cc->setHeader(imageChunk);
-            downloadAndWriteFileWithDefinedExtension(regexRersult[0], *cc, halfPath + '\\' + titleName, std::to_string(g));
+            downloadAndWriteFileWithDefinedExtension(regexRersult[0], *cc, rootPath + '\\' + titleName, QString::number(g));
             cc->setHeader(chunk);
-            logger->cppPerformLogging("Downloaded page (" + std::to_string(i) + '/' + std::to_string(pages.size()) + ").", type, logPath);
+            logger->cppPerformLogging("Downloaded page (" + QString::number(i) + '/' + QString::number(pages.size()) + ").", type, logPath);
             g++;
             delay(1);
         }
@@ -142,7 +127,7 @@ void ExhentaiApi::download()
 void ExhentaiApi::viewFrontPage()
 {
     CurlClass *cc = new CurlClass(chunk);
-    std::string data = cc->performing("https://exhentai.org?inline_set=dm_e");
+    QString data = cc->performing("https://exhentai.org?inline_set=dm_e");
     pattern = "<div style=\"[^\"]+\"><a href=\"([^\"]+)\"><img style=\"[^\"]+\" alt=\"[^\"]+\" title=\"([^\"]+)\" src=\"([^\"]+)\" \\/><\\/a><\\/div>|<div class=\"gtl?\" title=\"([^:]*):([^:\"]+)\">([^<]+)<\\/div>";
     std::vector<std::vector<QString>> result;
     QJsonObject root;
@@ -154,8 +139,8 @@ void ExhentaiApi::viewFrontPage()
     QString tmpName;
     QString tmpUrl;
     QString tmpCoverUrl;
-    QRegularExpression re(pattern.c_str());
-    QRegularExpressionMatchIterator i = re.globalMatch(data.c_str());
+    QRegularExpression re(pattern);
+    QRegularExpressionMatchIterator i = re.globalMatch(data);
     for (int j = 0; i.hasNext(); j++)
     {
         result.resize(result.size() + 1);

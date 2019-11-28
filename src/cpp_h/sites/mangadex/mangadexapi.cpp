@@ -18,31 +18,16 @@ void MangadexApi::download()
         "TE: Trailers",
     };
 
-    std::vector<std::string> wrongChars;
-    wrongChars.push_back("\"");
-    wrongChars.push_back("|");
-    wrongChars.push_back("/");
-    wrongChars.push_back(":");
-    wrongChars.push_back("*");
-    wrongChars.push_back("?");
-    wrongChars.push_back(">");
-    wrongChars.push_back("<");
-    std::vector<std::string> voids;
-    for (int i = 0; i < wrongChars.size(); i++)
-    {
-        voids.push_back("");
-    }
-
-
     CurlClass *cc = new CurlClass(chunk);
     QJsonObject object = downloadJson("https://mangadex.org/api/manga/" + mangaId, *cc); // mangaId == 24220
-    std::string title = object.value("manga").toObject().value("title").toString().toStdString();
-    std::string rootPath = basePath + "\\[" + mangaId + "](" + title + ')';
+    QString title = object.value("manga").toObject().value("title").toString();
+    deleteNtfsConflictingChars(title);
+    rootPath = basePath + "\\[" + mangaId + "](" + title + ')';
     writeJsonDataInFile(object, rootPath + "\\txt", "chapterData.txt");
-    std::string type = "MangaDex";
-    std::string logPath = rootPath;
+    QString type = "MangaDex";
+    QString logPath = rootPath;
     logger->cppPerformLogging("Manga with mangaId = " + mangaId + " start downloading.", type, logPath);
-    currUrl = "https://mangadex.org/" + object.value("manga").toObject().value("cover_url").toString().toStdString();
+    currUrl = "https://mangadex.org/" + object.value("manga").toObject().value("cover_url").toString();
     downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath, "cover");
     logger->cppPerformLogging("Cover downloaded.", type, logPath);
 
@@ -50,35 +35,35 @@ void MangadexApi::download()
     QJsonObject chapter;
     QJsonArray pagesArray;
     QStringList chaptersKeys = chapters.keys();
-    std::string langPrefix;
-    std::string chapterOrder;
-    std::string pageDownloadUrl;
-    std::string chapterTitle;
-    std::string volume;
-    logger->cppPerformLogging("Find " + std::to_string(chaptersKeys.length()) + " chapters.", type, logPath);
+    QString langPrefix;
+    QString chapterOrder;
+    QString pageDownloadUrl;
+    QString chapterTitle;
+    QString volume;
+    logger->cppPerformLogging("Find " + QString::number(chaptersKeys.length()) + " chapters.", type, logPath);
     for (int i = 0; i < chaptersKeys.length(); i++)
     {
-        logger->cppPerformLogging("Start downloading chapter #" + std::to_string(i) + ".", type, logPath);
-        langPrefix = chapters[chaptersKeys[i]].toObject().value("lang_code").toString().toStdString();
-        chapterOrder = chapters[chaptersKeys[i]].toObject().value("chapter").toString().toStdString();
-        chapterTitle = chapters[chaptersKeys[i]].toObject().value("title").toString().toStdString();
-        replace(chapterTitle, wrongChars, voids);
-        volume = chapters[chaptersKeys[i]].toObject().value("volume").toString().toStdString();
-        currUrl = "https://mangadex.org/api/chapter/" + chaptersKeys[i].toStdString();
+        logger->cppPerformLogging("Start downloading chapter #" + QString::number(i) + ".", type, logPath);
+        langPrefix = chapters[chaptersKeys[i]].toObject().value("lang_code").toString();
+        chapterOrder = chapters[chaptersKeys[i]].toObject().value("chapter").toString();
+        chapterTitle = chapters[chaptersKeys[i]].toObject().value("title").toString();
+        deleteNtfsConflictingChars(chapterTitle);
+        volume = chapters[chaptersKeys[i]].toObject().value("volume").toString();
+        currUrl = "https://mangadex.org/api/chapter/" + chaptersKeys[i];
         chapter = downloadJson(currUrl, *cc);
-        pageDownloadUrl = chapter.value("server").toString().toStdString() + chapter.value("hash").toString().toStdString();
+        pageDownloadUrl = chapter.value("server").toString() + chapter.value("hash").toString();
         pagesArray = chapter.value("page_array").toArray();
         if ((langPrefix == "gb" && enDownload == "true") || (langPrefix == "ru" && ruDownload == "true") || (langPrefix != "en" && langPrefix != "ru" && otherDownload == "true"))
         {
             writeJsonDataInFile(chapter, rootPath + "\\txt\\chs\\" + langPrefix,"[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ").txt");
             for (int j = 0; j < pagesArray.size(); j++)
             {
-                downloadAndWriteFileWithDefinedExtension(pageDownloadUrl + '/' + pagesArray[j].toString().toStdString(), *cc, rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', std::to_string(j));
-                logger->cppPerformLogging("Page #" + std::to_string(j) + " in chapter #" + std::to_string(i) + " downloaded.", type, logPath);
+                downloadAndWriteFileWithDefinedExtension(pageDownloadUrl + '/' + pagesArray[j].toString(), *cc, rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', QString::number(j));
+                logger->cppPerformLogging("Page #" + QString::number(j) + " in chapter #" + QString::number(i) + " downloaded.", type, logPath);
             }
         }
         else
-            logger->cppPerformLogging("Chapter #" + std::to_string(i) + " with langPrefix = " + langPrefix + " skipped.", type, logPath);
+            logger->cppPerformLogging("Chapter #" + QString::number(i) + " with langPrefix = " + langPrefix + " skipped.", type, logPath);
     }
 
     logger->cppPerformLogging("All selected chapters downloaded.", type, logPath);

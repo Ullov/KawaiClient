@@ -15,7 +15,7 @@ public:
 
     const char* url;
     static std::string buffer;
-    std::string performing(const char* url);
+    QByteArray performing(const char* url);
     std::string postPerforming(const char* url, std::vector<std::string> &postData, std::vector<std::string> &postKeys);
     //static unsigned long long downloadedSize; // in bytes
     void setHeader(std::vector<std::string> chunk);

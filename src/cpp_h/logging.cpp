@@ -83,19 +83,19 @@ void Logging::flushDelayedMessages()
     file.close();
 }
 
-void Logging::cppPerformLogging(std::string message, std::string &type, std::string &path)
+void Logging::cppPerformLogging(const QString &message, const QString &type, const QString &path)
 {
     QTime time = QTime::currentTime();
     QDate date = QDate::currentDate();
-    std::string dateTime = date.toString("yyyy.MM.dd").toStdString() + ' ' + time.toString("hh:mm:ss:zzz").toStdString();
-    std::string dt = '[' + type + ']' + dateTime + ' ' + message + '\n';
+    QString dateTime = date.toString("yyyy.MM.dd") + ' ' + time.toString("hh:mm:ss:zzz");
+    QString dt = '[' + type + ']' + dateTime + ' ' + message + '\n';
 
     /*std::string tmp = dt;
     tmp.pop_back();
     QString forSlot = tmp.c_str();
     emit logMessage(forSlot);*/
 
-    QDir dir = QDir(path.c_str());
+    QDir dir = QDir(path);
     bool pathExist = dir.exists();
     if (!pathExist)
     {
@@ -106,7 +106,7 @@ void Logging::cppPerformLogging(std::string message, std::string &type, std::str
     if (file.open(QIODevice::WriteOnly | QIODevice::Append))
     {
         QDataStream stream(&file);
-        stream.writeRawData(dt.c_str(), dt.length());
+        stream.writeRawData(dt.toUtf8(), dt.length());
     }
     else
     {

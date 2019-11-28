@@ -10,7 +10,7 @@ public:
     PixivApi();
     ~PixivApi();
 
-    std::string userId; // artist's id entered by user
+    QString userId; // artist's id entered by user
     QStringList imagesFromApi;
     QJsonObject userData;
     QJsonObject userAllData;
@@ -22,8 +22,8 @@ public slots:
 private:
     QJsonObject object;
     QJsonArray arrJ; // json array for art links' list
-    std::string userName; // pixiv artist's user name. Now don't need
-    std::string novelContent;
+    QString userName; // pixiv artist's user name. Now don't need
+    QByteArray novelContent;
     std::vector<std::string> novelCoverChunk;
 
 signals:

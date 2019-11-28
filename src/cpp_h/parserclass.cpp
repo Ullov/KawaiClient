@@ -1,50 +1,40 @@
 #include "parserclass.h"
-// \
-//
-ParserClass::ParserClass() {
+
+ParserClass::ParserClass()
+{
     defExt = new FileIdentifier();
 }
 
 ParserClass::~ParserClass() {}
 
-QJsonObject ParserClass::jsonObjectFromString(QString &content)
+QJsonObject ParserClass::jsonObjectFromString(const QString &content)
 {
     QJsonObject obj;
     QJsonDocument doc = QJsonDocument::fromJson(content.toUtf8());
-
     if (!doc.isNull())
     {
         if (doc.isObject())
-        {
             obj = doc.object();
-        }
         else
-        {
             return {}; // document is not an object
-        }
     }
     else
-    {
         return {}; // invalid JSON
-    }
-
     return obj;
 }
 
-bool ParserClass::writeFile(std::string &data, std::string directory, std::string fileName)
+bool ParserClass::writeFile(const QByteArray &data, const QString &directory, const QString &fileName)
 {
-    QDir dir = QDir(directory.c_str());
+    QDir dir = QDir(directory);
     bool qexi = dir.exists();
     if (!qexi)
-    {
-        qexi = dir.mkpath(".");
-    }
+        qexi = dir.mkpath("."); // if derictory does not exist make it
 
-    QFile file(dir.path() + '\\' + fileName.c_str());
+    QFile file(dir.path() + '\\' + fileName);
     if (file.open(QIODevice::WriteOnly))
     {
         QDataStream stream(&file);
-        stream.writeRawData(data.c_str(), data.length());
+        stream.writeRawData(data, data.length());
     }
     else
     {
@@ -55,41 +45,32 @@ bool ParserClass::writeFile(std::string &data, std::string directory, std::strin
     return true;
 }
 
-void ParserClass::recExtractJson(QJsonObject rootObject, std::string offset, std::string &data)
+void ParserClass::recExtractJson(const QJsonObject &rootObject, QString offset, QString &data)
 {
-    std::string tmp;
+    QString tmp;
     QStringList keysChain = rootObject.keys(); // Number; Null; Array; String; Object(aka array); Bool;
     for (int i = 0; i < keysChain.length(); i++)
     {
         if (rootObject.value(keysChain[i]).isString()) // is string
-        {
-            tmp = offset + keysChain[i].toStdString() + ": " + rootObject.value(keysChain[i]).toString().toStdString() + '\n';
-            data += tmp;
-        }
+            data += offset + keysChain[i] + ": " + rootObject.value(keysChain[i]).toString() + '\n';
         else if (rootObject.value(keysChain[i]).isObject()) // is object
         {
-            data += offset + "\\+" + keysChain[i].toStdString() + '\n';
+            data += offset + "\\+" + keysChain[i] + '\n';
             recExtractJson(rootObject.value(keysChain[i]).toObject(), offset + '\t', data);
         }
         else if (rootObject.value(keysChain[i]).isNull()) // is null
-        {
-            data += offset + keysChain[i].toStdString() + ": Is Null\n";
-        }
+            data += offset + keysChain[i] + ": Is Null\n";
         else if (rootObject.value(keysChain[i]).isBool()) // is bool
         {
             if (rootObject.value(keysChain[i]).toBool())
-            {
-                tmp = offset + keysChain[i].toStdString() + ": True\n";
-            }
+                tmp = offset + keysChain[i] + ": True\n";
             else
-            {
-                tmp = offset + keysChain[i].toStdString() + ": False\n";
-            }
+                tmp = offset + keysChain[i] + ": False\n";
             data += tmp;
         }
         else if (rootObject.value(keysChain[i]).isArray()) // is array
         {
-            data += offset + "\\+" + keysChain[i].toStdString() + '\n';
+            data += offset + "\\+" + keysChain[i] + '\n';
             QJsonValue val = rootObject.value(keysChain[i]);
             QJsonArray arr = val.toArray();
             int c = 0;
@@ -99,197 +80,142 @@ void ParserClass::recExtractJson(QJsonObject rootObject, std::string offset, std
                 if (v.isBool())
                 {
                     if (v.toBool())
-                    {
-                        tmp = offset + std::to_string(c) + ": True\n";
-                    }
+                        tmp = offset + QString::number(c) + ": True\n";
                     else
-                    {
-                        tmp = offset + std::to_string(c) + ": False\n";
-                    }
+                        tmp = offset + QString::number(c) + ": False\n";
                     data += tmp;
                 }
                 else if (v.isDouble())
-                {
-                    tmp = offset + std::to_string(c) + ": " + v.toString().toStdString() + '\n';
-                    data += tmp;
-                }
+                    data += offset + QString::number(c) + ": " + v.toString() + '\n';
                 else if (v.isNull())
-                {
-                    data += offset + std::to_string(c) + ": Is Null\n";
-                }
+                    data += offset + QString::number(c) + ": Is Null\n";
                 else if (v.isObject())
                 {
-                    data += offset + "\\+" + std::to_string(c) + '\n';
+                    data += offset + "\\+" + QString::number(c) + '\n';
                     recExtractJson(v.toObject(), offset + '\t', data);
                 }
                 else if (v.isString())
-                {
-                    tmp = offset + std::to_string(c) + ": " + v.toString().toStdString() + '\n';
-                    data += tmp;
-                }
+                    data += offset + QString::number(c) + ": " + v.toString() + '\n';
                 c++;
             }
-            offset.pop_back();
+            offset.chop(1);
         }
         else if (rootObject.value(keysChain[i]).isDouble()) // is double (aka number)
-        {
-            tmp = offset + keysChain[i].toStdString() + ": " + rootObject.value(keysChain[i]).toVariant().toString().toStdString() + '\n';
-            data += tmp;
-        }
+            data += offset + keysChain[i] + ": " + rootObject.value(keysChain[i]).toVariant().toString() + '\n';
     }
-    offset.pop_back();
+    offset.chop(1);
 }
 
-void ParserClass::writeJsonDataInFile(QJsonObject &object, std::string path, std::string fileName)
+void ParserClass::writeJsonDataInFile(const QJsonObject &object, const QString &path, const QString &fileName)
 {
-    std::string jData;
-    jData.erase();
+    QString jData;
+    jData = QString();
     recExtractJson(object, "", jData);
-    writeFile(jData, path, fileName);
+    writeFile(jData.toUtf8(), path, fileName);
 }
 
-QJsonObject ParserClass::downloadJson(std::string url, CurlClass &pq)
+QJsonObject ParserClass::downloadJson(const QString url, CurlClass &pq)
 {
-    std::string result = pq.performing(url.c_str());
-    QString tmpString = QString::fromStdString(result);
-    QJsonObject object = jsonObjectFromString(tmpString);
+    QByteArray result = pq.performing(url.toUtf8());
+    QJsonObject object = jsonObjectFromString(result);
     return object;
 }
 
-void ParserClass::downloadAndWriteFile(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName)
+void ParserClass::downloadAndWriteFile(const QString &url, CurlClass &pq, const QString &path, const QString &fileName)
 {
-    std::string result = pq.performing(url.c_str());
+    QByteArray result = pq.performing(url.toUtf8());
     writeFile(result, path, fileName);
 }
 
-void ParserClass::logging(std::string message)
+QJsonArray ParserClass::downloadJsonAsArray(const QString &url, CurlClass &pq)
 {
-    time_t now = time(0);
-    std::string dt = ctime(&now);
-    dt.pop_back();
-    dt = dt + ' ' + message + '\n';
-
-    QString forSlot = dt.c_str();
-    emit logMessage(forSlot);
-
-    QDir dir = QDir(halfPath.c_str());
-    bool qexi = dir.exists();
-    if (!qexi)
-    {
-        qexi = dir.mkpath(".");
-    }
-
-    QFile file(dir.path() + "\\log.txt");
-    if (file.open(QIODevice::WriteOnly | QIODevice::Append))
-    {
-        QDataStream stream(&file);
-        stream.writeRawData(dt.c_str(), dt.length());
-    }
-    else
-    {
-        file.close();
-    }
-    file.close();
-}
-
-QJsonArray ParserClass::downloadJsonAsArray(std::string url, CurlClass &pq)
-{
-    std::string result = pq.performing(url.c_str());
-    QString tmpString = QString::fromStdString(result);
+    QByteArray result = pq.performing(url.toUtf8());
     QJsonArray arr;
-    QJsonDocument doc = QJsonDocument::fromJson(tmpString.toUtf8());
-
+    QJsonDocument doc = QJsonDocument::fromJson(result);
     if (!doc.isNull())
     {
         if (doc.isArray())
-        {
             arr = doc.array();
-        }
         else
-        {
             return {}; // document is not an object
-        }
     }
     else
-    {
         return {}; // invalid JSON
-    }
-
     return arr;
 }
 
-void ParserClass::eraseForbiddenChars(std::string &directory)
-{
-    char chars[] = "\\:*?<>\"|";
-    for (int i = 0; i < 5; i++)
-    {
-        directory.erase(std::remove(directory.begin(), directory.end(), chars[i]), directory.end());
-    }
-}
-
-void ParserClass::findMatchChars(std::string &data, std::string &pattern, std::vector<std::string> &result)
+void ParserClass::findMatchChars(const QString &data, const QString &pattern, QVector<QString> &result)
 {
     result.clear();
-    QRegularExpression re(pattern.c_str());
-    QRegularExpressionMatchIterator i = re.globalMatch(data.c_str());
+    QRegularExpression re(pattern);
+    QRegularExpressionMatchIterator i = re.globalMatch(data);
     while (i.hasNext())
     {
         QRegularExpressionMatch match = i.next();
-        QString word = match.captured(1);
-        result.push_back(word.toStdString());
+        result.append(match.captured(1));
     }
 }
 
-void ParserClass::delay(int seconds)
+void ParserClass::delay(const int &seconds)
 {
     std::this_thread::sleep_for(std::chrono::seconds(seconds));
 }
 
-void ParserClass::replaceHtmlEntities(std::string &wrongString)
+void ParserClass::replace(QString &inp, const QVector<QString> &whatReplace, const QVector<QString> &onWhatReplace)
 {
-    std::vector<std::string> htmlEntities;
-    htmlEntities.push_back("&amp;");
-    std::vector<std::string> rightSumbols;
-    rightSumbols.push_back("&");
-    replace(wrongString, htmlEntities, rightSumbols);
-}
-
-void ParserClass::replace(std::string &input, std::vector<std::string> whatReplace, std::vector<std::string> onWhatReplace)
-{
+    std::string input = inp.toStdString();
     for (int i = 0; i < whatReplace.size(); i++)
     {
         size_t startPos = 0;
-        while ((startPos = input.find(whatReplace[i], startPos)) != std::string::npos)
+        while ((startPos = input.find(whatReplace[i].toStdString(), startPos)) != std::string::npos)
         {
-            input.replace(startPos, whatReplace[i].length(), onWhatReplace[i]);
+            input.replace(startPos, whatReplace[i].length(), onWhatReplace[i].toStdString());
             startPos += onWhatReplace[i].length();
         }
     }
+    inp = QString::fromStdString(input);
 }
 
-std::string ParserClass::defineExtension(const std::string &file)
+void ParserClass::replaceHtmlEntities(QString &wrongString)
 {
-    QStringList tmp = defExt->identifyFileFromString(QString::fromStdString(file));
-    return tmp[0].toStdString();
+    QVector<QString> htmlEntities;
+    htmlEntities.push_back("&amp;");
+    htmlEntities.push_back("&quot;");
+    htmlEntities.push_back("&apos;");
+    htmlEntities.push_back("&it;");
+    htmlEntities.push_back("&gt;");
+    QVector<QString> rightSumbols;
+    rightSumbols.push_back("&");
+    rightSumbols.push_back("\"");
+    rightSumbols.push_back("'");
+    rightSumbols.push_back("<");
+    rightSumbols.push_back(">");
+    replace(wrongString, htmlEntities, rightSumbols);
 }
 
-void ParserClass::downloadAndWriteFileWithDefinedExtension(const std::string &url, CurlClass &pq, const std::string &path, const std::string &fileName)
+void ParserClass::downloadAndWriteFileWithDefinedExtension(const QString &url, CurlClass &pq, const QString &path, const QString &fileName)
 {
-    std::string fileString = pq.performing(url.c_str());
-    std::string extension = defineExtension(fileString);
+    QByteArray fileString = pq.performing(url.toUtf8());
+    QString extension = defineExtension(fileString);
     writeFile(fileString, path, fileName + extension);
 }
 
-std::vector<QJsonObject> ParserClass::extractJsonObjectFromText(std::string text)
+QString ParserClass::defineExtension(const QByteArray &file)
 {
-    std::string pattern;
-    std::vector<std::string> regexResult;
-    std::vector<QJsonObject> objects;
+    QStringList tmp = defExt->identifyFileFromString(file);
+    return tmp[0];
+}
+
+QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
+{
+    QString pattern;
+    QVector<QString> regexResult;
+    QVector<QJsonObject> objects;
     pattern = "=*({(\")(.)+})+";
     findMatchChars(text, pattern, regexResult);
     for (int i = 0; i < regexResult.size(); i++)
     {
-        QString tmp = regexResult[i].c_str();
+        QString tmp = regexResult[i];
         QJsonObject obj = jsonObjectFromString(tmp);
         if (!obj.isEmpty())
             objects.push_back(obj);
@@ -297,28 +223,28 @@ std::vector<QJsonObject> ParserClass::extractJsonObjectFromText(std::string text
     return objects;
 }
 
-std::string ParserClass::intToUtf8(const int &code)
+QString ParserClass::intToUtf8(const int &code)
 {
     unsigned short tmp = static_cast<unsigned short>(code);
     QString tmp2 = QString::fromUtf16(&tmp);
     tmp2.resize(1);
-    return tmp2.toStdString();
+    return tmp2;
 }
 
-void ParserClass::textWithWindows1251ToUtf8(std::string &text)
+void ParserClass::textWithWindows1251ToUtf8(QString &text)
 {
-    std::vector<std::string> windows1251;
+    QVector<QString> windows1251;
     for (int i = 0; i < 253; i++) // lenght 252
         windows1251.push_back(intToUtf8(i));
-    std::vector<std::string> utf8; // lenght 254
+    QVector<QString> utf8; // lenght 254
     for (int i = 1040; i < 1109; i++)
         utf8.push_back(intToUtf8(i));
     replace(text, windows1251, utf8);
 }
 
-void ParserClass::deleteNtfsConflictingChars(std::string &data)
+void ParserClass::deleteNtfsConflictingChars(QString &data)
 {
-    std::vector<std::string> wrongChars;
+    QVector<QString> wrongChars;
     wrongChars.push_back("\"");
     wrongChars.push_back("|");
     wrongChars.push_back("/");
@@ -327,10 +253,8 @@ void ParserClass::deleteNtfsConflictingChars(std::string &data)
     wrongChars.push_back("?");
     wrongChars.push_back(">");
     wrongChars.push_back("<");
-    std::vector<std::string> voids;
+    QVector<QString> voids;
     for (int i = 0; i < wrongChars.size(); i++)
-    {
         voids.push_back("");
-    }
     replace(data, wrongChars, voids);
 }
