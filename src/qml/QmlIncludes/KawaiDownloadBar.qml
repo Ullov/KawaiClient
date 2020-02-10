@@ -1,20 +1,34 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
+import "../../../js/Tools.js" as Tools
 
 Rectangle {
     id: downloadBarRoot
     width: parent.width
-    Grid {
-        id: firstDownloadBarLine
-        width: parent.width
-        columns: 4
-        spacing: 10
-        y: 2
-
+    property double downloadedTotal: 0
+    Rectangle {
+        id: infoRectangle
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottomMargin: 10
+        height: 25
+        color: "Black"
+        Text {
+            id: downloadedTotalTextBox
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            anchors.margins: 5
+            color: "White"
+            text: "Total: "
+            font.pixelSize: 14
+        }
     }
+
     Rectangle {
         id: pixivDownloadRectangle
-        anchors.top: parent.top
+        anchors.top: infoRectangle.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.margins: 5
@@ -33,11 +47,22 @@ Rectangle {
         TextField {
             id: pixivTextField
             anchors.left: pixivDownloadTitleLabel.right
-            anchors.right: pixivStartDownloadButton.left
+            anchors.right: pixivStatusTextBox.left
             anchors.margins: 5
             anchors.verticalCenter: parent.verticalCenter
             height: 30
             placeholderText: "Enter user ID..."
+        }
+        Text {
+            id: pixivStatusTextBox
+            anchors.right: pixivStartDownloadButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
+            //text: "(1000/1000) 200 Mb/s 00:00:00"
         }
         KawaiButton {
             id: pixivStartDownloadButton
@@ -84,11 +109,21 @@ Rectangle {
         TextField {
             id: mangarockTextField
             anchors.left: mangarockDownloadTitleLabel.right
-            anchors.right: mangarockStartDownloadButton.left
+            anchors.right: mangarockStatusTextBox.left
             anchors.margins: 5
             anchors.verticalCenter: parent.verticalCenter
             height: 30
             placeholderText: "Enter manga OID..."
+        }
+        Text {
+            id: mangarockStatusTextBox
+            anchors.right: mangarockStartDownloadButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
         }
         KawaiButton {
             id: mangarockStartDownloadButton
@@ -135,11 +170,21 @@ Rectangle {
         TextField {
             id: galleryUrl
             anchors.left: exhentaiLabel.right
-            anchors.right: exhentaiButton.left
+            anchors.right: exhentaiStatusTextBox.left
             anchors.margins: 5
             height: 30
             placeholderText: "Enter gallery URL..."
             anchors.verticalCenter: parent.verticalCenter
+        }
+        Text {
+            id: exhentaiStatusTextBox
+            anchors.right: exhentaiButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
         }
         KawaiButton {
             id: exhentaiButton
@@ -195,7 +240,7 @@ Rectangle {
         }
         Rectangle {
             id: checkBoxesRectangle
-            anchors.right: mangadexButton.left
+            anchors.right: mangadexStatusTextBox.left
             anchors.verticalCenter: parent.verticalCenter
             anchors.margins: 5
             height: 30
@@ -219,7 +264,16 @@ Rectangle {
                 text: "Other"
             }
         }
-
+        Text {
+            id: mangadexStatusTextBox
+            anchors.right: mangadexButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
+        }
         KawaiButton {
             id: mangadexButton
             heightC: 30
@@ -266,13 +320,22 @@ Rectangle {
         TextField {
             id: vkMangaId
             anchors.left: vkLabel.right
-            anchors.right: vkButton.left
+            anchors.right: vkStatusTextBox.left
             anchors.margins: 5
             height: 30
             placeholderText: "Enter manga ID..."
             anchors.verticalCenter: parent.verticalCenter
         }
-
+        Text {
+            id: vkStatusTextBox
+            anchors.right: vkButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
+        }
         KawaiButton {
             id: vkButton
             heightC: 30
@@ -319,11 +382,21 @@ Rectangle {
         TextField {
             id: mangairoTextField
             anchors.left: mangairoLabel.right
-            anchors.right: mangairoButton.left
+            anchors.right: mangairoStatusTextBox.left
             anchors.margins: 5
             height: 30
-            placeholderText: "Enter gallery URL..."
+            placeholderText: "Enter manga URL..."
             anchors.verticalCenter: parent.verticalCenter
+        }
+        Text {
+            id: mangairoStatusTextBox
+            anchors.right: mangairoButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
         }
         KawaiButton {
             id: mangairoButton
@@ -350,6 +423,136 @@ Rectangle {
         }
     }
 
+    Rectangle {
+        id: youtubeDownloadRectangle
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: mangairoDownloadRectangle.bottom
+        anchors.margins: 5
+        height: 40
+        radius: 6
+        color: "#292225"
+        Label {
+            id: youtubeLabel
+            text: "YouTube"
+            width: 120
+            anchors.verticalCenter: parent.verticalCenter
+            color: "White"
+            font.pixelSize: 14
+            x: 5
+        }
+        TextField {
+            id: youtubeTextField
+            anchors.left: youtubeLabel.right
+            anchors.right: youtubeStatusTextBox.left
+            anchors.margins: 5
+            height: 30
+            placeholderText: "Enter video URL..."
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        Text {
+            id: youtubeStatusTextBox
+            anchors.right: youtubeButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
+        }
+        KawaiButton {
+            id: youtubeButton
+            heightC: 30
+            labelText: "Download"
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: youtubeStatusRectangle.left
+            anchors.margins: 5
+            onClicked: {
+                var param = [youtubeTextField.text]
+                var mode = ["youtube", "download"]
+                apiHandler.universalStartDownloading(param, mode)
+            }
+        }
+
+        Rectangle {
+            id: youtubeStatusRectangle
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.margins: 5
+            color: "#00ff08"
+            height: 20
+            width: 20
+        }
+    }
+
+    Rectangle {
+        id: twitterDownloadRectangle
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: youtubeDownloadRectangle.bottom
+        anchors.margins: 5
+        height: 40
+        radius: 6
+        color: "#292225"
+        Label {
+            id: twitterLabel
+            text: "Twitter"
+            width: 120
+            anchors.verticalCenter: parent.verticalCenter
+            color: "White"
+            font.pixelSize: 14
+            x: 5
+        }
+        TextField {
+            id: twitterTextField
+            anchors.left: twitterLabel.right
+            anchors.right: twitterStatusTextBox.left
+            anchors.margins: 5
+            height: 30
+            placeholderText: "Enter user name..."
+            anchors.verticalCenter: parent.verticalCenter
+        }
+        Text {
+            id: twitterStatusTextBox
+            anchors.right: twitterButton.left
+            anchors.margins: 5
+            anchors.verticalCenter: parent.verticalCenter
+            width: 145
+            font.pixelSize: 14
+            color: "White"
+            horizontalAlignment: Text.AlignRight
+        }
+        KawaiButton {
+            id: twitterButton
+            heightC: 30
+            labelText: "Download"
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: twitterStatusRectangle.left
+            anchors.margins: 5
+            onClicked: {
+                var param = [twitterTextField.text]
+                var mode = ["twitter", "download"]
+                apiHandler.universalStartDownloading(param, mode)
+            }
+        }
+
+        Rectangle {
+            id: twitterStatusRectangle
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.margins: 5
+            color: "#00ff08"
+            height: 20
+            width: 20
+        }
+    }
+
+    property double downloadedPixiv: 0
+    property double downloadedExhentai: 0
+    property double downloadedMangadex: 0
+    property double downloadedVk: 0
+    property double downloadedMangairo: 0
+    property double downloadedYoutube: 0
     Connections {
         target: apiHandler
         onUniversalDownloadingStarted: {
@@ -365,6 +568,8 @@ Rectangle {
                 vkStatusRectangle.color = "#ff0000"
             else if (mode[0] == "mangairo")
                 mangairoStatusRectangle.color = "#ff0000"
+            else if (mode[0] == "youtube")
+                youtubeStatusRectangle.color = "#ff0000"
         }
         onUniversalDownloadingFinished: {
             if (mode[0] == "exhentai" && mode[1] == "void")
@@ -379,6 +584,60 @@ Rectangle {
                 vkStatusRectangle.color = "#00ff08"
             else if (mode[0] == "mangairo")
                 mangairoStatusRectangle.color = "#00ff08"
+            else if (mode[0] == "youtube")
+                youtubeStatusRectangle.color = "#00ff08"
+        }
+        onDownloadStatusSignal: {
+            // (1000/1000) 200 Mb/s 00:00:00
+            // 20428081
+            downloadedTotal += list[0]
+            if (downloaderType == "pixiv")
+                downloadedPixiv += list[0];
+            else if (downloaderType == "exhentai")
+                downloadedExhentai += list[0];
+            else if (downloaderType == "mangadex")
+                downloadedMangadex += list[0];
+            else if (downloaderType == "vk")
+                downloadedVk += list[0];
+            else if (downloaderType == "mangairo")
+                downloadedMangairo += list[0];
+            else if (downloaderType == "youtube")
+                downloadedYoutube += list[0];
+        }
+    }
+
+    Timer {
+        interval: 1000
+        running: true
+        repeat: true
+        onTriggered: {
+            var tmp = downloadedPixiv
+            downloadedPixiv = 0
+            pixivStatusTextBox.text = Tools.bytesToHumanReadable(tmp)
+
+            tmp = downloadedExhentai
+            downloadedExhentai = 0
+            exhentaiStatusTextBox.text = Tools.bytesToHumanReadable(tmp)
+
+            tmp = downloadedMangadex
+            downloadedMangadex = 0
+            mangadexStatusTextBox.text = Tools.bytesToHumanReadable(tmp)
+
+            tmp = downloadedVk
+            downloadedVk = 0
+            vkStatusTextBox.text = Tools.bytesToHumanReadable(tmp)
+
+            tmp = downloadedMangairo
+            downloadedMangairo = 0
+            mangairoStatusTextBox.text = Tools.bytesToHumanReadable(tmp)
+
+            tmp = downloadedYoutube
+            downloadedYoutube = 0
+            youtubeStatusTextBox.text = Tools.bytesToHumanReadable(tmp)
+
+            downloadedTotalTextBox.text = "Total: " + Tools.bytesToHumanReadable(downloadedTotal).replace("/s", "")
         }
     }
 }
+
+

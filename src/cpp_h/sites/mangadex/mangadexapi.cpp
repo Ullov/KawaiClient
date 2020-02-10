@@ -7,7 +7,7 @@ void MangadexApi::download()
 {
     chunk = {
         "Host: mangadex.org",
-        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0",
+        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0",
         "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language: ja,en-US;q=0.7,en;q=0.3",
         "Accept-Encoding: gzip, deflate, br",
@@ -18,8 +18,8 @@ void MangadexApi::download()
         "TE: Trailers",
     };
 
-    CurlClass *cc = new CurlClass(chunk);
-    QJsonObject object = downloadJson("https://mangadex.org/api/manga/" + mangaId, *cc); // mangaId == 24220
+    this->cc->setHeader(chunk);
+    QJsonObject object = downloadJson("https://mangadex.org/api/manga/" + mangaId); // mangaId == 24220
     QString title = object.value("manga").toObject().value("title").toString();
     deleteNtfsConflictingChars(title);
     rootPath = basePath + "\\[" + mangaId + "](" + title + ')';
@@ -28,7 +28,7 @@ void MangadexApi::download()
     QString logPath = rootPath;
     logger->cppPerformLogging("Manga with mangaId = " + mangaId + " start downloading.", type, logPath);
     currUrl = "https://mangadex.org/" + object.value("manga").toObject().value("cover_url").toString();
-    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath, "cover");
+    downloadAndWriteFileWithDefinedExtension(currUrl, rootPath, "cover");
     logger->cppPerformLogging("Cover downloaded.", type, logPath);
 
     QJsonObject chapters = object.value("chapter").toObject();
@@ -50,7 +50,7 @@ void MangadexApi::download()
         deleteNtfsConflictingChars(chapterTitle);
         volume = chapters[chaptersKeys[i]].toObject().value("volume").toString();
         currUrl = "https://mangadex.org/api/chapter/" + chaptersKeys[i];
-        chapter = downloadJson(currUrl, *cc);
+        chapter = downloadJson(currUrl);
         pageDownloadUrl = chapter.value("server").toString() + chapter.value("hash").toString();
         pagesArray = chapter.value("page_array").toArray();
         if ((langPrefix == "gb" && enDownload == "true") || (langPrefix == "ru" && ruDownload == "true") || (langPrefix != "en" && langPrefix != "ru" && otherDownload == "true"))
@@ -58,7 +58,7 @@ void MangadexApi::download()
             writeJsonDataInFile(chapter, rootPath + "\\txt\\chs\\" + langPrefix,"[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ").txt");
             for (int j = 0; j < pagesArray.size(); j++)
             {
-                downloadAndWriteFileWithDefinedExtension(pageDownloadUrl + '/' + pagesArray[j].toString(), *cc, rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', QString::number(j));
+                downloadAndWriteFileWithDefinedExtension(pageDownloadUrl + '/' + pagesArray[j].toString(), rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', QString::number(j));
                 logger->cppPerformLogging("Page #" + QString::number(j) + " in chapter #" + QString::number(i) + " downloaded.", type, logPath);
             }
         }

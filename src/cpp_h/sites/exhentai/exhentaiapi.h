@@ -9,7 +9,7 @@ class ExhentaiApi : public ParserClass
 public:
     ExhentaiApi();
 
-    QString url;
+    QString galleryCode; // https://exhentai.org/g/[\d]/[\da-z]/
 
 public slots:
     void download();

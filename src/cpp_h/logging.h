@@ -8,6 +8,8 @@
 #include <QVariant>
 #include <QDate>
 #include <QTime>
+#include <QElapsedTimer>
+#include <QTimer>
 
 class Logging : public QObject
 {
@@ -18,6 +20,15 @@ public:
     std::string filePath;
     std::string systemLogPath;
     void cppPerformLogging(const QString &message, const QString &type, const QString &path);
+    void startTimer();
+
+    int currentItem;
+    int allItems;
+    int allTime;
+    int previousTime;
+    quint64 fileSize;
+    QTimer *timer;
+    QElapsedTimer *eTimer;
 
 public slots:
     void performLogging(const QString &message, const QString &type);

@@ -31,7 +31,7 @@ void MangairoApi::download()
         "TE: Trailers",
     };
 
-    CurlClass *cc = new CurlClass(chunk);
+    this->cc->setHeader(chunk);
     currUrl = "https://mangairo.com/series-" + mangaId;
     QString data = cc->performing(currUrl.toUtf8());
 
@@ -102,7 +102,7 @@ void MangairoApi::download()
     writeJsonDataInFile(mangaInfo, rootPath, "mangaInfo.txt");
     logger->cppPerformLogging("Manga metadata parsed and writed", type, logPath);
     cc->setHeader(imagesChunk);
-    downloadAndWriteFileWithDefinedExtension(regexResult[8][0][1], *cc, rootPath, "cover");
+    downloadAndWriteFileWithDefinedExtension(regexResult[8][0][1], rootPath, "cover");
     cc->setHeader(chunk);
     logger->cppPerformLogging("Cover downloaded and writed", type, logPath);
     QString pattern = "<img src=\"([^\"]+)\" alt=\"[^\"]+\" title=\"[^\"]+\" class='img_content' \\/>";
@@ -130,7 +130,7 @@ void MangairoApi::download()
         cc->setHeader(imagesChunk);
         for (int j = 0; j < regexResult1.size(); j++)
         {
-            downloadAndWriteFileWithDefinedExtension(regexResult1[j], *cc, rootPath + "\\chs\\[" + QString::number(i) + ']' + volume + number  + name, QString::number(j));
+            downloadAndWriteFileWithDefinedExtension(regexResult1[j], rootPath + "\\chs\\[" + QString::number(i) + ']' + volume + number  + name, QString::number(j));
             logger->cppPerformLogging("Page " + QString::number(j) + " in chapter " + QString::number(i) + " downloaded", type, logPath);
         }
         cc->setHeader(chunk);

@@ -6,9 +6,12 @@
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>
+//#include <QQuickWindow>
 
 int main(int argc, char *argv[])
 {
+    //QQuickWindow::setSceneGraphBackend(QSGRendererInterface::VulkanRhi);
+
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
 
@@ -19,6 +22,7 @@ int main(int argc, char *argv[])
     OptionsHandler *options = new OptionsHandler();
     Logging *logger = new Logging();
     ApiHandler *apiHandler = new ApiHandler();
+
     apiHandler->logger = logger;
     apiHandler->options = options;
     QQmlApplicationEngine engine;

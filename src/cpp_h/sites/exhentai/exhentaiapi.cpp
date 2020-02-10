@@ -34,21 +34,46 @@ void ExhentaiApi::download()
         "Cache-Control: no-cache"
     };
 
-    CurlClass *cc = new CurlClass(chunk);
+    this->cc->setHeader(chunk);
 
     QVector<QString> pages;
     int countGalleryPages;
     rootPath = basePath;
+    QString url = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments";
     currUrl = url;
     QString data = cc->performing(currUrl.toUtf8());
 
     pattern = "<title>(.*) - ExHentai.org<\/title>";
     findMatchChars(data, pattern, regexRersult);
     QString titleName = regexRersult[0];
+    replaceHtmlHexCodes(titleName);
     deleteNtfsConflictingChars(titleName);
     QString type = "ExHentai";
     QString logPath = rootPath + '\\' + titleName;
     logger->cppPerformLogging("Gallery with URL " + url + " start downloading.", type, logPath);
+    logger->cppPerformLogging("Start downloading comments.", type, logPath);
+
+    QVector<QString> pattenrs;
+    QVector<QVector<QVector<QString>>> regexResult1;
+    pattenrs.append("<div class=\"c1\"><div class=\"c2\"><div class=\"c3\">([^<]+)<a href=\"([^\"]+)\">([^<]+)<\\/a><\\/div><div class=\"c4 nosel\">(?><a name=\"ulcomment\"><\\/a>[^<]+<\\/div>|\\[<a(?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<\\/a>] &nbsp; \\[<a (?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<\\/a>]<\\/div><div (?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<span (?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<\\/span><\\/div>)?<div class=\"c\">(?><\\/?div>){2}<div class=\"c6\" id=\"[^\"]*\">([^<]*)");
+    findMatchChars(data, pattenrs, regexResult1);
+    QJsonObject comments;
+    QJsonArray tmp;
+    for (int i = 0; i < regexResult1[0].size(); i++)
+    {
+        replaceHtmlHexCodes(regexResult1[0][i][1]);
+        replaceHtmlHexCodes(regexResult1[0][i][4]);
+        comments["date"] = regexResult1[0][i][1];
+        comments["userLink"] = regexResult1[0][i][2];
+        comments["userName"] = regexResult1[0][i][3];
+        comments["content"] = regexResult1[0][i][4];
+        tmp.push_back(comments);
+        comments = QJsonObject();
+    }
+    comments["data"] = tmp;
+    writeJsonDataInFile(comments, rootPath + '\\' + titleName, "comments.txt");
+
+    logger->cppPerformLogging("Comments downloaded.", type, logPath);
     logger->cppPerformLogging("Gallery name: " + titleName + '.', type, logPath);
 
     pattern = "https:\\/\\/exhentai\\.org\\/g\\/[0-9]+\\/[0-9a-z]+\\/\\?p=([0-9]+)";
@@ -93,7 +118,7 @@ void ExhentaiApi::download()
             }
             replaceHtmlEntities(regexRersult[0]);
             cc->setHeader(imageChunk);
-            downloadAndWriteFileWithDefinedExtension(regexRersult[0], *cc, rootPath + '\\' + titleName, QString::number(g));
+            downloadAndWriteFileWithDefinedExtension(regexRersult[0], rootPath + '\\' + titleName, QString::number(g));
             cc->setHeader(chunk);
             logger->cppPerformLogging("Downloaded page (" + QString::number(i) + '/' + QString::number(pages.size()) + ").", type, logPath);
             g++;
@@ -121,12 +146,14 @@ void ExhentaiApi::download()
 // (http:\/\/[0-9\.:]+\/h\/[a-zA-Z0-9-\/=;_]+.jpg)
 // (https?:\/\/[0-9\\.:]+\/h\/[a-zA-Z0-9-\/=;_]+\.[a-z]{0,3})
 // (https?:\/\/[a-z0-9\\.:]+\/h\/[a-zA-Z0-9-\/=;_]+\.[a-z]{0,3})
+
+// <div class="c1"><div class="c2"><div class="c3">([^<]+)<a href="([^"]+)">([^<]+)<\/a><\/div><div class="c4 nosel">(?><a name="ulcomment"><\/a>[^<]+<\/div>|\[<a(?> ?[\S]+="[^"]*" ?)*>[^<]+<\/a>] &nbsp; \[<a (?> ?[\S]+="[^"]*" ?)*>[^<]+<\/a>]<\/div><div (?> ?[\S]+="[^"]*" ?)*>[^<]+<span (?> ?[\S]+="[^"]*" ?)*>[^<]+<\/span><\/div>)?<div class="c">(?><\/?div>){2}<div class="c6" id="[^"]*">([^<]*)
 }
 
 
 void ExhentaiApi::viewFrontPage()
 {
-    CurlClass *cc = new CurlClass(chunk);
+    this->cc->setHeader(chunk);
     QString data = cc->performing("https://exhentai.org?inline_set=dm_e");
     pattern = "<div style=\"[^\"]+\"><a href=\"([^\"]+)\"><img style=\"[^\"]+\" alt=\"[^\"]+\" title=\"([^\"]+)\" src=\"([^\"]+)\" \\/><\\/a><\\/div>|<div class=\"gtl?\" title=\"([^:]*):([^:\"]+)\">([^<]+)<\\/div>";
     std::vector<std::vector<QString>> result;

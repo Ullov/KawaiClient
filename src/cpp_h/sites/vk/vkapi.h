@@ -2,6 +2,7 @@
 #define VKAPI_H
 
 #include "cpp_h/parserclass.h"
+#include "cpp_h/kawaihtmlparser.h"
 #include <QXmlStreamReader>
 #include <locale>
 #include <codecvt>

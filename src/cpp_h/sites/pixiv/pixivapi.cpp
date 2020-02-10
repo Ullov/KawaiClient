@@ -31,33 +31,35 @@ void PixivApi::downloadUser()
         "Cache-Control: no-cache"
     };
 
-    CurlClass *cc = new CurlClass(chunk);
+    this->cc->setHeader(chunk);
     QString type = "Pixiv";
     QString logPath;
 
-    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId, *cc);
+    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId);
     userName = object.value("body").toObject().value("name").toString();
     rootPath = basePath + "\\" + '[' + userId + "](" + userName + ')';
+    for (int i = 0; FolderExist(rootPath); i++)
+        rootPath = basePath + "\\" + '[' + userId + "](" + userName + ")[" + QString::number(i) + ']';
     logPath = rootPath;
     logger->cppPerformLogging("Downloading user with ID " + userId + " started.", type, logPath);
     writeJsonDataInFile(object, rootPath + "\\txt", "userProfile.txt");
 
     currUrl = object.value("body").toObject().value("imageBig").toString();
-    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath + "\\", "icon");
+    downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\", "icon");
 
     currUrl = object.value("body").toObject().value("background").toObject().value("url").toString();
     if (!currUrl.isEmpty())
     {
-        downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath + "\\", "background");
+        downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\", "background");
         logger->cppPerformLogging("User background downloaded.", type, logPath);
     }
     else
         logger->cppPerformLogging("User have an empty background.", type, logPath);
 
-    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/top", *cc);
+    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/top");
     writeJsonDataInFile(object, rootPath + "\\txt", "userProfileTop.txt");
 
-    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/all", *cc);
+    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/all");
     writeJsonDataInFile(object, rootPath + "\\txt", "userProfileAll.txt");
 
     logger->cppPerformLogging("All profile files successfully downloaded.", type, logPath);
@@ -72,14 +74,14 @@ void PixivApi::downloadUser()
     {
         logger->cppPerformLogging("(" + QString::number(i) + '/' + QString::number(illusts.size()) + ") Start downloading post with ID " + illusts[i], type, logPath);
 
-        object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i], *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i]);
         QString illustType = object.value("body").toObject().value("illustType").toVariant().toString();
         writeJsonDataInFile(object, rootPath + "\\txt\\illust\\about", illusts[i] + ".txt");
 
-        object = downloadJson("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=" + illusts[i] + "&limit=1000", *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=" + illusts[i] + "&limit=1000");
         writeJsonDataInFile(object, rootPath + "\\txt\\illust\\comments", illusts[i] + ".txt");
 
-        object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i] + "/pages", *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i] + "/pages");
         writeJsonDataInFile(object, rootPath + "\\txt\\illust\\pages", illusts[i] + ".txt");
 
         arrJ = object.value("body").toArray();
@@ -90,16 +92,16 @@ void PixivApi::downloadUser()
             {
                 currUrl = arrJ[j].toObject().value("urls").toObject().value("original").toString();
                 if (arrJ.size() > 1)
-                    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath + "\\illust\\" + illusts[i], QString::number(j));
+                    downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\illust\\" + illusts[i], QString::number(j));
                 else
-                    downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath + "\\illust", illusts[i]);
+                    downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\illust", illusts[i]);
             }
         }
         else
         {
-            object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i] + "/ugoira_meta", *cc);
+            object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i] + "/ugoira_meta");
             currUrl = object.value("body").toObject().value("originalSrc").toString();
-            downloadAndWriteFile(currUrl, *cc, rootPath + "\\ugoira", illusts[i] + ".zip");
+            downloadAndWriteFile(currUrl, rootPath + "\\ugoira", illusts[i] + ".zip");
         }
 
 
@@ -111,20 +113,20 @@ void PixivApi::downloadUser()
     {
         logger->cppPerformLogging("(" + QString::number(i) + '/' + QString::number(mangas.size()) + ") Start downloading post with ID " + mangas[i], type, logPath);
 
-        object = downloadJson("https://www.pixiv.net/ajax/illust/" + mangas[i], *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/illust/" + mangas[i]);
         writeJsonDataInFile(object, rootPath + "\\txt\\manga\\about", mangas[i] + ".txt");
 
-        object = downloadJson("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=" + mangas[i] + "&limit=1000", *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/illusts/comments/roots?illust_id=" + mangas[i] + "&limit=1000");
         writeJsonDataInFile(object, rootPath + "\\txt\\manga\\comments", mangas[i] + ".txt");
 
-        object = downloadJson("https://www.pixiv.net/ajax/illust/" + mangas[i] + "/pages", *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/illust/" + mangas[i] + "/pages");
         writeJsonDataInFile(object, rootPath + "\\txt\\manga\\pages", mangas[i] + ".txt");
 
         arrJ = object.value("body").toArray();
         for (int j = 0; j < arrJ.size(); j++)
         {
             currUrl = arrJ[j].toObject().value("urls").toObject().value("original").toString();
-            downloadAndWriteFileWithDefinedExtension(currUrl, *cc, rootPath + "\\manga\\" + mangas[i], QString::number(j));
+            downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\manga\\" + mangas[i], QString::number(j));
         }
 
         logger->cppPerformLogging("Post with ID " + mangas[i] + " successfully downloaded.", type, logPath);
@@ -135,15 +137,15 @@ void PixivApi::downloadUser()
     {
         logger->cppPerformLogging("(" + QString::number(i) + '/' + QString::number(novels.size()) + ") Start downloading novel with ID " + novels[i], type, logPath);
 
-        object = downloadJson("https://www.pixiv.net/ajax/novels/comments/roots?novel_id=" + novels[i] + "&limit=1000", *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/novels/comments/roots?novel_id=" + novels[i] + "&limit=1000");
         writeJsonDataInFile(object, rootPath + "\\txt\\novels\\comments", novels[i] + ".txt");
 
-        object = downloadJson("https://www.pixiv.net/ajax/novel/" + novels[i], *cc);
+        object = downloadJson("https://www.pixiv.net/ajax/novel/" + novels[i]);
         writeJsonDataInFile(object, rootPath + "\\txt\\novels\\about", novels[i] + ".txt");
 
         cc->setHeader(novelCoverChunk);
         currUrl = object.value("body").toObject().value("coverUrl").toString();
-        downloadAndWriteFile(currUrl, *cc, rootPath + "\\novel\\" + novels[i], "cover.jpg");
+        downloadAndWriteFile(currUrl, rootPath + "\\novel\\" + novels[i], "cover.jpg");
         cc->setHeader(chunk);
 
         novelContent = object.value("body").toObject().value("content").toVariant().toByteArray();
@@ -174,14 +176,15 @@ void PixivApi::viewUser()
         "TE: Trailers"
     };
 
-    CurlClass *cc = new CurlClass(chunk);
+    this->cc->setHeader(chunk);
+    //CurlClass *cc = new CurlClass(chunk);
     std::string type = "Pixiv";
     std::string logPath;
 
-    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId, *cc);
+    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId);
     userData = object;
     //imagesFromApi = downloadAllUrls(object, *cc);
-    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/all", *cc);
+    object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/all");
     userAllData = object;
     //imagesFromApi.append(downloadAllUrls(object, *cc));
     emit viewDataDownloaded(userData, userAllData, imagesFromApi);

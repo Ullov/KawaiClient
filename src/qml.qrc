@@ -10,6 +10,7 @@
         <file>js/pageloader.js</file>
         <file>qml/logWindow.qml</file>
         <file>qml/settingsWindow.qml</file>
+        <file>js/Tools.js</file>
     </qresource>
     <qresource prefix="/icons"/>
     <qresource prefix="/other"/>
