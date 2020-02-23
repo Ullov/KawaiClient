@@ -71,14 +71,14 @@ private:
     NativeFs *nativeFs;
 
 // functions
-    //void appendBitset(const QBitArray &bitArr, std::bitset<contentLenght> &stdBitset, const int startPos);
-    //qint64 write(const QByteArray &data);
-    //qint64 writeCluster(const QBitArray &data, const qint64 &nextCluster);
-    //qint64 scanForClearCluster();
-    //QByteArray* concatenateClusters(const qint64 &pos, const qint64 &lenght, const qint16 frontOffset = 0);
+    void appendBitset(const QBitArray &bitArr, std::bitset<contentLenght> &stdBitset, const int startPos);
+    qint64 write(const QByteArray &data);
+    qint64 writeCluster(const QBitArray &data, const qint64 &nextCluster);
+    qint64 scanForClearCluster();
+    QByteArray* concatenateClusters(const qint64 &pos, const qint64 &lenght, const qint16 frontOffset = 0);
     void readHeader(const qint64 &pos, const FileTypes ft);
-    //template<typename T>
-    //T readHeaderParam(quint64 &offset, const QByteArray *rawHeader, int paramLenght = 0);
+    template<typename T>
+    T readHeaderParam(quint64 &offset, const QByteArray *rawHeader, int paramLenght = 0);
     void readAllHeaderParams(const qint64 &pos, const FileTypes &ft);
     template<typename T>
     T* getFileStructure(const qint64 &pos);

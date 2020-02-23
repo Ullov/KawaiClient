@@ -31,6 +31,21 @@ void PixivApi::downloadUser()
         "Cache-Control: no-cache"
     };
 
+    std::vector<std::string> imagesChunk = {
+        "Host: i-f.pximg.net",
+        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0",
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language: ja,en-US;q=0.7,en;q=0.3",
+        "Accept-Encoding: gzip, deflate, br",
+        "Referer: https://www.pixiv.net/en/artworks/77845097",
+        "DNT: 1",
+        "Connection: keep-alive",
+        "Upgrade-Insecure-Requests: 1",
+        "Pragma: no-cache",
+        "Cache-Control: no-cache",
+        "TE: Trailers",
+    };
+
     this->cc->setHeader(chunk);
     QString type = "Pixiv";
     QString logPath;
@@ -38,7 +53,7 @@ void PixivApi::downloadUser()
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId);
     userName = object.value("body").toObject().value("name").toString();
     rootPath = basePath + "\\" + '[' + userId + "](" + userName + ')';
-    for (int i = 0; FolderExist(rootPath); i++)
+    for (int i = 0; NativeFs::dirExist(rootPath); i++)
         rootPath = basePath + "\\" + '[' + userId + "](" + userName + ")[" + QString::number(i) + ']';
     logPath = rootPath;
     logger->cppPerformLogging("Downloading user with ID " + userId + " started.", type, logPath);
@@ -88,6 +103,7 @@ void PixivApi::downloadUser()
 
         if(illustType == "0")
         {
+            cc->setHeader(imagesChunk);
             for (int j = 0; j < arrJ.size(); j++)
             {
                 currUrl = arrJ[j].toObject().value("urls").toObject().value("original").toString();
@@ -96,6 +112,7 @@ void PixivApi::downloadUser()
                 else
                     downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\illust", illusts[i]);
             }
+            cc->setHeader(chunk);
         }
         else
         {
@@ -123,11 +140,13 @@ void PixivApi::downloadUser()
         writeJsonDataInFile(object, rootPath + "\\txt\\manga\\pages", mangas[i] + ".txt");
 
         arrJ = object.value("body").toArray();
+        cc->setHeader(imagesChunk);
         for (int j = 0; j < arrJ.size(); j++)
         {
             currUrl = arrJ[j].toObject().value("urls").toObject().value("original").toString();
             downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\manga\\" + mangas[i], QString::number(j));
         }
+        cc->setHeader(chunk);
 
         logger->cppPerformLogging("Post with ID " + mangas[i] + " successfully downloaded.", type, logPath);
     }
@@ -149,7 +168,7 @@ void PixivApi::downloadUser()
         cc->setHeader(chunk);
 
         novelContent = object.value("body").toObject().value("content").toVariant().toByteArray();
-        writeFile(novelContent, rootPath + "\\novel\\" + novels[i], "content.txt");
+        NativeFs::writeFile(novelContent, rootPath + "\\novel\\" + novels[i], "content.txt");
 
         logger->cppPerformLogging("Novel with ID " + novels[i] + " successfully downloaded.", type, logPath);
     }

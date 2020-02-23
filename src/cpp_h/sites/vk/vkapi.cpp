@@ -41,7 +41,7 @@ void VkApi::downloadPost()
     KawaiHtmlParser *khp = new KawaiHtmlParser();
     khp->open(data);
 
-    QString page = convertNationalEncodingToUtf8("Windows-1251", data);
+    QString page = KawaiConverter::nationalEncodingToUtf8("Windows-1251", data);
 
     QVector<QVector<QVector<QString>>> regexResult;
     QVector<QString> patterns;
@@ -49,13 +49,13 @@ void VkApi::downloadPost()
     for (int j = 0; j < 2; j++)
     {
         regexResult.clear();
-        findMatchChars(page, patterns, regexResult);
+        StringOperations::executeRegex(page, patterns, regexResult);
         for (int i = 0; i < regexResult[0].size(); i++)
         {
-            regexResult[0][i][1] = intToUtf8(regexResult[0][i][1].toInt());
+            regexResult[0][i][1] = KawaiConverter::numberToUtf8(regexResult[0][i][1].toInt());
             page.replace(regexResult[0][i][0], regexResult[0][i][1]);
         }
-        replaceHtmlEntities(page);
+        KawaiConverter::convertHtmlEntities(page);
     }
 
     patterns.clear();
@@ -67,13 +67,13 @@ void VkApi::downloadPost()
     patterns.push_back("<a class=\"author\" href=\"([\\S]+)\" data-from-id=\"[\\S]+\">([^\\n]+)<\\/a>");
     patterns.push_back("<div class=\"wall_reply_text\">([^\\n]+)<\\/div><\\/div><\\/div>");
     patterns.push_back("<div class=\"reply_date\"><a class=\"wd_lnk\"  class=\"post_link\"  href=\"([\\S]+)\"  onclick=\"return showWiki\\({w: '[\\S]+', reply: '[\\S]+'}, false, event\\);\" ><span class=\"rel_date\">([^\\n]+)<\\/span><\\/a><\\/div>");
-    findMatchChars(page, patterns, regexResult);
+    StringOperations::executeRegex(page, patterns, regexResult);
 
     QVector<QJsonObject> object;
     QStringList artUrls;
     for (int i = 0; i < regexResult[3].size(); i++)
     {
-        QJsonObject tmpObject = jsonObjectFromString(regexResult[3][i][0]);
+        QJsonObject tmpObject = KawaiConverter::convert<QString, QJsonObject>(regexResult[3][i][0]);
         if (!tmpObject.isEmpty())
             object.push_back(tmpObject);
         if (!tmpObject.value("temp").toObject().isEmpty())
@@ -87,7 +87,7 @@ void VkApi::downloadPost()
 
     for (int i = 0; i < artUrls.length(); i++)
         downloadAndWriteFileWithDefinedExtension(artUrls[i], rootPath + "\\imgs", QString::number(i));
-    writeFile(regexResult[2][0][1].replace("<br>", "\n").toUtf8(), rootPath, "postText.txt");
+    NativeFs::writeFile(regexResult[2][0][1].replace("<br>", "\n").toUtf8(), rootPath, "postText.txt");
 
     QJsonObject info;
     QJsonArray tmpArr;
@@ -112,7 +112,7 @@ void VkApi::downloadPost()
     info["2"] = tmpArr;
     writeJsonDataInFile(info, rootPath, "info.txt");
 
-    writeFile(page.toUtf8(), basePath, "test.txt");
+    NativeFs::writeFile(page.toUtf8(), basePath, "test.txt");
     //writeFile(data, basePath, "test1.txt");
 
     std::string someth;

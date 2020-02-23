@@ -43,7 +43,7 @@ qint64 KffFile::writeCluster(const QBitArray &data, const qint64 &nextCluster)
     else
         nativeFs->seek(nativeFs->size());
 
-    return nativeFs->write(cluster.to_string().c_str());
+    //return nativeFs->write(cluster.to_string().c_str());
 }
 
 qint64 KffFile::scanForClearCluster()

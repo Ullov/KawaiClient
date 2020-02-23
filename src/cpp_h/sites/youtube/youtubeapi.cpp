@@ -37,7 +37,7 @@ void YoutubeApi::download()
     QVector<QVector<QVector<QString>>> regexResult;
     QVector<QString> patterns;
     patterns.push_back("&#(\\d+);");
-    findMatchChars(data, patterns, regexResult);
+    StringOperations::executeRegex(data, patterns, regexResult);
 
     QString nope;
 }
@@ -59,7 +59,7 @@ QJsonObject YoutubeApi::getParamsToJsonObject(const QString &data)
         tmpObject2 = QJsonObject();
         //if (!videoInfo[i][1].isNull())
         QString forDecoding = videoInfo[i][1];
-        percentEncodingToUtf8(forDecoding);
+        KawaiConverter::percentEncodingToString(forDecoding);
         tmpObject2["value"] = forDecoding;
         tmpObject[videoInfo[i][0]] = forDecoding;
     }

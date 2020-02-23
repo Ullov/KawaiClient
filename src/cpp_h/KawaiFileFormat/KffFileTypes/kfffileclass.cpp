@@ -129,7 +129,16 @@ void KffFileClass::deleteData(ReadedClusters &localReadedClusters)
 template<typename T>
 void KffFileClass::appendByteArray(QByteArray &arr, const T &addData)
 {
-    QDataStream ds = QDataStream(arr);
+    QDataStream ds(arr);
     ds << addData;
 }
 
+template qint32 KffFileClass::readHeaderParam<qint32>(quint64&, const QByteArray*, int);
+template QString KffFileClass::readHeaderParam<QString>(quint64&, const QByteArray*, int);
+template quint32 KffFileClass::readHeaderParam<quint32>(quint64&, const QByteArray*, int);
+template quint64 KffFileClass::readHeaderParam<quint64>(quint64&, const QByteArray*, int);
+template qint64 KffFileClass::readHeaderParam<qint64>(quint64&, const QByteArray*, int);
+
+template void KffFileClass::appendByteArray<QString>(QByteArray&, const QString&);
+template void KffFileClass::appendByteArray<quint32>(QByteArray&, const quint32&);
+template void KffFileClass::appendByteArray<quint64>(QByteArray&, const quint64&);

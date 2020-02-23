@@ -27,14 +27,14 @@ void TwitterApi::download()
     QVector<QString> patterns;
     patterns.append("<span class=\"tweet-media-img-placeholder\"\n[ ]+data-status-id=\"([\\d]+)\"\n[ ]+data-image-url=\"([\\S]+)\"\n[ ]+data-img-alt=\"[\\S]*\"\n[ ]+data-load-status=\"[\\S]*\"\n[ ]+background-color=\"[^\"]+\"\n[ ]+data-dominant-color=\"[\\S]+\"\n[ ]+\ndata-tweet-id=\"([\\d]+)\"\ndata-item-id=\"([\\d]+)\"\ndata-permalink-path=\"([^\"]+)\"\ndata-conversation-id=\"([\\d]+)\"\n\n\n\n\ndata-tweet-nonce=\"[-\\da-zA-Z]+\"\ndata-tweet-stat-initialized=\"[^\"]+\"\n\n\n\n\n\n\n[ ]+data-screen-name=\"([^\"]+)\" data-name=\"([^\"]+)\" data-user-id=\"([^\"]+)\"");
     QVector<QVector<QVector<QString>>> regexResult;
-    findMatchChars(object.value("items_html").toString().toUtf8(), patterns, regexResult);
+    StringOperations::executeRegex(object.value("items_html").toString().toUtf8(), patterns, regexResult);
     QString data;
     QVector<QVector<QJsonObject>> postsJson;
     for (int i = 0; i < regexResult[0].size(); i++)
     {
         currUrl = "https://twitter.com" + regexResult[0][i][5];
         data = cc->performing(currUrl.toUtf8());
-        replaceHtmlEntities(data);
+        KawaiConverter::convertHtmlEntities(data);
         postsJson.append(extractJsonObjectFromText(data));
     }
 

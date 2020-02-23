@@ -13,11 +13,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cpp_h/KTools/htmlastmaker.cpp \
+    cpp_h/KTools/stringoperations.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.cpp \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvarray.cpp \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvnumber.cpp \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvstring.cpp \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvtimestamp.cpp \
     cpp_h/KawaiFileFormat/kfffs.cpp \
-    cpp_h/KawaiFileFormat/kawaiconverter.cpp \
-    cpp_h/KawaiFileFormat/nativefs.cpp \
+    cpp_h/KTools/kawaiconverter.cpp \
+    cpp_h/KTools/nativefs.cpp \
     cpp_h/fileidentifier.cpp \
     cpp_h/KawaiFileFormat/kawaifileformat.cpp \
     cpp_h/kawaihtmlparser.cpp \
@@ -30,7 +36,7 @@ SOURCES += \
     cpp_h/curlclass.cpp \
     cpp_h/parserclass.cpp \
     cpp_h/sites/exhentai/exhentaiapi.cpp \
-    cpp_h/sites/mangarock/mangarockapi.cpp \
+    #cpp_h/sites/mangarock/mangarockapi.cpp \
     cpp_h/sites/nhentai/nhentaiapi.cpp \
     cpp_h/sites/pixiv/pixivapi.cpp \
     cpp_h/apihandler.cpp \
@@ -52,11 +58,17 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    cpp_h/KTools/htmlastmaker.h \
+    cpp_h/KTools/stringoperations.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.h \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvarray.h \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvnumber.h \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvstring.h \
+    cpp_h/KawaiFileFormat/KffValueTypes/kffvtimestamp.h \
     cpp_h/KawaiFileFormat/kfffs.h \
-    cpp_h/KawaiFileFormat/kawaiconverter.h \
-    cpp_h/KawaiFileFormat/nativefs.h \
+    cpp_h/KTools/kawaiconverter.h \
+    cpp_h/KTools/nativefs.h \
     cpp_h/curlclass.h \
     cpp_h/fileidentifier.h \
     cpp_h/KawaiFileFormat/kawaifileformat.h \
@@ -65,7 +77,7 @@ HEADERS += \
     cpp_h/parserclass.h \
     cpp_h/sites/exhentai/exhentaiapi.h \
     cpp_h/sites/mangairo/mangairoapi.h \
-    cpp_h/sites/mangarock/mangarockapi.h \
+    #cpp_h/sites/mangarock/mangarockapi.h \
     cpp_h/sites/nhentai/nhentaiapi.h \
     cpp_h/sites/pixiv/pixivapi.h \
     cpp_h/apihandler.h \

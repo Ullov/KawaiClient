@@ -10,6 +10,7 @@ bool KffDir::open(const qint64 &pos)
 
 bool KffDir::readHeader(const qint64 &pos)
 {
+    folderHeaderStruct = new FolderHeader();
     quint64 offset = 0;
     nativeFs->seek(pos);
     quint64 len = readClusters(pos, NumberTypesSize::Int64, folderHeaderStruct->clusters)->toULong();
