@@ -127,6 +127,22 @@ QByteArray KawaiConverter::convert<double, QByteArray>(const double &data)
 {
     return toByteArray<double>(data);
 }
+template<>
+unsigned char KawaiConverter::convert<char, unsigned char>(const char &data)
+{
+    return static_cast<unsigned char>(data);
+}
+template<>
+QByteArray KawaiConverter::convert<QString, QByteArray>(const QString &data)
+{
+    return data.toUtf8();
+}
+template<>
+unsigned char KawaiConverter::convert<QString, unsigned char>(const QString &data)
+{
+    const char *tmp = convert<QString, QByteArray>(data).constData();
+    return convert<char, unsigned char>(*tmp);
+}
 
 template<typename T>
 QByteArray KawaiConverter::toByteArray(const T &data)
