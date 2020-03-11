@@ -141,4 +141,7 @@ template qint64 KffFileClass::readHeaderParam<qint64>(quint64&, const QByteArray
 
 template void KffFileClass::appendByteArray<QString>(QByteArray&, const QString&);
 template void KffFileClass::appendByteArray<quint32>(QByteArray&, const quint32&);
+template void KffFileClass::appendByteArray<qint32>(QByteArray&, const qint32&);
 template void KffFileClass::appendByteArray<quint64>(QByteArray&, const quint64&);
+template void KffFileClass::appendByteArray<qint64>(QByteArray&, const qint64&);
+template void KffFileClass::appendByteArray<QByteArray>(QByteArray&, const QByteArray&);
