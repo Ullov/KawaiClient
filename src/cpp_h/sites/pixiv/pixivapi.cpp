@@ -43,7 +43,22 @@ void PixivApi::downloadUser()
         "Upgrade-Insecure-Requests: 1",
         "Pragma: no-cache",
         "Cache-Control: no-cache",
-        "TE: Trailers",
+        "TE: Trailers"
+    };
+
+    std::vector<std::string> ugoiraChunk = {
+        "Host: i-f.pximg.net",
+        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0",
+        "Accept: */*",
+        "Accept-Language: ja,en-US;q=0.7,en;q=0.3",
+        "Accept-Encoding: gzip, deflate, br",
+        "Referer: https://www.pixiv.net/en/artworks/77802991",
+        "Origin: https://www.pixiv.net",
+        "DNT: 1",
+        "Connection: keep-alive",
+        "Pragma: no-cache",
+        "Cache-Control: no-cache",
+        "TE: Trailers"
     };
 
     this->cc->setHeader(chunk);
@@ -118,7 +133,9 @@ void PixivApi::downloadUser()
         {
             object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i] + "/ugoira_meta");
             currUrl = object.value("body").toObject().value("originalSrc").toString();
+            cc->setHeader(ugoiraChunk);
             downloadAndWriteFile(currUrl, rootPath + "\\ugoira", illusts[i] + ".zip");
+            cc->setHeader(chunk);
         }
 
 
