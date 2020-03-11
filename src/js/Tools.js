@@ -34,3 +34,8 @@ function bytesToHumanReadable(bytes)
     }
     return tmp
 }
+
+function cutNumberByPercents(number, percents)
+{
+    return (number / 100) * percents;
+}
