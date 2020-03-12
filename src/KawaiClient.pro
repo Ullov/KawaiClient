@@ -13,7 +13,8 @@ DEFINES += QT_DEPRECATED_WARNINGS #__cplusplus=true
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    cpp_h/KTools/htmlastmaker.cpp \
+    cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
+    cpp_h/KTools/HtmlAstMaker/htmltag.cpp \
     cpp_h/KTools/stringoperations.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.cpp \
@@ -58,7 +59,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    cpp_h/KTools/htmlastmaker.h \
+    cpp_h/KTools/HtmlAstMaker/htmlobject.h \
+    cpp_h/KTools/HtmlAstMaker/htmltag.h \
     cpp_h/KTools/stringoperations.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.h \
