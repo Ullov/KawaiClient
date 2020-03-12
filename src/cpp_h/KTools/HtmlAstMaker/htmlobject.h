@@ -9,7 +9,7 @@ class HtmlObject
 public:
     HtmlObject();
 
-    void makeAst(const QString &data);
+    bool makeAst(const QString &data);
 
 private:
     HtmlTag *rootTag;

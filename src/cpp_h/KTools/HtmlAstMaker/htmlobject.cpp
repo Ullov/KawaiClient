@@ -5,14 +5,11 @@ HtmlObject::HtmlObject()
 
 }
 
-void HtmlObject::makeAst(const QString &data)
+bool HtmlObject::makeAst(const QString &data)
 {
     htmlText = &data;
     qint32 pos = 0;
-    //QString start = QTime::currentTime().toString("mm:ss:zzz");
-    rootTag = readTag(pos, htmlText->size());
-    //QString end = QTime::currentTime().toString("mm:ss:zzz");
-    //NativeFs::writeFile(start.toUtf8() + " -> " + end.toUtf8() + "\n", "E:\\Win7アプリ\\downloads", "astHtmlTimeTest.txt", QIODevice::Append);
+    return setRootTag(*readTag(pos, htmlText->size()));
 }
 
 HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
