@@ -4,7 +4,7 @@
 #include <QString>
 #include <QVector>
 #include <QMap>
-#include <QVectorIterator>
+#include <QTime>
 #include "nativefs.h"
 
 
@@ -34,11 +34,9 @@ public:
     {
         TagClosingDetected,
         TagInvalid,
-        TagValid,
-        NotSetted,
-        SelfclosingTag
+        TagValid
     };
-    StatusEnum status = StatusEnum::NotSetted;
+    StatusEnum status;
 
 private:
     bool selfclosing = false;
@@ -50,10 +48,10 @@ private:
     bool parentTagSetted = false;
 };
 
-class HtmlAstMaker
+class HtmlObject
 {
 public:
-    HtmlAstMaker();
+    HtmlObject();
 
     void makeAst(const QString &data);
 
@@ -61,14 +59,14 @@ private:
     HtmlTag *rootTag;
 
     bool escapedChar = false;
-    QString htmlText;
+    const QString *htmlText;
     qint32 tagStartPos;
 
     HtmlTag* readTag(qint32 &pos, const qint32 &endPos);
-    qint32 skipToCharSequence(const QString &data, const QString &sequence, const qint32 startPos);
     bool readTagName(qint32 &pos, HtmlTag &tagClass);
     bool readTagAttributes(qint32 &pos, HtmlTag &tagClass);
-    void debugMethod(const qint32 pos, HtmlTag &tagClass, const qint32 stringNumber);
+    bool setRootTag(HtmlTag &tag);
+
 };
 
 #endif // HTMLASTMAKER_H

@@ -1,140 +1,99 @@
 #include "htmlastmaker.h"
 
-HtmlAstMaker::HtmlAstMaker() {}
+HtmlObject::HtmlObject() {}
 
-void HtmlAstMaker::makeAst(const QString &data)
+void HtmlObject::makeAst(const QString &data)
 {
-    /*htmlText = data;
-    rootTag = new HtmlTag();
-    for (int i = 0; i < htmlText.size(); i++)
-    {
-        HtmlTag *newTag = new HtmlTag();
-        qint32 newPos = skipToCharSequence(htmlText, "<", i);
-        if (newPos > 0)
-        {
-            if (htmlText[newPos - 1] != "\\" && htmlText.mid(newPos, 4) != "<!--")
-            {
-                readTag(newPos, *newTag);
-            }
-        }
-    }*/
-    htmlText = data;
-    //QByteArray tmp = QByteArray(htmlText);
-    NativeFs::writeFile(htmlText.toUtf8(), "E:\\Win7アプリ\\downloads", "astTestHtml.txt");
-    NativeFs::writeFile("", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt");
+    htmlText = &data;
     qint32 pos = 0;
-    rootTag = readTag(pos, htmlText.size());
+    QString start = QTime::currentTime().toString("mm:ss:zzz");
+    rootTag = readTag(pos, htmlText->size());
+    QString end = QTime::currentTime().toString("mm:ss:zzz");
+    NativeFs::writeFile(start.toUtf8() + " -> " + end.toUtf8() + "\n", "E:\\Win7アプリ\\downloads", "astHtmlTimeTest.txt", QIODevice::Append);
 }
 
-HtmlTag* HtmlAstMaker::readTag(qint32 &pos, const qint32 &endPos)
+HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
 {
     HtmlTag *tagClass = new HtmlTag();
     while (pos < endPos)
     {
-        //debugMethod(pos, *tagClass, 34);
-        if (htmlText[pos] == "<")
+        if (htmlText->at(pos) == "<")
         {
             bool tagNameReaded = false;
             bool tagClosed = false;
-            pos++; // skip < char
-            //NativeFs::writeFile( htmlText.mid(pos, 20).toUtf8() + "\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
-            if (htmlText[pos] == "/")
+            ++pos; // skip < char
+            if (htmlText->at(pos) == "/")
             {
                 tagClass->status = HtmlTag::StatusEnum::TagClosingDetected;
                 return tagClass;
             }
             while (pos < endPos)
             {
-                //debugMethod(pos, *tagClass, 47);
                 if (!tagClosed)
                 {
-                    if (htmlText[pos] == ">")
+                    if (htmlText->at(pos) == ">")
                     {
                         tagClosed = true; // tag end detected
-                        pos++;
-                        NativeFs::writeFile("1\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
+                        ++pos;
                     }
-                    else if (htmlText.mid(pos, pos + 1) == "/>")
+                    else if (htmlText->mid(pos, pos + 1) == "/>")
                     {
                         tagClosed = true; // tag end detected
                         pos += 2;
-                        NativeFs::writeFile("2\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
                     }
-                    else if (/*htmlText[pos] == " " || */htmlText[pos].isSpace() || htmlText[pos] == "\n" || htmlText[pos] == "\r")
+                    else if (htmlText->at(pos).isSpace() || htmlText->at(pos) == "\n" || htmlText->at(pos) == "\r")
                     {
-                        pos++; // skip space char after < char
-                        NativeFs::writeFile("3\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
+                        ++pos; // skip space char after < char
                     }
-                    else if ((htmlText[pos].isLetter() || htmlText[pos] == "-") && !tagNameReaded)
+                    else if ((htmlText->at(pos).isLetter() || htmlText->at(pos) == "-") && !tagNameReaded)
                     {
                         readTagName(pos, *tagClass);
                         tagNameReaded = true;
-                        NativeFs::writeFile("4\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
                     }
-                    else if ((htmlText[pos].isLetter() || htmlText[pos] == "-") && tagNameReaded)
+                    else if ((htmlText->at(pos).isLetter() || htmlText->at(pos) == "-") && tagNameReaded)
                     {
                         readTagAttributes(pos, *tagClass);
                         tagClosed = true;
-                        //QMap<QString, QString> attr = *tagClass->getAttributes();
-                        NativeFs::writeFile("5\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
                     }
                 }
                 else
                 {
                     qint32 tmpPos = pos; // this also ABSOLUTE end position
+                    qint32 nameSize = tagClass->getName()->size();
+                    QString tmpTagName = "</" + *tagClass->getName() + ">"; // thank to this variable ast maker now works in 6 times faster
                     while (tmpPos < endPos)
                     {
-                        //debugMethod(tmpPos, *tagClass, 75);
-
-                        qint32 nameSize = tagClass->getName()->size();
-                        if (htmlText.mid(tmpPos, 3 + nameSize) == "</" + *tagClass->getName() + ">")
+                        if (htmlText->mid(tmpPos, 3 + nameSize) == tmpTagName)
                         {
-                            qint32 innerContentLen = tmpPos - pos; // and this RELATIVE end position i.e. HtmlTag::innerContent::size
-                            tagClass->setInnerContent(htmlText.mid(pos, innerContentLen));
-                            NativeFs::writeFile(tagClass->getInnerContent()->toUtf8() + "\n" + htmlText.mid(tmpPos, 3 + nameSize).toUtf8() + " " + QByteArray::number(tmpPos) + "\n\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
+                            tagClass->setInnerContent(htmlText->mid(pos, tmpPos - pos));
                             tagClass->setSelfclosingness(true);
                             break;
                         }
                         else
                         {
-                            tmpPos++;
+                            ++tmpPos;
                         }
                     }
                     if (tagClass->isSelfclosing())
                     {
                         while (pos < tmpPos)
                         {
-                            //debugMethod(pos, *tagClass, 91);
                             HtmlTag *newTag = readTag(pos, tmpPos);
                             if (newTag->status == HtmlTag::StatusEnum::TagValid)
                             {
                                 tagClass->addChildTag(*newTag);
-                                NativeFs::writeFile("Tag valid\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
                             }
                             else if (newTag->status == HtmlTag::StatusEnum::TagInvalid)
                             {
                                 delete newTag;
-                                //pos++;
-                                NativeFs::writeFile("Tag invalid " + htmlText.mid(pos, 20).toUtf8() + "\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
                             }
                             else if(newTag->status == HtmlTag::StatusEnum::TagClosingDetected)
                             {
-                                pos++;
-                                NativeFs::writeFile("Tag closing\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
-                            }
-                            else if (newTag->status == HtmlTag::StatusEnum::NotSetted)
-                            {
-                                NativeFs::writeFile("Tag status not setted\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
-                            }
-                            else if (newTag->status == HtmlTag::StatusEnum::SelfclosingTag)
-                            {
-                                tagClass->addChildTag(*newTag);
-                                NativeFs::writeFile("Tag selfclosing\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
+                                ++pos;
                             }
                         }
                         tagClass->status = HtmlTag::StatusEnum::TagValid;
                         return tagClass;
-                        //pos++;
                     }
                     else
                     {
@@ -146,7 +105,6 @@ HtmlTag* HtmlAstMaker::readTag(qint32 &pos, const qint32 &endPos)
         }
         else
         {
-            QString invalidChar = htmlText.mid(pos, 10);
             tagClass->status = HtmlTag::StatusEnum::TagInvalid; // error handling
             pos++;
             return tagClass;
@@ -156,76 +114,64 @@ HtmlTag* HtmlAstMaker::readTag(qint32 &pos, const qint32 &endPos)
     return tagClass;
 }
 
-qint32 HtmlAstMaker::skipToCharSequence(const QString &data, const QString &sequence, const qint32 startPos)
+bool HtmlObject::readTagName(qint32 &pos, HtmlTag &tagClass)
 {
-    if ((data.size() - startPos) < 0)
-        return -1;
-    if ((data.size() - startPos) < sequence.size())
-        return -1;
-    for (int i = startPos + sequence.size(); i < data.size(); i++)
+    qint32 start = pos;
+    while (htmlText->at(pos).isLetter() || htmlText->at(pos) == "-")
     {
-        if (data.mid(i, sequence.size()) == sequence)
-            return i;
+        ++pos;
     }
-    return -1;
-}
-
-bool HtmlAstMaker::readTagName(qint32 &pos, HtmlTag &tagClass)
-{
-    QString name = "";
-    while (htmlText[pos].isLetter() || htmlText[pos] == "-")
-    {
-        name += htmlText[pos];
-        pos++;
-    }
-    tagClass.setName(name);
-    //pos++;
+    tagClass.setName(htmlText->mid(start, pos - start));
     return true;
 }
 
-bool HtmlAstMaker::readTagAttributes(qint32 &pos, HtmlTag &tagClass)
+bool HtmlObject::readTagAttributes(qint32 &pos, HtmlTag &tagClass)
 {
-    while (htmlText[pos] != ">" || htmlText.mid(pos, 2) == "/>") // while tag not closed
+    while (htmlText->at(pos) != ">" || htmlText->mid(pos, 2) == "/>") // while tag not closed
     {
-        QString attributeKey = "";
-        QString attributeValue = "";
-        while ((htmlText[pos].isLetter() || htmlText[pos] == "-") && htmlText[pos] != "=")
+        qint32 startKey = pos;
+        while ((htmlText->at(pos).isLetter() || htmlText->at(pos) == "-") && htmlText->at(pos) != "=")
         {
-            attributeKey += htmlText[pos];
-            pos++;
+            ++pos;
         }
-        //pos++; // skip " char
-        QChar quiote = htmlText[pos + 1];
-        if (htmlText[pos] == "=" && (quiote == "\"" || quiote == "'"))
+        qint32 lenKey = pos - startKey; // key lenght
+        QChar quiote = htmlText->at(pos + 1);
+        if (htmlText->at(pos) == "=" && (quiote == "\"" || quiote == "'"))
         {
             pos += 2;
-            while (htmlText[pos] != quiote)
+            qint32 startValue = pos;
+            while (htmlText->at(pos) != quiote)
             {
-                attributeValue += htmlText[pos];
-                pos++;
+                ++pos;
             }
+            tagClass.addAttribute(htmlText->mid(startKey, lenKey), htmlText->mid(startValue, pos - startValue));
         }
         else
         {
             return false; // here should be error handling
         }
-        tagClass.addAttribute(attributeKey, attributeValue);
-        pos++; // skip " char
-        while (htmlText[pos] == " ") // skip spaces between attributes
-            pos++;
+        ++pos; // skip " char
+        while (htmlText->at(pos) == " ") // skip spaces between attributes
+            ++pos;
     }
-    pos++;
+    ++pos;
     return true;
 }
 
-void HtmlAstMaker::debugMethod(const qint32 pos, HtmlTag &tagClass, const qint32 stringNumber)
+bool HtmlObject::setRootTag(HtmlTag &tag)
 {
-    qint32 prePosChars = 10;
-    qint32 afterPosChars = 20;
-    QByteArray prePos = htmlText.mid(pos - prePosChars, prePosChars).toUtf8().replace("\r\n", "NL").replace("\n", "").replace("\r", "");
-    QByteArray afterPos = htmlText.mid(pos, afterPosChars).toUtf8().replace("\r\n", "NL").replace("\n", "").replace("\r", "");
-    NativeFs::writeFile(QByteArray::number(pos) + " " + prePos + " " + afterPos + " " + tagClass.getName()->toUtf8() + " " + QByteArray::number(stringNumber) + "\n", "E:\\Win7アプリ\\downloads", "astMakerDebugData.txt", QIODevice::Append);
+    if (tag.status == HtmlTag::StatusEnum::TagValid)
+    {
+        rootTag = &tag;
+        return true;
+    }
+    else
+        return false;
 }
+
+
+
+
 
 
 HtmlTag::HtmlTag()
@@ -234,7 +180,6 @@ HtmlTag::HtmlTag()
     tags = new QMap<QString, QString>();
     innerContent = new QString();
     childTags = new QVector<HtmlTag*>();
-    //parentTag = new HtmlTag();
 }
 
 HtmlTag::~HtmlTag()
