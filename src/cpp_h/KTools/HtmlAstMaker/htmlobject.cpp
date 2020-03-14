@@ -17,7 +17,15 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
     HtmlTag *tagClass = new HtmlTag();
     while (pos < endPos)
     {
-        if (htmlText->at(pos) == "<")
+        if (htmlText->mid(pos, 2) == "<!")
+        {
+            ++pos;
+            while (htmlText->at(pos) != "<")
+                ++pos;
+            //tagClass->status = HtmlTag::StatusEnum::TagInvalid;
+            //return tagClass;
+        }
+        else if (htmlText->at(pos) == "<")
         {
             bool tagNameReaded = false;
             bool tagClosed = false;
@@ -36,7 +44,7 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                         tagClosed = true; // tag end detected
                         ++pos;
                     }
-                    else if (htmlText->mid(pos, pos + 1) == "/>")
+                    else if (htmlText->mid(pos, 2) == "/>")
                     {
                         tagClosed = true; // tag end detected
                         pos += 2;
@@ -61,7 +69,7 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                     qint32 tmpPos = pos; // this also ABSOLUTE end position
                     qint32 nameSize = tagClass->getName()->size();
                     QString tmpTagName = "</" + *tagClass->getName() + ">"; // thank to this variable ast maker now works in 6 times faster
-                    while (tmpPos < endPos)
+                    while (tmpPos < endPos + 1)
                     {
                         if (htmlText->mid(tmpPos, 3 + nameSize) == tmpTagName)
                         {
@@ -117,7 +125,7 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
 bool HtmlObject::readTagName(qint32 &pos, HtmlTag &tagClass)
 {
     qint32 start = pos;
-    while (htmlText->at(pos).isLetter() || htmlText->at(pos) == "-")
+    while (htmlText->at(pos).isLetter() || htmlText->at(pos) == "-" || htmlText->at(pos).isDigit())
     {
         ++pos;
     }
@@ -130,7 +138,7 @@ bool HtmlObject::readTagAttributes(qint32 &pos, HtmlTag &tagClass)
     while (htmlText->at(pos) != ">" || htmlText->mid(pos, 2) == "/>") // while tag not closed
     {
         qint32 startKey = pos;
-        while ((htmlText->at(pos).isLetter() || htmlText->at(pos) == "-") && htmlText->at(pos) != "=")
+        while ((htmlText->at(pos).isLetter() || htmlText->at(pos) == "-" || htmlText->at(pos) == ":") && htmlText->at(pos) != "=")
         {
             ++pos;
         }
