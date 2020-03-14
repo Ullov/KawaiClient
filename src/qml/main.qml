@@ -30,6 +30,12 @@ Window {
                     [
                         ["Parsers", "qrc:/qml/windows/Misc/Parsers/Parsers.qml"]
                     ]
+                ],
+                [
+                    "Settings and System",
+                    [
+                        ["Settings", "qrc:/qml/windows/SettingsAndSystem/Settings.qml"]
+                    ]
                 ]
             ]
         //var obj = [

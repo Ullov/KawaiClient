@@ -23,5 +23,6 @@
         <file>qml/windows/Misc/Parsers/MangadexCheckBoxes.qml</file>
         <file>qml/windows/Misc/Parsers/StandartInputRectangle.qml</file>
         <file>qml/windows/Misc/Parsers/MangadexInputRectangle.qml</file>
+        <file>qml/windows/SettingsAndSystem/Settings.qml</file>
     </qresource>
 </RCC>
