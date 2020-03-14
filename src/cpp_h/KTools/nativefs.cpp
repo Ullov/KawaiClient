@@ -91,6 +91,22 @@ bool NativeFs::dirExist(const QString &path)
         return false;
 }
 
+template<typename T>
+T NativeFs::readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
+{
+    if (!fileExist(directory + '\\' + fileName))
+        return T();
+
+    QFile rFile(directory + '\\' + fileName);
+    if (!rFile.open(flags))
+        return T();
+
+    if (typeid (T) != typeid (QByteArray))
+        return KawaiConverter::byteArrayToT<T>(rFile.readAll());
+
+    return rFile.readAll();
+}
+
 template void NativeFs::write<QByteArray>(const QByteArray&);
 template void NativeFs::write<qint16>(const qint16&);
 
@@ -102,3 +118,5 @@ template QByteArray NativeFs::read<QByteArray>(const qint64&);
 template qint64 NativeFs::read<qint64>();
 template quint64 NativeFs::read<quint64>();
 template qint16 NativeFs::read<qint16>();
+
+template QString NativeFs::readFile<QString>(const QString&, const QString&, const QIODevice::OpenMode&);

@@ -3,9 +3,14 @@
 ParserClass::ParserClass()
 {
     defExt = new FileIdentifier();
+    cc = new CurlClass();
 }
 
-ParserClass::~ParserClass() {}
+ParserClass::~ParserClass()
+{
+    delete defExt;
+    delete cc;
+}
 
 void ParserClass::recExtractJson(const QJsonObject &rootObject, QString offset, QString &data)
 {
@@ -130,4 +135,9 @@ QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
             objects.push_back(obj);
     }
     return objects;
+}
+
+void ParserClass::writeInfoLog(const QString &message)
+{
+    Logging::writeCustomLog(message, OptionsHandler::parsersNames[parserType], KEnums::LogType::Info, logPath, logFile);
 }

@@ -5,7 +5,6 @@ ApiHandler::ApiHandler() {}
 void ApiHandler::universalStartDownloading(const QStringList &param, const QStringList &mode)
 {
     emit universalDownloadingStarted(mode);
-    QString rootPath = options->getRootProgramPath();
     QThread *thread = new QThread();
     PixivApi *pApi;
     //MangarockApi *mApi;
@@ -20,8 +19,6 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     {
         pApi = new PixivApi();
         pApi->userId = param[0];
-        pApi->basePath = rootPath + "\\downloaded\\pixiv";
-        pApi->logger = this->logger;
         pApi->cc->downloaderType = mode[0];
 
         pApi->moveToThread(thread);
@@ -48,8 +45,6 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     {
         eApi = new ExhentaiApi();
         eApi->galleryCode = param[0];
-        eApi->basePath = rootPath + "\\downloaded\\exhentai";
-        eApi->logger = this->logger;
         eApi->cc->downloaderType = mode[0];
 
         eApi->moveToThread(thread);
@@ -70,8 +65,6 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
         mdApi->enDownload = param[1];
         mdApi->ruDownload = param[2];
         mdApi->otherDownload = param[3];
-        mdApi->basePath = rootPath + "\\downloaded\\mangadex";
-        mdApi->logger = this->logger;
         mdApi->cc->downloaderType = mode[0];
 
         mdApi->moveToThread(thread);
@@ -85,8 +78,6 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     {
         vApi = new VkApi();
         vApi->postUrl = param[0];
-        vApi->basePath = rootPath + "\\downloaded\\Vk";
-        vApi->logger = this->logger;
         vApi->cc->downloaderType = mode[0];
 
         vApi->moveToThread(thread);
@@ -100,8 +91,6 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     {
         maApi = new MangairoApi();
         maApi->mangaId = param[0];
-        maApi->basePath = rootPath + "\\downloaded\\MangaIro";
-        maApi->logger = this->logger;
         maApi->cc->downloaderType = mode[0];
 
         maApi->moveToThread(thread);
@@ -115,8 +104,6 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     {
         yApi = new YoutubeApi();
         yApi->videoUrl = param[0];
-        yApi->basePath = rootPath + "\\downloaded\\YouTube";
-        yApi->logger = this->logger;
         yApi->cc->downloaderType = mode[0];
 
         yApi->moveToThread(thread);
@@ -130,8 +117,6 @@ void ApiHandler::universalStartDownloading(const QStringList &param, const QStri
     {
         tApi = new TwitterApi();
         tApi->userName = param[0];
-        tApi->basePath = rootPath + "\\downloaded\\YouTube";
-        tApi->logger = this->logger;
         tApi->cc->downloaderType = mode[0];
 
         tApi->moveToThread(thread);

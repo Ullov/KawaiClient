@@ -16,6 +16,9 @@ ExhentaiApi::ExhentaiApi()
         "Pragma: no-cache",
         "Cache-Control: no-cache"
     };
+
+    parserType = KEnums::Parsers::ExHentai;
+    basePath = OptionsHandler::parsersWritePathes[parserType];
 }
 
 void ExhentaiApi::download()
@@ -39,19 +42,22 @@ void ExhentaiApi::download()
     QVector<QString> pages;
     int countGalleryPages;
     rootPath = basePath;
-    QString url = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments";
-    currUrl = url;
+    QString url = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments"; // 1583231/db7901c0b7
+    //currUrl = url;
+    currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
     QString data = cc->performing(currUrl.toUtf8());
+    HtmlObject *hObj = new HtmlObject();
+    hObj->makeAst(data);
 
-    pattern = "<title>(.*) - ExHentai.org<\/title>";
+    pattern = "<title>(.*) - ExHentai.org<\\/title>";
     StringOperations::executeRegex(data, pattern, regexRersult);
     QString titleName = regexRersult[0];
     KawaiConverter::convertHtmlHexCodes(titleName);
     KawaiConverter::toNtfsCompatibleString(titleName);
     QString type = "ExHentai";
     QString logPath = rootPath + '\\' + titleName;
-    logger->cppPerformLogging("Gallery with URL " + url + " start downloading.", type, logPath);
-    logger->cppPerformLogging("Start downloading comments.", type, logPath);
+    writeInfoLog("Gallery with URL " + url + " start downloading.");
+    writeInfoLog("Start downloading comments.");
 
     QVector<QString> pattenrs;
     QVector<QVector<QVector<QString>>> regexResult1;
@@ -73,20 +79,20 @@ void ExhentaiApi::download()
     comments["data"] = tmp;
     writeJsonDataInFile(comments, rootPath + '\\' + titleName, "comments.txt");
 
-    logger->cppPerformLogging("Comments downloaded.", type, logPath);
-    logger->cppPerformLogging("Gallery name: " + titleName + '.', type, logPath);
+    writeInfoLog("Comments downloaded.");
+    writeInfoLog("Gallery name: " + titleName + '.');
 
     pattern = "https:\\/\\/exhentai\\.org\\/g\\/[0-9]+\\/[0-9a-z]+\\/\\?p=([0-9]+)";
     StringOperations::executeRegex(data, pattern, regexRersult);
     if (!regexRersult.empty())
     {
         countGalleryPages = std::atoi(regexRersult[regexRersult.size() - 2].toUtf8()) + 1;
-        logger->cppPerformLogging("Here " + QString::number(countGalleryPages) + " gallery pages.", type, logPath);
+        writeInfoLog("Here " + QString::number(countGalleryPages) + " gallery pages.");
     }
     else
     {
         countGalleryPages = 1;
-        logger->cppPerformLogging("Here one gallery page.", type, logPath);
+        writeInfoLog("Here one gallery page.");
     }
 
 
@@ -102,11 +108,11 @@ void ExhentaiApi::download()
         pattern = "https://exhentai.org/s/([0-9a-z]+/[0-9a-z-]+)";
         StringOperations::executeRegex(data, pattern, regexRersult);
         pages = regexRersult;
-        logger->cppPerformLogging("In this gallery page " + QString::number(pages.size()) + " pages.", type, logPath);
+        writeInfoLog("In this gallery page " + QString::number(pages.size()) + " pages.");
 
         for (int i = 0; i < pages.size(); i++)
         {
-            logger->cppPerformLogging("Start downloading page (" + QString::number(i) + '/' + QString::number(pages.size()) + ") from (" + QString::number(j) + '/' + QString::number(countGalleryPages) + ") gallery page.", type, logPath);
+            writeInfoLog("Start downloading page (" + QString::number(i) + '/' + QString::number(pages.size()) + ") from (" + QString::number(j) + '/' + QString::number(countGalleryPages) + ") gallery page.");
             currUrl = "https://exhentai.org/s/" + pages[i];
             data = cc->performing(currUrl.toUtf8());
             pattern = "(https:\\/\\/exhentai\\.org\\/fullimg\\.php\\?gid=[0-9]+&amp;page=[0-9]+&amp;key=[a-z0-9]+)";
@@ -120,13 +126,13 @@ void ExhentaiApi::download()
             cc->setHeader(imageChunk);
             downloadAndWriteFileWithDefinedExtension(regexRersult[0], rootPath + '\\' + titleName, QString::number(g));
             cc->setHeader(chunk);
-            logger->cppPerformLogging("Downloaded page (" + QString::number(i) + '/' + QString::number(pages.size()) + ").", type, logPath);
+            writeInfoLog("Downloaded page (" + QString::number(i) + '/' + QString::number(pages.size()) + ").");
             g++;
             delay(1);
         }
     }
 
-    logger->cppPerformLogging("All downloaded.", type, logPath);
+    writeInfoLog("All downloaded.");
     QStringList mode;
     mode.push_back("exhentai");
     mode.push_back("void");

@@ -143,6 +143,19 @@ unsigned char KawaiConverter::convert<QString, unsigned char>(const QString &dat
     const char *tmp = convert<QString, QByteArray>(data).constData();
     return convert<char, unsigned char>(*tmp);
 }
+template<>
+QString KawaiConverter::convert<QJsonObject, QString>(const QJsonObject &data)
+{
+    QJsonDocument jDoc(data);
+    return jDoc.toJson();
+}
+template<>
+QByteArray KawaiConverter::convert<QJsonObject, QByteArray>(const QJsonObject &data)
+{
+    return toByteArray(convert<QJsonObject, QString>(data));
+}
+
+
 
 template<typename T>
 QByteArray KawaiConverter::toByteArray(const T &data)

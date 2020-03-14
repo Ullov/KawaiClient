@@ -5,21 +5,19 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QDir>
+#include <QJsonValue>
 #include <QVariant>
 #include <ctime>
-#include "curlclass.h"
-#include <QObject>
-#include <QRegularExpression>
 #include <thread>
 #include <chrono>
-#include <QDataStream>
-#include <QJsonValue>
-#include <QTextCodec>
+#include "curlclass.h"
 #include "logging.h"
 #include "fileidentifier.h"
 #include "KTools/kawaiconverter.h"
 #include "KTools/nativefs.h"
+#include "KTools/HtmlAstMaker/htmlobject.h"
+#include "optionshandler.h"
+#include "KTools/kenums.h"
 
 class ParserClass : public QObject
 {
@@ -28,9 +26,8 @@ public:
     ParserClass();
     ~ParserClass();
 
-    QString basePath; // path entered by user
-    Logging *logger;
-    CurlClass *cc = new CurlClass();
+    CurlClass *cc;
+    KEnums::Parsers parserType;
 
 protected:
     // JSON
@@ -47,18 +44,20 @@ protected:
     void delay(const int &seconds);
     QVector<QJsonObject> extractJsonObjectFromText(const QString &text);
     QString defineExtension(const QByteArray &file);
-
-
+    void writeInfoLog(const QString &message);
 
     // variables
     QString currUrl;
     QString rootPath; // part file path that permanent
     std::vector<std::string> chunk; // header for curl requests
     FileIdentifier *defExt;
+    QString logPath;
+    const QString logFile = "log.txt";
+    QString basePath;
 
 signals:
-    void downloadingFinished(QStringList mode, QJsonObject data);
-    void logMessage(QString message);
+    void downloadingFinished(const QStringList mode, const QJsonObject data);
+    void logMessage(const QString message);
 };
 
 #endif // PARSERCLASS_H

@@ -18,8 +18,8 @@ void YoutubeApi::download()
     };
 
     this->cc->setHeader(chunk);
-
     QByteArray data = cc->performing("https://www.youtube.com/watch?v=9twiJbZ9-nQ");
+
     QVector<QJsonObject> objectsVector = extractJsonObjectFromText(data);
     //QString videoId = objectsVector[0].value("currentVideoEndpoint").toObject().value("watchEndpoint").toObject().value("videoId").toString();
     QString videoId = "9twiJbZ9-nQ";

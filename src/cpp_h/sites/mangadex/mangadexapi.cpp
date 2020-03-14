@@ -1,6 +1,9 @@
 #include "mangadexapi.h"
 
-MangadexApi::MangadexApi() {}
+MangadexApi::MangadexApi() {
+    parserType = KEnums::Parsers::MangaDex;
+    basePath = OptionsHandler::parsersWritePathes[parserType];
+}
 
 
 void MangadexApi::download()
@@ -26,10 +29,10 @@ void MangadexApi::download()
     writeJsonDataInFile(object, rootPath + "\\txt", "chapterData.txt");
     QString type = "MangaDex";
     QString logPath = rootPath;
-    logger->cppPerformLogging("Manga with mangaId = " + mangaId + " start downloading.", type, logPath);
+    writeInfoLog("Manga with mangaId = " + mangaId + " start downloading.");
     currUrl = "https://mangadex.org/" + object.value("manga").toObject().value("cover_url").toString();
     downloadAndWriteFileWithDefinedExtension(currUrl, rootPath, "cover");
-    logger->cppPerformLogging("Cover downloaded.", type, logPath);
+    writeInfoLog("Cover downloaded.");
 
     QJsonObject chapters = object.value("chapter").toObject();
     QJsonObject chapter;
@@ -40,10 +43,10 @@ void MangadexApi::download()
     QString pageDownloadUrl;
     QString chapterTitle;
     QString volume;
-    logger->cppPerformLogging("Find " + QString::number(chaptersKeys.length()) + " chapters.", type, logPath);
+    writeInfoLog("Find " + QString::number(chaptersKeys.length()) + " chapters.");
     for (int i = 0; i < chaptersKeys.length(); i++)
     {
-        logger->cppPerformLogging("Start downloading chapter #" + QString::number(i) + ".", type, logPath);
+        writeInfoLog("Start downloading chapter #" + QString::number(i) + ".");
         langPrefix = chapters[chaptersKeys[i]].toObject().value("lang_code").toString();
         chapterOrder = chapters[chaptersKeys[i]].toObject().value("chapter").toString();
         chapterTitle = chapters[chaptersKeys[i]].toObject().value("title").toString();
@@ -59,14 +62,14 @@ void MangadexApi::download()
             for (int j = 0; j < pagesArray.size(); j++)
             {
                 downloadAndWriteFileWithDefinedExtension(pageDownloadUrl + '/' + pagesArray[j].toString(), rootPath + "\\chs\\" + langPrefix + "\\[(" + volume + ')' + chapterOrder + "](" + chapterTitle + ')', QString::number(j));
-                logger->cppPerformLogging("Page #" + QString::number(j) + " in chapter #" + QString::number(i) + " downloaded.", type, logPath);
+                writeInfoLog("Page #" + QString::number(j) + " in chapter #" + QString::number(i) + " downloaded.");
             }
         }
         else
-            logger->cppPerformLogging("Chapter #" + QString::number(i) + " with langPrefix = " + langPrefix + " skipped.", type, logPath);
+            writeInfoLog("Chapter #" + QString::number(i) + " with langPrefix = " + langPrefix + " skipped.");
     }
 
-    logger->cppPerformLogging("All selected chapters downloaded.", type, logPath);
+    writeInfoLog("All selected chapters downloaded.");
     QStringList mode;
     mode.push_back("mangadex");
     mode.push_back("void");

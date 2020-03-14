@@ -26,6 +26,8 @@ public:
     static void makePath(const QString &path);
     static bool fileExist(const QString &path);
     static bool dirExist(const QString &path);
+    template<typename T>
+    static T readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags = QIODevice::ReadOnly);
 
 private:
     QFile *file;

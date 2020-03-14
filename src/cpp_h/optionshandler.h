@@ -8,13 +8,27 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 #include <QVariant>
+#include "KTools/nativefs.h"
+#include "KTools/kawaiconverter.h"
+#include "KTools/kenums.h"
+#include "logging.h"
+
 
 class OptionsHandler : public QObject
 {
     Q_OBJECT
 public:
+
     OptionsHandler();
     QString getRootProgramPath();
+
+    QJsonObject appConfigs;
+    static QString configPath;
+    static QString configFile;
+    static QString rootProgramPath;
+    static QString logRootPath;
+    static QMap<KEnums::Parsers, QString> parsersWritePathes;
+    static QMap<KEnums::Parsers, QString> parsersNames;
 
 public slots:
     void setRootProgramPath(QString path);
@@ -23,10 +37,6 @@ public slots:
 private:
     void writeOnDrive();
 
-private:
-    QJsonObject appConfigs;
-    QString configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/config.txt";
-    QString rootProgramPath;
 
 signals:
     void sendRootProgramPath(QString path);

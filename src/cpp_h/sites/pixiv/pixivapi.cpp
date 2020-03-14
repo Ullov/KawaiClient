@@ -1,6 +1,11 @@
 #include "pixivapi.h"
 
-PixivApi::PixivApi() { }
+PixivApi::PixivApi()
+{
+    parserType = KEnums::Parsers::Pixiv;
+    basePath = OptionsHandler::parsersWritePathes[parserType];
+}
+
 PixivApi::~PixivApi() { }
 
 
@@ -71,7 +76,7 @@ void PixivApi::downloadUser()
     for (int i = 0; NativeFs::dirExist(rootPath); i++)
         rootPath = basePath + "\\" + '[' + userId + "](" + userName + ")[" + QString::number(i) + ']';
     logPath = rootPath;
-    logger->cppPerformLogging("Downloading user with ID " + userId + " started.", type, logPath);
+    writeInfoLog("Downloading user with ID " + userId + " started.");
     writeJsonDataInFile(object, rootPath + "\\txt", "userProfile.txt");
 
     currUrl = object.value("body").toObject().value("imageBig").toString();
@@ -81,10 +86,10 @@ void PixivApi::downloadUser()
     if (!currUrl.isEmpty())
     {
         downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "\\", "background");
-        logger->cppPerformLogging("User background downloaded.", type, logPath);
+        writeInfoLog("User background downloaded.");
     }
     else
-        logger->cppPerformLogging("User have an empty background.", type, logPath);
+        writeInfoLog("User have an empty background.");
 
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/top");
     writeJsonDataInFile(object, rootPath + "\\txt", "userProfileTop.txt");
@@ -92,17 +97,17 @@ void PixivApi::downloadUser()
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/all");
     writeJsonDataInFile(object, rootPath + "\\txt", "userProfileAll.txt");
 
-    logger->cppPerformLogging("All profile files successfully downloaded.", type, logPath);
+    writeInfoLog("All profile files successfully downloaded.");
 
     QStringList illusts = object.value("body").toObject().value("illusts").toObject().keys();
     QStringList mangas = object.value("body").toObject().value("manga").toObject().keys();
     QStringList novels = object.value("body").toObject().value("novels").toObject().keys();
 
-    logger->cppPerformLogging("Find " + QString::number(illusts.size()) + " illustrations.", type, logPath);
+    writeInfoLog("Find " + QString::number(illusts.size()) + " illustrations.");
 
     for (int i = 0; i < illusts.size(); i++) // pictures download
     {
-        logger->cppPerformLogging("(" + QString::number(i) + '/' + QString::number(illusts.size()) + ") Start downloading post with ID " + illusts[i], type, logPath);
+        writeInfoLog("(" + QString::number(i) + '/' + QString::number(illusts.size()) + ") Start downloading post with ID " + illusts[i]);
 
         object = downloadJson("https://www.pixiv.net/ajax/illust/" + illusts[i]);
         QString illustType = object.value("body").toObject().value("illustType").toVariant().toString();
@@ -139,13 +144,13 @@ void PixivApi::downloadUser()
         }
 
 
-        logger->cppPerformLogging("Post with ID " + illusts[i] + " successfully downloaded.", type, logPath);
+        writeInfoLog("Post with ID " + illusts[i] + " successfully downloaded.");
     }
 
-    logger->cppPerformLogging("Find " + QString::number(mangas.size()) + " manga posts.", type, logPath);
+    writeInfoLog("Find " + QString::number(mangas.size()) + " manga posts.");
     for (int i = 0; i < mangas.size(); i++) // mangas download
     {
-        logger->cppPerformLogging("(" + QString::number(i) + '/' + QString::number(mangas.size()) + ") Start downloading post with ID " + mangas[i], type, logPath);
+        writeInfoLog("(" + QString::number(i) + '/' + QString::number(mangas.size()) + ") Start downloading post with ID " + mangas[i]);
 
         object = downloadJson("https://www.pixiv.net/ajax/illust/" + mangas[i]);
         writeJsonDataInFile(object, rootPath + "\\txt\\manga\\about", mangas[i] + ".txt");
@@ -165,13 +170,13 @@ void PixivApi::downloadUser()
         }
         cc->setHeader(chunk);
 
-        logger->cppPerformLogging("Post with ID " + mangas[i] + " successfully downloaded.", type, logPath);
+        writeInfoLog("Post with ID " + mangas[i] + " successfully downloaded.");
     }
 
-    logger->cppPerformLogging("Find " + QString::number(novels.size()) + " novels.", type, logPath);
+    writeInfoLog("Find " + QString::number(novels.size()) + " novels.");
     for (int i = 0; i < novels.size(); i++)
     {
-        logger->cppPerformLogging("(" + QString::number(i) + '/' + QString::number(novels.size()) + ") Start downloading novel with ID " + novels[i], type, logPath);
+        writeInfoLog("(" + QString::number(i) + '/' + QString::number(novels.size()) + ") Start downloading novel with ID " + novels[i]);
 
         object = downloadJson("https://www.pixiv.net/ajax/novels/comments/roots?novel_id=" + novels[i] + "&limit=1000");
         writeJsonDataInFile(object, rootPath + "\\txt\\novels\\comments", novels[i] + ".txt");
@@ -187,10 +192,10 @@ void PixivApi::downloadUser()
         novelContent = object.value("body").toObject().value("content").toVariant().toByteArray();
         NativeFs::writeFile(novelContent, rootPath + "\\novel\\" + novels[i], "content.txt");
 
-        logger->cppPerformLogging("Novel with ID " + novels[i] + " successfully downloaded.", type, logPath);
+        writeInfoLog("Novel with ID " + novels[i] + " successfully downloaded.");
     }
 
-    logger->cppPerformLogging("Downloading user with ID " + userId + " and name " + userName + " completed.", type, logPath);
+    writeInfoLog("Downloading user with ID " + userId + " and name " + userName + " completed.");
     QStringList mode;
     mode.push_back("pixiv");
     mode.push_back("void");

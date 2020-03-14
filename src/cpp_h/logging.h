@@ -2,14 +2,10 @@
 #define LOGGING_H
 
 #include <QObject>
-#include <string>
-#include <QDir>
-#include <QDataStream>
-#include <QVariant>
-#include <QDate>
-#include <QTime>
-#include <QElapsedTimer>
-#include <QTimer>
+#include <QDateTime>
+#include "KTools/nativefs.h"
+#include "optionshandler.h"
+#include "KTools/kenums.h"
 
 class Logging : public QObject
 {
@@ -17,30 +13,20 @@ class Logging : public QObject
 public:
     Logging();
 
-    std::string filePath;
-    std::string systemLogPath;
-    void cppPerformLogging(const QString &message, const QString &type, const QString &path);
-    void startTimer();
-
-    int currentItem;
-    int allItems;
-    int allTime;
-    int previousTime;
-    quint64 fileSize;
-    QTimer *timer;
-    QElapsedTimer *eTimer;
-
-public slots:
-    void performLogging(const QString &message, const QString &type);
-    void performDelayedLogging(const QString &message, const QString &type);
-    void flushDelayedMessages();
-
-
 private:
-    std::string delayedMessagesBuffer;
+    static QString logFileName;
+    static QMap<KEnums::LogType, QString> logTypePath;
+    static QMap<KEnums::LogType, QString> logTypeNames;
 
 signals:
-    void logMessage(const QString &message);
+    void logMessage(const QString message);
+
+public:
+    static void writeCustomLog(const QString &message, const QString &from, const KEnums::LogType &type = KEnums::LogType::Custom);
+    static void writeCustomLog(const QString &message, const QString &from, const KEnums::LogType &type, const QString &path, const QString &fileName);
+    static void writeInfo(const QString &message, const QString &from);
+    static void writeError(const QString &message, const QString &from);
+    static void writeDebug(const QString &message, const QString &from);
 };
 
 #endif // LOGGING_H
