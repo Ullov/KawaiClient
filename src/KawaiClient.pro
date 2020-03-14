@@ -61,6 +61,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     cpp_h/KTools/HtmlAstMaker/htmlobject.h \
     cpp_h/KTools/HtmlAstMaker/htmltag.h \
+    cpp_h/KTools/kenums.h \
     cpp_h/KTools/stringoperations.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.h \
