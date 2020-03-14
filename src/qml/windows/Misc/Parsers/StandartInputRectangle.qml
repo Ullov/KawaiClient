@@ -45,7 +45,7 @@ Rectangle {
         anchors.right: statusRectangle.left
         anchors.margins: 5
         anchors.verticalCenter: parent.verticalCenter
-        onClicked: onClickFunctionList[functionType](inputTextField.text, systemName)
+        onClicked: onClickFunctionList[functionType](inputTextField.text, systemName, modeList[modeNumber])
     }
     Rectangle {
         id: statusRectangle

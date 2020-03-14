@@ -4,9 +4,13 @@ import "../../../QmlIncludes"
 
 Rectangle {
     property var onClickFunctionList: {
-        "standart": function(text, systemName){standartOnClickFunction(text, systemName)},
+        "standart": function(text, systemName, gMode){standartOnClickFunction(text, systemName, gMode)},
         "mangadex": function(text, enChecked, ruChecked, otherChecked){mangadexOnClickFunction(text, enChecked, ruChecked, otherChecked)}
     }
+    property var modeList: [
+        "",
+        "download"
+    ]
 
     anchors.fill: parent
     color: "#2849de"
@@ -27,9 +31,9 @@ Rectangle {
     }
     ListModel {
         id: parsersModelItem
-        ListElement {name: "Pixiv"; systemName: "pixiv"; placeholder:"Enter user ID..."; functionType:"standart"}
-        ListElement {name: "MangaDex"; systemName: "mangadex"; placeholder:"Enter manga ID..."; functionType:"mangadex"}
-        ListElement {name: "YouTube"; systemName: "youtube"; placeholder:"Enter video URL..."; functionType:"standart"}
+        ListElement {name: "Pixiv"; systemName: "pixiv"; placeholder:"Enter user ID..."; functionType:"standart"; modeNumber: 0}
+        ListElement {name: "MangaDex"; systemName: "mangadex"; placeholder:"Enter manga ID..."; functionType:"mangadex"; modeNumber: 0}
+        ListElement {name: "ExHentai"; systemName: "exhentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; modeNumber: 1}
     }
     Component {
         id: parsersDelegateItem
@@ -47,10 +51,14 @@ Rectangle {
             }
         }
     }
-    function standartOnClickFunction(text, systemName)
+    function standartOnClickFunction(text, systemName, gMode)
     {
         var param = [text]
-        var mode = [systemName]
+        var mode;
+        if (gMode === "")
+            mode = [systemName]
+        else
+            mode = [systemName, gMode]
         apiHandler.universalStartDownloading(param, mode)
     }
     function mangadexOnClickFunction(text, enChecked, ruChecked, otherChecked)
