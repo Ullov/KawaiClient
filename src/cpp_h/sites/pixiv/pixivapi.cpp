@@ -2,8 +2,7 @@
 
 PixivApi::PixivApi()
 {
-    parserType = KEnums::Parsers::Pixiv;
-    basePath = OptionsHandler::parsersWritePathes[parserType];
+    setParserType(KEnums::Parsers::Pixiv);
 }
 
 PixivApi::~PixivApi() { }

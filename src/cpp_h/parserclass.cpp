@@ -139,5 +139,12 @@ QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
 
 void ParserClass::writeInfoLog(const QString &message)
 {
-    Logging::writeCustomLog(message, OptionsHandler::parsersNames[parserType], KEnums::LogType::Info, logPath, logFile);
+    Logging::writeCustomLog(message, OptionsHandler::parsersNames[parserType], KEnums::LogType::Info, rootPath, logFile);
+}
+
+void ParserClass::setParserType(const KEnums::Parsers type)
+{
+    parserType = type;
+    basePath = OptionsHandler::rootProgramPath + '/' + OptionsHandler::parsersWritePathes[type];
+    parserName = OptionsHandler::parsersNames[type];
 }

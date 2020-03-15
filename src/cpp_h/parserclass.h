@@ -45,6 +45,7 @@ protected:
     QVector<QJsonObject> extractJsonObjectFromText(const QString &text);
     QString defineExtension(const QByteArray &file);
     void writeInfoLog(const QString &message);
+    void setParserType(const KEnums::Parsers type);
 
     // variables
     QString currUrl;
@@ -54,6 +55,7 @@ protected:
     QString logPath;
     const QString logFile = "log.txt";
     QString basePath;
+    QString parserName;
 
 signals:
     void downloadingFinished(const QStringList mode, const QJsonObject data);

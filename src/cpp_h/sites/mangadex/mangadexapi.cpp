@@ -1,8 +1,7 @@
 #include "mangadexapi.h"
 
 MangadexApi::MangadexApi() {
-    parserType = KEnums::Parsers::MangaDex;
-    basePath = OptionsHandler::parsersWritePathes[parserType];
+    setParserType(KEnums::Parsers::MangaDex);
 }
 
 

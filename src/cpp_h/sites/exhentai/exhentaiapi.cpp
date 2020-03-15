@@ -17,8 +17,7 @@ ExhentaiApi::ExhentaiApi()
         "Cache-Control: no-cache"
     };
 
-    parserType = KEnums::Parsers::ExHentai;
-    basePath = OptionsHandler::parsersWritePathes[parserType];
+    setParserType(KEnums::Parsers::ExHentai);
 }
 
 void ExhentaiApi::download()

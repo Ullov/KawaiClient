@@ -2,8 +2,7 @@
 
 MangairoApi::MangairoApi()
 {
-    parserType = KEnums::Parsers::MangaIro;
-    basePath = OptionsHandler::parsersWritePathes[parserType];
+    setParserType(KEnums::Parsers::MangaIro);
 }
 
 void MangairoApi::download()
