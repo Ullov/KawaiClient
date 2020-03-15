@@ -9,10 +9,11 @@ bool HtmlObject::makeAst(const QString &data)
 {
     htmlText = &data;
     qint32 pos = 0;
-    return setRootTag(*readTag(pos, htmlText->size()));
+
+    return setRootTag(readTag(pos, htmlText->size()));
 }
 
-HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
+HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
 {
     HtmlTag *tagClass = new HtmlTag();
     while (pos < endPos)
@@ -22,8 +23,6 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
             ++pos;
             while (htmlText->at(pos) != "<")
                 ++pos;
-            //tagClass->status = HtmlTag::StatusEnum::TagInvalid;
-            //return tagClass;
         }
         else if (htmlText->at(pos) == "<")
         {
@@ -33,7 +32,7 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
             if (htmlText->at(pos) == "/")
             {
                 tagClass->status = HtmlTag::StatusEnum::TagClosingDetected;
-                return tagClass;
+                return *tagClass;
             }
             while (pos < endPos)
             {
@@ -44,12 +43,7 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                         tagClosed = true; // tag end detected
                         ++pos;
                     }
-                    else if (htmlText->mid(pos, 2) == "/>")
-                    {
-                        tagClosed = true; // tag end detected
-                        pos += 2;
-                    }
-                    else if (htmlText->at(pos).isSpace() || htmlText->at(pos) == "\n" || htmlText->at(pos) == "\r")
+                    else if (htmlText->at(pos).isSpace() || htmlText->at(pos) == "/")
                     {
                         ++pos; // skip space char after < char
                     }
@@ -67,18 +61,34 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                 else
                 {
                     qint32 tmpPos = pos; // this also ABSOLUTE end position
-                    qint32 nameSize = tagClass->getName()->size();
-                    QString tmpTagName = "</" + *tagClass->getName() + ">"; // thank to this variable ast maker now works in 6 times faster
+                    ++tmpPos;
+                    QString tagOpeningPart = "<" + tagClass->getName();
+                    qint32 tagOpSize = tagOpeningPart.size();
+                    QString tagEndPart = "</" + tagClass->getName() + ">"; // thank to this variable ast maker now works in 6 times faster
+                    qint32 tagEdSize = tagEndPart.size();
+                    qint32 sameTagCounter = 0;
                     while (tmpPos < endPos + 1)
                     {
-                        if (htmlText->mid(tmpPos, 3 + nameSize) == tmpTagName)
+                        if (htmlText->mid(tmpPos, tagEdSize) == tagEndPart)
                         {
-                            tagClass->setInnerContent(htmlText->mid(pos, tmpPos - pos));
-                            tagClass->setSelfclosingness(true);
-                            break;
+                            if (sameTagCounter == 0)
+                            {
+                                tagClass->setInnerContent(htmlText->mid(pos, tmpPos - pos));
+                                tagClass->setSelfclosingness(true);
+                                break;
+                            }
+                            else
+                            {
+                                --sameTagCounter;
+                                ++tmpPos;
+                            }
                         }
                         else
                         {
+                            if (htmlText->mid(tmpPos - 1, tagOpSize) == tagOpeningPart)
+                            {
+                                ++sameTagCounter;
+                            }
                             ++tmpPos;
                         }
                     }
@@ -86,7 +96,7 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                     {
                         while (pos < tmpPos)
                         {
-                            HtmlTag *newTag = readTag(pos, tmpPos);
+                            HtmlTag *newTag = &readTag(pos, tmpPos);
                             if (newTag->status == HtmlTag::StatusEnum::TagValid)
                             {
                                 tagClass->addChildTag(*newTag);
@@ -101,12 +111,12 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                             }
                         }
                         tagClass->status = HtmlTag::StatusEnum::TagValid;
-                        return tagClass;
+                        return *tagClass;
                     }
                     else
                     {
                         tagClass->status = HtmlTag::StatusEnum::TagValid;
-                        return tagClass;
+                        return *tagClass;
                     }
                 }
             }
@@ -115,11 +125,11 @@ HtmlTag* HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
         {
             tagClass->status = HtmlTag::StatusEnum::TagInvalid; // error handling
             pos++;
-            return tagClass;
+            return *tagClass;
         }
     }
     tagClass->status = HtmlTag::StatusEnum::TagValid;
-    return tagClass;
+    return *tagClass;
 }
 
 bool HtmlObject::readTagName(qint32 &pos, HtmlTag &tagClass)

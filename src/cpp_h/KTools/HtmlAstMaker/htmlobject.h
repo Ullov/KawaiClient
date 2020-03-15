@@ -19,7 +19,7 @@ private:
     const QString *htmlText;
     qint32 tagStartPos;
 
-    HtmlTag* readTag(qint32 &pos, const qint32 &endPos);
+    HtmlTag& readTag(qint32 &pos, const qint32 &endPos);
     bool readTagName(qint32 &pos, HtmlTag &tagClass);
     bool readTagAttributes(qint32 &pos, HtmlTag &tagClass);
     bool setRootTag(HtmlTag &tag);

@@ -3,7 +3,7 @@
 HtmlTag::HtmlTag()
 {
     name = new QString();
-    tags = new QMap<QString, QString>();
+    attributes = new QMap<QString, QString>();
     innerContent = new QString();
     childTags = new QVector<HtmlTag*>();
 }
@@ -11,7 +11,7 @@ HtmlTag::HtmlTag()
 HtmlTag::~HtmlTag()
 {
     delete name;
-    delete tags;
+    delete attributes;
     delete innerContent;
     if (parentTagSetted)
         delete parentTag;
@@ -36,29 +36,29 @@ void HtmlTag::setName(const QString &newName)
     name = new QString(newName);
 }
 
-const QString* HtmlTag::getName()
+const QString& HtmlTag::getName()
 {
-    return name;
+    return *name;
 }
 
 void HtmlTag::addAttribute(const QString &key, const QString &value)
 {
-    tags->insert(key, value);
+    attributes->insert(key, value);
 }
 
 QString HtmlTag::getAttributeValue(const QString &key)
 {
-    return tags->value(key);
+    return attributes->value(key);
 }
 
-const QMap<QString, QString>* HtmlTag::getAttributes()
+const QMap<QString, QString>& HtmlTag::getAttributes()
 {
-    return tags;
+    return *attributes;
 }
 
-void HtmlTag::clearTags()
+void HtmlTag::clearAttributes()
 {
-    tags->clear();
+    attributes->clear();
 }
 
 void HtmlTag::setInnerContent(const QString &content)
@@ -67,9 +67,9 @@ void HtmlTag::setInnerContent(const QString &content)
     innerContent = new QString(content);
 }
 
-const QString* HtmlTag::getInnerContent()
+const QString& HtmlTag::getInnerContent()
 {
-    return innerContent;
+    return *innerContent;
 }
 
 void HtmlTag::addChildTag(HtmlTag &localTag)
@@ -78,9 +78,9 @@ void HtmlTag::addChildTag(HtmlTag &localTag)
     localTag.setParentTag(*this);
 }
 
-const QVector<HtmlTag*>* HtmlTag::getChildTags()
+const QVector<HtmlTag*>& HtmlTag::getChildTags()
 {
-    return childTags;
+    return *childTags;
 }
 
 void HtmlTag::setParentTag(HtmlTag &localTag)
@@ -89,7 +89,17 @@ void HtmlTag::setParentTag(HtmlTag &localTag)
     parentTagSetted = true;
 }
 
-HtmlTag* HtmlTag::getParentTag()
+HtmlTag& HtmlTag::getParentTag()
 {
-    return parentTag;
+    return *parentTag;
+}
+
+HtmlTag& HtmlTag::operator[](const qint32 numb)
+{
+    return *childTags->at(numb);
+}
+
+QPair<QString, QString> HtmlTag::operator[](const QString &localAttributeName)
+{
+    return QPair<QString, QString>(localAttributeName,  attributes->find(localAttributeName).value());
 }
