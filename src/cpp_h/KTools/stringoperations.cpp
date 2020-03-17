@@ -68,3 +68,41 @@ void StringOperations::executeRegex(const QString &data, const QString &pattern,
         result.append(match.captured(1));
     }
 }
+
+void StringOperations::executeRegex(const QString &data, const QString &pattern, QVector<double> &result)
+{
+    result.clear();
+    QRegularExpression re(pattern);
+    QRegularExpressionMatchIterator i = re.globalMatch(data);
+    while (i.hasNext())
+    {
+        QRegularExpressionMatch match = i.next();
+        result.append(match.captured(1).toDouble());
+    }
+}
+
+void StringOperations::executeRegex(const QString &data, const QString &pattern, QVector<qint64> &result)
+{
+    result.clear();
+    QRegularExpression re(pattern);
+    QRegularExpressionMatchIterator i = re.globalMatch(data);
+    while (i.hasNext())
+    {
+        QRegularExpressionMatch match = i.next();
+        result.append(match.captured(1).toLong());
+    }
+}
+
+QVector<qint64> StringOperations::getIntegerNumberFromString(const QString &str)
+{
+    QVector<qint64> result;
+    executeRegex(str, "(\\d+.\\d+)", result);
+    return result;
+}
+
+QVector<double> StringOperations::getDoubleNumberFromString(const QString &str)
+{
+    QVector<double> result;
+    executeRegex(str, "(\\d+[.,]\\d+|\\d+)", result);
+    return result;
+}

@@ -15,6 +15,10 @@ public:
     static void deleteChars(QString &inp, const QVector<QString> &whatDelete);
     static void executeRegex(const QString &data, const QVector<QString> &pattens, QVector<QVector<QVector<QString>>> &regexResult);
     static void executeRegex(const QString &data, const QString &pattern, QVector<QString> &result);
+    static void executeRegex(const QString &data, const QString &pattern, QVector<double> &result);
+    static void executeRegex(const QString &data, const QString &pattern, QVector<qint64> &result);
+    static QVector<qint64> getIntegerNumberFromString(const QString &str);
+    static QVector<double> getDoubleNumberFromString(const QString &str);
 };
 
 #endif // STRINGOPERATIONS_H
