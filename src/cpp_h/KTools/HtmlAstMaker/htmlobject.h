@@ -11,9 +11,9 @@ public:
     HtmlObject();
 
     bool makeAst(const QString &data);
+    HtmlTag *rootTag;
 
 private:
-    HtmlTag *rootTag;
 
     bool escapedChar = false;
     const QString *htmlText;
