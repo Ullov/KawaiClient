@@ -17,16 +17,16 @@ public:
     void setParentTag(HtmlTag &localTag);
 
     bool isSelfclosing();
-    const QString& getName();
+    QString& getName();
     QString getAttributeValue(const QString &key);
-    const QMap<QString, QString>& getAttributes();
-    const QString& getInnerContent();
-    const QVector<HtmlTag*>& getChildTags();
+    QMap<QString, QString>& getAttributes();
+    QString& getInnerContent();
+    QVector<HtmlTag*>& getChildTags();
     HtmlTag& getParentTag();
+    qint32 getChildTagCounter();
 
     void clearAttributes();
-    HtmlTag& operator[](const qint32 numb); // returns child tag ny number
-    QPair<QString, QString> operator[](const QString &localAttributeName); // returns attribute by name
+    HtmlTag& find(const qint32 numb); // returns child tag ny number
 
     enum class StatusEnum
     {
@@ -38,12 +38,13 @@ public:
 
 private:
     bool selfclosing = false;
-    QString *name;
-    QMap<QString, QString> *attributes;
-    QString *innerContent;
-    QVector<HtmlTag*> *childTags;
+    QString name;
+    QMap<QString, QString> attributes;
+    QString innerContent;
+    QVector<HtmlTag*> childTags;
     HtmlTag *parentTag;
     bool parentTagSetted = false;
+    qint32 childTagCounter = 0;
 };
 
 #endif // HTMLTAG_H
