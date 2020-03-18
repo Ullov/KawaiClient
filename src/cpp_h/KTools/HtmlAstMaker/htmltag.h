@@ -27,6 +27,7 @@ public:
 
     void clearAttributes();
     HtmlTag& find(const qint32 numb); // returns child tag ny number
+    bool isExist(qint32 childTagIndex);
 
     enum class StatusEnum
     {

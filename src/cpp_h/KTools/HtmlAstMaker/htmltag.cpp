@@ -95,3 +95,11 @@ qint32 HtmlTag::getChildTagCounter()
 {
     return childTagCounter;
 }
+
+bool HtmlTag::isExist(qint32 childTagIndex)
+{
+    if (childTagIndex < childTags.size())
+        return true;
+    else
+        return false;
+}
