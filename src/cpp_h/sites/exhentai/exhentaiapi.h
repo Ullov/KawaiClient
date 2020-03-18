@@ -13,11 +13,16 @@ public:
 
 public slots:
     void download();
-    void viewFrontPage();
 
 private:
-    QVector<QString> regexRersult;
-    QString pattern;
+    // variables
+    QString galleryUrl;
+
+    // functions
+    QJsonObject getGalleryInfo(HtmlObject &htmlAst);
+    QJsonArray getComments(HtmlObject &htmlAst);
+    QJsonArray getLinksToPages(HtmlObject &firstPageAst);
+    void getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages);
 };
 
 #endif // EXHENTAIAPI_H

@@ -4,248 +4,171 @@ ExhentaiApi::ExhentaiApi()
 {
     chunk = {
         "Host: exhentai.org",
-        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0",
-        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language: en-GB,en;q=0.5",
+        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0",
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language: ja,en-US;q=0.7,en;q=0.3"
         "Accept-Encoding: gzip, deflate, br",
-        "Referer: https://exhentai.org/",
+        "Referer: https://exhentai.org/g/1583231/db7901c0b7/",
         "DNT: 1",
         "Connection: keep-alive",
-        "Cookie: ipb_member_id=3603032; ipb_pass_hash=01a83d86714fa441982e362b9e480ca4; igneous=8eb0a9955; sk=rtzh0ml57ih3uhe9232dfnkwuyw3; s=440e72582",
+        "Cookie: ipb_member_id=3603032; ipb_pass_hash=01a83d86714fa441982e362b9e480ca4; igneous=8eb0a9955; sk=rtzh0ml57ih3uhe9232dfnkwuyw3",
         "Upgrade-Insecure-Requests: 1",
         "Pragma: no-cache",
         "Cache-Control: no-cache"
     };
-
+    this->cc->setHeader(chunk);
     setParserType(KEnums::Parsers::ExHentai);
 }
 
 void ExhentaiApi::download()
 {
-    std::vector<std::string> imageChunk = {
-        "Host: exhentai.org",
-        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:68.0) Gecko/20100101 Firefox/68.0",
-        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language: en-GB,en;q=0.5",
-        "Accept-Encoding: gzip, deflate, br",
-        "DNT: 1",
-        "Connection: keep-alive",
-        "Cookie: ipb_member_id=3603032; ipb_pass_hash=01a83d86714fa441982e362b9e480ca4; igneous=8eb0a9955; sk=rtzh0ml57ih3uhe9232dfnkwuyw3; s=440e72582",
-        "Upgrade-Insecure-Requests: 1",
-        "Pragma: no-cache",
-        "Cache-Control: no-cache"
-    };
-
-    this->cc->setHeader(chunk);
-
-    QVector<QString> pages;
-    int countGalleryPages;
-    rootPath = basePath;
-    QString url = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments"; // 1583231/db7901c0b7
-    //currUrl = url;
-    currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
+    currUrl = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments"; // 1583231/db7901c0b7
+    //currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
+    galleryUrl = "https://exhentai.org/g/" + galleryCode + '/';
     QString data = cc->performing(currUrl.toUtf8());
-    HtmlObject *hObj = new HtmlObject();
-    hObj->makeAst(data);
+    HtmlObject *htmlAst = new HtmlObject();
+    htmlAst->makeAst(data);
+    QJsonObject info = getGalleryInfo(*htmlAst);
+    currUrl = info["name"].toArray().at(0).toString();
+    KawaiConverter::toNtfsCompatibleString(currUrl);
+    rootPath = basePath + "/" + currUrl;
+    writeInfoLog("Downloading started. Info extracted.");
+    QJsonArray comments = getComments(*htmlAst);
+    writeInfoLog("Comments extracted.");
+    QJsonArray pagesLinks = getLinksToPages(*htmlAst);
+    writeInfoLog("Page links extracted.");
+    QJsonObject allInfo;
+    allInfo["info"] = info;
+    allInfo["comments"] = comments;
+    allInfo["pagesLinks"] = pagesLinks;
+    writeJsonDataInFile(allInfo, rootPath, "info.txt");
+    NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QString>(allInfo).toUtf8(), rootPath, "info.json");
+    writeInfoLog("All info data writed.");
 
-    pattern = "<title>(.*) - ExHentai.org<\\/title>";
-    StringOperations::executeRegex(data, pattern, regexRersult);
-    QString titleName = regexRersult[0];
-    KawaiConverter::convertHtmlHexCodes(titleName);
-    KawaiConverter::toNtfsCompatibleString(titleName);
-    QString type = "ExHentai";
-    QString logPath = rootPath + '\\' + titleName;
-    writeInfoLog("Gallery with URL " + url + " start downloading.");
-    writeInfoLog("Start downloading comments.");
-
-    QVector<QString> pattenrs;
-    QVector<QVector<QVector<QString>>> regexResult1;
-    pattenrs.append("<div class=\"c1\"><div class=\"c2\"><div class=\"c3\">([^<]+)<a href=\"([^\"]+)\">([^<]+)<\\/a><\\/div><div class=\"c4 nosel\">(?><a name=\"ulcomment\"><\\/a>[^<]+<\\/div>|\\[<a(?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<\\/a>] &nbsp; \\[<a (?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<\\/a>]<\\/div><div (?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<span (?> ?[\\S]+=\"[^\"]*\" ?)*>[^<]+<\\/span><\\/div>)?<div class=\"c\">(?><\\/?div>){2}<div class=\"c6\" id=\"[^\"]*\">([^<]*)");
-    StringOperations::executeRegex(data, pattenrs, regexResult1);
-    QJsonObject comments;
-    QJsonArray tmp;
-    for (int i = 0; i < regexResult1[0].size(); i++)
+    delete htmlAst;
+    for (int i = 0; i < pagesLinks.size(); i++)
     {
-        KawaiConverter::convertHtmlHexCodes(regexResult1[0][i][1]);
-        KawaiConverter::convertHtmlHexCodes(regexResult1[0][i][4]);
-        comments["date"] = regexResult1[0][i][1];
-        comments["userLink"] = regexResult1[0][i][2];
-        comments["userName"] = regexResult1[0][i][3];
-        comments["content"] = regexResult1[0][i][4];
-        tmp.push_back(comments);
-        comments = QJsonObject();
-    }
-    comments["data"] = tmp;
-    writeJsonDataInFile(comments, rootPath + '\\' + titleName, "comments.txt");
-
-    writeInfoLog("Comments downloaded.");
-    writeInfoLog("Gallery name: " + titleName + '.');
-
-    pattern = "https:\\/\\/exhentai\\.org\\/g\\/[0-9]+\\/[0-9a-z]+\\/\\?p=([0-9]+)";
-    StringOperations::executeRegex(data, pattern, regexRersult);
-    if (!regexRersult.empty())
-    {
-        countGalleryPages = std::atoi(regexRersult[regexRersult.size() - 2].toUtf8()) + 1;
-        writeInfoLog("Here " + QString::number(countGalleryPages) + " gallery pages.");
-    }
-    else
-    {
-        countGalleryPages = 1;
-        writeInfoLog("Here one gallery page.");
+        htmlAst = new HtmlObject();
+        currUrl = pagesLinks[i].toObject().value("linkToPage").toString();
+        htmlAst->makeAst(cc->performing(currUrl.toStdString().c_str()));
+        if (htmlAst->rootTag->find(1).find(1).find(6).isExist(1))
+            currUrl = htmlAst->rootTag->find(1).find(1).find(6).find(1).getAttributeValue("href");
+        else
+            currUrl = htmlAst->rootTag->find(1).find(1).find(2).find(0).find(0).getAttributeValue("src");
+        KawaiConverter::convertHtmlEntities(currUrl);
+        downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "/pages/", QString::number(i));
+        writeInfoLog("Page #" + QString::number(i) + " downloaded.");
     }
 
-
-    int g = 0;
-    for (int j = 0; j < countGalleryPages; j++)
-    {
-        if (j != 0)
-        {
-            currUrl = url + "?p=" + QString::number(j);
-            data = cc->performing(currUrl.toUtf8());
-        }
-
-        pattern = "https://exhentai.org/s/([0-9a-z]+/[0-9a-z-]+)";
-        StringOperations::executeRegex(data, pattern, regexRersult);
-        pages = regexRersult;
-        writeInfoLog("In this gallery page " + QString::number(pages.size()) + " pages.");
-
-        for (int i = 0; i < pages.size(); i++)
-        {
-            writeInfoLog("Start downloading page (" + QString::number(i) + '/' + QString::number(pages.size()) + ") from (" + QString::number(j) + '/' + QString::number(countGalleryPages) + ") gallery page.");
-            currUrl = "https://exhentai.org/s/" + pages[i];
-            data = cc->performing(currUrl.toUtf8());
-            pattern = "(https:\\/\\/exhentai\\.org\\/fullimg\\.php\\?gid=[0-9]+&amp;page=[0-9]+&amp;key=[a-z0-9]+)";
-            StringOperations::executeRegex(data, pattern, regexRersult);
-            if (regexRersult.empty())
-            {
-                pattern = "(https?:\\/\\/[a-z0-9\\.:]+\\/h\\/[a-zA-Z0-9-\\/=;_]+\\.[a-z]{0,3})";
-                StringOperations::executeRegex(data, pattern, regexRersult);
-            }
-            KawaiConverter::convertHtmlEntities(regexRersult[0]);
-            cc->setHeader(imageChunk);
-            downloadAndWriteFileWithDefinedExtension(regexRersult[0], rootPath + '\\' + titleName, QString::number(g));
-            cc->setHeader(chunk);
-            writeInfoLog("Downloaded page (" + QString::number(i) + '/' + QString::number(pages.size()) + ").");
-            g++;
-            delay(1);
-        }
-    }
-
-    writeInfoLog("All downloaded.");
+    writeInfoLog("Gallery downloaded.");
     QStringList mode;
     mode.push_back("exhentai");
     mode.push_back("void");
     emit downloadingFinished(mode, QJsonObject());
-// http://109.60.208.52:4458/h/562e3fbf9bc4502223ebb56fd1459232b69a9381-114397-650-909-jpg/keystamp=1563391800-8d2c6b354d;fileindex=71281496;xres=2400/75777774_p16_FF34.jpg
-// http://91.122.52.237:15319/h/4975c38ddda3df9b8b36fffd8ae4b1d81d7a00e3-110289-650-909-jpg/keystamp=1563397500-a3f57f8685;fileindex=71281495;xres=2400/75777774_p15_FF34.jpg
-
-// view-source:https://exhentai.org/s/049508088a/1448071-1
-// https://exhentai.org/s/43c1a388a3/1448071-16
-// view-source:https://exhentai.org/g/1448071/4ed35e639a/
-// https://exhentai.org/g/1448071/4ed35e639a/
-// view-source:https://exhentai.org/g/1446402/6e95de3c54/
-// https://exhentai.org/s/298241baa5/1446402-2
-// https://exhentai.org/g/1446402/6e95de3c54/
-//
-
-// (http:\/\/[0-9\.:]+\/h\/[a-zA-Z0-9-\/=;_]+.jpg)
-// (https?:\/\/[0-9\\.:]+\/h\/[a-zA-Z0-9-\/=;_]+\.[a-z]{0,3})
-// (https?:\/\/[a-z0-9\\.:]+\/h\/[a-zA-Z0-9-\/=;_]+\.[a-z]{0,3})
-
-// <div class="c1"><div class="c2"><div class="c3">([^<]+)<a href="([^"]+)">([^<]+)<\/a><\/div><div class="c4 nosel">(?><a name="ulcomment"><\/a>[^<]+<\/div>|\[<a(?> ?[\S]+="[^"]*" ?)*>[^<]+<\/a>] &nbsp; \[<a (?> ?[\S]+="[^"]*" ?)*>[^<]+<\/a>]<\/div><div (?> ?[\S]+="[^"]*" ?)*>[^<]+<span (?> ?[\S]+="[^"]*" ?)*>[^<]+<\/span><\/div>)?<div class="c">(?><\/?div>){2}<div class="c6" id="[^"]*">([^<]*)
 }
 
-
-void ExhentaiApi::viewFrontPage()
+QJsonObject ExhentaiApi::getGalleryInfo(HtmlObject &htmlAst)
 {
-    this->cc->setHeader(chunk);
-    QString data = cc->performing("https://exhentai.org?inline_set=dm_e");
-    pattern = "<div style=\"[^\"]+\"><a href=\"([^\"]+)\"><img style=\"[^\"]+\" alt=\"[^\"]+\" title=\"([^\"]+)\" src=\"([^\"]+)\" \\/><\\/a><\\/div>|<div class=\"gtl?\" title=\"([^:]*):([^:\"]+)\">([^<]+)<\\/div>";
-    std::vector<std::vector<QString>> result;
-    QJsonObject root;
-    QJsonArray titles;
-    QJsonObject titleItems;
-    QJsonObject tags; // because of bug first item is void
-    QJsonArray tagTypeItems;
-    QString currentTagType = "";
-    QString tmpName;
-    QString tmpUrl;
-    QString tmpCoverUrl;
-    QRegularExpression re(pattern);
-    QRegularExpressionMatchIterator i = re.globalMatch(data);
-    for (int j = 0; i.hasNext(); j++)
+    QJsonObject info;
+    QJsonObject tmpObj;
+    QJsonArray tmp;
+    HtmlTag &hTag = htmlAst.rootTag->find(1).find(3).find(1);
+    for (int i = 0; i < hTag.getChildTagCounter(); i++)
+        tmp.append(hTag.find(i).getInnerContent());
+    info["name"] = tmp;
+    hTag = htmlAst.rootTag->find(1).find(3).find(3).find(0); // id="gd3"
+    info["type"] = hTag.find(0).find(0).getInnerContent();
+    info["uploader"] = hTag.find(1).find(0).getInnerContent();
+    hTag = hTag.find(2).find(0);
+    for (int i = 0; i < hTag.getChildTags().size(); i++)
     {
-        result.resize(result.size() + 1);
-        QRegularExpressionMatch match = i.next();
-        for (int k = 0; k < 7; k++)
+        QString key = hTag.find(i).find(0).getInnerContent().toLower();
+        key.chop(1);
+        info[key] = hTag.find(i).find(1).getInnerContent();
+    }
+    hTag = htmlAst.rootTag->find(1).find(3).find(3).find(0).find(3); // id="gdr"
+    info["peopleRatedCounter"] = hTag.find(0).find(0).find(2).find(0).getInnerContent(); // id="rating_count"
+    info["averageRating"] = StringOperations::getDoubleNumberFromString(hTag.find(0).find(1).find(0).getInnerContent())[0]; // id="rating_label"
+    hTag = htmlAst.rootTag->find(1).find(3).find(3).find(1).find(0).find(0); // <div id="taglist"><table>
+    for (int i = 0; i < hTag.getChildTags().size(); i++)
+    {
+        tmp = QJsonArray();
+        QString key = hTag.find(i).find(0).getInnerContent();
+        key.chop(1);
+        HtmlTag &tmpHTag = hTag.find(i).find(1);
+        for (int j = 0; j < tmpHTag.getChildTags().size(); j++)
         {
-            result[j].push_back(match.captured(k));
+            tmp.append(tmpHTag.find(j).find(0).getInnerContent());
         }
+        tmpObj[key] = tmp;
+    }
+    info["sectionedInfo"] = tmpObj;
+    return info;
+}
 
-        if (match.captured(1) != "")
+QJsonArray ExhentaiApi::getComments(HtmlObject &htmlAst)
+{
+    QString commentId;
+    QJsonObject tmpObj;
+    QJsonArray comments;
+    HtmlTag &hTag = htmlAst.rootTag->find(1).find(10); // <div id="cdiv" class="gm">
+    for (int i = 0; i < hTag.getChildTags().size() - 3; i++)
+    {
+        HtmlTag &tmpTag = hTag.find(i);
+        if (tmpTag.getName() != "a")
         {
-            if (/*currentTagType == ""*/j < 1)
-            {
-                tmpName = match.captured(2);
-                tmpUrl = match.captured(1);
-                tmpCoverUrl = match.captured(3);
-            }
-            else
-            {
-                tags[currentTagType] = tagTypeItems;
-                titleItems["name"] = tmpName;
-                tags.remove("");
-                titleItems["tags"] = tags;
-                titleItems["url"] = tmpUrl;
-                titleItems["coverUrl"] = tmpCoverUrl;
-                titles.push_back(titleItems);
-
-                currentTagType = "";
-                tags = QJsonObject();
-                tagTypeItems = QJsonArray();
-                titleItems = QJsonObject();
-
-                tmpName = match.captured(2);
-                tmpUrl = match.captured(1);
-                tmpCoverUrl = match.captured(3);
-            }
+            tmpObj = QJsonObject();
+            tmpObj["commentId"] = commentId;
+            tmpObj["date"] = tmpTag.find(0).find(0).getInnerContent().mid(0, 34);  // <div class="c3">
+            tmpObj["userName"] = tmpTag.find(0).find(0).find(0).getInnerContent(); // &nbsp; <a href=
+            if (tmpTag.find(0).find(2).isExist(0))
+                tmpObj["score"] = tmpTag.find(0).find(2).find(0).getInnerContent();    // <div class="c5 nosel" onmouseover=
+            tmpObj["text"] = tmpTag.find(1).getInnerContent();
+            comments.append(tmpObj);
         }
         else
+            commentId = tmpTag.getAttributeValue("name");
+    }
+    return comments;
+}
+
+QJsonArray ExhentaiApi::getLinksToPages(HtmlObject &firstPageAst)
+{
+    QJsonArray linksToPages;
+    HtmlTag &hTag = firstPageAst.rootTag->find(1).find(5).find(1).find(0);
+    //QVector<HtmlTag*> &tmpTagsVector = hTag.getChildTags();
+    int pagesNumber = hTag.find(hTag.getChildTags().size() - 2).find(0).getInnerContent().toInt();
+    hTag = firstPageAst.rootTag->find(1).find(7);
+    getPageLinksFromDiv(hTag, linksToPages);
+
+    if (pagesNumber > 1)
+    {
+        for (int i = 1; i < pagesNumber; i++)
         {
-            if (currentTagType != match.captured(4))
-            {
-                tags[currentTagType] = tagTypeItems;
-                tagTypeItems = QJsonArray();
-                if (match.captured(4) != "")
-                {
-                    currentTagType = match.captured(4);
-                }
-                else
-                {
-                    currentTagType = "misc";
-                }
-                tagTypeItems.push_back(match.captured(5));
-            }
+            HtmlObject *tmpHObject = new HtmlObject();
+            QString url;
+            if (galleryUrl[galleryUrl.size() - 1] == "/")
+                url = galleryUrl + "?p=" + QString::number(i);
             else
-            {
-                tagTypeItems.push_back(match.captured(5));
-            }
+                url = galleryUrl + "/?p=" + QString::number(i);
+            tmpHObject->makeAst(cc->performing(url.toUtf8()));
+            getPageLinksFromDiv(tmpHObject->rootTag->find(1).find(7), linksToPages);
+            delete tmpHObject;
         }
     }
-    tags[currentTagType] = tagTypeItems;
-    titleItems["name"] = tmpName;
-    tags.remove("");
-    titleItems["tags"] = tags;
-    titleItems["url"] = tmpUrl;
-    titleItems["coverUrl"] = tmpCoverUrl;
-    titles.push_back(titleItems);
-    root["data"] = titles;
+    return linksToPages;
+}
 
-    //emit sendViewFrontPage("viewFrontPage", root);
-    QStringList mode;
-    mode.push_back("exhentai");
-    mode.push_back("viewFrontPage");
-    emit downloadingFinished(mode, root);
-// <div style="[^"]+"><a href="([^"]+)"><img style="[^"]+" alt="[^"]+" title="([^"]+)" src="([^"]+)" \/><\/a><\/div>|<div class="gtl?" title="([^:]+):([^:"]+)">([^<]+)<\/div>
-// <div class="gtl?" title="([^:]+):([^:"]+)">([^<]+)<\/div>
+void ExhentaiApi::getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages)
+{
+    QJsonObject tmpObj;
+    for (int i = 0; i < hTag.getChildTags().size() - 1; i++)
+    {
+        tmpObj = QJsonObject();
+        HtmlTag &tmpTag = hTag.find(i).find(0);
+        tmpObj["linkToPage"] = tmpTag.getAttributeValue("href");
+        tmpObj["title"] = tmpTag.find(0).getAttributeValue("title");
+        tmpObj["miniImageSrc"] = tmpTag.find(0).getAttributeValue("src");
+        linksToPages.append(tmpObj);
+    }
 }
