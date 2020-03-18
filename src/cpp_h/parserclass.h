@@ -49,7 +49,7 @@ protected:
 
     // variables
     QString currUrl;
-    QString rootPath; // part file path that permanent
+    QString rootPath; // in this paths writes log file
     std::vector<std::string> chunk; // header for curl requests
     FileIdentifier *defExt;
     QString logPath;
