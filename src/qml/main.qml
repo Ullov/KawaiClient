@@ -18,29 +18,27 @@ Window {
 
     }
     Component.onCompleted: {
-        var obj = [
+        var obj =
+        [
+           [
+                "Site pages",
                 [
-                    "Site pages",
-                    [
-                        ["Exhentai", "qrc:/qml/windows/SitePages/Exhentai/ExhentaiMainFrame.qml"]
-                    ]
-                ],
+                    ["ExHentai", "qrc:/qml/windows/SitePages/Exhentai/ExhentaiFrontPage.qml"]
+                ]
+           ],
+           [
+                "Misc",
                 [
-                    "Misc",
-                    [
-                        ["Parsers", "qrc:/qml/windows/Misc/Parsers/Parsers.qml"]
-                    ]
-                ],
+                    ["Parsers", "qrc:/qml/windows/Misc/Parsers/Parsers.qml"]
+                ]
+           ],
+           [
+                "Settings and System",
                 [
-                    "Settings and System",
-                    [
-                        ["Settings", "qrc:/qml/windows/SettingsAndSystem/Settings.qml"]
-                    ]
+                    ["Settings", "qrc:/qml/windows/SettingsAndSystem/Settings.qml"]
                 ]
             ]
-        //var obj = [
-        //    ["Exhentai", "qrc:/qml/windows/SitePages/Exhentai/ExhentaiMainFrame.qml"]
-        //]
+        ]
         switchableWindows.addItemsAndSections(obj);
     }
 }
