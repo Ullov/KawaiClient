@@ -8,37 +8,35 @@
 #include <QFile>
 #include <QObject>
 #include <QElapsedTimer>
-#include "logging.h"
+#include "KTools/nativefs.h"
+#include "KTools/kenums.h"
 
 class CurlClass : public QObject
 {
     Q_OBJECT
 public:
     CurlClass();
-    CurlClass(std::vector<std::string> chunk);
     ~CurlClass();
 
     const char* url;
-    static std::string buffer;
     QByteArray performing(const char* url);
-    void setHeader(std::vector<std::string> chunk);
+    void setHeader(QVector<QByteArray> chunk);
 
-    Logging *log;
-    QString downloaderType;
+    KEnums::Parsers downloaderType;
 private:
-    CURL *curlHandle;
     CURLcode res;
     static size_t writeMemoryCallback(char *data, size_t size, size_t nmemb, std::string *writerData);
     static int XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, double ulTotal, double ulNow);
     struct curl_slist *header;
-    std::string cacert;
-    std::string cacertPath;
-    std::string fullCacertPath;
+    static QString cacertPath;
+    static QString cacertFileName;
+    static QString fullCacertPath;
+    static QString pathToCacertInQrc;
 
     struct ForProggress
     {
         CurlClass *th;
-        QElapsedTimer *timer;
+        QElapsedTimer timer;
         double lastDlTotal;
         double lastUlTotal;
         double lastDlNow;
@@ -46,7 +44,7 @@ private:
     };
 
 signals:
-    void progressSignal(const QList<double> list, const qint64 millisecondsFromStart, const QString downloaderType);
+    void progressSignal(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
 };
 
 #endif // CURLCLASS_H

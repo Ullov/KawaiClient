@@ -31,32 +31,6 @@ OptionsHandler::OptionsHandler()
     }*/
 }
 
-QString OptionsHandler::configFile = "config.txt";
-QString OptionsHandler::configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/KawaiClient/";
-QString OptionsHandler::rootProgramPath = "";
-QString OptionsHandler::logRootPath = "";
-
-QMap<KEnums::Parsers, QString> OptionsHandler::parsersWritePathes = {
-    {KEnums::Parsers::ExHentai, rootProgramPath + "/Downloads/Manga/ExHentai/"},
-    {KEnums::Parsers::MangaDex, rootProgramPath + "/Downloads/Manga/MangaDex/"},
-    {KEnums::Parsers::MangaIro, rootProgramPath + "/Downloads/Manga/MangaIro/"},
-    {KEnums::Parsers::NHentai, rootProgramPath + "/Downloads/Manga/NHentai/"},
-    {KEnums::Parsers::Pixiv, rootProgramPath + "/Downloads/Images/Pixiv/"},
-    {KEnums::Parsers::Twitter, rootProgramPath + "/Downloads/Mixed/Twitter/"},
-    {KEnums::Parsers::VK, rootProgramPath + "/Downloads/Mixed/VK/"},
-    {KEnums::Parsers::YouTube, rootProgramPath + "/Downloads/Video/YouTube/"}
-};
-QMap<KEnums::Parsers, QString> OptionsHandler::parsersNames = {
-    {KEnums::Parsers::ExHentai, "ExHentai"},
-    {KEnums::Parsers::MangaDex, "MangaDex"},
-    {KEnums::Parsers::MangaIro, "MangaIro"},
-    {KEnums::Parsers::NHentai, "NHentai"},
-    {KEnums::Parsers::Pixiv, "Pixiv"},
-    {KEnums::Parsers::Twitter, "Twitter"},
-    {KEnums::Parsers::VK, "VK"},
-    {KEnums::Parsers::YouTube, "YouTube"}
-};
-
 void OptionsHandler::writeOnDrive()
 {
     NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(appConfigs), rootProgramPath, "appConfigs.json");

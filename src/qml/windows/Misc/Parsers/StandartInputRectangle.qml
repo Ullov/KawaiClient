@@ -3,7 +3,20 @@ import QtQuick.Controls 2.5
 import "../../../QmlIncludes"
 
 Rectangle {
-    id: rootRectangle
+    /*property var sirChildItems: {
+        "titleLabel": titleLabel,
+        "inputTextField": inputTextField,
+        "statusTextBox": statusTextBox,
+        "startDownloadButton": startDownloadButton,
+        "statusRectangle": statusRectangle,
+    }*/
+    property alias sirTitleLabel: titleLabel
+    property alias sirInputTextField: inputTextField
+    property alias sirStatusTextBox: statusTextBox
+    property alias sirStartDownloadButton: startDownloadButton
+    property alias sirStatusRectangle: statusRectangle
+
+    id: root
     anchors.left: parent.left
     anchors.right: parent.right
     anchors.margins: 5
@@ -45,7 +58,7 @@ Rectangle {
         anchors.right: statusRectangle.left
         anchors.margins: 5
         anchors.verticalCenter: parent.verticalCenter
-        onClicked: onClickFunctionList[functionType](inputTextField.text, systemName, modeList[modeNumber])
+        onClicked: onClickFunctionList[functionType](inputTextField.text, parserType, parserMode)
     }
     Rectangle {
         id: statusRectangle
@@ -58,12 +71,12 @@ Rectangle {
     }
     Connections {
         target: apiHandler
-        onUniversalDownloadingStarted: {
-            if (systemName === mode[0])
+        onSignalDownloadingStarted: {
+            if (parserType === mode[0] && parserMode === mode[1])
                 statusRectangle.color = "#ff0000"
         }
-        onUniversalDownloadingFinished: {
-            if (systemName === mode[0])
+        onSignalDownloadingFinished: {
+            if (parserType === mode[0] && parserMode === mode[1])
                 statusRectangle.color = "#00ff08"
         }
     }

@@ -3,21 +3,21 @@
 #include "cpp_h/apihandler.h"
 #include "cpp_h/logging.h"
 #include "cpp_h/optionshandler.h"
+#include "cpp_h/KTools/kenums.h"
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>
-//#include <QQuickWindow>
 
 int main(int argc, char *argv[])
 {
-    //QQuickWindow::setSceneGraphBackend(QSGRendererInterface::VulkanRhi);
-
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
     QTextCodec::setCodecForLocale(codec);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
+
+    KEnums::registerTypesForQml();
 
     OptionsHandler *options = new OptionsHandler();
     Logging *logger = new Logging();

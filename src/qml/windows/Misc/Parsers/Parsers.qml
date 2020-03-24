@@ -1,16 +1,19 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.5
 import "../../../QmlIncludes"
+import KEnums 1.0
+import "ParserFunctions.js" as ParsFuncs
+
 
 Rectangle {
     property var onClickFunctionList: {
-        "standart": function(text, systemName, gMode){standartOnClickFunction(text, systemName, gMode)},
-        "mangadex": function(text, enChecked, ruChecked, otherChecked){mangadexOnClickFunction(text, enChecked, ruChecked, otherChecked)}
+        "standart": function(text, parserType, parserMode){
+            ParsFuncs.standartOnClickFunction(text, parserType, parserMode)
+        },
+        "mangadex": function(text, parserType, parserMode, enChecked, ruChecked, otherChecked){
+            ParsFuncs.mangadexOnClickFunction(text, parserType, parserMode, enChecked, ruChecked, otherChecked)
+        }
     }
-    property var modeList: [
-        "",
-        "download"
-    ]
 
     anchors.fill: parent
     color: "#2849de"
@@ -31,9 +34,9 @@ Rectangle {
     }
     ListModel {
         id: parsersModelItem
-        ListElement {name: "Pixiv"; systemName: "pixiv"; placeholder:"Enter user ID..."; functionType:"standart"; modeNumber: 0}
-        ListElement {name: "MangaDex"; systemName: "mangadex"; placeholder:"Enter manga ID..."; functionType:"mangadex"; modeNumber: 0}
-        ListElement {name: "ExHentai"; systemName: "exhentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; modeNumber: 1}
+        ListElement {name: "Pixiv";  placeholder:"Enter user ID..."; functionType:"standart"; parserMode: ParserModes.Pixiv.Download; parserType: KEnums.Parsers.Pixiv}
+        ListElement {name: "MangaDex"; placeholder:"Enter manga ID..."; functionType:"mangadex"; parserMode: ParserModes.MangaDex.Download; parserType: KEnums.Parsers.MangaDex}
+        ListElement {name: "ExHentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.ExHentai.Download; parserType: KEnums.Parsers.ExHentai}
     }
     Component {
         id: parsersDelegateItem
@@ -44,27 +47,16 @@ Rectangle {
             height: 40
             radius: 20
             Component.onCompleted: {
-                if (systemName === "mangadex")
-                    Qt.createComponent("qrc:/qml/windows/Misc/Parsers/MangadexInputRectangle.qml", innerDelegateItem).createObject(innerDelegateItem)
+                var path;
+                if (parserType === KEnums.Parsers.MangaDex)
+                    path = "qrc:/qml/windows/Misc/Parsers/MangadexInputRectangle.qml"
                 else
-                    Qt.createComponent("qrc:/qml/windows/Misc/Parsers/StandartInputRectangle.qml", innerDelegateItem).createObject(innerDelegateItem)
+                    path = "qrc:/qml/windows/Misc/Parsers/StandartInputRectangle.qml"
+                var obj = Qt.createComponent(path, innerDelegateItem)
+                if (obj.status === Component.Error)
+                    console.log(obj.errorString())
+                obj.createObject(innerDelegateItem)
             }
         }
-    }
-    function standartOnClickFunction(text, systemName, gMode)
-    {
-        var param = [text]
-        var mode;
-        if (gMode === "")
-            mode = [systemName]
-        else
-            mode = [systemName, gMode]
-        apiHandler.universalStartDownloading(param, mode)
-    }
-    function mangadexOnClickFunction(text, enChecked, ruChecked, otherChecked)
-    {
-        var param = [text, enChecked, ruChecked, otherChecked]
-        var mode = ["mangadex"]
-        apiHandler.universalStartDownloading(param, mode)
     }
 }

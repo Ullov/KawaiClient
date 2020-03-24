@@ -21,7 +21,7 @@ void MangairoApi::download()
         "Cache-Control: no-cache",
         "TE: Trailers"
     };
-    std::vector<std::string> imagesChunk = {
+    QVector<QByteArray> imagesChunk = {
         "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0",
         "Accept: image/webp,*/*",
         "Accept-Language: ja,en-US;q=0.7,en;q=0.3",
@@ -140,9 +140,9 @@ void MangairoApi::download()
         writeInfoLog("Chapter " + QString::number(i) + " downloaded");
     }
     writeInfoLog("Manga downloaded");
-    QStringList mode;
-    mode.push_back("mangairo");
-    mode.push_back("void");
+    QList<int> mode;
+    mode.push_back(static_cast<int>(KEnums::Parsers::MangaIro));
+    mode.push_back(static_cast<int>(KEnums::ParserModes::MangaIro::Download));
     emit downloadingFinished(mode, QJsonObject());
 
     // <title>([^<>]+) Manga \| Mangairo\.com<\/title>                          - Title name

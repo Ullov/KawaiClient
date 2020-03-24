@@ -1,24 +1,6 @@
 #include "logging.h"
 
-Logging::Logging()
-{
-    //logFileName = QDateTime::currentDateTime().toString("yyyy.MM.dd") + ".log";
-}
-
-QString Logging::logFileName = QDateTime::currentDateTime().toString("yyyy.MM.dd") + ".log";
-
-QMap<KEnums::LogType, QString> Logging::logTypePath = {
-    {KEnums::LogType::Info, "/info/"},
-    {KEnums::LogType::Debug, "/debug/"},
-    {KEnums::LogType::Error, "/error/"},
-    {KEnums::LogType::Custom, "/custom/"}
-};
-QMap<KEnums::LogType, QString> Logging::logTypeNames = {
-    {KEnums::LogType::Info, "Info"},
-    {KEnums::LogType::Debug, "Debug"},
-    {KEnums::LogType::Error, "Error"},
-    {KEnums::LogType::Custom, "Custom"}
-};
+Logging::Logging() {}
 
 void Logging::writeCustomLog(const QString &message, const QString &from, const KEnums::LogType &type)
 {

@@ -9,10 +9,13 @@ class ExhentaiApi : public ParserClass
 public:
     ExhentaiApi();
 
-    QString galleryCode; // https://exhentai.org/g/[\d]/[\da-z]/
+    QString galleryCode;
+    int numberNeddedPage;
 
 public slots:
-    void download();
+    void slotDownload();
+    void slotGetFrontPage();
+
 
 private:
     // variables
@@ -23,6 +26,7 @@ private:
     QJsonArray getComments(HtmlObject &htmlAst);
     QJsonArray getLinksToPages(HtmlObject &firstPageAst);
     void getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages);
+    QJsonObject getSectionedInfo(HtmlTag &hTag);
 };
 
 #endif // EXHENTAIAPI_H

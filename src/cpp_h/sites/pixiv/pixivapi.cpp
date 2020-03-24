@@ -8,7 +8,7 @@ PixivApi::PixivApi()
 PixivApi::~PixivApi() { }
 
 
-void PixivApi::downloadUser()
+void PixivApi::download()
 {
     chunk = {
         "Another: yes",
@@ -35,7 +35,7 @@ void PixivApi::downloadUser()
         "Cache-Control: no-cache"
     };
 
-    std::vector<std::string> imagesChunk = {
+    QVector<QByteArray> imagesChunk = {
         "Host: i-f.pximg.net",
         "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0",
         "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
@@ -50,7 +50,7 @@ void PixivApi::downloadUser()
         "TE: Trailers"
     };
 
-    std::vector<std::string> ugoiraChunk = {
+    QVector<QByteArray> ugoiraChunk = {
         "Host: i-f.pximg.net",
         "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:73.0) Gecko/20100101 Firefox/73.0",
         "Accept: */*",
@@ -195,9 +195,9 @@ void PixivApi::downloadUser()
     }
 
     writeInfoLog("Downloading user with ID " + userId + " and name " + userName + " completed.");
-    QStringList mode;
-    mode.push_back("pixiv");
-    mode.push_back("void");
+    QList<int> mode;
+    mode.push_back(static_cast<int>(KEnums::Parsers::Pixiv));
+    mode.push_back(static_cast<int>(KEnums::ParserModes::Pixiv::Download));
     emit downloadingFinished(mode, QJsonObject());
 }
 

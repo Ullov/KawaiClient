@@ -26,17 +26,29 @@ public:
     QQmlApplicationEngine *engine;
     OptionsHandler *options;
 
+private:
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::ExHentai parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::Pixiv parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaDex parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::VK parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaIro parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::YouTube parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode);
+
+    template<typename T>
+    void connectSlotsAndSignals(const QThread *thread, const T *apiClass);
+
 public slots:
-    void universalStartDownloading(const QStringList &param, const QStringList &mode);
+    void slotStartDownloding(const QStringList &params, const QList<int> &mode);
 
 private slots:
-    void universalEmitSignalDownloadingFinished(QStringList mode, QJsonObject data);
-    void downloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const QString downloaderType);
+    void slotDownloadingFinished(const QList<int> mode, const QJsonObject data);
+    void slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
 
 signals:
-    void universalDownloadingStarted(QStringList mode);
-    void universalDownloadingFinished(QStringList mode, QJsonObject data);
-    void downloadStatusSignal(const QList<double> list, const qint64 millisecondsFromStart, const QString downloaderType);
+    void signalDownloadingStarted(const QList<int> mode);
+    void signalDownloadingFinished(const QList<int> mode, const QJsonObject data);
+    void signalDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
 };
 
 #endif // APIHANDLER_H

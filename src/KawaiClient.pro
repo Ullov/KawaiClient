@@ -15,6 +15,7 @@ DEFINES += QT_DEPRECATED_WARNINGS #__cplusplus=true
 SOURCES += \
     cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
     cpp_h/KTools/HtmlAstMaker/htmltag.cpp \
+    cpp_h/KTools/StaticVarsDeclarations.cpp \
     cpp_h/KTools/stringoperations.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.cpp \

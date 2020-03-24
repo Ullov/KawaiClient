@@ -2,160 +2,162 @@
 
 ApiHandler::ApiHandler() {}
 
-void ApiHandler::universalStartDownloading(const QStringList &param, const QStringList &mode)
+void ApiHandler::slotStartDownloding(const QStringList &params, const QList<int> &mode)
 {
-    emit universalDownloadingStarted(mode);
+    emit signalDownloadingStarted(mode);
+    KEnums::Parsers parserType = static_cast<KEnums::Parsers>(mode[0]);
+    if (parserType == KEnums::Parsers::ExHentai)
+    {
+        KEnums::ParserModes::ExHentai parserMode = static_cast<KEnums::ParserModes::ExHentai>(mode[1]);
+        startDownloading(params, parserMode);
+    }
+    else if (parserType == KEnums::Parsers::Pixiv)
+    {
+        KEnums::ParserModes::Pixiv parserMode = static_cast<KEnums::ParserModes::Pixiv>(mode[1]);
+        startDownloading(params, parserMode);
+    }
+    else if (parserType == KEnums::Parsers::MangaDex)
+    {
+        KEnums::ParserModes::MangaDex parserMode = static_cast<KEnums::ParserModes::MangaDex>(mode[1]);
+        startDownloading(params, parserMode);
+    }
+    else if (parserType == KEnums::Parsers::VK)
+    {
+        KEnums::ParserModes::VK parserMode = static_cast<KEnums::ParserModes::VK>(mode[1]);
+        startDownloading(params, parserMode);
+    }
+    else if (parserType == KEnums::Parsers::MangaIro)
+    {
+        KEnums::ParserModes::MangaIro parserMode = static_cast<KEnums::ParserModes::MangaIro>(mode[1]);
+        startDownloading(params, parserMode);
+    }
+    else if (parserType == KEnums::Parsers::YouTube)
+    {
+        KEnums::ParserModes::YouTube parserMode = static_cast<KEnums::ParserModes::YouTube>(mode[1]);
+        startDownloading(params, parserMode);
+    }
+    else if (parserType == KEnums::Parsers::Twitter)
+    {
+        KEnums::ParserModes::Twitter parserMode = static_cast<KEnums::ParserModes::Twitter>(mode[1]);
+        startDownloading(params, parserMode);
+    }
+}
+
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::ExHentai parserMode)
+{
     QThread *thread = new QThread();
-    PixivApi *pApi;
-    //MangarockApi *mApi;
-    ExhentaiApi *eApi;
-    MangadexApi *mdApi;
-    VkApi *vApi;
-    MangairoApi *maApi;
-    YoutubeApi *yApi;
-    TwitterApi *tApi;
+    ExhentaiApi *eApi = new ExhentaiApi();
 
-    if (mode[0] == "pixiv")
-    {
-        pApi = new PixivApi();
-        pApi->userId = param[0];
-        pApi->cc->downloaderType = mode[0];
+    eApi->galleryCode = params[0];
+    if (parserMode == KEnums::ParserModes::ExHentai::FrontPage)
+        eApi->numberNeddedPage = params[1].toInt();
 
-        pApi->moveToThread(thread);
-        connect(thread, SIGNAL(started()), pApi, SLOT(downloadUser()));
-        connect(pApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(pApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), pApi, SLOT(deleteLater()));
-        connect(pApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-        connect(pApi->cc, SIGNAL(progressSignal(QList<double>,qint64,QString)), this, SLOT(downloadStatus(QList<double>,qint64,QString)));
-    }
-    /*else if (mode[0] == "mangarock")
-    {
-        mApi = new MangarockApi();
-        mApi->oid = param[0];
-        mApi->basePath = rootPath + "\\downloaded\\mangarock";
-        mApi->logger = this->logger;
+    eApi->moveToThread(thread);
+    if (parserMode == KEnums::ParserModes::ExHentai::Download)
+        connect(thread, SIGNAL(started()), eApi, SLOT(slotDownload()));
+    else if (parserMode == KEnums::ParserModes::ExHentai::FrontPage)
+        connect(thread, SIGNAL(started()), eApi, SLOT(slotGetFrontPage()));
 
-        mApi->moveToThread(thread);
-        connect(thread, SIGNAL(started()), mApi, SLOT(downloadUser()));
-        connect(mApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(mApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), mApi, SLOT(deleteLater()));
-        connect(mApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-    }*/
-    else if (mode[0] == "exhentai")
-    {
-        eApi = new ExhentaiApi();
-        eApi->galleryCode = param[0];
-        eApi->cc->downloaderType = mode[0];
+    connect(eApi, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), thread, SLOT(quit()));
+    connect(eApi, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), eApi, SLOT(deleteLater()));
+    connect(eApi, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
+    connect(eApi->cc, SIGNAL(progressSignal(QList<double>,qint64,KEnums::Parsers)), this, SLOT(downloadStatus(QList<double>,qint64,KEnums::Parsers)));
 
-        eApi->moveToThread(thread);
-        if (mode[1] == "download")
-            connect(thread, SIGNAL(started()), eApi, SLOT(download()));
-        else if (mode[1] == "viewFrontPage")
-            connect(thread, SIGNAL(started()), eApi, SLOT(viewFrontPage()));
-
-        connect(eApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(eApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), eApi, SLOT(deleteLater()));
-        connect(eApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-        connect(eApi->cc, SIGNAL(progressSignal(QList<double>,qint64,QString)), this, SLOT(downloadStatus(QList<double>,qint64,QString)));
-    }
-    else if (mode[0] == "mangadex")
-    {
-        mdApi = new MangadexApi();
-        mdApi->mangaId = param[0];
-        mdApi->enDownload = param[1];
-        mdApi->ruDownload = param[2];
-        mdApi->otherDownload = param[3];
-        mdApi->cc->downloaderType = mode[0];
-
-        mdApi->moveToThread(thread);
-        connect(thread, SIGNAL(started()), mdApi, SLOT(download()));
-        connect(mdApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(mdApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), mdApi, SLOT(deleteLater()));
-        connect(mdApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-        connect(mdApi->cc, SIGNAL(progressSignal(QList<double>,qint64,QString)), this, SLOT(downloadStatus(QList<double>,qint64,QString)));
-    }
-    else if (mode[0] == "vk")
-    {
-        vApi = new VkApi();
-        vApi->postUrl = param[0];
-        vApi->cc->downloaderType = mode[0];
-
-        vApi->moveToThread(thread);
-        connect(thread, SIGNAL(started()), vApi, SLOT(downloadPost()));
-        connect(vApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(vApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), vApi, SLOT(deleteLater()));
-        connect(vApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-        connect(vApi->cc, SIGNAL(progressSignal(QList<double>,qint64,QString)), this, SLOT(downloadStatus(QList<double>,qint64,QString)));
-    }
-    else if (mode[0] == "mangairo")
-    {
-        maApi = new MangairoApi();
-        maApi->mangaId = param[0];
-        maApi->cc->downloaderType = mode[0];
-
-        maApi->moveToThread(thread);
-        connect(thread, SIGNAL(started()), maApi, SLOT(download()));
-        connect(maApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(maApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), maApi, SLOT(deleteLater()));
-        connect(maApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-        connect(maApi->cc, SIGNAL(progressSignal(QList<double>,qint64,QString)), this, SLOT(downloadStatus(QList<double>,qint64,QString)));
-    }
-    else if (mode[0] == "youtube")
-    {
-        yApi = new YoutubeApi();
-        yApi->videoUrl = param[0];
-        yApi->cc->downloaderType = mode[0];
-
-        yApi->moveToThread(thread);
-        connect(thread, SIGNAL(started()), yApi, SLOT(download()));
-        connect(yApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(yApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), yApi, SLOT(deleteLater()));
-        connect(yApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-        connect(yApi->cc, SIGNAL(progressSignal(QList<double>,qint64,QString)), this, SLOT(downloadStatus(QList<double>,qint64,QString)));
-    }
-    else if (mode[0] == "twitter")
-    {
-        tApi = new TwitterApi();
-        tApi->userName = param[0];
-        tApi->cc->downloaderType = mode[0];
-
-        tApi->moveToThread(thread);
-        connect(thread, SIGNAL(started()), tApi, SLOT(download()));
-        connect(tApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), thread, SLOT(quit()));
-        connect(tApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), tApi, SLOT(deleteLater()));
-        connect(tApi, SIGNAL(downloadingFinished(QStringList, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-        connect(tApi->cc, SIGNAL(progressSignal(QList<double>,qint64,QString)), this, SLOT(downloadStatus(QList<double>,qint64,QString)));
-    }
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
     thread->start();
 }
 
-void ApiHandler::universalEmitSignalDownloadingFinished(QStringList mode, QJsonObject data)
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::Pixiv parserMode)
 {
-    if (mode[0] == "pixiv")
-        emit universalDownloadingFinished(mode, QJsonObject());
-    /*else if (mode[0] == "mangarock")
-        emit universalDownloadingFinished(mode, QJsonObject());*/
-    else if (mode[0] == "exhentai")
-    {
-        if (mode[1] == "void")
-            emit universalDownloadingFinished(mode, QJsonObject());
-        else if (mode[1] == "viewFrontPage")
-            emit universalDownloadingFinished(mode, data);
-    }
-    else if (mode[0] == "mangadex")
-        emit universalDownloadingFinished(mode, QJsonObject());
-    else if (mode[0] == "vk")
-        emit universalDownloadingFinished(mode, QJsonObject());
-    else if (mode[0] == "mangairo")
-        emit universalDownloadingFinished(mode, QJsonObject());
-    else if (mode[0] == "youtube")
-        emit universalDownloadingFinished(mode, QJsonObject());
-    else if (mode[0] == "twitter")
-        emit universalDownloadingFinished(mode, QJsonObject());
+    QThread *thread = new QThread();
+    PixivApi *pApi = new PixivApi();
+
+    pApi->userId = params[0];
+
+    pApi->moveToThread(thread);
+    connectSlotsAndSignals(thread, pApi);
+    thread->start();
 }
 
-void ApiHandler::downloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const QString downloaderType)
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaDex parserMode)
 {
-    emit downloadStatusSignal(list, millisecondsFromStart, downloaderType);
+    QThread *thread = new QThread();
+    MangadexApi *mdApi = new MangadexApi();
+
+    mdApi->mangaId = params[0];
+    mdApi->enDownload = params[1];
+    mdApi->ruDownload = params[2];
+    mdApi->otherDownload = params[3];
+
+    mdApi->moveToThread(thread);
+    connectSlotsAndSignals(thread, mdApi);
+    thread->start();
+}
+
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::VK parserMode)
+{
+    QThread *thread = new QThread();
+    VkApi *vApi = new VkApi();
+    vApi->postUrl = params[0];
+
+    vApi->moveToThread(thread);
+    connectSlotsAndSignals(thread, vApi);
+    thread->start();
+}
+
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaIro parserMode)
+{
+    QThread *thread = new QThread();
+    MangairoApi *maApi = new MangairoApi();
+
+    maApi->mangaId = params[0];
+
+    maApi->moveToThread(thread);
+    connectSlotsAndSignals(thread, maApi);
+    thread->start();
+}
+
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::YouTube parserMode)
+{
+    QThread *thread = new QThread();
+    YoutubeApi *yApi = new YoutubeApi();
+
+    yApi->videoUrl = params[0];
+
+    yApi->moveToThread(thread);
+    connectSlotsAndSignals(thread, yApi);
+    thread->start();
+}
+
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode)
+{
+    QThread *thread = new QThread();
+    TwitterApi *tApi = new TwitterApi();
+
+    tApi->userName = params[0];
+
+    tApi->moveToThread(thread);
+    connectSlotsAndSignals(thread, tApi);
+    thread->start();
+}
+
+void ApiHandler::slotDownloadingFinished(const QList<int> mode, const QJsonObject data)
+{
+    emit signalDownloadingFinished(mode, data);
+}
+
+void ApiHandler::slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType)
+{
+    emit signalDownloadStatus(list, millisecondsFromStart, downloaderType);
+}
+
+template<typename T>
+void ApiHandler::connectSlotsAndSignals(const QThread *thread, const T *apiClass)
+{
+    connect(thread, SIGNAL(started()), apiClass, SLOT(download()));
+    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), thread, SLOT(quit()));
+    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), apiClass, SLOT(deleteLater()));
+    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), this, SLOT(slotDownloadingFinished(QList<int>, QJsonObject)));
+    connect(apiClass->cc, SIGNAL(progressSignal(QList<double>,qint64,KEnums::Parsers)), this, SLOT(slotDownloadStatus(QList<double>,qint64,KEnums::Parsers)));
+    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 }

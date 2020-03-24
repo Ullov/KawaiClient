@@ -60,38 +60,8 @@ HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                 }
                 else
                 {
-                    qint32 tmpPos = pos; // this also ABSOLUTE end position
-                    ++tmpPos;
-                    QString tagOpeningPart = "<" + tagClass->getName();
-                    qint32 tagOpSize = tagOpeningPart.size();
-                    QString tagEndPart = "</" + tagClass->getName() + ">"; // thank to this variable ast maker now works in 6 times faster
-                    qint32 tagEdSize = tagEndPart.size();
-                    qint32 sameTagCounter = 0;
-                    while (tmpPos < endPos + 1)
-                    {
-                        if (htmlText->mid(tmpPos, tagEdSize) == tagEndPart)
-                        {
-                            if (sameTagCounter == 0)
-                            {
-                                tagClass->setInnerContent(htmlText->mid(pos, tmpPos - pos));
-                                tagClass->setSelfclosingness(true);
-                                break;
-                            }
-                            else
-                            {
-                                --sameTagCounter;
-                                ++tmpPos;
-                            }
-                        }
-                        else
-                        {
-                            if (htmlText->mid(tmpPos - 1, tagOpSize) == tagOpeningPart)
-                            {
-                                ++sameTagCounter;
-                            }
-                            ++tmpPos;
-                        }
-                    }
+                    qint32 tmpPos = findTagEndingPart(pos, endPos, *tagClass);
+
                     if (tagClass->isSelfclosing())
                     {
                         while (pos < tmpPos)
@@ -185,4 +155,49 @@ bool HtmlObject::setRootTag(HtmlTag &tag)
     }
     else
         return false;
+}
+
+qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, HtmlTag &tagClass, qint32 differenceEdAndOp)
+{
+    qint32 tmpPos = pos; // this also ABSOLUTE end position
+    ++tmpPos;
+    QString tagOpeningPart = "<" + tagClass.getName();
+    qint32 tagOpSize = tagOpeningPart.size();
+    QString tagEndPart = "</" + tagClass.getName() + ">"; // thank to this variable ast maker now works in 6 times faster
+    qint32 tagEdSize = tagEndPart.size();
+    qint32 sameTagCounterEd = 0;
+    qint32 sameTagCounterOp = 0;
+    while (tmpPos < endPos + 1)
+    {
+        if (htmlText->mid(tmpPos, tagEdSize) == tagEndPart) // tag ending part detected
+        {
+            if (sameTagCounterOp == 0) // tag ending part for this tag
+            {
+                tagClass.setInnerContent(htmlText->mid(pos, tmpPos - pos));
+                tagClass.setSelfclosingness(true);
+                Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
+                break;
+            }
+            else // tag ending part not for this tag
+            {
+                --sameTagCounterOp;
+                ++sameTagCounterEd;
+                ++tmpPos;
+            }
+        }
+        else // not ending part, something else
+        {
+            if (htmlText->mid(tmpPos - 1, tagOpSize) == tagOpeningPart) // another opening tag part detected
+            {
+                ++sameTagCounterOp;
+                --sameTagCounterEd;
+            }
+            ++tmpPos;
+        }
+    }
+    /*if (!tagClass.isSelfclosing() && sameTagCounterOp + sameTagCounterEd != 0)  // opening parts more than ending parts
+    {                                                                           //this occurs whrn optionally selfclosing tags writed as selfclosing
+        findTagEndingPart(pos, endPos, tagClass, sameTagCounterEd);
+    }*/
+    return tmpPos;
 }

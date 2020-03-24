@@ -16,7 +16,7 @@ public:
     QJsonObject userAllData;
 
 public slots:
-    void downloadUser();
+    void download();
     void viewUser();
 
 private:
@@ -24,7 +24,7 @@ private:
     QJsonArray arrJ; // json array for art links' list
     QString userName; // pixiv artist's user name. Now don't need
     QByteArray novelContent;
-    std::vector<std::string> novelCoverChunk;
+    QVector<QByteArray> novelCoverChunk;
 
 signals:
     void viewDataDownloaded(QJsonObject userData, QJsonObject userAllData, QStringList imagesFromApi);

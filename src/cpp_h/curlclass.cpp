@@ -2,42 +2,16 @@
 
 CurlClass::CurlClass()
 {
-    cacertPath = QDir::temp().path().toStdString() + "/KawaiClient";
+    if (!NativeFs::fileExist(fullCacertPath))
+        QFile::copy(pathToCacertInQrc, fullCacertPath);
 
-    QDir dir = QDir(cacertPath.c_str());
-    bool qexi = dir.exists();
-    if (!qexi)
-    {
-        qexi = dir.mkpath(".");
-    }
-    fullCacertPath = cacertPath + "/cacert.pem";
-    QFile::copy(":/resources/other/cacert.pem", fullCacertPath.c_str());
-
-    log = new Logging();
+    //log = new Logging();
 }
 
-CurlClass::CurlClass(std::vector<std::string> chunk)
+CurlClass::~CurlClass()
 {
-    header = NULL;
-    for (int i = 0; i < chunk.size(); i++)
-    {
-        header = curl_slist_append(header, chunk[i].c_str());
-    }
-    cacertPath = QDir::temp().path().toStdString() + "/KawaiClient";
-
-    QDir dir = QDir(cacertPath.c_str());
-    bool qexi = dir.exists();
-    if (!qexi)
-    {
-        qexi = dir.mkpath(".");
-    }
-    fullCacertPath = cacertPath + "/cacert.pem";
-    QFile::copy(":/resources/other/cacert.pem", fullCacertPath.c_str());
-
-    log = new Logging();
+    //delete log;
 }
-
-CurlClass::~CurlClass() { }
 
 QByteArray CurlClass::performing(const char* url)
 {
@@ -45,13 +19,13 @@ QByteArray CurlClass::performing(const char* url)
 
     curl_global_init(CURL_GLOBAL_ALL);
     std::string buffer = "";
-    curlHandle = curl_easy_init(); // init curl session
+    CURL *curlHandle = curl_easy_init(); // init curl session
 
     curl_easy_setopt(curlHandle, CURLOPT_URL, url); // specifu url to get
     curl_easy_setopt(curlHandle, CURLOPT_WRITEFUNCTION, writeMemoryCallback); // send all data to this function
     curl_easy_setopt(curlHandle, CURLOPT_WRITEDATA, &buffer);
     curl_easy_setopt(curlHandle, CURLOPT_HTTPHEADER, header);
-    curl_easy_setopt(curlHandle, CURLOPT_CAINFO,  fullCacertPath.c_str());
+    curl_easy_setopt(curlHandle, CURLOPT_CAINFO,  fullCacertPath.toStdString().c_str());
     curl_easy_setopt(curlHandle, CURLOPT_PROXY_SSL_VERIFYHOST, 1);
     curl_easy_setopt(curlHandle, CURLOPT_PROXY_SSL_VERIFYPEER, 1);
     curl_easy_setopt(curlHandle, CURLOPT_ACCEPT_ENCODING, "deflate, gzip");
@@ -62,8 +36,8 @@ QByteArray CurlClass::performing(const char* url)
     curl_easy_setopt(curlHandle, CURLOPT_NOPROGRESS, 0);
 
     fp.th = this;
-    fp.timer = new QElapsedTimer();
-    fp.timer->start();
+    fp.timer = QElapsedTimer();
+    fp.timer.start();
     res = curl_easy_perform(curlHandle);
 
     curl_easy_cleanup(curlHandle);
@@ -87,12 +61,12 @@ size_t CurlClass::writeMemoryCallback(char *data, size_t size, size_t nmemb, std
     return size * nmemb;
 }
 
-void CurlClass::setHeader(std::vector<std::string> chunk)
+void CurlClass::setHeader(QVector<QByteArray> chunk)
 {
     header = NULL;
-    for (int i = 0; i < chunk.size(); i++)
+    for (quint64 i = 0; i < chunk.size(); i++)
     {
-        header = curl_slist_append(header, chunk[i].c_str());
+        header = curl_slist_append(header, chunk[i]);
     }
 }
 
@@ -106,7 +80,7 @@ int CurlClass::XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, d
         list.append(dlTotal);
         list.append(ulNow);
         list.append(ulTotal);
-        emit fp->th->progressSignal(list, fp->timer->elapsed(), fp->th->downloaderType);
+        emit fp->th->progressSignal(list, fp->timer.elapsed(), fp->th->downloaderType);
         fp->lastDlNow = dlNow;
         fp->lastDlTotal = dlTotal;
         fp->lastUlTotal = ulTotal;

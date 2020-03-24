@@ -2,7 +2,17 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 import "../../../QmlIncludes"
 
-Rectangle {
+StandartInputRectangle {
+    id: root
+    MangadexCheckBoxes {
+        id: checkBoxRectangle
+        anchors.right: root.sirStatusTextBox.left
+        anchors.margins: 5
+    }
+    Component.onCompleted: sirInputTextField.anchors.right = checkBoxRectangle.left
+}
+
+/*Rectangle {
     id: rootRectangle
     anchors.left: parent.left
     anchors.right: parent.right
@@ -72,4 +82,4 @@ Rectangle {
                 statusRectangle.color = "#00ff08"
         }
     }
-}
+}*/

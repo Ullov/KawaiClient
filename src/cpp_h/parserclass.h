@@ -50,7 +50,7 @@ protected:
     // variables
     QString currUrl;
     QString rootPath; // in this paths writes log file
-    std::vector<std::string> chunk; // header for curl requests
+    QVector<QByteArray> chunk; // header for curl requests
     FileIdentifier *defExt;
     QString logPath;
     const QString logFile = "log.txt";
@@ -58,7 +58,7 @@ protected:
     QString parserName;
 
 signals:
-    void downloadingFinished(const QStringList mode, const QJsonObject data);
+    void downloadingFinished(const QList<int> mode, const QJsonObject data);
     void logMessage(const QString message);
 };
 

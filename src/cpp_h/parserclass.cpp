@@ -147,4 +147,5 @@ void ParserClass::setParserType(const KEnums::Parsers type)
     parserType = type;
     basePath = OptionsHandler::rootProgramPath + '/' + OptionsHandler::parsersWritePathes[type];
     parserName = OptionsHandler::parsersNames[type];
+    cc->downloaderType = type;
 }

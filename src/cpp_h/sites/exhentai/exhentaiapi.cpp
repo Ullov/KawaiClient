@@ -20,7 +20,7 @@ ExhentaiApi::ExhentaiApi()
     setParserType(KEnums::Parsers::ExHentai);
 }
 
-void ExhentaiApi::download()
+void ExhentaiApi::slotDownload()
 {
     currUrl = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments"; // 1583231/db7901c0b7
     //currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
@@ -50,7 +50,7 @@ void ExhentaiApi::download()
     {
         htmlAst = new HtmlObject();
         currUrl = pagesLinks[i].toObject().value("linkToPage").toString();
-        htmlAst->makeAst(cc->performing(currUrl.toStdString().c_str()));
+        htmlAst->makeAst(cc->performing(currUrl.toUtf8()));
         if (htmlAst->rootTag->find(1).find(1).find(6).isExist(1))
             currUrl = htmlAst->rootTag->find(1).find(1).find(6).find(1).getAttributeValue("href");
         else
@@ -58,12 +58,47 @@ void ExhentaiApi::download()
         KawaiConverter::convertHtmlEntities(currUrl);
         downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "/pages/", QString::number(i));
         writeInfoLog("Page #" + QString::number(i) + " downloaded.");
+        delay(1);
     }
 
     writeInfoLog("Gallery downloaded.");
-    QStringList mode;
-    mode.push_back("exhentai");
-    mode.push_back("void");
+    QList<int> mode;
+    mode.push_back(static_cast<int>(KEnums::Parsers::ExHentai));
+    mode.push_back(static_cast<int>(KEnums::ParserModes::ExHentai::Download));
+    emit downloadingFinished(mode, QJsonObject());
+}
+
+void ExhentaiApi::slotGetFrontPage()
+{
+    /*if (numberNeddedPage >= 0)
+        currUrl = "https://exhentai.org/?page=" + QString::number(numberNeddedPage) +"&inline_set=dm_e"; // URL for front page with extended view mode
+    else
+        currUrl = "https://exhentai.org/?page=0&inline_set=dm_e";
+    HtmlObject *htmlAst = new HtmlObject();
+    htmlAst->makeAst(cc->performing(currUrl.toUtf8()));
+
+    QJsonArray galleriesInfoArr;
+    HtmlTag &hTag = htmlAst->rootTag->find(1).find(2).find(1).find(3); // <table class="itg glte">
+    for (int i = 0; i < hTag.getChildTags().size(); i++)
+    {
+        QJsonArray tmpArr;
+        QJsonObject tmpObj;
+        HtmlTag &tmpHTag = hTag.find(i);
+        tmpObj["linkToGallery"] = tmpHTag.find(0).find(0).find(0).getAttributeValue("href"); // <a href="https://exhentai.org/g/1591450/b1b1afffa3/">
+        tmpHTag = tmpHTag.find(1).find(0).find(0); // <div class="gl3e">
+        tmpObj["type"] = tmpHTag.find(0).getInnerContent();
+        tmpObj["postedOn"] = tmpHTag.find(1).getInnerContent();
+        tmpObj["uploader"] = tmpHTag.find(3).find(0).getInnerContent();
+        tmpObj["pagesNumber"] = tmpHTag.find(4).getInnerContent();
+        tmpHTag = hTag.find(i).find(1).find(0).find(1).find(0); // <div class="gl4e glname"
+        tmpObj["title"] = tmpHTag.find(0).getInnerContent();
+        tmpHTag = tmpHTag.find(1).find(0);
+        tmpObj["sectionedInfo"] = getSectionedInfo(tmpHTag);
+        galleriesInfoArr.append(tmpObj);
+    }*/
+    QList<int> mode;
+    mode.push_back(static_cast<int>(KEnums::Parsers::ExHentai));
+    mode.push_back(static_cast<int>(KEnums::ParserModes::ExHentai::FrontPage));
     emit downloadingFinished(mode, QJsonObject());
 }
 
@@ -90,19 +125,7 @@ QJsonObject ExhentaiApi::getGalleryInfo(HtmlObject &htmlAst)
     info["peopleRatedCounter"] = hTag.find(0).find(0).find(2).find(0).getInnerContent(); // id="rating_count"
     info["averageRating"] = StringOperations::getDoubleNumberFromString(hTag.find(0).find(1).find(0).getInnerContent())[0]; // id="rating_label"
     hTag = htmlAst.rootTag->find(1).find(3).find(3).find(1).find(0).find(0); // <div id="taglist"><table>
-    for (int i = 0; i < hTag.getChildTags().size(); i++)
-    {
-        tmp = QJsonArray();
-        QString key = hTag.find(i).find(0).getInnerContent();
-        key.chop(1);
-        HtmlTag &tmpHTag = hTag.find(i).find(1);
-        for (int j = 0; j < tmpHTag.getChildTags().size(); j++)
-        {
-            tmp.append(tmpHTag.find(j).find(0).getInnerContent());
-        }
-        tmpObj[key] = tmp;
-    }
-    info["sectionedInfo"] = tmpObj;
+    info["sectionedInfo"] = getSectionedInfo(hTag);
     return info;
 }
 
@@ -171,4 +194,25 @@ void ExhentaiApi::getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages)
         tmpObj["miniImageSrc"] = tmpTag.find(0).getAttributeValue("src");
         linksToPages.append(tmpObj);
     }
+}
+
+QJsonObject ExhentaiApi::getSectionedInfo(HtmlTag &hTag)
+{
+    if (!hTag.isExist(0))
+        return QJsonObject();
+
+    QJsonObject sectionedInfoObj;
+    for (int i = 0; i < hTag.getChildTags().size(); i++)
+    {
+        QJsonArray tmp;
+        QString key = hTag.find(i).find(0).getInnerContent();
+        key.chop(1);
+        HtmlTag &tmpHTag = hTag.find(i).find(1);
+        for (int j = 0; j < tmpHTag.getChildTags().size(); j++)
+        {
+            tmp.append(tmpHTag.find(j).find(0).getInnerContent());
+        }
+        sectionedInfoObj[key] = tmp;
+    }
+    return sectionedInfoObj;
 }

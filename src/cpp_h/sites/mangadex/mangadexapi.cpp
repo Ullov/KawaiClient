@@ -69,9 +69,9 @@ void MangadexApi::download()
     }
 
     writeInfoLog("All selected chapters downloaded.");
-    QStringList mode;
-    mode.push_back("mangadex");
-    mode.push_back("void");
+    QList<int> mode;
+    mode.push_back(static_cast<int>(KEnums::Parsers::MangaDex));
+    mode.push_back(static_cast<int>(KEnums::ParserModes::MangaDex::Download));
     emit downloadingFinished(mode, QJsonObject());
 // https://mangadex.org/api/?id=355650&type=chapter
 // https://mangadex.org/api/?id=15242&type=manga
