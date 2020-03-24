@@ -24,5 +24,8 @@
         <file>qml/windows/Misc/Parsers/StandartInputRectangle.qml</file>
         <file>qml/windows/Misc/Parsers/MangadexInputRectangle.qml</file>
         <file>qml/windows/SettingsAndSystem/Settings.qml</file>
+        <file>qml/windows/SitePages/Exhentai/ExhentaiFrontPage.qml</file>
+        <file>qml/windows/SitePages/Exhentai/ExhentaiTypeSelectButton.qml</file>
+        <file>qml/windows/SitePages/Exhentai/ExhentaiButton.qml</file>
     </qresource>
 </RCC>
