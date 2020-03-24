@@ -90,9 +90,12 @@ Rectangle {
     function createAndAddObject(path, name)
     {
         var len = windowsObects.length
+        var obj = Qt.createComponent(path)
+        if (obj.status == Component.Error)
+            console.log(obj.errorString())
         windowsObects.push([
             comboBoxCounter, // sectionId
-            Qt.createComponent(path).createObject(contentRectangle, {visible: false}),
+            obj.createObject(contentRectangle, {visible: false}),
             len, // windowId
             name // buttonText
         ]);
