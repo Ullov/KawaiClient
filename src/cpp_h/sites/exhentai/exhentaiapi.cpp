@@ -62,10 +62,7 @@ void ExhentaiApi::slotDownload()
     }
 
     writeInfoLog("Gallery downloaded.");
-    QList<int> mode;
-    mode.push_back(static_cast<int>(KEnums::Parsers::ExHentai));
-    mode.push_back(static_cast<int>(KEnums::ParserModes::ExHentai::Download));
-    emit downloadingFinished(mode, QJsonObject());
+    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::ExHentai::Download), QJsonObject());
 }
 
 void ExhentaiApi::slotGetFrontPage()
@@ -96,10 +93,7 @@ void ExhentaiApi::slotGetFrontPage()
         tmpObj["sectionedInfo"] = getSectionedInfo(tmpHTag);
         galleriesInfoArr.append(tmpObj);
     }*/
-    QList<int> mode;
-    mode.push_back(static_cast<int>(KEnums::Parsers::ExHentai));
-    mode.push_back(static_cast<int>(KEnums::ParserModes::ExHentai::FrontPage));
-    emit downloadingFinished(mode, QJsonObject());
+    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::ExHentai::FrontPage), QJsonObject());
 }
 
 QJsonObject ExhentaiApi::getGalleryInfo(HtmlObject &htmlAst)

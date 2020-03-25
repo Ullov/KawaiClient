@@ -195,10 +195,7 @@ void PixivApi::download()
     }
 
     writeInfoLog("Downloading user with ID " + userId + " and name " + userName + " completed.");
-    QList<int> mode;
-    mode.push_back(static_cast<int>(KEnums::Parsers::Pixiv));
-    mode.push_back(static_cast<int>(KEnums::ParserModes::Pixiv::Download));
-    emit downloadingFinished(mode, QJsonObject());
+    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::Pixiv::Download), QJsonObject());
 }
 
 void PixivApi::viewUser()

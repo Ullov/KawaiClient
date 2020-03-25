@@ -46,6 +46,7 @@ protected:
     QString defineExtension(const QByteArray &file);
     void writeInfoLog(const QString &message);
     void setParserType(const KEnums::Parsers type);
+    void endDownloadingFunction(const int parserMode, const QJsonObject &data);
 
     // variables
     QString currUrl;
