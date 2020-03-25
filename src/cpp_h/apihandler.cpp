@@ -46,98 +46,99 @@ void ApiHandler::slotStartDownloding(const QStringList &params, const QList<int>
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::ExHentai parserMode)
 {
     QThread *thread = new QThread();
-    ExhentaiApi *eApi = new ExhentaiApi();
+    ExhentaiApi *api = new ExhentaiApi();
 
-    eApi->galleryCode = params[0];
+    api->galleryCode = params[0];
     if (parserMode == KEnums::ParserModes::ExHentai::FrontPage)
-        eApi->numberNeddedPage = params[1].toInt();
+        api->numberNeddedPage = params[1].toInt();
 
-    eApi->moveToThread(thread);
+    api->moveToThread(thread);
     if (parserMode == KEnums::ParserModes::ExHentai::Download)
-        connect(thread, SIGNAL(started()), eApi, SLOT(slotDownload()));
+        connect(thread, SIGNAL(started()), api, SLOT(slotDownload()));
     else if (parserMode == KEnums::ParserModes::ExHentai::FrontPage)
-        connect(thread, SIGNAL(started()), eApi, SLOT(slotGetFrontPage()));
+        connect(thread, SIGNAL(started()), api, SLOT(slotGetFrontPage()));
 
-    connect(eApi, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), thread, SLOT(quit()));
-    connect(eApi, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), eApi, SLOT(deleteLater()));
-    connect(eApi, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), this, SLOT(universalEmitSignalDownloadingFinished(QStringList, QJsonObject)));
-    connect(eApi->cc, SIGNAL(progressSignal(QList<double>,qint64,KEnums::Parsers)), this, SLOT(downloadStatus(QList<double>,qint64,KEnums::Parsers)));
-
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+    connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::Pixiv parserMode)
 {
     QThread *thread = new QThread();
-    PixivApi *pApi = new PixivApi();
+    PixivApi *api = new PixivApi();
 
-    pApi->userId = params[0];
+    api->userId = params[0];
 
-    pApi->moveToThread(thread);
-    connectSlotsAndSignals(thread, pApi);
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(download()));
+    connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaDex parserMode)
 {
     QThread *thread = new QThread();
-    MangadexApi *mdApi = new MangadexApi();
+    MangadexApi *api = new MangadexApi();
 
-    mdApi->mangaId = params[0];
-    mdApi->enDownload = params[1];
-    mdApi->ruDownload = params[2];
-    mdApi->otherDownload = params[3];
+    api->mangaId = params[0];
+    api->enDownload = params[1];
+    api->ruDownload = params[2];
+    api->otherDownload = params[3];
 
-    mdApi->moveToThread(thread);
-    connectSlotsAndSignals(thread, mdApi);
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(download()));
+    connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::VK parserMode)
 {
     QThread *thread = new QThread();
-    VkApi *vApi = new VkApi();
-    vApi->postUrl = params[0];
+    VkApi *api = new VkApi();
+    api->postUrl = params[0];
 
-    vApi->moveToThread(thread);
-    connectSlotsAndSignals(thread, vApi);
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(downloadPost()));
+    connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaIro parserMode)
 {
     QThread *thread = new QThread();
-    MangairoApi *maApi = new MangairoApi();
+    MangairoApi *api = new MangairoApi();
 
-    maApi->mangaId = params[0];
+    api->mangaId = params[0];
 
-    maApi->moveToThread(thread);
-    connectSlotsAndSignals(thread, maApi);
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(download()));
+    connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::YouTube parserMode)
 {
     QThread *thread = new QThread();
-    YoutubeApi *yApi = new YoutubeApi();
+    YoutubeApi *api = new YoutubeApi();
 
-    yApi->videoUrl = params[0];
+    api->videoUrl = params[0];
 
-    yApi->moveToThread(thread);
-    connectSlotsAndSignals(thread, yApi);
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(download()));
+    connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode)
 {
     QThread *thread = new QThread();
-    TwitterApi *tApi = new TwitterApi();
+    TwitterApi *api = new TwitterApi();
 
-    tApi->userName = params[0];
+    api->userName = params[0];
 
-    tApi->moveToThread(thread);
-    connectSlotsAndSignals(thread, tApi);
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(download()));
+    connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
@@ -154,7 +155,7 @@ void ApiHandler::slotDownloadStatus(const QList<double> list, const qint64 milli
 template<typename T>
 void ApiHandler::connectSlotsAndSignals(const QThread *thread, const T *apiClass)
 {
-    connect(thread, SIGNAL(started()), apiClass, SLOT(download()));
+    //connect(thread, SIGNAL(started()), apiClass, SLOT(download()));
     connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), thread, SLOT(quit()));
     connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), apiClass, SLOT(deleteLater()));
     connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), this, SLOT(slotDownloadingFinished(QList<int>, QJsonObject)));
