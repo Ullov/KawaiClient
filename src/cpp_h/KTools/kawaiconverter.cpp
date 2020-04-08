@@ -152,7 +152,7 @@ QString KawaiConverter::convert<QJsonObject, QString>(const QJsonObject &data)
 template<>
 QByteArray KawaiConverter::convert<QJsonObject, QByteArray>(const QJsonObject &data)
 {
-    return toByteArray(convert<QJsonObject, QString>(data));
+    return convert<QJsonObject, QString>(data).toUtf8();
 }
 
 
