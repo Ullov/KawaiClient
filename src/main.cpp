@@ -8,6 +8,12 @@
 #include <QVariant>
 #include <QTextCodec>
 
+static void registerTypesForQml()
+{
+    qRegisterMetaType<QVector<QByteArray>>("VectorByteArray");
+    KEnums::registerTypesForQml();
+}
+
 int main(int argc, char *argv[])
 {
     QTextCodec *codec = QTextCodec::codecForName("UTF-8");
@@ -17,7 +23,7 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    KEnums::registerTypesForQml();
+    registerTypesForQml();
 
     OptionsHandler *options = new OptionsHandler();
     Logging *logger = new Logging();
