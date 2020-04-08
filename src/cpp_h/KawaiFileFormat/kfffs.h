@@ -8,7 +8,7 @@ class KffFs
 {
 public:
     KffFs();
-
+/*
 // functions
     bool open(NativeFs &localNativeFs);
     qint64 pos();
@@ -52,7 +52,9 @@ private:
     void searchRequestedPosition(qint64 remainedWalk, const qint64 &startClusterPos);
     qint16 positionInCluster();
 
-public:
+public:*/
+
+    void newFile(const QString &path, const QString &fileName, const qint32 inodesNumber = 2000000);
 };
 
 #endif // KFFFS_H

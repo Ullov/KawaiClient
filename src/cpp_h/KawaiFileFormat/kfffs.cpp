@@ -2,7 +2,7 @@
 
 KffFs::KffFs() {}
 
-bool KffFs::open(NativeFs &localNativeFs)
+/*bool KffFs::open(NativeFs &localNativeFs)
 {
     nativeFs = &localNativeFs;
     nativeFs->seek(0);
@@ -94,7 +94,7 @@ bool KffFs::getInode(const qint64 &inodeNumber)
     inode->headerPos = nativeFs->read<qint64>();
     nativeFs->seek(offsetForInode + 8);
     inode->contentPos = nativeFs->read<qint64>();
-}
+}*/
 /*
  * all sizes in bits
  * inode structure:
@@ -104,3 +104,18 @@ bool KffFs::getInode(const qint64 &inodeNumber)
  * wholoe inode size: 128 bits
  * reccomend allocate inodes for general use: 2,000,000 = 244.14 MB
  */
+
+/*void KffFs::newFile(const QString &path, const QString &fileName, const qint32 inodesNumber)
+{
+    if (NativeFs::fileExist(path + "/" + fileName) || NativeFs::dirExist(path + "/" + fileName))
+        return;
+
+    NativeFs nFs = NativeFs();
+    nFs.open(path + "/" + fileName, QIODevice::ReadWrite);
+    qint64 none = -1;
+    for (qint64 i = 0; i < (inodesNumber * 64); i += 8)
+    {
+        nFs.seek(i);
+        nFs.write(none);
+    }
+}*/
