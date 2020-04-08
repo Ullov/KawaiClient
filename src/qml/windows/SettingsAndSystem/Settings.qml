@@ -1,13 +1,21 @@
 import QtQuick 2.0
+import "../../QmlIncludes"
 
 Rectangle {
     anchors.fill: parent
-    Text {
-        id: testText
-    }
+
     Component.onCompleted: options.emitRootProgramPath()
     Connections {
         target: options
-        onSendRootProgramPath: testText.text = path
+        onSendRootProgramPath: rootProgtramPathField.klifcTextField.text = path
+    }
+
+    KawaiLabelInputFieldCombination {
+        id: rootProgtramPathField
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.margins: 5
+        width: 500
+        klifcLabel.text: "Root program path"
     }
 }

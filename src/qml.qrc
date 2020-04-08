@@ -28,5 +28,7 @@
         <file>qml/windows/SitePages/Exhentai/ExhentaiTypeSelectButton.qml</file>
         <file>qml/windows/SitePages/Exhentai/ExhentaiButton.qml</file>
         <file>qml/windows/Misc/Parsers/ParserFunctions.js</file>
+        <file>qml/QmlIncludes/KawaiLabelInputFieldCombination.qml</file>
+        <file>resources/sampleFiles/configs.json</file>
     </qresource>
 </RCC>
