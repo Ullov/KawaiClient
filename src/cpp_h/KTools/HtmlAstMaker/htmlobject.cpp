@@ -167,32 +167,68 @@ qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, Ht
     qint32 tagEdSize = tagEndPart.size();
     qint32 sameTagCounterEd = 0;
     qint32 sameTagCounterOp = 0;
-    while (tmpPos < endPos + 1)
+    if (tagClass.getName() == "tr")
     {
-        if (htmlText->mid(tmpPos, tagEdSize) == tagEndPart) // tag ending part detected
+        QVector<qint32> closingTagsPos;
+        QVector<qint32> openingTagsPos;
+        while (tmpPos < endPos + 1)
         {
-            if (sameTagCounterOp == 0) // tag ending part for this tag
+            if (htmlText->mid(tmpPos, tagEdSize) == tagEndPart) // tag ending part detected
             {
-                tagClass.setInnerContent(htmlText->mid(pos, tmpPos - pos));
-                tagClass.setSelfclosingness(true);
-                Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
-                break;
+                if (sameTagCounterOp == 0) // tag ending part for this tag
+                {
+                    tagClass.setInnerContent(htmlText->mid(pos, tmpPos - pos));
+                    tagClass.setSelfclosingness(true);
+                    Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
+                    break;
+                }
+                else // tag ending part not for this tag
+                {
+                    --sameTagCounterOp;
+                    ++sameTagCounterEd;
+                    ++tmpPos;
+                }
             }
-            else // tag ending part not for this tag
+            else // not ending part, something else
             {
-                --sameTagCounterOp;
-                ++sameTagCounterEd;
+                if (htmlText->mid(tmpPos - 1, tagOpSize) == tagOpeningPart) // another opening tag part detected
+                {
+                    ++sameTagCounterOp;
+                    --sameTagCounterEd;
+                }
                 ++tmpPos;
             }
         }
-        else // not ending part, something else
+    }
+    else
+    {
+        while (tmpPos < endPos + 1)
         {
-            if (htmlText->mid(tmpPos - 1, tagOpSize) == tagOpeningPart) // another opening tag part detected
+            if (htmlText->mid(tmpPos, tagEdSize) == tagEndPart) // tag ending part detected
             {
-                ++sameTagCounterOp;
-                --sameTagCounterEd;
+                if (sameTagCounterOp == 0) // tag ending part for this tag
+                {
+                    tagClass.setInnerContent(htmlText->mid(pos, tmpPos - pos));
+                    tagClass.setSelfclosingness(true);
+                    Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
+                    break;
+                }
+                else // tag ending part not for this tag
+                {
+                    --sameTagCounterOp;
+                    ++sameTagCounterEd;
+                    ++tmpPos;
+                }
             }
-            ++tmpPos;
+            else // not ending part, something else
+            {
+                if (htmlText->mid(tmpPos - 1, tagOpSize) == tagOpeningPart) // another opening tag part detected
+                {
+                    ++sameTagCounterOp;
+                    --sameTagCounterEd;
+                }
+                ++tmpPos;
+            }
         }
     }
     /*if (!tagClass.isSelfclosing() && sameTagCounterOp + sameTagCounterEd != 0)  // opening parts more than ending parts
