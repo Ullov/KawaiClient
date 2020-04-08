@@ -51,6 +51,7 @@ QString CurlClass::cacertPath = QDir::temp().path() + "/KawaiClient";
 QString CurlClass::cacertFileName = "cacert.pem";
 QString CurlClass::fullCacertPath = cacertPath + '/' + cacertFileName;
 QString CurlClass::pathToCacertInQrc = ":/resources/other/cacert.pem";
+QString CurlClass::cookiePath = "";
 // End CurlClass
 // Start KEnusString
 QMap<KEnums::Parsers, QString> keParsers = {

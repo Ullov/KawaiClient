@@ -77,11 +77,56 @@ namespace KEnums
             qRegisterMetaType<KEnums::ParserModes::YouTube>("ParserModesYouTube");
         }
     };
+    namespace CurlSettings {
+        Q_NAMESPACE
+        Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+        enum class RequestType {
+            Get,
+            Post
+        };
+        enum class CookieMode {
+            None,
+            GetAllTimes,
+            GetAndKeep,
+            Keep,
+            Void
+        };
+        enum class HeaderMode {
+            None,
+            Custom
+        };
+        enum class SetHeaderMode {
+            Add,
+            New
+        };
+        enum class HttpVersion {
+            Http2,
+            Standart
+        };
+        enum class RequestMode {
+            Old,
+            New
+        };
+
+        Q_ENUM_NS(SetHeaderMode)
+        Q_ENUM_NS(RequestType)
+        Q_ENUM_NS(CookieMode)
+        Q_ENUM_NS(HeaderMode)
+        static void registerTypesForQml()
+        {
+            qmlRegisterUncreatableMetaObject(CurlSettings::staticMetaObject, "KEnums", 1, 0, "CurlSettings", "Is enum");
+            qRegisterMetaType<RequestType>("CurlSettingsRequestType");
+            qRegisterMetaType<CookieMode>("CurlSettingsCookieMode");
+            qRegisterMetaType<HeaderMode>("CurlSettingsHeaderMode");
+            qRegisterMetaType<SetHeaderMode>("CurlSettingsSetHeaderMode");
+        }
+    }
     static void registerTypesForQml()
     {
         qmlRegisterUncreatableMetaObject(KEnums::staticMetaObject, "KEnums", 1, 0, "KEnums", "Is enum");
         qRegisterMetaType<KEnums::Parsers>("KEnumParsers");
         qRegisterMetaType<KEnums::LogType>("KEnumLogType");
+        CurlSettings::registerTypesForQml();
         ParserModes::registerTypesForQml();
     }
 };

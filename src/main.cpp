@@ -4,6 +4,8 @@
 #include "cpp_h/logging.h"
 #include "cpp_h/optionshandler.h"
 #include "cpp_h/KTools/kenums.h"
+#include "cpp_h/KTools/kawaiimageprovider.h"
+#include "cpp_h/curlclass.h"
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>
@@ -24,10 +26,12 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     registerTypesForQml();
+    curl_global_init(CURL_GLOBAL_ALL);
 
     OptionsHandler *options = new OptionsHandler();
     Logging *logger = new Logging();
     ApiHandler *apiHandler = new ApiHandler();
+    KawaiImageProvider *imgProvider = new KawaiImageProvider();
 
     apiHandler->logger = logger;
     apiHandler->options = options;
@@ -36,9 +40,11 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);
     engine.rootContext()->setContextProperty("logger", logger);
     engine.rootContext()->setContextProperty("options", options);
+    engine.addImageProvider("kimage", imgProvider);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
     return app.exec();
 }
+
