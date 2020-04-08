@@ -150,10 +150,10 @@ void ParserClass::setParserType(const KEnums::Parsers type)
     cc->downloaderType = type;
 }
 
-void ParserClass::endDownloadingFunction(const int parserMode, const QJsonObject &data)
+void ParserClass::endDownloadingFunction(const int parserMode, const QJsonObject &data, const QVector<QByteArray> &binaryContent)
 {
     QList<int> mode;
     mode.push_back(static_cast<int>(parserType));
     mode.push_back(parserMode);
-    emit downloadingFinished(mode, data);
+    emit downloadingFinished(mode, data, binaryContent);
 }

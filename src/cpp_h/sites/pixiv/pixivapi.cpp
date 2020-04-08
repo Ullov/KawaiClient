@@ -195,7 +195,7 @@ void PixivApi::download()
     }
 
     writeInfoLog("Downloading user with ID " + userId + " and name " + userName + " completed.");
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::Pixiv::Download), QJsonObject());
+    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::Pixiv::Download));
 }
 
 void PixivApi::viewUser()
@@ -243,3 +243,25 @@ void PixivApi::viewUser()
     // https://www.pixiv.net/ajax/novel/11280232
     // https://www.pixiv.net/ajax/novel/8407773
 */
+
+void PixivApi::getRecomendedUsers()
+{
+    chunk = {
+        "Host: www.pixiv.net",
+        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0",
+        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Language: ja,en-US;q=0.7,en;q=0.3",
+        "Accept-Encoding: gzip, deflate, br",
+        "DNT: 1",
+        "Upgrade-Insecure-Requests: 1",
+        "Connection: keep-alive",
+        "Cookie: first_visit_datetime_pc=2020-03-15+21%3A19%3A40; PHPSESSID=18488812_ePaEVOtpaPRa3DrJpoXngn3bMPzLF23w; p_ab_id=9; p_ab_id_2=5; p_ab_d_id=162095390; yuid_b=FDRpgVQ; tag_view_ranking=RTJMXD26Ak~Lt-oEicbBr~0xsDLqCEW6~ETjPkL0e6r~zIv0cf5VVk~BU9SQkS-zU~EZQqoW9r8g~m3EJRa33xU~ay54Q_G6oX~OT4SuGenFI~kP7msdIeEU~y8GNntYHsi~q3eUobDMJW~EGefOqA6KB~RcahSSzeRf~Fq4K_8PGib~90n3-8i-qU~LJo91uBPz4~iFcW6hPGPU~pzzjRSV6ZO~EUwzYuPRbU~nQRrj5c6w_~-98s6o2-Rp~Y6fKlRsRt6~LVSDGaCAdn~tf0x8pUL6L~qtVr8SCFs5~RRFW9UEFcZ~n39RQWfHku~_hSAdpN9rx~Ce-EdaHA-3~CrFcrMFJzz~rqvM6GS14_~WcTW9TCOx9~-sp-9oh8uv~3mLXnunyNA~xgA3yCXKWS~VQA20ZDKeQ~bkSTvfrPKL~-MlX-zJDYF~v8hYE7ZOhd~BEa426Zwwo~QKeXYK2oSR~5oPIfUbtd6~abNIEh2zTB~2R7RYffVfj~EmhsFxSBo-~JmUnt_Iy_U~rkLi5JvRDj~J6V3OmA4Jc~KN7uxuR89w~52-15K-YXl~UX647z2Emo~mSipZ8R7EW~PwDMGzD6xn~yBnMz57lw_~JtHr1OyMVc~IEelj7HCPz~kZyLZDtxMx~K8_BEpmEzt~75zhzbk0bS~uzTh6oIVtD~GXriz-nrnQ~Oa9b6mEc1T~tyFEDMZCsd~CLR9k9dHAQ~qJ0gM6EMFd~sGIuAFCqQo~0Sds1vVNKR~FZibYFIIMZ~65aiw_5Y72~aKhT3n4RHZ~pYlUxeIoeg~azESOjmQSV~G_f4j5NH8i~CM9TZgYuXr~K8esoIs2eW~LSG3qSZIDS~21GI87QvUa~MQRzWUNTuf~8PDkVxzRxX~_hR5RtCi3o~9s62wUfVkX~0ZSEuSNvpZ~ECJv9QeOpm~JNUzt5TTQi~flb2ZnuOIx~XEuS3TPyCa~aUKGRzPd6e~FqVQndhufZ~qWFESUmfEs~wtFYZb5e1D~Avyrt8Dl6U~UrhMyHY4-s~g-QqiAp4D1~q7YTLRZUZb~2VFvdpks8q~DADQycFGB0~oaiId5Os_B~JBFbzljAuI; device_token=3bbf1934ce753c15819030cdfd73020c; privacy_policy_agreement=1; c_type=19; a_type=0; b_type=1; module_orders_mypage=%5B%7B%22name%22%3A%22sketch_live%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22tag_follow%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22recommended_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22everyone_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22following_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22mypixiv_new_illusts%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22spotlight%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22fanbox%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22featured_tags%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22contests%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22user_events%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22sensei_courses%22%2C%22visible%22%3Atrue%7D%2C%7B%22name%22%3A%22booth_follow_items%22%2C%22visible%22%3Atrue%7D%5D; __cfduid=df70f408ec755f18955632e82e83432bf1584641439; __utmc=235335808; is_sensei_service_user=1; login_ever=yes",
+        "Cache-Control: max-age=0",
+        "TE: Trailers"
+    };
+    cc->setHeader(chunk);
+    currUrl = "https://www.pixiv.net/rpc/index.php?mode=get_recommend_users_and_works_by_user_ids&user_ids=2583663,8851285,257542,8189060,11&user_num=30&work_num=5";
+    QJsonObject obj = KawaiConverter::convert<QString, QJsonObject>(cc->performing(currUrl.toUtf8()));
+    QJsonArray illusts = obj["body"].toArray();
+    // https://www.pixiv.net/rpc/index.php?mode=get_recommend_users_and_works_by_user_ids&user_ids=2583663,8851285,257542,8189060,11&user_num=30&work_num=5
+}

@@ -41,6 +41,11 @@ void ApiHandler::slotStartDownloding(const QStringList &params, const QList<int>
         KEnums::ParserModes::Twitter parserMode = static_cast<KEnums::ParserModes::Twitter>(mode[1]);
         startDownloading(params, parserMode);
     }
+    else if (parserType == KEnums::Parsers::NineHentai)
+    {
+        KEnums::ParserModes::NineHentai parserMode = static_cast<KEnums::ParserModes::NineHentai>(mode[1]);
+        startDownloading(params, parserMode);
+    }
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::ExHentai parserMode)
@@ -142,9 +147,24 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::slotDownloadingFinished(const QList<int> mode, const QJsonObject data)
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::NineHentai parserMode)
 {
-    emit signalDownloadingFinished(mode, data);
+    QThread *thread = new QThread();
+    NinehentaiApi *api = new NinehentaiApi();
+
+    api->galleryId = params[0];
+
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(download()));
+    connectSlotsAndSignals(thread, api);
+    thread->start();
+}
+
+
+
+void ApiHandler::slotDownloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryData)
+{
+    emit signalDownloadingFinished(mode, data, binaryData);
 }
 
 void ApiHandler::slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType)
@@ -155,10 +175,9 @@ void ApiHandler::slotDownloadStatus(const QList<double> list, const qint64 milli
 template<typename T>
 void ApiHandler::connectSlotsAndSignals(const QThread *thread, const T *apiClass)
 {
-    //connect(thread, SIGNAL(started()), apiClass, SLOT(download()));
-    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), thread, SLOT(quit()));
-    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), apiClass, SLOT(deleteLater()));
-    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject)), this, SLOT(slotDownloadingFinished(QList<int>, QJsonObject)));
+    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)), thread, SLOT(quit()));
+    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)), apiClass, SLOT(deleteLater()));
+    connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)), this, SLOT(slotDownloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)));
     connect(apiClass->cc, SIGNAL(progressSignal(QList<double>,qint64,KEnums::Parsers)), this, SLOT(slotDownloadStatus(QList<double>,qint64,KEnums::Parsers)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 }

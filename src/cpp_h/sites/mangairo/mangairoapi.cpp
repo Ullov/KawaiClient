@@ -140,10 +140,7 @@ void MangairoApi::download()
         writeInfoLog("Chapter " + QString::number(i) + " downloaded");
     }
     writeInfoLog("Manga downloaded");
-    QList<int> mode;
-    mode.push_back(static_cast<int>(KEnums::Parsers::MangaIro));
-    mode.push_back(static_cast<int>(KEnums::ParserModes::MangaIro::Download));
-    emit downloadingFinished(mode, QJsonObject());
+    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::MangaIro::Download));
 
     // <title>([^<>]+) Manga \| Mangairo\.com<\/title>                          - Title name
     // <meta name="description" content="([^<>]+)" \/>([^<>]+)                  - Title summary

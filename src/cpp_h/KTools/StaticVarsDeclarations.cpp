@@ -17,7 +17,8 @@ QMap<KEnums::Parsers, QString> OptionsHandler::parsersWritePathes = {
     {KEnums::Parsers::Pixiv, rootProgramPath + "/Downloads/Images/Pixiv/"},
     {KEnums::Parsers::Twitter, rootProgramPath + "/Downloads/Mixed/Twitter/"},
     {KEnums::Parsers::VK, rootProgramPath + "/Downloads/Mixed/VK/"},
-    {KEnums::Parsers::YouTube, rootProgramPath + "/Downloads/Video/YouTube/"}
+    {KEnums::Parsers::YouTube, rootProgramPath + "/Downloads/Video/YouTube/"},
+    {KEnums::Parsers::NineHentai, rootProgramPath + "/Downloads/Manga/9Hentai/"}
 };
 QMap<KEnums::Parsers, QString> OptionsHandler::parsersNames = {
     {KEnums::Parsers::ExHentai, "ExHentai"},
@@ -27,7 +28,8 @@ QMap<KEnums::Parsers, QString> OptionsHandler::parsersNames = {
     {KEnums::Parsers::Pixiv, "Pixiv"},
     {KEnums::Parsers::Twitter, "Twitter"},
     {KEnums::Parsers::VK, "VK"},
-    {KEnums::Parsers::YouTube, "YouTube"}
+    {KEnums::Parsers::YouTube, "YouTube"},
+    {KEnums::Parsers::NineHentai, "9Hentai"}
 };
 // End OptionsHandler
 // Start Logging

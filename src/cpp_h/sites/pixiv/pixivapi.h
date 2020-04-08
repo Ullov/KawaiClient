@@ -18,6 +18,7 @@ public:
 public slots:
     void download();
     void viewUser();
+    void getRecomendedUsers();
 
 private:
     QJsonObject object;

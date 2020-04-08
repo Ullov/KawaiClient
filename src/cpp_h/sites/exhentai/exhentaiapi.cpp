@@ -18,6 +18,7 @@ ExhentaiApi::ExhentaiApi()
     };
     this->cc->setHeader(chunk);
     setParserType(KEnums::Parsers::ExHentai);
+    cc->setOptions();
 }
 
 void ExhentaiApi::slotDownload()
@@ -25,7 +26,7 @@ void ExhentaiApi::slotDownload()
     currUrl = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments"; // 1583231/db7901c0b7
     //currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
     galleryUrl = "https://exhentai.org/g/" + galleryCode + '/';
-    QString data = cc->performing(currUrl.toUtf8());
+    QString data = cc->request(currUrl);
     HtmlObject *htmlAst = new HtmlObject();
     htmlAst->makeAst(data);
     QJsonObject info = getGalleryInfo(*htmlAst);
@@ -50,7 +51,7 @@ void ExhentaiApi::slotDownload()
     {
         htmlAst = new HtmlObject();
         currUrl = pagesLinks[i].toObject().value("linkToPage").toString();
-        htmlAst->makeAst(cc->performing(currUrl.toUtf8()));
+        htmlAst->makeAst(cc->request(currUrl));
         if (htmlAst->rootTag->find(1).find(1).find(6).isExist(1))
             currUrl = htmlAst->rootTag->find(1).find(1).find(6).find(1).getAttributeValue("href");
         else

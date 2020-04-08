@@ -20,7 +20,8 @@ void MangadexApi::download()
         "TE: Trailers",
     };
 
-    this->cc->setHeader(chunk);
+    cc->setHeader(chunk);
+    cc->setOptions();
     QJsonObject object = downloadJson("https://mangadex.org/api/manga/" + mangaId); // mangaId == 24220
     QString title = object.value("manga").toObject().value("title").toString();
     KawaiConverter::toNtfsCompatibleString(title);

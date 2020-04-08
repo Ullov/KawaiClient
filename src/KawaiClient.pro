@@ -32,6 +32,7 @@ SOURCES += \
     cpp_h/kawaihtmlparser.cpp \
     cpp_h/KawaiFileFormat/kfffile.cpp \
     cpp_h/sites/mangairo/mangairoapi.cpp \
+    cpp_h/sites/ninehentai/ninehentaiapi.cpp \
     cpp_h/sites/twitter/twitterapi.cpp \
     cpp_h/sites/vk/vkapi.cpp \
     cpp_h/sites/youtube/youtubeapi.cpp \
@@ -85,6 +86,7 @@ HEADERS += \
     cpp_h/sites/mangairo/mangairoapi.h \
     #cpp_h/sites/mangarock/mangarockapi.h \
     cpp_h/sites/nhentai/nhentaiapi.h \
+    cpp_h/sites/ninehentai/ninehentaiapi.h \
     cpp_h/sites/pixiv/pixivapi.h \
     cpp_h/apihandler.h \
     cpp_h/logging.h \

@@ -46,7 +46,7 @@ protected:
     QString defineExtension(const QByteArray &file);
     void writeInfoLog(const QString &message);
     void setParserType(const KEnums::Parsers type);
-    void endDownloadingFunction(const int parserMode, const QJsonObject &data);
+    void endDownloadingFunction(const int parserMode, const QJsonObject &data = QJsonObject(), const QVector<QByteArray> &binaryContent = QVector<QByteArray>());
 
     // variables
     QString currUrl;
@@ -59,7 +59,7 @@ protected:
     QString parserName;
 
 signals:
-    void downloadingFinished(const QList<int> mode, const QJsonObject data);
+    void downloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryContent);
     void logMessage(const QString message);
 };
 

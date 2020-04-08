@@ -28,10 +28,10 @@ public:
     static bool dirExist(const QString &path);
     template<typename T>
     static T readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags = QIODevice::ReadOnly);
+    QDataStream fileStream;
 
 private:
     QFile *file;
-    QDataStream fileStream;
 };
 
 #endif // NATIVEFS_H

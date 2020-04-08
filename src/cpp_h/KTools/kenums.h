@@ -17,7 +17,8 @@ namespace KEnums
         Pixiv,
         Twitter,
         VK,
-        YouTube
+        YouTube,
+        NineHentai
     };
     enum class LogType {
         Custom,
@@ -56,6 +57,10 @@ namespace KEnums
         enum class YouTube {
             Download
         };
+        enum class NineHentai {
+            Download
+        };
+
         Q_ENUM_NS(ExHentai)
         Q_ENUM_NS(MangaDex)
         Q_ENUM_NS(MangaIro)
@@ -64,6 +69,7 @@ namespace KEnums
         Q_ENUM_NS(Twitter)
         Q_ENUM_NS(VK)
         Q_ENUM_NS(YouTube)
+        Q_ENUM_NS(NineHentai)
         static void registerTypesForQml()
         {
             qmlRegisterUncreatableMetaObject(ParserModes::staticMetaObject, "KEnums", 1, 0, "ParserModes", "Is enum");
@@ -75,6 +81,7 @@ namespace KEnums
             qRegisterMetaType<KEnums::ParserModes::Twitter>("ParserModesTwitter");
             qRegisterMetaType<KEnums::ParserModes::VK>("ParserModesVK");
             qRegisterMetaType<KEnums::ParserModes::YouTube>("ParserModesYouTube");
+            qRegisterMetaType<KEnums::ParserModes::NineHentai>("ParserModesNineHentai");
         }
     };
     namespace CurlSettings {

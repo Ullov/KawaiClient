@@ -26,10 +26,7 @@ void NhentaiApi::doWork()
 
     //downloadAndWriteFile("https://i.nhentai.net/galleries/885361/2.png", *cc, halfPath, "example.txt");
 
-    QList<int> mode;
-    mode.push_back(static_cast<int>(KEnums::Parsers::NHentai));
-    mode.push_back(static_cast<int>(KEnums::ParserModes::NHentai::Download));
-    emit downloadingFinished(mode, QJsonObject());
+    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::NHentai::Download));
 }
 
 

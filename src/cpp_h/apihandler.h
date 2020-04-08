@@ -9,6 +9,7 @@
 #include "sites/mangairo/mangairoapi.h"
 #include "sites/youtube/youtubeapi.h"
 #include "sites/twitter/twitterapi.h"
+#include "sites/ninehentai/ninehentaiapi.h"
 #include <QObject>
 #include <QThread>
 #include "logging.h"
@@ -34,6 +35,7 @@ private:
     void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaIro parserMode);
     void startDownloading(const QStringList &params, const KEnums::ParserModes::YouTube parserMode);
     void startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::NineHentai parserMode);
 
     template<typename T>
     void connectSlotsAndSignals(const QThread *thread, const T *apiClass);
@@ -42,12 +44,12 @@ public slots:
     void slotStartDownloding(const QStringList &params, const QList<int> &mode);
 
 private slots:
-    void slotDownloadingFinished(const QList<int> mode, const QJsonObject data);
+    void slotDownloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryData);
     void slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
 
 signals:
     void signalDownloadingStarted(const QList<int> mode);
-    void signalDownloadingFinished(const QList<int> mode, const QJsonObject data);
+    void signalDownloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryData);
     void signalDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
 };
 
