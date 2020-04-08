@@ -13,6 +13,7 @@ OptionsHandler::OptionsHandler()
         NativeFs::writeFile(configPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
     }
     logRootPath = OptionsHandler::rootProgramPath + "/log/";
+    CurlClass::cookiePath = OptionsHandler::rootProgramPath + "/Cookie/";
 
     /*QFileInfo checkFil(rootProgramPath + "appConfigs.json");
     if (checkFil.exists() && checkFil.isFile())
@@ -29,12 +30,22 @@ OptionsHandler::OptionsHandler()
         QJsonObject tmp;
         tmp[""]
     }*/
+    if (NativeFs::fileExist(rootProgramPath + "/Settings/configs.json"))
+    {
+        QString fileContent = NativeFs::readFile<QString>(rootProgramPath + "/Settings", "configs.json");
+        configsObj = KawaiConverter::convert<QString, QJsonObject>(fileContent);
+    }
+    else
+    {
+        QString fileContent = NativeFs::readFile<QString>(":/resources/sampleFiles", "configs.json");
+        configsObj = KawaiConverter::convert<QString, QJsonObject>(fileContent);
+    }
 }
 
-void OptionsHandler::writeOnDrive()
+/*void OptionsHandler::writeOnDrive()
 {
     NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(appConfigs), rootProgramPath, "appConfigs.json");
-}
+}*/
 
 void OptionsHandler::setRootProgramPath(QString path)
 {
@@ -50,4 +61,14 @@ void OptionsHandler::emitRootProgramPath()
 QString OptionsHandler::getRootProgramPath()
 {
     return rootProgramPath;
+}
+
+void OptionsHandler::setParam(const QString pathToParam)
+{
+
+}
+
+void OptionsHandler::getParam(const QString pathToParam)
+{
+
 }
