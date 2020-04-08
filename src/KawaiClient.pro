@@ -16,6 +16,7 @@ SOURCES += \
     cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
     cpp_h/KTools/HtmlAstMaker/htmltag.cpp \
     cpp_h/KTools/StaticVarsDeclarations.cpp \
+    cpp_h/KTools/kawaiimageprovider.cpp \
     cpp_h/KTools/stringoperations.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.cpp \
@@ -62,6 +63,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     cpp_h/KTools/HtmlAstMaker/htmlobject.h \
     cpp_h/KTools/HtmlAstMaker/htmltag.h \
+    cpp_h/KTools/kawaiimageprovider.h \
     cpp_h/KTools/kenums.h \
     cpp_h/KTools/stringoperations.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.h \
