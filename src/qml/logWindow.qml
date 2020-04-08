@@ -2,10 +2,10 @@ import QtQuick 2.0
 import QtQuick.Controls 2.2
 
 Rectangle {
-    Connections {
-        target: logging
+    /*Connections {
+        target: logger
         onLogMessage: logTextArea.append(message)
-    }
+    }*/
 
     id: log
     anchors.fill: parent
@@ -19,7 +19,7 @@ Rectangle {
             TextArea {
                 id: logTextArea
                 anchors.fill: parent
-                placeholderText: qsTr("Here will shows some logs...")
+                placeholderText: qsTr("Logs area in state of developing...")
                 color: "#0fe71f"
                 readOnly: true
                 font.pixelSize: 12

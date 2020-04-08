@@ -1,96 +1,43 @@
 #include "parserclass.h"
 
-ParserClass::ParserClass() { }
-
-ParserClass::~ParserClass() { }
-
-
-
-void ParserClass::doWork() { }
-
-QJsonObject ParserClass::jsonObjectFromString(QString &content)
+ParserClass::ParserClass()
 {
-    QJsonObject obj;
-    QJsonDocument doc = QJsonDocument::fromJson(content.toUtf8());
-
-    if (!doc.isNull())
-    {
-        if (doc.isObject())
-        {
-            obj = doc.object();
-        }
-        else
-        {
-            return {}; // document is not an object
-        }
-    }
-    else
-    {
-        return {}; // invalid JSON
-    }
-
-    return obj;
+    defExt = new FileIdentifier();
+    cc = new CurlClass();
 }
 
-bool ParserClass::writeFile(std::string &data, std::string directory, std::string fileName)
+ParserClass::~ParserClass()
 {
-    QDir dir = QDir(directory.c_str());
-    bool qexi = dir.exists();
-    if (!qexi)
-    {
-        qexi = dir.mkpath(".");
-    }
-
-    QFile file(dir.path() + '\\' + fileName.c_str());
-    if (file.open(QIODevice::WriteOnly))
-    {
-        QDataStream stream(&file);
-        stream.writeRawData(data.c_str(), data.length());
-    }
-    else
-    {
-        file.close();
-        return false;
-    }
-    file.close();
-    return true;
+    delete defExt;
+    delete cc;
 }
 
-void ParserClass::recExtractJson(QJsonObject rootObject, std::string offset, std::string &data)
+void ParserClass::recExtractJson(const QJsonObject &rootObject, QString offset, QString &data)
 {
-    std::string tmp;
+    QString tmp;
     QStringList keysChain = rootObject.keys(); // Number; Null; Array; String; Object(aka array); Bool;
     for (int i = 0; i < keysChain.length(); i++)
     {
         if (rootObject.value(keysChain[i]).isString()) // is string
-        {
-            tmp = offset + keysChain[i].toStdString() + ": " + rootObject.value(keysChain[i]).toString().toStdString() + '\n';
-            data += tmp;
-        }
+            data += offset + keysChain[i] + ": " + rootObject.value(keysChain[i]).toString() + '\n';
         else if (rootObject.value(keysChain[i]).isObject()) // is object
         {
-            data += offset + "\\+" + keysChain[i].toStdString() + '\n';
+            data += offset + "\\+" + keysChain[i] + '\n';
             recExtractJson(rootObject.value(keysChain[i]).toObject(), offset + '\t', data);
         }
         else if (rootObject.value(keysChain[i]).isNull()) // is null
-        {
-            data += offset + keysChain[i].toStdString() + ": Is Null\n";
-        }
+            data += offset + keysChain[i] + ": Is Null\n";
         else if (rootObject.value(keysChain[i]).isBool()) // is bool
         {
             if (rootObject.value(keysChain[i]).toBool())
-            {
-                tmp = offset + keysChain[i].toStdString() + ": True\n";
-            }
+                tmp = offset + keysChain[i] + ": True\n";
             else
-            {
-                tmp = offset + keysChain[i].toStdString() + ": False\n";
-            }
+                tmp = offset + keysChain[i] + ": False\n";
             data += tmp;
         }
         else if (rootObject.value(keysChain[i]).isArray()) // is array
         {
-            data += offset + "\\+" + keysChain[i].toStdString() + '\n';
+            data += offset + "\\+" + keysChain[i] + '\n';
             QJsonValue val = rootObject.value(keysChain[i]);
             QJsonArray arr = val.toArray();
             int c = 0;
@@ -100,215 +47,113 @@ void ParserClass::recExtractJson(QJsonObject rootObject, std::string offset, std
                 if (v.isBool())
                 {
                     if (v.toBool())
-                    {
-                        tmp = offset + std::to_string(c) + ": True\n";
-                    }
+                        tmp = offset + QString::number(c) + ": True\n";
                     else
-                    {
-                        tmp = offset + std::to_string(c) + ": False\n";
-                    }
+                        tmp = offset + QString::number(c) + ": False\n";
                     data += tmp;
                 }
                 else if (v.isDouble())
-                {
-                    tmp = offset + std::to_string(c) + ": " + v.toString().toStdString() + '\n';
-                    data += tmp;
-                }
+                    data += offset + QString::number(c) + ": " + v.toString() + '\n';
                 else if (v.isNull())
-                {
-                    data += offset + std::to_string(c) + ": Is Null\n";
-                }
+                    data += offset + QString::number(c) + ": Is Null\n";
                 else if (v.isObject())
                 {
-                    data += offset + "\\+" + std::to_string(c) + '\n';
+                    data += offset + "\\+" + QString::number(c) + '\n';
                     recExtractJson(v.toObject(), offset + '\t', data);
                 }
                 else if (v.isString())
-                {
-                    tmp = offset + std::to_string(c) + ": " + v.toString().toStdString() + '\n';
-                    data += tmp;
-                }
+                    data += offset + QString::number(c) + ": " + v.toString() + '\n';
                 c++;
             }
-            offset.pop_back();
+            offset.chop(1);
         }
         else if (rootObject.value(keysChain[i]).isDouble()) // is double (aka number)
-        {
-            tmp = offset + keysChain[i].toStdString() + ": " + rootObject.value(keysChain[i]).toVariant().toString().toStdString() + '\n';
-            data += tmp;
-        }
+            data += offset + keysChain[i] + ": " + rootObject.value(keysChain[i]).toVariant().toString() + '\n';
     }
-    offset.pop_back();
+    offset.chop(1);
 }
 
-void ParserClass::writeJsonDataInFile(QJsonObject &object, std::string path, std::string fileName)
+void ParserClass::writeJsonDataInFile(const QJsonObject &object, const QString &path, const QString &fileName)
 {
-    std::string jData;
-    jData.erase();
+    QString jData;
+    jData = QString();
     recExtractJson(object, "", jData);
-    writeFile(jData, path, fileName);
+    NativeFs::writeFile(jData.toUtf8(), path, fileName);
 }
 
-QJsonObject ParserClass::downloadJson(std::string url, CurlClass &pq)
+QJsonObject ParserClass::downloadJson(const QString url)
 {
-    std::string result = pq.performing(url.c_str());
-    QString tmpString = QString::fromStdString(result);
-    QJsonObject object = jsonObjectFromString(tmpString);
+    QByteArray result = cc->performing(url.toUtf8());
+    QJsonObject object = KawaiConverter::convert<QString, QJsonObject>(result);
     return object;
 }
 
-void ParserClass::downloadAndWriteFile(std::string url, CurlClass &pq, std::string path, std::string fileName)
+void ParserClass::downloadAndWriteFile(const QString &url, const QString &path, const QString &fileName)
 {
-    std::string result = pq.performing(url.c_str());
-    writeFile(result, path, fileName);
+    QByteArray result = cc->performing(url.toUtf8());
+    NativeFs::writeFile(result, path, fileName);
 }
 
-void ParserClass::logging(std::string message)
+QJsonArray ParserClass::downloadJsonAsArray(const QString &url)
 {
-    time_t now = time(0);
-    std::string dt = ctime(&now);
-    dt.pop_back();
-    dt = dt + ' ' + message + '\n';
-
-    QString forSlot = dt.c_str();
-    emit logMessage(forSlot);
-
-    QDir dir = QDir(halfPath.c_str());
-    bool qexi = dir.exists();
-    if (!qexi)
-    {
-        qexi = dir.mkpath(".");
-    }
-
-    QFile file(dir.path() + "\\log.txt");
-    if (file.open(QIODevice::WriteOnly | QIODevice::Append))
-    {
-        QDataStream stream(&file);
-        stream.writeRawData(dt.c_str(), dt.length());
-    }
-    else
-    {
-        file.close();
-    }
-    file.close();
-}
-
-QJsonArray ParserClass::downloadJsonAsArray(std::string url, CurlClass &pq)
-{
-    std::string result = pq.performing(url.c_str());
-    QString tmpString = QString::fromStdString(result);
-    QJsonArray arr;
-    QJsonDocument doc = QJsonDocument::fromJson(tmpString.toUtf8());
-
-    if (!doc.isNull())
-    {
-        if (doc.isArray())
-        {
-            arr = doc.array();
-        }
-        else
-        {
-            return {}; // document is not an object
-        }
-    }
-    else
-    {
-        return {}; // invalid JSON
-    }
-
+    QByteArray result = cc->performing(url.toUtf8());
+    QJsonArray arr = KawaiConverter::convert<QString, QJsonArray>(result);
     return arr;
 }
 
-void ParserClass::eraseForbiddenChars(std::string &directory)
-{
-    char chars[] = ":*?<>\"|";
-    for (int i = 0; i < 5; i++)
-    {
-        directory.erase(std::remove(directory.begin(), directory.end(), chars[i]), directory.end());
-    }
-}
-
-void ParserClass::findMatchChars(std::string &data, std::string &pattern, std::vector<std::string> &result)
-{
-    result.clear();
-    QRegularExpression re(pattern.c_str());
-    QRegularExpressionMatchIterator i = re.globalMatch(data.c_str());
-    while (i.hasNext())
-    {
-        QRegularExpressionMatch match = i.next();
-        QString word = match.captured(1);
-        result.push_back(word.toStdString());
-    }
-}
-
-void ParserClass::delay(int seconds)
+void ParserClass::delay(const int &seconds)
 {
     std::this_thread::sleep_for(std::chrono::seconds(seconds));
 }
 
-void ParserClass::replaceHtmlEntities(std::string &wrongString)
+void ParserClass::downloadAndWriteFileWithDefinedExtension(const QString &url, const QString &path, const QString &fileName)
 {
-    std::vector<std::string> htmlEntities;
-    htmlEntities.push_back("&amp;");
-    std::vector<std::string> rightSumbols;
-    rightSumbols.push_back("&");
-
-    for (int i = 0; i < htmlEntities.size(); i++)
-    {
-        size_t startPos = 0;
-        while ((startPos = wrongString.find(htmlEntities[i], startPos)) != std::string::npos)
-        {
-            wrongString.replace(startPos, htmlEntities[i].length(), rightSumbols[i]);
-            startPos += rightSumbols[i].length();
-        }
-    }
+    QByteArray fileString = cc->performing(url.toUtf8());
+    QString extension = defineExtension(fileString);
+    NativeFs::writeFile(fileString, path, fileName + extension);
 }
 
-QStringList ParserClass::downloadAllUrls(QJsonObject rootObject, CurlClass &pq)
+QString ParserClass::defineExtension(const QByteArray &file)
 {
-    QStringList keysChain = rootObject.keys();
-    std::string urlPattern = "(https?:\\/\\/[0-9a-zA-Z-.\\/?&=_]+)";
-    std::vector<std::string> regResult;
-    QStringList result;
-    QStringList tmpResult;
-    for (int i = 0; i < keysChain.length(); i++)
+    QStringList tmp = defExt->identifyFileFromString(file);
+    return tmp[0];
+}
+
+QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
+{
+    QString pattern;
+    QVector<QString> regexResult;
+    QVector<QJsonObject> objects;
+    pattern = "({\".+})+"; // =*({(\")(.)+})+
+
+    StringOperations::executeRegex(text, pattern, regexResult);
+    for (int i = 0; i < regexResult.size(); i++)
     {
-        if (rootObject.value(keysChain[i]).isString())
-        {
-            currUrl = rootObject.value(keysChain[i]).toString().toStdString();
-            findMatchChars(currUrl, urlPattern, regResult);
-            if (regResult.size() != 0)
-            {
-                result.push_back(QString::fromStdString(pq.performing(currUrl.c_str())));
-            }
-        }
-        else if (rootObject.value(keysChain[i]).isObject())
-        {
-            tmpResult = downloadAllUrls(rootObject.value(keysChain[i]).toObject(), pq);
-            result.append(tmpResult);
-        }
-        else if (rootObject.value(keysChain[i]).isArray())
-        {
-            QJsonValue val = rootObject.value(keysChain[i]);
-            QJsonArray arr = val.toArray();
-            for (int i = 0; i < arr.size(); i++)
-            {
-                if (arr.at(i).isObject())
-                {
-                    tmpResult = downloadAllUrls(arr.at(i).toObject(), pq);
-                    result.append(tmpResult);
-                }
-                else if (arr.at(i).isString())
-                {
-                    currUrl = arr.at(i).toString().toStdString();
-                    findMatchChars(currUrl, urlPattern, regResult);
-                    if (regResult.size() != 0)
-                    {
-                        result.push_back(QString::fromStdString(pq.performing(currUrl.c_str())));
-                    }
-                }
-            }
-        }
+        QString tmp = regexResult[i];
+        QJsonObject obj = KawaiConverter::convert<QString, QJsonObject>(tmp);
+        if (!obj.isEmpty())
+            objects.push_back(obj);
     }
-    return  result;
+    return objects;
+}
+
+void ParserClass::writeInfoLog(const QString &message)
+{
+    Logging::writeCustomLog(message, OptionsHandler::parsersNames[parserType], KEnums::LogType::Info, rootPath, logFile);
+}
+
+void ParserClass::setParserType(const KEnums::Parsers type)
+{
+    parserType = type;
+    basePath = OptionsHandler::rootProgramPath + '/' + OptionsHandler::parsersWritePathes[type];
+    parserName = OptionsHandler::parsersNames[type];
+    cc->downloaderType = type;
+}
+
+void ParserClass::endDownloadingFunction(const int parserMode, const QJsonObject &data, const QVector<QByteArray> &binaryContent)
+{
+    QList<int> mode;
+    mode.push_back(static_cast<int>(parserType));
+    mode.push_back(parserMode);
+    emit downloadingFinished(mode, data, binaryContent);
 }

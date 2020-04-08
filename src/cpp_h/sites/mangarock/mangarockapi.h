@@ -24,7 +24,7 @@ private:
     void downloadAndWriteMri(std::string url, CurlClass &cc, std::string directory, std::string fileName);
 
 public slots:
-    void doWork();
+    void downloadUser();
 };
 
 #endif // MANGAROCKAPI_H

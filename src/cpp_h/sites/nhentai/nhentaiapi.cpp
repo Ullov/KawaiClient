@@ -20,13 +20,13 @@ void NhentaiApi::doWork()
         "Cache-Control: max-age=0"
     };
 
-    CurlClass *cc = new CurlClass(chunk);
+    //CurlClass *cc = new CurlClass(chunk);
 //    cc->proxy = "49.231.16.226:8080";
 //    halfPath = basePath;
 
-    downloadAndWriteFile("https://i.nhentai.net/galleries/885361/2.png", *cc, halfPath, "example.txt");
+    //downloadAndWriteFile("https://i.nhentai.net/galleries/885361/2.png", *cc, halfPath, "example.txt");
 
-    emit downloadingFinished();
+    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::NHentai::Download));
 }
 
 

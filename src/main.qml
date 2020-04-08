@@ -2,9 +2,12 @@ import QtQuick 2.11
 import QtQuick.Window 2.11
 import "qrc:/js/pageloader.js" as Pageloader
 import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.4
 import "qrc:/QmlIncludes/qml/QmlIncludes/" as QmlIncludes
-//import "qrc:KawaiButton.qml"
+import "qrc:/QmlIncludes/qml/QmlIncludes/SiteTabs/Pixiv" as PixivTabs
+import "qrc:/QmlIncludes/qml/QmlIncludes/SiteTabs/Mangarock" as MangarockTabs
+import "qrc:/QmlIncludes/qml/QmlIncludes/SiteTabs/Exhentai" as ExhentaiTabs
 
 Window {
     id: baseItem
@@ -21,7 +24,22 @@ Window {
         anchors.fill: parent
         Component.onCompleted: {
             addTab("Home Tab",homeTab)
-            addTab("Log Tab", Qt.createComponent("qrc:/qml/logWindow.qml"))
+            //addTab("Log Tab", Qt.createComponent("qrc:/qml/logWindow.qml"))
+            addTab("Settings Tab", Qt.createComponent("qrc:/qml/settingsWindow.qml"))
+        }
+
+        Component {
+            id: exhentaiTab
+            ExhentaiTabs.ExhentaiMainFrame {
+            }
+        }
+        Component {
+            id: pixivTab
+            PixivTabs.PixivMainFrame {}
+        }
+        Component {
+            id: mangarockTab
+            MangarockTabs.MangarockMainFrame {}
         }
 
         Component {
@@ -36,17 +54,21 @@ Window {
                     columns: 8
                     spacing: 5
 
-                    QmlIncludes.KawaiLoadTabButton {
-                        id: pixivSatrtButton
+                    QmlIncludes.KawaiButton {
                         labelText: "Pixiv"
-                        siteFile: "qrc:/qml/sites/pixiv/pixiv.qml"
-                        tabTitle: "Pixiv"
+                        onClicked: tabs.addTab("Pixiv", pixivTab)
                     }
-                    QmlIncludes.KawaiLoadTabButton {
-                        id: mangarockStartButton
+                    QmlIncludes.KawaiButton {
                         labelText: "MangaRock"
-                        siteFile: "qrc:/qml/sites/mangarock/mangarock.qml"
-                        tabTitle: "MangaRock"
+                        onClicked: tabs.addTab("MangaRock", mangarockTab)
+                    }
+                    QmlIncludes.KawaiButton {
+                        labelText: "ExHentai"
+                        onClicked: tabs.addTab("ExHentai", exhentaiTab)
+                    }
+                    QmlIncludes.KawaiButton {
+                        labelText: "MangaDex"
+                        //onClicked: tabs.addTab("ExHentai", exhentaiTab)
                     }
                 }
             }

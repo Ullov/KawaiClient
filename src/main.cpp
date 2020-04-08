@@ -2,9 +2,19 @@
 #include <QQmlApplicationEngine>
 #include "cpp_h/apihandler.h"
 #include "cpp_h/logging.h"
+#include "cpp_h/optionshandler.h"
+#include "cpp_h/KTools/kenums.h"
+#include "cpp_h/KTools/kawaiimageprovider.h"
+#include "cpp_h/curlclass.h"
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>
+
+static void registerTypesForQml()
+{
+    qRegisterMetaType<QVector<QByteArray>>("VectorByteArray");
+    KEnums::registerTypesForQml();
+}
 
 int main(int argc, char *argv[])
 {
@@ -15,16 +25,26 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    Logging *logging = new Logging();
+    registerTypesForQml();
+    curl_global_init(CURL_GLOBAL_ALL);
+
+    OptionsHandler *options = new OptionsHandler();
+    Logging *logger = new Logging();
     ApiHandler *apiHandler = new ApiHandler();
-    apiHandler->logging = logging;
+    KawaiImageProvider *imgProvider = new KawaiImageProvider();
+
+    apiHandler->logger = logger;
+    apiHandler->options = options;
     QQmlApplicationEngine engine;
     apiHandler->engine = &engine;
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);
-    engine.rootContext()->setContextProperty("logging", logging);
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    engine.rootContext()->setContextProperty("logger", logger);
+    engine.rootContext()->setContextProperty("options", options);
+    engine.addImageProvider("kimage", imgProvider);
+    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     if (engine.rootObjects().isEmpty())
         return -1;
 
     return app.exec();
 }
+

@@ -5,18 +5,19 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QJsonArray>
-#include <QDir>
-#include <fstream>
+#include <QJsonValue>
 #include <QVariant>
-//#include <QPlainTextEdit>
 #include <ctime>
-#include "curlclass.h"
-#include <QObject>
-#include <QRegularExpression>
 #include <thread>
 #include <chrono>
-#include <QDataStream>
-#include <QJsonValue>
+#include "curlclass.h"
+#include "logging.h"
+#include "fileidentifier.h"
+#include "KTools/kawaiconverter.h"
+#include "KTools/nativefs.h"
+#include "KTools/HtmlAstMaker/htmlobject.h"
+#include "optionshandler.h"
+#include "KTools/kenums.h"
 
 class ParserClass : public QObject
 {
@@ -25,33 +26,41 @@ public:
     ParserClass();
     ~ParserClass();
 
-    std::string basePath; // path entered by user
+    CurlClass *cc;
+    KEnums::Parsers parserType;
 
-    QJsonObject jsonObjectFromString(QString &content);
-    bool writeFile(std::string &data, std::string directory, std::string fileName);
-    void recExtractJson(QJsonObject rootObject, std::string offset, std::string &data);
-    void writeJsonDataInFile(QJsonObject &object, std::string path, std::string fileName);
-    QJsonObject downloadJson(std::string url, CurlClass &pq);
-    void downloadAndWriteFile(std::string url, CurlClass &pq, std::string path, std::string fileName);
-    void logging(std::string message);
-    QJsonArray downloadJsonAsArray(std::string url, CurlClass &pq);
-    void eraseForbiddenChars(std::string &line);
-    void findMatchChars(std::string &data, std::string &pattern, std::vector<std::string> &result);
-    void delay(int seconds);
-    void replaceHtmlEntities(std::string &wrongString);
-    QStringList downloadAllUrls(QJsonObject rootObject, CurlClass &pq);
+protected:
+    // JSON
+    void recExtractJson(const QJsonObject &rootObject, QString offset, QString &data);
+    QJsonObject downloadJson(const QString url);
+    QJsonArray downloadJsonAsArray(const QString &url);
 
-    std::string currUrl; // string for current link. added for simplification code
-    std::string halfPath; // part file path that permanent
-    std::vector<std::string> chunk;
-    std::string pattern;
+    // File IO operations
+    void downloadAndWriteFile(const QString &url, const QString &path, const QString &fileName);
+    void downloadAndWriteFileWithDefinedExtension(const QString &url, const QString &path, const QString &fileName);
 
-public slots:
-    void doWork();
+    // Other/Mixed
+    void writeJsonDataInFile(const QJsonObject &object, const QString &path, const QString &fileName);
+    void delay(const int &seconds);
+    QVector<QJsonObject> extractJsonObjectFromText(const QString &text);
+    QString defineExtension(const QByteArray &file);
+    void writeInfoLog(const QString &message);
+    void setParserType(const KEnums::Parsers type);
+    void endDownloadingFunction(const int parserMode, const QJsonObject &data = QJsonObject(), const QVector<QByteArray> &binaryContent = QVector<QByteArray>());
+
+    // variables
+    QString currUrl;
+    QString rootPath; // in this paths writes log file
+    QVector<QByteArray> chunk; // header for curl requests
+    FileIdentifier *defExt;
+    QString logPath;
+    const QString logFile = "log.txt";
+    QString basePath;
+    QString parserName;
 
 signals:
-    void downloadingFinished();
-    void logMessage(QString message);
+    void downloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryContent);
+    void logMessage(const QString message);
 };
 
 #endif // PARSERCLASS_H

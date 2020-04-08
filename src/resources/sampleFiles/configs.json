@@ -1,0 +1,10 @@
+{
+    "parsersAndClients": {
+        "pixiv": {
+            "login": "",
+            "password": "",
+            "header": "",
+            "cookie": ""
+        }
+    }
+}

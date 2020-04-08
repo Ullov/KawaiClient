@@ -10,7 +10,7 @@ public:
     NhentaiApi();
     ~NhentaiApi();
 
-    std::string id;
+    QString id;
 
 public slots:
     void doWork();

@@ -2,7 +2,6 @@
 #define PIXIVAPI_H
 
 #include "cpp_h/parserclass.h"
-#include "cpp_h/logging.h"
 
 class PixivApi : public ParserClass
 {
@@ -11,22 +10,22 @@ public:
     PixivApi();
     ~PixivApi();
 
-    std::string userId; // artist's id entered by user
-    Logging *logging;
+    QString userId; // artist's id entered by user
     QStringList imagesFromApi;
     QJsonObject userData;
     QJsonObject userAllData;
 
 public slots:
-    void downloadUser();
+    void download();
     void viewUser();
+    void getRecomendedUsers();
 
 private:
     QJsonObject object;
     QJsonArray arrJ; // json array for art links' list
-    std::string userName; // pixiv artist's user name. Now don't need
-    std::string novelContent;
-    std::vector<std::string> novelCoverChunk;
+    QString userName; // pixiv artist's user name. Now don't need
+    QByteArray novelContent;
+    QVector<QByteArray> novelCoverChunk;
 
 signals:
     void viewDataDownloaded(QJsonObject userData, QJsonObject userAllData, QStringList imagesFromApi);

@@ -9,14 +9,24 @@ class ExhentaiApi : public ParserClass
 public:
     ExhentaiApi();
 
-    std::string galleryUrl;
+    QString galleryCode;
+    int numberNeddedPage;
 
 public slots:
-    void doWork();
+    void slotDownload();
+    void slotGetFrontPage();
+
 
 private:
-    std::vector<std::string> regexRersult;
-    std::string pattern;
+    // variables
+    QString galleryUrl;
+
+    // functions
+    QJsonObject getGalleryInfo(HtmlObject &htmlAst);
+    QJsonArray getComments(HtmlObject &htmlAst);
+    QJsonArray getLinksToPages(HtmlObject &firstPageAst);
+    void getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages);
+    QJsonObject getSectionedInfo(HtmlTag &hTag);
 };
 
 #endif // EXHENTAIAPI_H

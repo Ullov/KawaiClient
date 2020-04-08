@@ -8,15 +8,27 @@
         <file>resources/icons/favicon(nhentai).ico</file>
         <file>resources/other/cacert.pem</file>
         <file>js/pageloader.js</file>
-        <file>qml/sites/pixiv/pixiv.qml</file>
         <file>qml/logWindow.qml</file>
-        <file>qml/sites/mangarock/mangarock.qml</file>
-    </qresource>
-    <qresource prefix="/icons"/>
-    <qresource prefix="/other"/>
-    <qresource prefix="/QmlIncludes">
+        <file>qml/settingsWindow.qml</file>
+        <file>js/Tools.js</file>
+        <file>qml/main.qml</file>
+        <file>qml/windows/SitePages/Exhentai/ExhentaiMainFrame.qml</file>
+        <file>qml/QmlIncludes/KawaiVerticalLine.qml</file>
+        <file>qml/QmlIncludes/KawaiSwitchableWindows.qml</file>
         <file>qml/QmlIncludes/KawaiLoadTabButton.qml</file>
+        <file>qml/QmlIncludes/KawaiHorisontalLine.qml</file>
         <file>qml/QmlIncludes/KawaiDownloadBar.qml</file>
         <file>qml/QmlIncludes/KawaiButton.qml</file>
+        <file>qml/windows/Misc/Parsers/Parsers.qml</file>
+        <file>qml/windows/Misc/Parsers/MangadexCheckBoxes.qml</file>
+        <file>qml/windows/Misc/Parsers/StandartInputRectangle.qml</file>
+        <file>qml/windows/Misc/Parsers/MangadexInputRectangle.qml</file>
+        <file>qml/windows/SettingsAndSystem/Settings.qml</file>
+        <file>qml/windows/SitePages/Exhentai/ExhentaiFrontPage.qml</file>
+        <file>qml/windows/SitePages/Exhentai/ExhentaiTypeSelectButton.qml</file>
+        <file>qml/windows/SitePages/Exhentai/ExhentaiButton.qml</file>
+        <file>qml/windows/Misc/Parsers/ParserFunctions.js</file>
+        <file>qml/QmlIncludes/KawaiLabelInputFieldCombination.qml</file>
+        <file>resources/sampleFiles/configs.json</file>
     </qresource>
 </RCC>
