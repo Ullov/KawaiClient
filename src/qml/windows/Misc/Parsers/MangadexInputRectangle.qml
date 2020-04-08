@@ -9,5 +9,25 @@ StandartInputRectangle {
         anchors.right: root.sirStatusTextBox.left
         anchors.margins: 5
     }
-    Component.onCompleted: sirInputTextField.anchors.right = checkBoxRectangle.left
+    sirInputTextField.anchors.right: checkBoxRectangle.left
+
+    /*sirStartDownloadButton.onClicked: {
+        var en = checkBoxRectangle.enLang
+        var ru = checkBoxRectangle.ruLang
+        var other = checkBoxRectangle.otherLangs
+        console.log(en, ru, other)
+        onClickFunctionList[functionType](
+            sirInputTextField.text,
+            parserType, parserMode,
+            en,
+            ru,
+            other
+        )
+    }*/
+    dataArr: [
+        sirInputTextField.text,
+        checkBoxRectangle.enLang,
+        checkBoxRectangle.ruLang,
+        checkBoxRectangle.otherLangs
+    ]
 }

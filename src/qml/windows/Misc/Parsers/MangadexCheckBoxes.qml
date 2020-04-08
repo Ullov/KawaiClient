@@ -2,9 +2,9 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 
 Rectangle {
-    property alias enLangChecked: enLangCheckbox.checked
-    property alias ruLangChecked: ruLangCheckbox.checked
-    property alias otherLangChecked: otherLangCheckbox.checked
+    property alias enLang: enLangCheckbox.checked
+    property alias ruLang: ruLangCheckbox.checked
+    property alias otherLangs: otherLangCheckbox.checked
     id: checkBoxesRectangle
     anchors.verticalCenter: parent.verticalCenter
     height: 30

@@ -1,14 +1,14 @@
-function standartOnClickFunction(text, parserType, parserMode)
+function standartOnClickFunction(dataArr, parserType, parserMode)
 {
-    var param = [text]
+    // text
+    var param = [dataArr[0]]
     var mode  = [parserType, parserMode]
-    //apiHandler.universalStartDownloading(param, mode)
     apiHandler.slotStartDownloding(param, mode)
 }
-function mangadexOnClickFunction(text, parserType, parserMode, enChecked, ruChecked, otherChecked)
+function mangadexOnClickFunction(dataArr, parserType, parserMode)
 {
-    var param = [text, enChecked, ruChecked, otherChecked]
+    // text; en; ru; other
+    var param = [dataArr[0], dataArr[1], dataArr[2], dataArr[3]]
     var mode  = [parserType, parserMode]
-    //apiHandler.universalStartDownloading(param, mode)
     apiHandler.slotStartDownloding(param, mode)
 }

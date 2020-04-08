@@ -3,18 +3,15 @@ import QtQuick.Controls 2.5
 import "../../../QmlIncludes"
 
 Rectangle {
-    /*property var sirChildItems: {
-        "titleLabel": titleLabel,
-        "inputTextField": inputTextField,
-        "statusTextBox": statusTextBox,
-        "startDownloadButton": startDownloadButton,
-        "statusRectangle": statusRectangle,
-    }*/
     property alias sirTitleLabel: titleLabel
     property alias sirInputTextField: inputTextField
     property alias sirStatusTextBox: statusTextBox
     property alias sirStartDownloadButton: startDownloadButton
     property alias sirStatusRectangle: statusRectangle
+    //property alias sirOnClickedButton: startDownloadButton
+    property var dataArr: [
+        inputTextField.text
+    ]
 
     id: root
     anchors.left: parent.left
@@ -58,7 +55,7 @@ Rectangle {
         anchors.right: statusRectangle.left
         anchors.margins: 5
         anchors.verticalCenter: parent.verticalCenter
-        onClicked: onClickFunctionList[functionType](inputTextField.text, parserType, parserMode)
+        onClicked: onClickFunctionList[functionType](dataArr, parserType, parserMode)
     }
     Rectangle {
         id: statusRectangle

@@ -7,11 +7,11 @@ import "ParserFunctions.js" as ParsFuncs
 
 Rectangle {
     property var onClickFunctionList: {
-        "standart": function(text, parserType, parserMode){
-            ParsFuncs.standartOnClickFunction(text, parserType, parserMode)
+        "standart": function(dataArr, parserType, parserMode){
+            ParsFuncs.standartOnClickFunction(dataArr, parserType, parserMode)
         },
-        "mangadex": function(text, parserType, parserMode, enChecked, ruChecked, otherChecked){
-            ParsFuncs.mangadexOnClickFunction(text, parserType, parserMode, enChecked, ruChecked, otherChecked)
+        "mangadex": function(dataArr, parserType, parserMode){
+            ParsFuncs.mangadexOnClickFunction(dataArr, parserType, parserMode)
         }
     }
 
