@@ -1,8 +1,8 @@
 #ifndef VKAPI_H
 #define VKAPI_H
 
-#include "cpp_h/parserclass.h"
-#include "cpp_h/kawaihtmlparser.h"
+#include "../parserclass.h"
+#include "../../KTools/HtmlAstMaker/htmlobject.h"
 #include <QXmlStreamReader>
 #include <locale>
 #include <codecvt>

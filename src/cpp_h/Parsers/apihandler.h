@@ -1,21 +1,21 @@
 #ifndef APIHANDLER_H
 #define APIHANDLER_H
 
-#include "sites/pixiv/pixivapi.h"
-#include "sites/mangarock/mangarockapi.h"
-#include "sites/exhentai/exhentaiapi.h"
-#include "sites/mangadex/mangadexapi.h"
-#include "sites/vk/vkapi.h"
-#include "sites/mangairo/mangairoapi.h"
-#include "sites/youtube/youtubeapi.h"
-#include "sites/twitter/twitterapi.h"
-#include "sites/ninehentai/ninehentaiapi.h"
+#include "sites/pixivapi.h"
+#include "sites/mangarockapi.h"
+#include "sites/exhentaiapi.h"
+#include "sites/mangadexapi.h"
+#include "sites/vkapi.h"
+#include "sites/mangairoapi.h"
+#include "sites/youtubeapi.h"
+#include "sites/twitterapi.h"
+#include "sites/ninehentaiapi.h"
 #include <QObject>
 #include <QThread>
-#include "logging.h"
+#include "../KTools/logging.h"
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include "optionshandler.h"
+#include "../KTools/optionshandler.h"
 
 class ApiHandler : public QObject
 {

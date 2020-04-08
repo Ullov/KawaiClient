@@ -1,7 +1,7 @@
 #ifndef EXHENTAIAPI_H
 #define EXHENTAIAPI_H
 
-#include "cpp_h/parserclass.h"
+#include "../parserclass.h"
 
 class ExhentaiApi : public ParserClass
 {

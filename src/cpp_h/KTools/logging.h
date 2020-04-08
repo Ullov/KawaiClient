@@ -3,9 +3,9 @@
 
 #include <QObject>
 #include <QDateTime>
-#include "KTools/nativefs.h"
+#include "nativefs.h"
 #include "optionshandler.h"
-#include "KTools/kenums.h"
+#include "kenums.h"
 
 class Logging : public QObject
 {

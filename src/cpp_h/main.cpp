@@ -1,11 +1,11 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include "cpp_h/apihandler.h"
-#include "cpp_h/logging.h"
-#include "cpp_h/optionshandler.h"
-#include "cpp_h/KTools/kenums.h"
-#include "cpp_h/KTools/kawaiimageprovider.h"
-#include "cpp_h/curlclass.h"
+#include "Parsers/apihandler.h"
+#include "KTools/logging.h"
+#include "KTools/optionshandler.h"
+#include "KTools/kenums.h"
+#include "KTools/kawaiimageprovider.h"
+#include "KTools/curlclass.h"
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>

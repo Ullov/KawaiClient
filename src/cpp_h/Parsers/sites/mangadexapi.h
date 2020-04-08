@@ -1,7 +1,7 @@
 #ifndef MANGADEXAPI_H
 #define MANGADEXAPI_H
 
-#include "cpp_h/parserclass.h"
+#include "../parserclass.h"
 
 class MangadexApi : public ParserClass
 {

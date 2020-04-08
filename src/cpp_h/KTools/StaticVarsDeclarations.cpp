@@ -1,6 +1,6 @@
-#include "../optionshandler.h"
-#include "../logging.h"
-#include "../curlclass.h"
+#include "optionshandler.h"
+#include "logging.h"
+#include "curlclass.h"
 #include "kenums.h"
 
 // Start OptionsHandler

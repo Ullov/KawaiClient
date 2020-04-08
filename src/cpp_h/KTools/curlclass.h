@@ -8,8 +8,8 @@
 #include <QFile>
 #include <QObject>
 #include <QElapsedTimer>
-#include "KTools/nativefs.h"
-#include "KTools/kenums.h"
+#include "nativefs.h"
+#include "kenums.h"
 #include "logging.h"
 
 class CurlClass : public QObject

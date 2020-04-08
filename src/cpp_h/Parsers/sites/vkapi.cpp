@@ -38,8 +38,8 @@ void VkApi::downloadPost()
     //QByteArray data = cc->performing(postUrl.toUtf8());
     this->cc->setHeader(alterChunk);
     QByteArray data = cc->performing("https://saucenao.com/");
-    KawaiHtmlParser *khp = new KawaiHtmlParser();
-    khp->open(data);
+    //KawaiHtmlParser *khp = new KawaiHtmlParser();
+    //khp->open(data);
 
     QString page = KawaiConverter::nationalEncodingToUtf8("Windows-1251", data);
 

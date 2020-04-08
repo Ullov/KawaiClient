@@ -10,14 +10,14 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
-#include "curlclass.h"
-#include "logging.h"
-#include "fileidentifier.h"
-#include "KTools/kawaiconverter.h"
-#include "KTools/nativefs.h"
-#include "KTools/HtmlAstMaker/htmlobject.h"
-#include "optionshandler.h"
-#include "KTools/kenums.h"
+#include "../KTools/curlclass.h"
+#include "../KTools/logging.h"
+#include "../KTools/fileidentifier.h"
+#include "../KTools/kawaiconverter.h"
+#include "../KTools/nativefs.h"
+#include "../KTools/HtmlAstMaker/htmlobject.h"
+#include "../KTools/optionshandler.h"
+#include "../KTools/kenums.h"
 
 class ParserClass : public QObject
 {

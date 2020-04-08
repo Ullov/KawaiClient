@@ -1,7 +1,7 @@
 #ifndef YOUTUBEAPI_H
 #define YOUTUBEAPI_H
 
-#include "cpp_h/parserclass.h"
+#include "../parserclass.h"
 
 class YoutubeApi : public ParserClass
 {

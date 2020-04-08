@@ -1,7 +1,7 @@
 #ifndef MANGAIROAPI_H
 #define MANGAIROAPI_H
 
-#include "cpp_h/parserclass.h"
+#include "../parserclass.h"
 
 class MangairoApi : public ParserClass
 {

@@ -13,10 +13,15 @@ DEFINES += QT_DEPRECATED_WARNINGS #__cplusplus=true
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cpp_h/main.cpp \
     cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
     cpp_h/KTools/HtmlAstMaker/htmltag.cpp \
     cpp_h/KTools/StaticVarsDeclarations.cpp \
+    cpp_h/KTools/curlclass.cpp \
+    cpp_h/KTools/fileidentifier.cpp \
     cpp_h/KTools/kawaiimageprovider.cpp \
+    cpp_h/KTools/logging.cpp \
+    cpp_h/KTools/optionshandler.cpp \
     cpp_h/KTools/stringoperations.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.cpp \
@@ -27,26 +32,38 @@ SOURCES += \
     cpp_h/KawaiFileFormat/kfffs.cpp \
     cpp_h/KTools/kawaiconverter.cpp \
     cpp_h/KTools/nativefs.cpp \
-    cpp_h/fileidentifier.cpp \
+    #cpp_h/fileidentifier.cpp \
     cpp_h/KawaiFileFormat/kawaifileformat.cpp \
-    cpp_h/kawaihtmlparser.cpp \
+    #cpp_h/kawaihtmlparser.cpp \
     cpp_h/KawaiFileFormat/kfffile.cpp \
-    cpp_h/sites/mangairo/mangairoapi.cpp \
-    cpp_h/sites/ninehentai/ninehentaiapi.cpp \
-    cpp_h/sites/twitter/twitterapi.cpp \
-    cpp_h/sites/vk/vkapi.cpp \
-    cpp_h/sites/youtube/youtubeapi.cpp \
-        main.cpp \
-    cpp_h/curlclass.cpp \
-    cpp_h/parserclass.cpp \
-    cpp_h/sites/exhentai/exhentaiapi.cpp \
+    #cpp_h/sites/mangairo/mangairoapi.cpp \
+    #cpp_h/sites/ninehentai/ninehentaiapi.cpp \
+    #cpp_h/sites/twitter/twitterapi.cpp \
+    #cpp_h/sites/vk/vkapi.cpp \
+    #cpp_h/sites/youtube/youtubeapi.cpp \
+        #main.cpp \
+    #cpp_h/curlclass.cpp \
+    #cpp_h/parserclass.cpp \
+    #cpp_h/sites/exhentai/exhentaiapi.cpp \
     #cpp_h/sites/mangarock/mangarockapi.cpp \
-    cpp_h/sites/nhentai/nhentaiapi.cpp \
-    cpp_h/sites/pixiv/pixivapi.cpp \
-    cpp_h/apihandler.cpp \
-    cpp_h/logging.cpp \
-    cpp_h/optionshandler.cpp \
-    cpp_h/sites/mangadex/mangadexapi.cpp
+    #cpp_h/sites/nhentai/nhentaiapi.cpp \
+    #cpp_h/sites/pixiv/pixivapi.cpp \
+    #cpp_h/apihandler.cpp \
+    #cpp_h/logging.cpp \
+    #cpp_h/optionshandler.cpp \
+ \    #cpp_h/sites/mangadex/mangadexapi.cpp
+    cpp_h/Parsers/apihandler.cpp \
+    cpp_h/Parsers/parserclass.cpp \
+    cpp_h/Parsers/sites/exhentaiapi.cpp \
+    cpp_h/Parsers/sites/mangadexapi.cpp \
+    cpp_h/Parsers/sites/mangairoapi.cpp \
+    cpp_h/Parsers/sites/mangarockapi.cpp \
+    cpp_h/Parsers/sites/nhentaiapi.cpp \
+    cpp_h/Parsers/sites/ninehentaiapi.cpp \
+    cpp_h/Parsers/sites/pixivapi.cpp \
+    cpp_h/Parsers/sites/twitterapi.cpp \
+    cpp_h/Parsers/sites/vkapi.cpp \
+    cpp_h/Parsers/sites/youtubeapi.cpp \
 
 RESOURCES += qml.qrc
 
@@ -64,8 +81,12 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     cpp_h/KTools/HtmlAstMaker/htmlobject.h \
     cpp_h/KTools/HtmlAstMaker/htmltag.h \
+    cpp_h/KTools/curlclass.h \
+    cpp_h/KTools/fileidentifier.h \
     cpp_h/KTools/kawaiimageprovider.h \
     cpp_h/KTools/kenums.h \
+    cpp_h/KTools/logging.h \
+    cpp_h/KTools/optionshandler.h \
     cpp_h/KTools/stringoperations.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.h \
@@ -76,25 +97,37 @@ HEADERS += \
     cpp_h/KawaiFileFormat/kfffs.h \
     cpp_h/KTools/kawaiconverter.h \
     cpp_h/KTools/nativefs.h \
-    cpp_h/curlclass.h \
-    cpp_h/fileidentifier.h \
+    #cpp_h/curlclass.h \
+    #cpp_h/fileidentifier.h \
     cpp_h/KawaiFileFormat/kawaifileformat.h \
-    cpp_h/kawaihtmlparser.h \
+    #cpp_h/kawaihtmlparser.h \
     cpp_h/KawaiFileFormat/kfffile.h \
-    cpp_h/parserclass.h \
-    cpp_h/sites/exhentai/exhentaiapi.h \
-    cpp_h/sites/mangairo/mangairoapi.h \
+    #cpp_h/parserclass.h \
+    #cpp_h/sites/exhentai/exhentaiapi.h \
+    #cpp_h/sites/mangairo/mangairoapi.h \
     #cpp_h/sites/mangarock/mangarockapi.h \
-    cpp_h/sites/nhentai/nhentaiapi.h \
-    cpp_h/sites/ninehentai/ninehentaiapi.h \
-    cpp_h/sites/pixiv/pixivapi.h \
-    cpp_h/apihandler.h \
-    cpp_h/logging.h \
-    cpp_h/optionshandler.h \
-    cpp_h/sites/mangadex/mangadexapi.h \
-    cpp_h/sites/twitter/twitterapi.h \
-    cpp_h/sites/vk/vkapi.h \
-    cpp_h/sites/youtube/youtubeapi.h
+    #cpp_h/sites/nhentai/nhentaiapi.h \
+    #cpp_h/sites/ninehentai/ninehentaiapi.h \
+    #cpp_h/sites/pixiv/pixivapi.h \
+    #cpp_h/apihandler.h \
+    #cpp_h/logging.h \
+    #cpp_h/optionshandler.h \
+    #cpp_h/sites/mangadex/mangadexapi.h \
+    #cpp_h/sites/twitter/twitterapi.h \
+    #cpp_h/sites/vk/vkapi.h \
+ \    #cpp_h/sites/youtube/youtubeapi.h
+    cpp_h/Parsers/apihandler.h \
+    cpp_h/Parsers/parserclass.h \
+    cpp_h/Parsers/sites/exhentaiapi.h \
+    cpp_h/Parsers/sites/mangadexapi.h \
+    cpp_h/Parsers/sites/mangairoapi.h \
+    cpp_h/Parsers/sites/mangarockapi.h \
+    cpp_h/Parsers/sites/nhentaiapi.h \
+    cpp_h/Parsers/sites/ninehentaiapi.h \
+    cpp_h/Parsers/sites/pixivapi.h \
+    cpp_h/Parsers/sites/twitterapi.h \
+    cpp_h/Parsers/sites/vkapi.h \
+    cpp_h/Parsers/sites/youtubeapi.h
 
 #curl
 LIBS += -L$$PWD/libs/curl-x64/lib/dll/ -llibcurl.dll

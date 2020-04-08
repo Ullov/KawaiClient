@@ -1,7 +1,7 @@
 #ifndef MANGAROCKAPI_H
 #define MANGAROCKAPI_H
 
-#include "cpp_h/parserclass.h"
+#include "../parserclass.h"
 
 class MangarockApi : public ParserClass
 {

@@ -1,7 +1,7 @@
 #ifndef NINEHENTAIAPI_H
 #define NINEHENTAIAPI_H
 
-#include "../../parserclass.h"
+#include "../parserclass.h"
 
 class NinehentaiApi : public ParserClass
 {

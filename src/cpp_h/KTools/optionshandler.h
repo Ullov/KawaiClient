@@ -8,9 +8,9 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 #include <QVariant>
-#include "KTools/nativefs.h"
-#include "KTools/kawaiconverter.h"
-#include "KTools/kenums.h"
+#include "nativefs.h"
+#include "kawaiconverter.h"
+#include "kenums.h"
 #include "logging.h"
 #include "curlclass.h"
 

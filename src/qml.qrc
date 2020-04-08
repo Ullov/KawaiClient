@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
         <file>resources/icons/4272e394f5ad(instagram).png</file>
         <file>resources/icons/apple-icon-57x57(mangarock).webp</file>
         <file>resources/icons/apple-touch-icon(pixiv).png</file>

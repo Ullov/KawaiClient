@@ -3,7 +3,7 @@
 
 #include <QString>
 #include "htmltag.h"
-#include "../../logging.h"
+#include "../logging.h"
 
 class HtmlObject
 {

@@ -1,7 +1,7 @@
 #ifndef PIXIVAPI_H
 #define PIXIVAPI_H
 
-#include "cpp_h/parserclass.h"
+#include "../parserclass.h"
 
 class PixivApi : public ParserClass
 {
