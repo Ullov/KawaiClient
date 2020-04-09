@@ -166,7 +166,6 @@ void CurlClass::setOptions()
     curl_easy_setopt(gCurlHandle, CURLOPT_ACCEPT_ENCODING, "gzip, deflate, br");
     curl_easy_setopt(gCurlHandle, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(gCurlHandle, CURLOPT_MAXREDIRS, 5L);
-    curl_easy_setopt(gCurlHandle, CURLOPT_NOPROGRESS, 0);
     curl_easy_setopt(gCurlHandle, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0");
 
     if (currHttpVersion == KEnums::CurlSettings::HttpVersion::Http2)
@@ -218,6 +217,7 @@ void CurlClass::setOptions()
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_PROGRESSFUNCTION, XFerInfoFunctionCallback);
         curl_easy_setopt(gCurlHandle, CURLOPT_PROGRESSDATA, &fp);
+        curl_easy_setopt(gCurlHandle, CURLOPT_NOPROGRESS, 0);
         fp.th = this;
         fp.timer = QElapsedTimer();
         fp.timer.start();
