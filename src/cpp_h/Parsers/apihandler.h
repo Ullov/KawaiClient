@@ -10,6 +10,7 @@
 #include "sites/youtubeapi.h"
 #include "sites/twitterapi.h"
 #include "sites/ninehentaiapi.h"
+#include "sites/mangakakalotapi.h"
 #include <QObject>
 #include <QThread>
 #include "../KTools/logging.h"
@@ -36,6 +37,7 @@ private:
     void startDownloading(const QStringList &params, const KEnums::ParserModes::YouTube parserMode);
     void startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode);
     void startDownloading(const QStringList &params, const KEnums::ParserModes::NineHentai parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaKakalot parserMode);
 
     template<typename T>
     void connectSlotsAndSignals(const QThread *thread, const T *apiClass);

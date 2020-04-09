@@ -38,6 +38,7 @@ Rectangle {
         ListElement {name: "MangaDex"; placeholder:"Enter manga ID..."; functionType:"mangadex"; parserMode: ParserModes.MangaDex.Download; parserType: KEnums.Parsers.MangaDex}
         ListElement {name: "ExHentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.ExHentai.Download; parserType: KEnums.Parsers.ExHentai}
         ListElement {name: "9Hentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.NineHentai.Download; parserType: KEnums.Parsers.NineHentai}
+        ListElement {name: "MangaKakalot"; placeholder:"Enter manga system name..."; functionType:"standart"; parserMode: ParserModes.MangaKakalot.Download; parserType: KEnums.Parsers.MangaKakalot}
     }
     Component {
         id: parsersDelegateItem

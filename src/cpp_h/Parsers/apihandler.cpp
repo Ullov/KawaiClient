@@ -46,6 +46,11 @@ void ApiHandler::slotStartDownloding(const QStringList &params, const QList<int>
         KEnums::ParserModes::NineHentai parserMode = static_cast<KEnums::ParserModes::NineHentai>(mode[1]);
         startDownloading(params, parserMode);
     }
+    else if (parserType == KEnums::Parsers::MangaKakalot)
+    {
+        KEnums::ParserModes::MangaKakalot parserMode = static_cast<KEnums::ParserModes::MangaKakalot>(mode[1]);
+        startDownloading(params, parserMode);
+    }
 }
 
 void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::ExHentai parserMode)
@@ -160,6 +165,18 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
+void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaKakalot parserMode)
+{
+    QThread *thread = new QThread();
+    MangakakalotApi *api = new MangakakalotApi();
+
+    api->mangaSystemName = params[0];
+
+    api->moveToThread(thread);
+    connect(thread, SIGNAL(started()), api, SLOT(download()));
+    connectSlotsAndSignals(thread, api);
+    thread->start();
+}
 
 
 void ApiHandler::slotDownloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryData)
