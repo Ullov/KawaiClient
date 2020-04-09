@@ -59,6 +59,7 @@ void MangakakalotApi::download()
         QString chapterFolder = allChaptersData[i].toObject().value("name").toString();
         KawaiConverter::convertHtmlEntities(chapterFolder);
         KawaiConverter::toNtfsCompatibleString(chapterFolder);
+        chapterFolder = "[" + QString::number(i) + "]" + chapterFolder;
         writeInfoLog("Start download chapter with name " + chapterFolder);
         data = cc->request(allChaptersData[i].toObject().value("url").toString());
         HtmlObject chapterAst = HtmlObject();
@@ -74,6 +75,6 @@ void MangakakalotApi::download()
             writeInfoLog("Page #" + QString::number(j) + " downloaded");
         }
     }
-
+    writeInfoLog("Manga downloaded");
     endDownloadingFunction(static_cast<int>(KEnums::ParserModes::MangaKakalot::Download));
 }
