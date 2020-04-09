@@ -139,7 +139,7 @@ bool HtmlObject::readTagAttributes(qint32 &pos, HtmlTag &tagClass)
             return false; // here should be error handling
         }
         ++pos; // skip " char
-        while (htmlText->at(pos) == " ") // skip spaces between attributes
+        while (htmlText->at(pos) == " " || htmlText->at(pos) == "\n" || htmlText->at(pos) == "\r" || htmlText->at(pos) == "\t") // skip spaces between attributes
             ++pos;
     }
     ++pos;
@@ -167,6 +167,11 @@ qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, Ht
     qint32 tagEdSize = tagEndPart.size();
     qint32 sameTagCounterEd = 0;
     qint32 sameTagCounterOp = 0;
+    if (htmlText->mid(pos, tagEdSize) == tagEndPart)
+    {
+        tagClass.setSelfclosingness(true);
+        return pos;
+    }
     if (tagClass.getName() == "tr")
     {
         QVector<qint32> closingTagsPos;
@@ -179,7 +184,7 @@ qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, Ht
                 {
                     tagClass.setInnerContent(htmlText->mid(pos, tmpPos - pos));
                     tagClass.setSelfclosingness(true);
-                    Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
+                    //Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
                     break;
                 }
                 else // tag ending part not for this tag
@@ -210,7 +215,7 @@ qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, Ht
                 {
                     tagClass.setInnerContent(htmlText->mid(pos, tmpPos - pos));
                     tagClass.setSelfclosingness(true);
-                    Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
+                    //Logging::writeDebug(tagClass.getName() + "\t" + tagClass.getInnerContent().replace("\n", "").replace("\r", ""), "HtmlObject");
                     break;
                 }
                 else // tag ending part not for this tag
