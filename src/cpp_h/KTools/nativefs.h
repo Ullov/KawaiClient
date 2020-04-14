@@ -14,6 +14,7 @@ public:
 
     bool open(const QString &path, const QIODevice::OpenMode &flags);
     bool seek(const qint64 &pos);
+    bool toEnd();
     qint64 size();
     qint64 pos();
     template<typename T>
@@ -28,7 +29,8 @@ public:
     static bool dirExist(const QString &path);
     template<typename T>
     static T readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags = QIODevice::ReadOnly);
-    QDataStream fileStream;
+    bool atEnd();
+    bool resize(const qint64 &localSize);
 
 private:
     QFile *file;

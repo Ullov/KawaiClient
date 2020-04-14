@@ -7,7 +7,6 @@ bool NativeFs::open(const QString &path, const QIODevice::OpenMode &flags)
     file = new QFile(path);
     if (file->open(flags))
     {
-        fileStream.setDevice(file);
         return true;
     }
     else
@@ -32,7 +31,13 @@ qint64 NativeFs::pos()
 template<typename T>
 void NativeFs::write(const T &data)
 {
-    fileStream << data;
+    file->write(KawaiConverter::toByteArray<T>(data));
+}
+
+template<>
+void NativeFs::write(const QByteArray &data)
+{
+    file->write(data);
 }
 
 template<typename T>
@@ -53,8 +58,7 @@ bool NativeFs::writeFile(const QByteArray &data, const QString &directory, const
     QFile file(directory + '\\' + fileName);
     if (file.open(flags))
     {
-        QDataStream stream(&file);
-        stream.writeRawData(data, data.length());
+        file.write(data);
     }
     else
     {
@@ -91,6 +95,21 @@ bool NativeFs::dirExist(const QString &path)
         return false;
 }
 
+bool NativeFs::toEnd()
+{
+   return seek(size());
+}
+
+bool NativeFs::atEnd()
+{
+    return file->atEnd();
+}
+
+bool NativeFs::resize(const qint64 &localSize)
+{
+    return file->resize(localSize);
+}
+
 template<typename T>
 T NativeFs::readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
 {
@@ -107,8 +126,8 @@ T NativeFs::readFile(const QString &directory, const QString &fileName, const QI
     return rFile.readAll();
 }
 
-template void NativeFs::write<QByteArray>(const QByteArray&);
 template void NativeFs::write<qint16>(const qint16&);
+template void NativeFs::write<qint64>(const qint64&);
 
 template qint8 NativeFs::read<qint8>(const qint64&);
 template qint16 NativeFs::read<qint16>(const qint64&);
@@ -120,3 +139,4 @@ template quint64 NativeFs::read<quint64>();
 template qint16 NativeFs::read<qint16>();
 
 template QString NativeFs::readFile<QString>(const QString&, const QString&, const QIODevice::OpenMode&);
+template QByteArray NativeFs::readFile<QByteArray>(const QString&, const QString&, const QIODevice::OpenMode&);
