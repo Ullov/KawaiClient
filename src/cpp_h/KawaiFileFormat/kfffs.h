@@ -3,58 +3,33 @@
 
 #include "../KTools/nativefs.h"
 #include "../KTools/kawaiconverter.h"
+#include "KffFileTypes/kffdir.h"
+#include "kffstream.h"
 
-class KffFs
+namespace Kff
 {
-public:
-    KffFs();
-/*
-// functions
-    bool open(NativeFs &localNativeFs);
-    qint64 pos();
-    void seek(const qint64 &pos);
-    template<typename T>
-    void write(const T &data);
-    bool getInode(const qint64 &inodeNumber);
-
-private:
-// enumerations
-    enum ClusterFieldsSize
-    {// all sizes in bits
-        ContentLenght = 2,
-        NextCluster = 8,
-        Content = 1014,
-        SumLenght = 1024
-    };
-    enum InodeFieldsSize : qint16
+    class Fs
     {
-        HeaderPos = 64,
-        ContentPos = 64,
-        SumSize = 128
+    public:
+        Fs(const QString &path, const QString &fileName);
+
+        qint64 dataBlockStart;
+
+        template<typename T>
+        T create();
+
+    private:
+        QByteArray signature = "KFFS0001";
+        NativeFs *fileInNativeFs;
+        qint64 inodesBlockStart = signature.size();
+        qint64 inodesNumber = 0;
+        qint64 inodesAppendNumber = 20;
+
+        void appendInodes();
+        qint64 findClearInode();
+        qint64 findClearCluster();
     };
+}
 
-// structures
-    struct InodeStruct
-    {
-       qint64 headerPos;
-       qint64 contentPos;
-    };
-// variables
-    NativeFs *nativeFs;
-    qint64 position;
-    qint64 nextCluster;
-    qint64 inodesBlockLenght;
-    qint64 allInodesNumber;
-    qint64 dataOffset;
-    qint8 inodeOffset;
-    InodeStruct *inode;
-// functions
-    void searchRequestedPosition(qint64 remainedWalk, const qint64 &startClusterPos);
-    qint16 positionInCluster();
-
-public:*/
-
-    void newFile(const QString &path, const QString &fileName, const qint32 inodesNumber = 2000000);
-};
 
 #endif // KFFFS_H

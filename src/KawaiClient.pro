@@ -13,6 +13,7 @@ DEFINES += QT_DEPRECATED_WARNINGS #__cplusplus=true
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cpp_h/KawaiFileFormat/kffstream.cpp \
     cpp_h/Parsers/sites/mangakakalotapi.cpp \
     cpp_h/main.cpp \
     cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
@@ -82,6 +83,7 @@ HEADERS += \
     cpp_h/KTools/nativefs.h \
     cpp_h/KawaiFileFormat/kawaifileformat.h \
     cpp_h/KawaiFileFormat/kfffile.h \
+    cpp_h/KawaiFileFormat/kffstream.h \
     cpp_h/Parsers/apihandler.h \
     cpp_h/Parsers/parserclass.h \
     cpp_h/Parsers/sites/exhentaiapi.h \
