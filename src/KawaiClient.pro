@@ -13,6 +13,8 @@ DEFINES += QT_DEPRECATED_WARNINGS #__cplusplus=true
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    cpp_h/BookReader/bookreaderhandler.cpp \
+    cpp_h/KTools/archiverw.cpp \
     cpp_h/KawaiFileFormat/kffstream.cpp \
     cpp_h/Parsers/sites/mangakakalotapi.cpp \
     cpp_h/main.cpp \
@@ -63,8 +65,10 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    cpp_h/BookReader/bookreaderhandler.h \
     cpp_h/KTools/HtmlAstMaker/htmlobject.h \
     cpp_h/KTools/HtmlAstMaker/htmltag.h \
+    cpp_h/KTools/archiverw.h \
     cpp_h/KTools/curlclass.h \
     cpp_h/KTools/fileidentifier.h \
     cpp_h/KTools/kawaiimageprovider.h \
@@ -98,9 +102,15 @@ HEADERS += \
     cpp_h/Parsers/sites/vkapi.h \
     cpp_h/Parsers/sites/youtubeapi.h
 
-#curl
+#Curl
 LIBS += -L$$PWD/libs/curl-x64/lib/dll/ -llibcurl.dll
 INCLUDEPATH += $$PWD/libs/curl-x64/include
 DEPENDPATH += $$PWD/libs/curl-x64/include
 
+#KArchive
+LIBS += -L$$PWD/libs/karchive-5.69.0/lib/ -llibKF5Archive.dll
+INCLUDEPATH += $$PWD/libs/karchive-5.69.0/include
+DEPENDPATH += $$PWD/libs/karchive-5.69.0/include
+
 QMAKE_CXXFLAGS += -O3
+
