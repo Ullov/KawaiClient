@@ -14,6 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS #__cplusplus=true
 
 SOURCES += \
     cpp_h/BookReader/bookreaderhandler.cpp \
+    cpp_h/FsExplorer/fshandler.cpp \
     cpp_h/KTools/archiverw.cpp \
     cpp_h/KawaiFileFormat/kffstream.cpp \
     cpp_h/Parsers/sites/mangakakalotapi.cpp \
@@ -66,6 +67,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     cpp_h/BookReader/bookreaderhandler.h \
+    cpp_h/FsExplorer/fshandler.h \
     cpp_h/KTools/HtmlAstMaker/htmlobject.h \
     cpp_h/KTools/HtmlAstMaker/htmltag.h \
     cpp_h/KTools/archiverw.h \

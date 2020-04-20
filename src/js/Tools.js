@@ -1,12 +1,15 @@
-function bytesToHumanReadable(bytes)
+function bytesToHumanReadable(bytes, mode)
 {
+    var ext = "/s"
+    if (!ext === null)
+        ext = ""
     if (bytes === 0)
-        return 0 + " Bit/s"
+        return 0 + " Bit" + ext
 
     var tmp = 0
     if (bytes < 1024)
     {
-        tmp = bytes + " Byte/s"
+        tmp = bytes + " Byte" + ext
     }
     else
     {
@@ -14,21 +17,21 @@ function bytesToHumanReadable(bytes)
         if (tmp < 1024)
         {
             tmp = Math.round(tmp * 1000) / 1000
-            tmp += " Kb/s";
+            tmp += " Kb" + ext
         }
         else
         {
-            tmp = tmp / 1024;
+            tmp = tmp / 1024
             if (tmp < 1024)
             {
                 tmp = Math.round(tmp * 1000) / 1000
-                tmp += " Mb/s"
+                tmp += " Mb" + ext
             }
             else
             {
                 tmp = tmp / 1024;
                 tmp = Math.round(tmp * 1000) / 1000
-                tmp += " Gb/s"
+                tmp += " Gb" + ext
             }
         }
     }
@@ -38,4 +41,12 @@ function bytesToHumanReadable(bytes)
 function cutNumberByPercents(number, percents)
 {
     return (number / 100) * percents;
+}
+
+function boolSwich(boolVariable) {
+    if (boolVariable)
+        boolVariable = false
+    else
+        boolVariable = true
+    return boolVariable
 }

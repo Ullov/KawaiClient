@@ -29,5 +29,17 @@
         <file>qml/windows/Misc/Parsers/ParserFunctions.js</file>
         <file>qml/QmlIncludes/KawaiLabelInputFieldCombination.qml</file>
         <file>resources/sampleFiles/configs.json</file>
+        <file>resources/FSExplorer/img/fileTypeIcons/bmp.png</file>
+        <file>resources/FSExplorer/img/fileTypeIcons/folder.png</file>
+        <file>resources/FSExplorer/img/fileTypeIcons/gif.png</file>
+        <file>resources/FSExplorer/img/fileTypeIcons/jpeg.png</file>
+        <file>resources/FSExplorer/img/fileTypeIcons/lnk.png</file>
+        <file>resources/FSExplorer/img/fileTypeIcons/png.png</file>
+        <file>resources/FSExplorer/img/fileTypeIcons/tiff.png</file>
+        <file>resources/FSExplorer/txt/fileSignatures.json</file>
+        <file>qml/windows/Misc/FSExplorer/DelegateItemForFolderList.qml</file>
+        <file>qml/windows/Misc/FSExplorer/FileBrowserTab.qml</file>
+        <file>qml/windows/Misc/FSExplorer/StartObject.qml</file>
+        <file>qml/windows/Misc/FSExplorer/FileListTools.js</file>
     </qresource>
 </RCC>

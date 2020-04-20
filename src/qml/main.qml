@@ -29,7 +29,8 @@ Window {
            [
                 "Misc",
                 [
-                    ["Parsers", "qrc:/qml/windows/Misc/Parsers/Parsers.qml"]
+                    ["Parsers", "qrc:/qml/windows/Misc/Parsers/Parsers.qml"],
+                    ["FS Explorer", "qrc:/qml/windows/Misc/FSExplorer/StartObject.qml"]
                 ]
            ],
            [

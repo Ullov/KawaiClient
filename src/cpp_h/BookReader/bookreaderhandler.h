@@ -4,7 +4,7 @@
 #include "../KTools/archiverw.h"
 #include <QDir>
 
-class BookReaderHandler
+class BookReaderHandler : public QObject
 {
     Q_OBJECT
 public:

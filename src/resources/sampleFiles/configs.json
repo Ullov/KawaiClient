@@ -4,7 +4,10 @@
             "login": "",
             "password": "",
             "header": "",
-            "cookie": ""
+            "cookieName": ""
         }
+    },
+    "fsExplorer": {
+        "lastOpenedDirectory": "C:/"
     }
 }
