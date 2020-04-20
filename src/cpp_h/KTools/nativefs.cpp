@@ -62,6 +62,7 @@ bool NativeFs::writeFile(const QByteArray &data, const QString &directory, const
     }
     else
     {
+        Logging::writeError("Can't open file. directory: " + directory + "; fileName: " + fileName, "NativeFs::writeFile()");
         file.close();
         return false;
     }
@@ -108,6 +109,14 @@ bool NativeFs::atEnd()
 bool NativeFs::resize(const qint64 &localSize)
 {
     return file->resize(localSize);
+}
+
+bool NativeFs::copyFile(const QString &oldPathToFile, const QString &newPath, const QString &newFileName)
+{
+    if (!dirExist(newPath))
+        makePath(newPath);
+
+    return QFile::copy(oldPathToFile, newPath + '/' + newFileName);
 }
 
 template<typename T>

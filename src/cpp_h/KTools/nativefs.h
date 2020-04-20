@@ -6,6 +6,7 @@
 #include <QIODevice>
 #include <QDataStream>
 #include <QDir>
+#include "logging.h"
 
 class NativeFs
 {
@@ -27,6 +28,7 @@ public:
     static void makePath(const QString &path);
     static bool fileExist(const QString &path);
     static bool dirExist(const QString &path);
+    static bool copyFile(const QString &oldPathToFile, const QString &newPath, const QString &newFileName);
     template<typename T>
     static T readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags = QIODevice::ReadOnly);
     bool atEnd();
