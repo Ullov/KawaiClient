@@ -4,11 +4,23 @@ FileIdentifier::FileIdentifier() {}
 
 QStringList FileIdentifier::identifyFileFromFileSystem(const QString &path)
 {
-    QFile file(path);
-    file.open(QIODevice::ReadOnly);
-    QDataStream fStr(&file);
-    QByteArray fileSignature = readBytes(fStr, 20);
-    QStringList fileType = fileTypeSelector(fileSignature);
+    NativeFs file = NativeFs();
+    if (!file.open(path, QIODevice::ReadOnly))
+    {
+        return {"", "Permission denied", ""};
+    }
+    QByteArray fileSignature = file.read<QByteArray>(20);
+    QStringList fileType;
+    if (fileSignature.size() < 20)
+    {
+        fileType.push_back("");
+        fileType.push_back("File too small");
+        fileType.push_back("");
+    }
+    else
+    {
+        fileType = fileTypeSelector(fileSignature);
+    }
     return fileType;
 }
 
@@ -17,15 +29,6 @@ QStringList FileIdentifier::identifyFileFromString(const QByteArray &file)
     QByteArray fileSignature = cutQString(0, 20, file);
     QStringList fileType = fileTypeSelector(fileSignature);
     return fileType;
-}
-
-QByteArray FileIdentifier::readBytes(QDataStream &fStr, int lenght)
-{
-    char *s = new char[lenght + 1];
-    fStr.readRawData(s, lenght);
-    QByteArray result = s;
-    delete [] s;
-    return result;
 }
 
 QStringList FileIdentifier::fileTypeSelector(const QByteArray &bytes)
@@ -40,26 +43,32 @@ QStringList FileIdentifier::fileTypeSelector(const QByteArray &bytes)
     {
         result.push_back(".jpg");
         result.push_back("JPEG image file");
+        result.push_back("qrc:/resources/FSExplorer/img/fileTypeIcons/jpeg.png");
     }
     else if (stringsForEquations[8] == "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A")
     {
         result.push_back(".png");
         result.push_back("PNG image file");
+        result.push_back("qrc:/resources/FSExplorer/img/fileTypeIcons/png.png");
     }
     else if (stringsForEquations[6] == "\x47\x49\x46\x38\x37\x61" || stringsForEquations[6] == "\x47\x49\x46\x38\x39\x61")
     {
         result.push_back(".gif");
         result.push_back("GIF image file");
+        result.push_back("qrc:/resources/FSExplorer/img/fileTypeIcons/gif.png");
     }
     else if (stringsForEquations[4] == "\x49\x49\x2A\x00" || stringsForEquations[4] == "\x4D\x4D\x00\x2A")
     {
         result.push_back(".tiff");
         result.push_back("TIFF image file");
+        result.push_back("qrc:/resources/FSExplorer/img/fileTypeIcons/tiff.png");
     }
     else
     {
         result.push_back("");
         result.push_back("Unknown file format");
+        result.push_back("");
+        result.push_back("");
     }
     return result;
 }
