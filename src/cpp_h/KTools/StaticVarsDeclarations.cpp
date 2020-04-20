@@ -33,6 +33,7 @@ QMap<KEnums::Parsers, QString> OptionsHandler::parsersNames = {
     {KEnums::Parsers::NineHentai, "9Hentai"},
     {KEnums::Parsers::MangaKakalot, "MangaKakalot"}
 };
+QJsonObject OptionsHandler::configsObj = QJsonObject();
 // End OptionsHandler
 // Start Logging
 QString Logging::logFileName = QDateTime::currentDateTime().toString("yyyy.MM.dd") + ".log";
