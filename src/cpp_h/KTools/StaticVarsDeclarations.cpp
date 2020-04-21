@@ -13,25 +13,27 @@ QMap<KEnums::Parsers, QString> OptionsHandler::parsersWritePathes = {
     {KEnums::Parsers::ExHentai, rootProgramPath + "/Downloads/Manga/ExHentai/"},
     {KEnums::Parsers::MangaDex, rootProgramPath + "/Downloads/Manga/MangaDex/"},
     {KEnums::Parsers::MangaIro, rootProgramPath + "/Downloads/Manga/MangaIro/"},
-    {KEnums::Parsers::NHentai, rootProgramPath + "/Downloads/Manga/NHentai/"},
+    {KEnums::Parsers::NHentaiDotNet, rootProgramPath + "/Downloads/Manga/NHentai.net/"},
     {KEnums::Parsers::Pixiv, rootProgramPath + "/Downloads/Images/Pixiv/"},
     {KEnums::Parsers::Twitter, rootProgramPath + "/Downloads/Mixed/Twitter/"},
     {KEnums::Parsers::VK, rootProgramPath + "/Downloads/Mixed/VK/"},
     {KEnums::Parsers::YouTube, rootProgramPath + "/Downloads/Video/YouTube/"},
     {KEnums::Parsers::NineHentai, rootProgramPath + "/Downloads/Manga/9Hentai/"},
-    {KEnums::Parsers::MangaKakalot, rootProgramPath + "/Downloads/Manga/MangaKakalot/"}
+    {KEnums::Parsers::MangaKakalot, rootProgramPath + "/Downloads/Manga/MangaKakalot/"},
+    {KEnums::Parsers::NHentaiDotCom, rootProgramPath + "/Downloads/Manga/Nhentai.com/"}
 };
 QMap<KEnums::Parsers, QString> OptionsHandler::parsersNames = {
     {KEnums::Parsers::ExHentai, "ExHentai"},
     {KEnums::Parsers::MangaDex, "MangaDex"},
     {KEnums::Parsers::MangaIro, "MangaIro"},
-    {KEnums::Parsers::NHentai, "NHentai"},
+    {KEnums::Parsers::NHentaiDotNet, "NHentai.net"},
     {KEnums::Parsers::Pixiv, "Pixiv"},
     {KEnums::Parsers::Twitter, "Twitter"},
     {KEnums::Parsers::VK, "VK"},
     {KEnums::Parsers::YouTube, "YouTube"},
     {KEnums::Parsers::NineHentai, "9Hentai"},
-    {KEnums::Parsers::MangaKakalot, "MangaKakalot"}
+    {KEnums::Parsers::MangaKakalot, "MangaKakalot"},
+    {KEnums::Parsers::NHentaiDotCom, "NHentai.com"}
 };
 QJsonObject OptionsHandler::configsObj = QJsonObject();
 // End OptionsHandler
@@ -63,7 +65,7 @@ QMap<KEnums::Parsers, QString> keParsers = {
     {KEnums::Parsers::ExHentai, "ExHentai"},
     {KEnums::Parsers::MangaDex, "MangaDex"},
     {KEnums::Parsers::MangaIro, "MangaIro"},
-    {KEnums::Parsers::NHentai, "NHentai"},
+    {KEnums::Parsers::NHentaiDotNet, "NHentai"},
     {KEnums::Parsers::Pixiv, "Pixiv"},
     {KEnums::Parsers::Twitter, "Twitter"},
     {KEnums::Parsers::VK, "VK"},
@@ -85,8 +87,8 @@ QMap<KEnums::ParserModes::MangaDex, QString> pmMangaDex = {
 QMap<KEnums::ParserModes::MangaIro, QString> pmMangaIro = {
     {KEnums::ParserModes::MangaIro::Download, "Download"}
 };
-QMap<KEnums::ParserModes::NHentai, QString> pmNHentai = {
-    {KEnums::ParserModes::NHentai::Download, "Download"}
+QMap<KEnums::ParserModes::NHentaiDotNet, QString> pmNHentai = {
+    {KEnums::ParserModes::NHentaiDotNet::Download, "Download"}
 };
 QMap<KEnums::ParserModes::Pixiv, QString> pmPixiv = {
     {KEnums::ParserModes::Pixiv::Download, "Download"}

@@ -18,6 +18,7 @@ SOURCES += \
     cpp_h/KTools/archiverw.cpp \
     cpp_h/KawaiFileFormat/kffstream.cpp \
     cpp_h/Parsers/sites/mangakakalotapi.cpp \
+    cpp_h/Parsers/sites/nhentaidotcomapi.cpp \
     cpp_h/main.cpp \
     cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
     cpp_h/KTools/HtmlAstMaker/htmltag.cpp \
@@ -98,6 +99,7 @@ HEADERS += \
     cpp_h/Parsers/sites/mangakakalotapi.h \
     #cpp_h/Parsers/sites/mangarockapi.h \
     cpp_h/Parsers/sites/nhentaiapi.h \
+    cpp_h/Parsers/sites/nhentaidotcomapi.h \
     cpp_h/Parsers/sites/ninehentaiapi.h \
     cpp_h/Parsers/sites/pixivapi.h \
     cpp_h/Parsers/sites/twitterapi.h \

@@ -17,6 +17,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "../KTools/optionshandler.h"
+#include "sites/nhentaidotcomapi.h"
 
 class ApiHandler : public QObject
 {
@@ -38,6 +39,7 @@ private:
     void startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode);
     void startDownloading(const QStringList &params, const KEnums::ParserModes::NineHentai parserMode);
     void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaKakalot parserMode);
+    void startDownloading(const QStringList &params, const KEnums::ParserModes::NHentaiDotCom parserMode);
 
     template<typename T>
     void connectSlotsAndSignals(const QThread *thread, const T *apiClass);

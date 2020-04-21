@@ -13,13 +13,14 @@ namespace KEnums
         ExHentai,
         MangaDex,
         MangaIro,
-        NHentai,
+        NHentaiDotNet,
         Pixiv,
         Twitter,
         VK,
         YouTube,
         NineHentai,
-        MangaKakalot
+        MangaKakalot,
+        NHentaiDotCom
     };
     enum class LogType {
         Custom,
@@ -43,7 +44,7 @@ namespace KEnums
         enum class MangaIro {
             Download
         };
-        enum class NHentai {
+        enum class NHentaiDotNet {
             Download
         };
         enum class Pixiv {
@@ -64,30 +65,35 @@ namespace KEnums
         enum class MangaKakalot {
             Download
         };
+        enum class NHentaiDotCom {
+            Download
+        };
 
         Q_ENUM_NS(ExHentai)
         Q_ENUM_NS(MangaDex)
         Q_ENUM_NS(MangaIro)
-        Q_ENUM_NS(NHentai)
+        Q_ENUM_NS(NHentaiDotNet)
         Q_ENUM_NS(Pixiv)
         Q_ENUM_NS(Twitter)
         Q_ENUM_NS(VK)
         Q_ENUM_NS(YouTube)
         Q_ENUM_NS(NineHentai)
         Q_ENUM_NS(MangaKakalot)
+        Q_ENUM_NS(NHentaiDotCom)
         static void registerTypesForQml()
         {
             qmlRegisterUncreatableMetaObject(ParserModes::staticMetaObject, "KEnums", 1, 0, "ParserModes", "Is enum");
-            qRegisterMetaType<KEnums::ParserModes::ExHentai>("ParserModesExHentai");
-            qRegisterMetaType<KEnums::ParserModes::MangaDex>("ParserModesMangaDex");
-            qRegisterMetaType<KEnums::ParserModes::MangaIro>("ParserModesMangaIro");
-            qRegisterMetaType<KEnums::ParserModes::NHentai>("ParserModesNHentai");
-            qRegisterMetaType<KEnums::ParserModes::Pixiv>("ParserModesPixiv");
-            qRegisterMetaType<KEnums::ParserModes::Twitter>("ParserModesTwitter");
-            qRegisterMetaType<KEnums::ParserModes::VK>("ParserModesVK");
-            qRegisterMetaType<KEnums::ParserModes::YouTube>("ParserModesYouTube");
-            qRegisterMetaType<KEnums::ParserModes::NineHentai>("ParserModesNineHentai");
-            qRegisterMetaType<KEnums::ParserModes::MangaKakalot>("ParserModesMangaKakalot");
+            qRegisterMetaType<ExHentai>("ParserModesExHentai");
+            qRegisterMetaType<MangaDex>("ParserModesMangaDex");
+            qRegisterMetaType<MangaIro>("ParserModesMangaIro");
+            qRegisterMetaType<NHentaiDotNet>("ParserModesNHentaiDotNet");
+            qRegisterMetaType<Pixiv>("ParserModesPixiv");
+            qRegisterMetaType<Twitter>("ParserModesTwitter");
+            qRegisterMetaType<VK>("ParserModesVK");
+            qRegisterMetaType<YouTube>("ParserModesYouTube");
+            qRegisterMetaType<NineHentai>("ParserModesNineHentai");
+            qRegisterMetaType<MangaKakalot>("ParserModesMangaKakalot");
+            qRegisterMetaType<NHentaiDotCom>("ParserModesNHentaiDotCom");
         }
     };
     namespace CurlSettings {
@@ -152,7 +158,7 @@ public:
     static QMap<KEnums::ParserModes::ExHentai, QString> pmExHentai;
     static QMap<KEnums::ParserModes::MangaDex, QString> pmMangaDex;
     static QMap<KEnums::ParserModes::MangaIro, QString> pmMangaIro;
-    static QMap<KEnums::ParserModes::NHentai, QString> pmNHentai;
+    static QMap<KEnums::ParserModes::NHentaiDotNet, QString> pmNHentai;
     static QMap<KEnums::ParserModes::Pixiv, QString> pmPixiv;
     static QMap<KEnums::ParserModes::Twitter, QString> pmTwitter;
     static QMap<KEnums::ParserModes::VK, QString> pmVK;
