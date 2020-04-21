@@ -54,15 +54,21 @@ T NativeFs::read()
 
 bool NativeFs::writeFile(const QByteArray &data, const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
 {
-    makePath(directory);
-    QFile file(directory + '\\' + fileName);
+    QString correctPath = directory;
+    correctPath.replace("\\", "/").replace("//", "/");
+    if (correctPath[correctPath.size() - 1] == "/")
+        correctPath.chop(1);
+
+    makePath(correctPath);
+    QFile file(correctPath + '/' + fileName);
     if (file.open(flags))
     {
         file.write(data);
     }
     else
     {
-        Logging::writeError("Can't open file. directory: " + directory + "; fileName: " + fileName, "NativeFs::writeFile()");
+        //Logging::writeError("Can't open file. directory: " + directory + "; fileName: " + fileName, "NativeFs::writeFile()");
+        QFile::FileError ferr = file.error();
         file.close();
         return false;
     }
