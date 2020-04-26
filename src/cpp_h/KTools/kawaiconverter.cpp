@@ -163,18 +163,46 @@ QString KawaiConverter::numberToUtf8(const quint16 &code)
 
 void KawaiConverter::percentEncodingToString(QString &encodedString)
 {
-    QVector<QString> entityes;
-    QVector<QString> codes;
-    QRegularExpression re("(%([A-F0-9]{2}))");
-    QRegularExpressionMatchIterator i = re.globalMatch(encodedString);
-    for (int j = 0;i.hasNext(); j++)
+    bool forWhat;
+    for (int i = 0; i < encodedString.size();)
     {
-        QRegularExpressionMatch match = i.next();
-        entityes.push_back(match.captured(1));
-        codes.push_back(QByteArray::fromHex(match.captured(2).toUtf8()));
+        QChar currChar = encodedString[i];
+        if (currChar == "%")
+        {
+            QString code = encodedString.mid(i + 1, 2);
+            QString repl = QString((char)code.toInt(&forWhat, 16));
+            encodedString.replace("%" + code, repl);
+            if (i > 2)
+                i = i - 2;
+        }
+        else
+        {
+            ++i;
+        }
     }
-    for (int i = 0; i < codes.size(); i++)
-        encodedString.replace(entityes[i], codes[i]);
+}
+
+void KawaiConverter::percentEncodingToString(QByteArray &encodedString)
+{
+    QString str = encodedString;
+    bool forWhat;
+    for (int i = 0; i < str.size();)
+    {
+        QChar currChar = str[i];
+        if (currChar == "%")
+        {
+            QString code = str.mid(i + 1, 2);
+            QString repl = QString((char)code.toInt(&forWhat, 16));
+            str.replace("%" + code, repl);
+            if (i > 2)
+                i = i - 2;
+        }
+        else
+        {
+            ++i;
+        }
+    }
+    encodedString = str.toUtf8();
 }
 
 void KawaiConverter::toNtfsCompatibleString(QString &data)

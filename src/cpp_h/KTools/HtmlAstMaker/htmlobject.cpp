@@ -62,6 +62,14 @@ HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                 {
                     qint32 tmpPos = findTagEndingPart(pos, endPos, *tagClass);
 
+                    if (tagClass->getName().toLower() == "script")
+                    {
+                        readJs(tagClass->getInnerContent());
+                        tagClass->status = HtmlTag::StatusEnum::TagValid;
+                        pos += tagClass->getInnerContent().size() + 9;
+                        return *tagClass;
+                    }
+
                     if (tagClass->isSelfclosing())
                     {
                         while (pos < tmpPos)
@@ -241,4 +249,75 @@ qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, Ht
         findTagEndingPart(pos, endPos, tagClass, sameTagCounterEd);
     }*/
     return tmpPos;
+}
+
+HtmlObject::JsReadStatus HtmlObject::readJs(const QString &inner)
+{
+    //QString inner = tagClass.getInnerContent();
+    /*if (tagClass.getAttributeValue("src") != QString())
+    {
+        inner
+    }*/
+    if (inner.size() == 0)
+        return HtmlObject::JsReadStatus::NotFound;
+
+    qint32 bracesCount = 0;
+    qint32 startPos = 0;
+    bool inObject = false;
+    bool inArray = false;
+    for (qint32 i = 0; i < inner.size(); i++)
+    {
+        if (inner[i] == '[')
+        {
+            ++bracesCount;
+            if (!inObject && !inArray)
+            {
+                inArray = true;
+                startPos = i;
+            }
+        }
+        else if (inner[i] == '{')
+        {
+            ++bracesCount;
+            if (!inObject && !inArray)
+            {
+                inObject = true;
+                startPos = i;
+            }
+        }
+        else if (inner[i] == "]")
+        {
+            --bracesCount;
+            if (bracesCount == 0 && inArray)
+            {
+                QJsonArray jsArr = KawaiConverter::convert<QString, QJsonArray>(inner.mid(startPos, i - startPos + 1));
+                if (!jsArr.isEmpty())
+                {
+                    arrsAndObjs.arrs.append(jsArr);
+                }
+                else
+                {
+                    i = startPos + 1;
+                }
+                inArray = false;
+            }
+        }
+        else if (inner[i] == "}")
+        {
+            --bracesCount;
+            if (bracesCount == 0 && inObject)
+            {
+                QJsonObject jsObj = KawaiConverter::convert<QString, QJsonObject>(inner.mid(startPos, i - startPos + 1));
+                if (!jsObj.isEmpty())
+                {
+                    arrsAndObjs.objects.append(jsObj);
+                }
+                else
+                {
+                    i = startPos + 1;
+                }
+                inObject = false;
+            }
+        }
+    }
 }

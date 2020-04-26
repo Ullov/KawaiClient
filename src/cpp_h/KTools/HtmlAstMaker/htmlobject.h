@@ -25,6 +25,23 @@ private:
     bool setRootTag(HtmlTag &tag);
     qint32 findTagEndingPart(const qint32 &pos, const qint32 &endPos, HtmlTag &tagClass, qint32 differenceEdAndOp = 0);
     //qint32 findTagEndingPartSecondPass(qint32 pos, qint32 endPos, HtmlTag &tagClass, qint32 differenceEdAndOp);
+
+    struct JsArrsAndObjects
+    {
+        QVector<QJsonObject> objects;
+        QVector<QJsonArray> arrs;
+    };
+
+    enum class JsReadStatus
+    {
+        Success,
+        InvalidString,
+        NotFound
+    };
+    JsReadStatus readJs(const QString &inner);
+
+public:
+    JsArrsAndObjects arrsAndObjs;
 };
 
 #endif // HTMLOBJECT_H

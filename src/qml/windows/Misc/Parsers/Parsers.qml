@@ -40,6 +40,7 @@ Rectangle {
         ListElement {name: "9Hentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.NineHentai.Download; parserType: KEnums.Parsers.NineHentai}
         ListElement {name: "MangaKakalot"; placeholder:"Enter manga system name..."; functionType:"standart"; parserMode: ParserModes.MangaKakalot.Download; parserType: KEnums.Parsers.MangaKakalot}
         ListElement {name: "NHentai.com"; placeholder:"Enter gallery slug..."; functionType:"standart"; parserMode: ParserModes.NHentaiDotCom.Download; parserType: KEnums.Parsers.NHentaiDotCom}
+        ListElement {name: "YouTube"; placeholder:"Enter video url..."; functionType:"standart"; parserMode: ParserModes.YouTube.Download; parserType: KEnums.Parsers.YouTube}
     }
     Component {
         id: parsersDelegateItem

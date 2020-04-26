@@ -2,6 +2,7 @@
 #define KAWAICONVERTER_H
 
 #include "stringoperations.h"
+#include "logging.h"
 #include <QByteArray>
 #include <QString>
 #include <QJsonObject>
@@ -27,6 +28,7 @@ public:
 
     static QString numberToUtf8(const quint16 &code);
     static void percentEncodingToString(QString &encodedString);
+    static void percentEncodingToString(QByteArray &encodedString);
     static void toNtfsCompatibleString(QString &data);
     static void convertHtmlEntities(QString &inp);
     static void convertHtmlEntities(QByteArray &inp);
