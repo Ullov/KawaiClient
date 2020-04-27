@@ -1,15 +1,13 @@
 #ifndef LOGGING_H
 #define LOGGING_H
 
-#include <QObject>
 #include <QDateTime>
 #include "nativefs.h"
 #include "optionshandler.h"
 #include "kenums.h"
 
-class Logging : public QObject
+class Logging
 {
-    Q_OBJECT
 public:
     Logging();
 
@@ -17,9 +15,6 @@ private:
     static QString logFileName;
     static QMap<KEnums::LogType, QString> logTypePath;
     static QMap<KEnums::LogType, QString> logTypeNames;
-
-signals:
-    void logMessage(const QString message);
 
 public:
     static void writeCustomLog(const QString &message, const QString &from, const KEnums::LogType &type = KEnums::LogType::Custom);

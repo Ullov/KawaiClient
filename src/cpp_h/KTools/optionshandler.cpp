@@ -29,39 +29,16 @@ bool OptionsHandler::save()
     return NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(configsObj), rootProgramPath, "configs.json");
 }
 
-void OptionsHandler::setRootProgramPath(QString path)
+void OptionsHandler::setRootProgramPath(const QString &path)
 {
     rootProgramPath = path;
     NativeFs::writeFile(rootProgramPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
-}
-
-void OptionsHandler::emitRootProgramPath()
-{
-    emit sendRootProgramPath(rootProgramPath);
+    save();
 }
 
 QString OptionsHandler::getRootProgramPath()
 {
     return rootProgramPath;
-}
-
-void OptionsHandler::slotSetParam(const QString pathToParam, const QString param)
-{
-    QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
-    QString name = list[0];
-    list.pop_front();
-    QJsonValue jsVal = configsObj[name];
-    configsObj[name] = privateSetParam(list, jsVal, param);
-    save();
-}
-
-void OptionsHandler::slotGetParam(const QString pathToParam)
-{
-    QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
-    QString name = list[0];
-    list.pop_front();
-    QJsonValue jsVal = configsObj[name];
-    emit signalParam(pathToParam, privateGetParam(list, jsVal));
 }
 
 QJsonValue OptionsHandler::privateSetParam(QList<QString> pathToParam, QJsonValue currLevel, const QVariant param)

@@ -5,13 +5,13 @@ Rectangle {
     anchors.fill: parent
 
     Component.onCompleted:{
-        options.emitRootProgramPath()
-        options.slotGetParam("/fsExplorer/lastOpenedDirectory")
+        kTools.optionsHandlerEmitRootProgramPath()
+        kTools.optionsHandlerSlotGetParam("/fsExplorer/lastOpenedDirectory")
     }
     Connections {
-        target: options
-        onSendRootProgramPath: rootProgtramPathField.klifcTextField.text = path
-        onSignalParam: testParamField.klifcLabel.text = param
+        target: kTools
+        onOptionsHandlerSendRootProgramPath: rootProgtramPathField.klifcTextField.text = path
+        onOptionsHandlerSignalParam: testParamField.klifcLabel.text = param
     }
 
     KawaiLabelInputFieldCombination {

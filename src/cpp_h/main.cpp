@@ -8,6 +8,7 @@
 #include "KTools/curlclass.h"
 #include "KawaiFileFormat/kfffs.h"
 #include "FsExplorer/fshandler.h"
+#include "KTools/ktoolsqmlinterface.h"
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>
@@ -30,19 +31,17 @@ int main(int argc, char *argv[])
     registerTypesForQml();
     curl_global_init(CURL_GLOBAL_ALL);
 
-    OptionsHandler *options = new OptionsHandler();
-    Logging *logger = new Logging();
+    //OptionsHandler *options = new OptionsHandler();
+    //Logging *logger = new Logging();
     ApiHandler *apiHandler = new ApiHandler();
     KawaiImageProvider *imgProvider = new KawaiImageProvider();
     FsHandler *fsExplorerHandle = new FsHandler();
 
-    apiHandler->logger = logger;
-    apiHandler->options = options;
+    apiHandler->logger = new Logging();
+    apiHandler->options = new OptionsHandler();
     QQmlApplicationEngine engine;
-    apiHandler->engine = &engine;
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);
-    engine.rootContext()->setContextProperty("logger", logger);
-    engine.rootContext()->setContextProperty("options", options); // fsExplorerHandle
+    engine.rootContext()->setContextProperty("kTools", new KToolsQmlInterface());
     engine.rootContext()->setContextProperty("fsExplorerHandle", fsExplorerHandle);
     engine.addImageProvider("kimage", imgProvider);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

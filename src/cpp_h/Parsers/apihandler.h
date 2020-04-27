@@ -26,7 +26,7 @@ public:
     ApiHandler();
 
     Logging *logger;
-    QQmlApplicationEngine *engine;
+    //QQmlApplicationEngine *engine;
     OptionsHandler *options;
 
 private:

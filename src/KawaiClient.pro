@@ -16,6 +16,7 @@ SOURCES += \
     cpp_h/BookReader/bookreaderhandler.cpp \
     cpp_h/FsExplorer/fshandler.cpp \
     cpp_h/KTools/archiverw.cpp \
+    cpp_h/KTools/ktoolsqmlinterface.cpp \
     cpp_h/KawaiFileFormat/kffstream.cpp \
     cpp_h/Parsers/sites/mangakakalotapi.cpp \
     cpp_h/Parsers/sites/nhentaidotcomapi.cpp \
@@ -76,6 +77,7 @@ HEADERS += \
     cpp_h/KTools/fileidentifier.h \
     cpp_h/KTools/kawaiimageprovider.h \
     cpp_h/KTools/kenums.h \
+    cpp_h/KTools/ktoolsqmlinterface.h \
     cpp_h/KTools/logging.h \
     cpp_h/KTools/optionshandler.h \
     cpp_h/KTools/stringoperations.h \
