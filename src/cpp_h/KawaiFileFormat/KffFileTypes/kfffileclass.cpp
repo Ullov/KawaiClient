@@ -106,13 +106,13 @@ T KffFileClass::readHeaderParam(quint64 &offset, const QByteArray *rawHeader, in
         paramLenght = sizeof(T);
     QByteArray param = rawHeader->mid(offset, paramLenght);
     offset += paramLenght;
-    return KawaiConverter::byteArrayToT<T>(param);
+    return KTools::Converter::byteArrayToT<T>(param);
 }
 
 template<typename T>
 T KffFileClass::readRawData(const qint64 &pos, const qint64 &lenght, NativeFs &scope)
 {
-    return KawaiConverter::byteArrayToT<T>(scope.read<T>(pos, lenght));
+    return KTools::Converter::byteArrayToT<T>(scope.read<T>(pos, lenght));
 }
 
 void KffFileClass::deleteData(ReadedClusters &localReadedClusters)

@@ -21,12 +21,12 @@ OptionsHandler::OptionsHandler()
         NativeFs::copyFile(":/resources/sampleFiles/configs.json", rootProgramPath + "/Settings", "configs.json");
     }
     QString fileContent = NativeFs::readFile<QString>(rootProgramPath + "/Settings", "configs.json");
-    configsObj = KawaiConverter::convert<QString, QJsonObject>(fileContent);
+    configsObj = KTools::Converter::convert<QString, QJsonObject>(fileContent);
 }
 
 bool OptionsHandler::save()
 {
-    return NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(configsObj), rootProgramPath, "configs.json");
+    return NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(configsObj), rootProgramPath, "configs.json");
 }
 
 void OptionsHandler::setRootProgramPath(const QString &path)

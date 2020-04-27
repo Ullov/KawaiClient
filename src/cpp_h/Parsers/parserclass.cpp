@@ -84,7 +84,7 @@ void ParserClass::writeJsonDataInFile(const QJsonObject &object, const QString &
 QJsonObject ParserClass::downloadJson(const QString url)
 {
     QByteArray result = cc->performing(url.toUtf8());
-    QJsonObject object = KawaiConverter::convert<QString, QJsonObject>(result);
+    QJsonObject object = KTools::Converter::convert<QString, QJsonObject>(result);
     return object;
 }
 
@@ -97,7 +97,7 @@ void ParserClass::downloadAndWriteFile(const QString &url, const QString &path, 
 QJsonArray ParserClass::downloadJsonAsArray(const QString &url)
 {
     QByteArray result = cc->performing(url.toUtf8());
-    QJsonArray arr = KawaiConverter::convert<QString, QJsonArray>(result);
+    QJsonArray arr = KTools::Converter::convert<QString, QJsonArray>(result);
     return arr;
 }
 
@@ -130,7 +130,7 @@ QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
     for (int i = 0; i < regexResult.size(); i++)
     {
         QString tmp = regexResult[i];
-        QJsonObject obj = KawaiConverter::convert<QString, QJsonObject>(tmp);
+        QJsonObject obj = KTools::Converter::convert<QString, QJsonObject>(tmp);
         if (!obj.isEmpty())
             objects.push_back(obj);
     }

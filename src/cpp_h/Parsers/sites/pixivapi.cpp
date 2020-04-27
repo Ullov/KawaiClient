@@ -261,7 +261,7 @@ void PixivApi::getRecomendedUsers()
     };
     cc->setHeader(chunk);
     currUrl = "https://www.pixiv.net/rpc/index.php?mode=get_recommend_users_and_works_by_user_ids&user_ids=2583663,8851285,257542,8189060,11&user_num=30&work_num=5";
-    QJsonObject obj = KawaiConverter::convert<QString, QJsonObject>(cc->performing(currUrl.toUtf8()));
+    QJsonObject obj = KTools::Converter::convert<QString, QJsonObject>(cc->performing(currUrl.toUtf8()));
     QJsonArray illusts = obj["body"].toArray();
     // https://www.pixiv.net/rpc/index.php?mode=get_recommend_users_and_works_by_user_ids&user_ids=2583663,8851285,257542,8189060,11&user_num=30&work_num=5
 }

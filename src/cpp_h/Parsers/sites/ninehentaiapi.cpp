@@ -36,7 +36,7 @@ void NinehentaiApi::download()
     cc->currPostParam = "{\"id\":" + galleryId + "}";
     currUrl = "https://9hentai.com/api/getBookByID";
     QByteArray data = cc->request(currUrl);
-    QJsonObject obj = KawaiConverter::convert<QString, QJsonObject>(data);
+    QJsonObject obj = KTools::Converter::convert<QString, QJsonObject>(data);
 
     if (!obj["status"].toBool())
     {
@@ -47,14 +47,14 @@ void NinehentaiApi::download()
 
     QString titleName = obj["results"].toObject().value("title").toString();
     QString id = QString::number(obj["results"].toObject().value("id").toInt());
-    KawaiConverter::toNtfsCompatibleString(titleName);
+    KTools::Converter::toNtfsCompatibleString(titleName);
 
     rootPath = basePath + "/[" + id + "](" + titleName + ")";
     for (int i = 0; NativeFs::dirExist(rootPath); i++)
         rootPath = basePath + "/[" + id + "](" + titleName + ")[" + QString::number(i);
 
     writeInfoLog("Downloading started.");
-    NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(obj), rootPath, "info.json");
+    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(obj), rootPath, "info.json");
     writeInfoLog("Info downloaded.");
 
 

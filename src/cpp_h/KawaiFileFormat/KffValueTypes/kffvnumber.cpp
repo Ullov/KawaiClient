@@ -27,7 +27,7 @@ T& KffVNumber<T>::getData()
 template<typename T>
 QByteArray KffVNumber<T>::toKffRawData()
 {
-    return KawaiConverter::convert<T, QByteArray>(data);
+    return KTools::Converter::convert<T, QByteArray>(data);
 }
 
 template<typename T>

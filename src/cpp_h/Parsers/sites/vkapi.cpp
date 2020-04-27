@@ -41,7 +41,7 @@ void VkApi::downloadPost()
     //KawaiHtmlParser *khp = new KawaiHtmlParser();
     //khp->open(data);
 
-    QString page = KawaiConverter::nationalEncodingToUtf8("Windows-1251", data);
+    QString page = KTools::Converter::nationalEncodingToUtf8("Windows-1251", data);
 
     QVector<QVector<QVector<QString>>> regexResult;
     QVector<QString> patterns;
@@ -52,10 +52,10 @@ void VkApi::downloadPost()
         StringOperations::executeRegex(page, patterns, regexResult);
         for (int i = 0; i < regexResult[0].size(); i++)
         {
-            regexResult[0][i][1] = KawaiConverter::numberToUtf8(regexResult[0][i][1].toInt());
+            regexResult[0][i][1] = KTools::Converter::numberToUtf8(regexResult[0][i][1].toInt());
             page.replace(regexResult[0][i][0], regexResult[0][i][1]);
         }
-        KawaiConverter::convertHtmlEntities(page);
+        KTools::Converter::convertHtmlEntities(page);
     }
 
     patterns.clear();
@@ -73,7 +73,7 @@ void VkApi::downloadPost()
     QStringList artUrls;
     for (int i = 0; i < regexResult[3].size(); i++)
     {
-        QJsonObject tmpObject = KawaiConverter::convert<QString, QJsonObject>(regexResult[3][i][0]);
+        QJsonObject tmpObject = KTools::Converter::convert<QString, QJsonObject>(regexResult[3][i][0]);
         if (!tmpObject.isEmpty())
             object.push_back(tmpObject);
         if (!tmpObject.value("temp").toObject().isEmpty())

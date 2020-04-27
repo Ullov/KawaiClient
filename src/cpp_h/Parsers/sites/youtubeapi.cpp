@@ -30,7 +30,7 @@ void YoutubeApi::download()
     KTools::HtmlAst::Object htmlObj = KTools::HtmlAst::Object();
     htmlObj.makeAst(data);
     //data = cc->request("https://www.youtube.com/get_video_info?video_id=" + videoId);
-    QJsonObject playerResponse = KawaiConverter::convert<QString, QJsonObject>(htmlObj.arrsAndObjs.objects[3].value("args").toObject().value("player_response").toString());
+    QJsonObject playerResponse = KTools::Converter::convert<QString, QJsonObject>(htmlObj.arrsAndObjs.objects[3].value("args").toObject().value("player_response").toString());
     QString cipher = playerResponse.value("streamingData").toObject().value("adaptiveFormats").toArray()[1].toObject().value("cipher").toString();
     QList<QString> cipherList = cipher.split("&");
     QMap<QString, QString> cipherMap;
@@ -40,7 +40,7 @@ void YoutubeApi::download()
         cipherMap.insert(tmpList[0], tmpList[1]);
     }
     currUrl = cipherMap["url"];
-    KawaiConverter::percentEncodingToString(currUrl);
+    KTools::Converter::percentEncodingToString(currUrl);
     //currUrl += "&range=0-" + QString::number(100)/*playerResponse.value("streamingData").toObject().value("adaptiveFormats").toArray()[0].toObject().value("contentLength").toString()*/;
     data = cc->request(currUrl);
     //NativeFs::writeFile(currUrl.toUtf8(), basePath, "currUrl2.txt");
@@ -48,7 +48,7 @@ void YoutubeApi::download()
     data = cc->request("https://www.youtube.com/get_video_info?video_id=" + videoId);
     QList<QByteArray> info = data.split('&');
     data = info.join("\n");
-    KawaiConverter::percentEncodingToString(data);
+    KTools::Converter::percentEncodingToString(data);
     data = data.split('&').join("\n\t");
     //NativeFs::writeFile(data, basePath, "getVideoInfo.txt");
 
@@ -73,7 +73,7 @@ QJsonObject YoutubeApi::getParamsToJsonObject(const QString &data)
         tmpObject2 = QJsonObject();
         //if (!videoInfo[i][1].isNull())
         QString forDecoding = videoInfo[i][1];
-        KawaiConverter::percentEncodingToString(forDecoding);
+        KTools::Converter::percentEncodingToString(forDecoding);
         tmpObject2["value"] = forDecoding;
         tmpObject[videoInfo[i][0]] = forDecoding;
     }

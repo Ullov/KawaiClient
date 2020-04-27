@@ -18,8 +18,8 @@ void MangakakalotApi::download()
     info["title"] = astTag.find(2).find(1).find(0).find(0).getInnerContent();
 
     currUrl = info["title"].toString();
-    KawaiConverter::convertHtmlEntities(currUrl);
-    KawaiConverter::toNtfsCompatibleString(currUrl);
+    KTools::Converter::convertHtmlEntities(currUrl);
+    KTools::Converter::toNtfsCompatibleString(currUrl);
     rootPath = basePath + "/" + currUrl.trimmed();
     for (int i = 0; NativeFs::dirExist(rootPath); i++)
         rootPath = basePath + "/" + currUrl.trimmed() + "[" + QString::number(i) + ']';
@@ -49,7 +49,7 @@ void MangakakalotApi::download()
         allChaptersData.append(chapterData);
     }
     info["chaptersData"] = allChaptersData;
-    NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(info), rootPath, "info.json");
+    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(info), rootPath, "info.json");
     writeInfoLog("All info downloaded and writed.");
     NativeFs::writeFile(cover, rootPath, "cover" + defineExtension(cover));
     writeInfoLog("Cover writed");
@@ -57,8 +57,8 @@ void MangakakalotApi::download()
     for (int i = 0; i < allChaptersData.size(); i++)
     {
         QString chapterFolder = allChaptersData[i].toObject().value("name").toString();
-        KawaiConverter::convertHtmlEntities(chapterFolder);
-        KawaiConverter::toNtfsCompatibleString(chapterFolder);
+        KTools::Converter::convertHtmlEntities(chapterFolder);
+        KTools::Converter::toNtfsCompatibleString(chapterFolder);
         chapterFolder = "[" + QString::number(i) + "]" + chapterFolder;
         writeInfoLog("Start download chapter with name " + chapterFolder);
         data = cc->request(allChaptersData[i].toObject().value("url").toString());

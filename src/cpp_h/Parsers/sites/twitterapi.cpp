@@ -34,7 +34,7 @@ void TwitterApi::download()
     {
         currUrl = "https://twitter.com" + regexResult[0][i][5];
         data = cc->performing(currUrl.toUtf8());
-        KawaiConverter::convertHtmlEntities(data);
+        KTools::Converter::convertHtmlEntities(data);
         postsJson.append(extractJsonObjectFromText(data));
     }
 

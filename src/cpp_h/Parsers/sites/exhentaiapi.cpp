@@ -31,7 +31,7 @@ void ExhentaiApi::slotDownload()
     htmlAst->makeAst(data);
     QJsonObject info = getGalleryInfo(*htmlAst);
     currUrl = info["name"].toArray().at(0).toString();
-    KawaiConverter::toNtfsCompatibleString(currUrl);
+    KTools::Converter::toNtfsCompatibleString(currUrl);
     rootPath = basePath + "/" + currUrl;
     writeInfoLog("Downloading started. Info extracted.");
     QJsonArray comments = getComments(*htmlAst);
@@ -43,7 +43,7 @@ void ExhentaiApi::slotDownload()
     allInfo["comments"] = comments;
     allInfo["pagesLinks"] = pagesLinks;
     writeJsonDataInFile(allInfo, rootPath, "info.txt");
-    NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QString>(allInfo).toUtf8(), rootPath, "info.json");
+    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QString>(allInfo).toUtf8(), rootPath, "info.json");
     writeInfoLog("All info data writed.");
 
     delete htmlAst;
@@ -56,7 +56,7 @@ void ExhentaiApi::slotDownload()
             currUrl = htmlAst->rootTag->find(1).find(1).find(6).find(1).getAttributeValue("href");
         else
             currUrl = htmlAst->rootTag->find(1).find(1).find(2).find(0).find(0).getAttributeValue("src");
-        KawaiConverter::convertHtmlEntities(currUrl);
+        KTools::Converter::convertHtmlEntities(currUrl);
         downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "/pages/", QString::number(i));
         writeInfoLog("Page #" + QString::number(i) + " downloaded.");
         delete htmlAst;

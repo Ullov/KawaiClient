@@ -12,10 +12,10 @@ void NHentaiDotComApi::download()
     cc->request("https://nhentai.com");
     QString url = "https://nhentai.com/api/comics/" + slugName;
     QByteArray data = cc->request(url);
-    QJsonObject info = KawaiConverter::convert<QString, QJsonObject>(data);
+    QJsonObject info = KTools::Converter::convert<QString, QJsonObject>(data);
     QString title = info.value("title").toString();
     QString id = QString::number(info.value("id").toInt());
-    KawaiConverter::toNtfsCompatibleString(title);
+    KTools::Converter::toNtfsCompatibleString(title);
 
     rootPath = basePath + "/[" + id + "](" + title + ')';
     for (int i = 0; NativeFs::dirExist(rootPath); i++)
@@ -24,10 +24,10 @@ void NHentaiDotComApi::download()
     writeInfoLog("Downloading started.");
 
     data = cc->request(url + "/images");
-    QJsonObject pages = KawaiConverter::convert<QString, QJsonObject>(data);
+    QJsonObject pages = KTools::Converter::convert<QString, QJsonObject>(data);
     writeInfoLog("Info and pages JSON downloaded.");
-    NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(pages), rootPath, "pages.json");
-    NativeFs::writeFile(KawaiConverter::convert<QJsonObject, QByteArray>(info), rootPath, "info.json");
+    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(pages), rootPath, "pages.json");
+    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(info), rootPath, "info.json");
     writeInfoLog("Info and pages JSON writed.");
 
     QJsonArray pagesLinks = pages.value("images").toArray();

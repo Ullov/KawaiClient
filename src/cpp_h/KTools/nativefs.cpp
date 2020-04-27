@@ -31,7 +31,7 @@ qint64 NativeFs::pos()
 template<typename T>
 void NativeFs::write(const T &data)
 {
-    file->write(KawaiConverter::toByteArray<T>(data));
+    file->write(KTools::Converter::toByteArray<T>(data));
 }
 
 template<>
@@ -43,13 +43,13 @@ void NativeFs::write(const QByteArray &data)
 template<typename T>
 T NativeFs::read(const qint64 &lenght)
 {
-    return KawaiConverter::byteArrayToT<T>(file->read(lenght));
+    return KTools::Converter::byteArrayToT<T>(file->read(lenght));
 }
 
 template<typename T>
 T NativeFs::read()
 {
-    return KawaiConverter::byteArrayToT<T>(file->read(sizeof(T)));
+    return KTools::Converter::byteArrayToT<T>(file->read(sizeof(T)));
 }
 
 bool NativeFs::writeFile(const QByteArray &data, const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
@@ -136,7 +136,7 @@ T NativeFs::readFile(const QString &directory, const QString &fileName, const QI
         return T();
 
     if (typeid (T) != typeid (QByteArray))
-        return KawaiConverter::byteArrayToT<T>(rFile.readAll());
+        return KTools::Converter::byteArrayToT<T>(rFile.readAll());
 
     return rFile.readAll();
 }

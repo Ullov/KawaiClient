@@ -287,7 +287,7 @@ KTools::HtmlAst::Object::JsReadStatus KTools::HtmlAst::Object::readJs(const QStr
             --bracesCount;
             if (bracesCount == 0 && inArray)
             {
-                QJsonArray jsArr = KawaiConverter::convert<QString, QJsonArray>(inner.mid(startPos, i - startPos + 1));
+                QJsonArray jsArr = KTools::Converter::convert<QString, QJsonArray>(inner.mid(startPos, i - startPos + 1));
                 if (!jsArr.isEmpty())
                 {
                     arrsAndObjs.arrs.append(jsArr);
@@ -304,7 +304,7 @@ KTools::HtmlAst::Object::JsReadStatus KTools::HtmlAst::Object::readJs(const QStr
             --bracesCount;
             if (bracesCount == 0 && inObject)
             {
-                QJsonObject jsObj = KawaiConverter::convert<QString, QJsonObject>(inner.mid(startPos, i - startPos + 1));
+                QJsonObject jsObj = KTools::Converter::convert<QString, QJsonObject>(inner.mid(startPos, i - startPos + 1));
                 if (!jsObj.isEmpty())
                 {
                     arrsAndObjs.objects.append(jsObj);

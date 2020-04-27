@@ -68,7 +68,7 @@ void MangairoApi::download()
     QJsonArray tmpArr;
     mangaInfo["mangaName"] = regexResult[0][0][1];
     currUrl = regexResult[0][0][1];
-    KawaiConverter::toNtfsCompatibleString(currUrl);
+    KTools::Converter::toNtfsCompatibleString(currUrl);
     rootPath = basePath + "\\[" + mangaId + "](" + currUrl + ')';
     QString type = "MangaIro";
     logPath = rootPath;
@@ -126,7 +126,7 @@ void MangairoApi::download()
         {
             currUrl = tmpArr[i].toObject().value("name").toString();
             currUrl.remove(0, 2);
-            KawaiConverter::toNtfsCompatibleString(currUrl);
+            KTools::Converter::toNtfsCompatibleString(currUrl);
             name = '(' + currUrl + ')';
         }
         QString number = '[' + tmpArr[i].toObject().value("number").toString() + ']';

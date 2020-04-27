@@ -24,7 +24,7 @@ void MangadexApi::download()
     cc->setOptions();
     QJsonObject object = downloadJson("https://mangadex.org/api/manga/" + mangaId); // mangaId == 24220
     QString title = object.value("manga").toObject().value("title").toString();
-    KawaiConverter::toNtfsCompatibleString(title);
+    KTools::Converter::toNtfsCompatibleString(title);
     rootPath = basePath + "\\[" + mangaId + "](" + title + ')';
     writeJsonDataInFile(object, rootPath + "\\txt", "chapterData.txt");
     QString type = "MangaDex";
@@ -50,7 +50,7 @@ void MangadexApi::download()
         langPrefix = chapters[chaptersKeys[i]].toObject().value("lang_code").toString();
         chapterOrder = chapters[chaptersKeys[i]].toObject().value("chapter").toString();
         chapterTitle = chapters[chaptersKeys[i]].toObject().value("title").toString();
-        KawaiConverter::toNtfsCompatibleString(chapterTitle);
+        KTools::Converter::toNtfsCompatibleString(chapterTitle);
         volume = chapters[chaptersKeys[i]].toObject().value("volume").toString();
         currUrl = "https://mangadex.org/api/chapter/" + chaptersKeys[i];
         chapter = downloadJson(currUrl);
