@@ -52,7 +52,7 @@ protected:
     QString currUrl;
     QString rootPath; // in this paths writes log file
     QVector<QByteArray> chunk; // header for curl requests
-    FileIdentifier *defExt;
+    KTools::FileIdentifier *defExt;
     QString logPath;
     const QString logFile = "log.txt";
     QString basePath;

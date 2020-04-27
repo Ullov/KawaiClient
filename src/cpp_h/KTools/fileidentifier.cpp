@@ -1,8 +1,8 @@
 #include "fileidentifier.h"
 
-FileIdentifier::FileIdentifier() {}
+KTools::FileIdentifier::FileIdentifier() {}
 
-QStringList FileIdentifier::identifyFileFromFileSystem(const QString &path)
+QStringList KTools::FileIdentifier::identifyFileFromFileSystem(const QString &path)
 {
     NativeFs file = NativeFs();
     if (!file.open(path, QIODevice::ReadOnly))
@@ -24,14 +24,14 @@ QStringList FileIdentifier::identifyFileFromFileSystem(const QString &path)
     return fileType;
 }
 
-QStringList FileIdentifier::identifyFileFromString(const QByteArray &file)
+QStringList KTools::FileIdentifier::identifyFileFromString(const QByteArray &file)
 {
     QByteArray fileSignature = cutQString(0, 20, file);
     QStringList fileType = fileTypeSelector(fileSignature);
     return fileType;
 }
 
-QStringList FileIdentifier::fileTypeSelector(const QByteArray &bytes)
+QStringList KTools::FileIdentifier::fileTypeSelector(const QByteArray &bytes)
 {
     QStringList result;
     QStringList stringsForEquations;
@@ -73,7 +73,7 @@ QStringList FileIdentifier::fileTypeSelector(const QByteArray &bytes)
     return result;
 }
 
-QByteArray FileIdentifier::cutQString(const int &from, const int &lenghtCuttedString, const QByteArray &string)
+QByteArray KTools::FileIdentifier::cutQString(const int &from, const int &lenghtCuttedString, const QByteArray &string)
 {
     return string.mid(from, lenghtCuttedString);
 }

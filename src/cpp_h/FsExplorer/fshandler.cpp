@@ -37,7 +37,7 @@ QJsonObject FsHandler::fileInfoToJsonObject(const QFileInfo &file)
     else
     {
         result["isDir"] = false;
-        QStringList strList = FileIdentifier::identifyFileFromFileSystem(file.filePath());
+        QStringList strList = KTools::FileIdentifier::identifyFileFromFileSystem(file.filePath());
         result["iconPath"] = strList[2];
         result["fileType"] = strList[0];
     }

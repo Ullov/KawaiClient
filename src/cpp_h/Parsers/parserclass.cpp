@@ -2,7 +2,7 @@
 
 ParserClass::ParserClass()
 {
-    defExt = new FileIdentifier();
+    defExt = new KTools::FileIdentifier();
     cc = new KTools::Curl();
 }
 
