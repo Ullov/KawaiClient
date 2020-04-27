@@ -39,15 +39,15 @@ QMap<KEnums::Parsers, QString> OptionsHandler::parsersNames = {
 QJsonObject OptionsHandler::configsObj = QJsonObject();
 // End OptionsHandler
 // Start Logging
-QString Logging::logFileName = QDateTime::currentDateTime().toString("yyyy.MM.dd") + ".log";
+QString KTools::Log::logFileName = QDateTime::currentDateTime().toString("yyyy.MM.dd") + ".log";
 
-QMap<KEnums::LogType, QString> Logging::logTypePath = {
+QMap<KEnums::LogType, QString> KTools::Log::logTypePath = {
     {KEnums::LogType::Info, "/info/"},
     {KEnums::LogType::Debug, "/debug/"},
     {KEnums::LogType::Error, "/error/"},
     {KEnums::LogType::Custom, "/custom/"}
 };
-QMap<KEnums::LogType, QString> Logging::logTypeNames = {
+QMap<KEnums::LogType, QString> KTools::Log::logTypeNames = {
     {KEnums::LogType::Info, "Info"},
     {KEnums::LogType::Debug, "Debug"},
     {KEnums::LogType::Error, "Error"},

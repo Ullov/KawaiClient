@@ -90,7 +90,7 @@ void Kff::Stream::writeInCluster(const QByteArray &content)
     qint64 offset = globalPos % 256;
     if (content.size() > (256 - offset))
     {
-        Logging::writeError("Attempt write more content than may fit in cluster. offset: " + QString::number(offset) + "; content.size(): " + QString::number(content.size()) + "; content: " + content, "Kff::Stream::writeInCluster()");
+        KTools::Log::writeError("Attempt write more content than may fit in cluster. offset: " + QString::number(offset) + "; content.size(): " + QString::number(content.size()) + "; content: " + content, "Kff::Stream::writeInCluster()");
         return;
     }
     qint64 whereWrite = clustersPos[std::floor(globalPos / 256)] + 8 + offset;
@@ -103,12 +103,12 @@ void Kff::Stream::writeInCluster(const qint64 nextBlockPos, const qint64 localCu
 {
     if (nextBlockPos <= 0)
     {
-        Logging::writeError("Attempt write incorrect next block pos. nextBlockPos: " + QString::number(nextBlockPos) + "; localCurrBlockNumber: " + QString::number(localCurrBlockNumber), "Kff::Stream::writeInCluster()");
+        KTools::Log::writeError("Attempt write incorrect next block pos. nextBlockPos: " + QString::number(nextBlockPos) + "; localCurrBlockNumber: " + QString::number(localCurrBlockNumber), "Kff::Stream::writeInCluster()");
         return;
     }
     if (localCurrBlockNumber < 0 || localCurrBlockNumber > clustersPos.size() - 1)
     {
-        Logging::writeError("Incorrect localCurrBlockNumber. nextBlockPos: " + QString::number(nextBlockPos) + "; localCurrBlockNumber: " + QString::number(localCurrBlockNumber), "Kff::Stream::writeInCluster()");
+        KTools::Log::writeError("Incorrect localCurrBlockNumber. nextBlockPos: " + QString::number(nextBlockPos) + "; localCurrBlockNumber: " + QString::number(localCurrBlockNumber), "Kff::Stream::writeInCluster()");
         return;
     }
     fileInNativeFs->seek(clustersPos[localCurrBlockNumber]);

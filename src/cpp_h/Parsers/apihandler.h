@@ -25,7 +25,7 @@ class ApiHandler : public QObject
 public:
     ApiHandler();
 
-    Logging *logger;
+    KTools::Log *logger;
     //QQmlApplicationEngine *engine;
     OptionsHandler *options;
 

@@ -40,7 +40,7 @@ void NinehentaiApi::download()
 
     if (!obj["status"].toBool())
     {
-        Logging::writeError("Error in API call. URL: " + currUrl + " ; PostParam: " + cc->currPostParam, "NineHentai");
+        KTools::Log::writeError("Error in API call. URL: " + currUrl + " ; PostParam: " + cc->currPostParam, "NineHentai");
         endDownloadingFunction(static_cast<int>(KEnums::ParserModes::NineHentai::Download));
         return;
     }

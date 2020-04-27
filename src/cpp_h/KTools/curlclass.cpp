@@ -136,7 +136,7 @@ QByteArray KTools::Curl::request(const QString &url)
 
     if (res != CURLE_OK)
     {
-        Logging::writeError("Error in request. URL: " + url, "CurlClass");
+        KTools::Log::writeError("Error in request. URL: " + url, "CurlClass");
         return "Error in CURL";
     }
     else

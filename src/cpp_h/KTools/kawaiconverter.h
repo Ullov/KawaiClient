@@ -1,5 +1,5 @@
-#ifndef KAWAICONVERTER_H
-#define KAWAICONVERTER_H
+#ifndef KTOOLS_CONVERTER_H
+#define KTOOLS_CONVERTER_H
 
 #include "stringoperations.h"
 #include "logging.h"
@@ -39,4 +39,4 @@ namespace KTools
     };
 }
 
-#endif // KAWAICONVERTER_H
+#endif // KTOOLS_CONVERTER_H

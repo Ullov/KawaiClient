@@ -48,7 +48,7 @@ QJsonValue OptionsHandler::privateSetParam(QList<QString> pathToParam, QJsonValu
     QJsonValue::Type jsValType = currLevel.type();
     if (jsValType == QJsonValue::Type::Undefined)
     {
-        Logging::writeError("Attempt access to non existent parameter. name: " + name, "OptionsHandler::setParam()");
+        KTools::Log::writeError("Attempt access to non existent parameter. name: " + name, "OptionsHandler::setParam()");
         return QJsonValue();
     }
     if (pathToParam.size() > 1)
@@ -69,7 +69,7 @@ QJsonValue OptionsHandler::privateSetParam(QList<QString> pathToParam, QJsonValu
         }
         else
         {
-            Logging::writeError("Wrong type. jsValType: " + static_cast<QString>(jsValType) + ", name: " + name, "OptionsHandler::setParam");
+            KTools::Log::writeError("Wrong type. jsValType: " + static_cast<QString>(jsValType) + ", name: " + name, "OptionsHandler::setParam");
         }
     }
     else
@@ -87,7 +87,7 @@ QJsonValue OptionsHandler::privateSetParam(QList<QString> pathToParam, QJsonValu
             return jsVal;
         }
     }
-    Logging::writeError("Something went wrong. name: " + name, "OptionsHandler::privateSetParam()");
+    KTools::Log::writeError("Something went wrong. name: " + name, "OptionsHandler::privateSetParam()");
     return QJsonValue();
 }
 
@@ -98,7 +98,7 @@ QJsonValue OptionsHandler::privateGetParam(QList<QString> pathToParam, const QJs
     QJsonValue::Type jsValType = previousLevel.type();
     if (jsValType == QJsonValue::Type::Undefined)
     {
-        Logging::writeError("Attempt access to non existent parameter. name: " + name, "OptionsHandler::getParam()");
+        KTools::Log::writeError("Attempt access to non existent parameter. name: " + name, "OptionsHandler::getParam()");
         return QJsonValue();
     }
 
@@ -118,7 +118,7 @@ QJsonValue OptionsHandler::privateGetParam(QList<QString> pathToParam, const QJs
         }
         else
         {
-            Logging::writeError("Wrong type. jsValType: " + static_cast<QString>(jsValType) + ", name: " + name, "OptionsHandler::getParam");
+            KTools::Log::writeError("Wrong type. jsValType: " + static_cast<QString>(jsValType) + ", name: " + name, "OptionsHandler::getParam");
             return QJsonValue();
         }
     }
@@ -135,7 +135,7 @@ QJsonValue OptionsHandler::privateGetParam(QList<QString> pathToParam, const QJs
             return jsVal[name.toInt()];
         }
     }
-    Logging::writeError("Something went wrong. name: " + name, "OptionsHandler::privateGetParam()");
+    KTools::Log::writeError("Something went wrong. name: " + name, "OptionsHandler::privateGetParam()");
     return QJsonValue();
 }
 

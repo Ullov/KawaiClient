@@ -94,7 +94,7 @@ void FsHandler::slotCd(const QString file)
     if (cd(file))
         emit dirInfo(fileInfoListToJsonObject(currentDir->entryInfoList()));
     else
-        Logging::writeError("Directory does not exist. file: " + file, "FsHandler::slotSd()");
+        KTools::Log::writeError("Directory does not exist. file: " + file, "FsHandler::slotSd()");
 }
 
 void FsHandler::slotOpenInDefaultApp(const QString path)
