@@ -27,7 +27,7 @@ void YoutubeApi::download()
     QString url = "https://www.youtube.com/watch?v=9twiJbZ9-nQ";
     QString videoId = "9twiJbZ9-nQ";
     QByteArray data = cc->request(url); // https://www.youtube.com/watch?v=OCsqmC2KPsY&pbj=1
-    HtmlObject htmlObj = HtmlObject();
+    KTools::HtmlAst::Object htmlObj = KTools::HtmlAst::Object();
     htmlObj.makeAst(data);
     //data = cc->request("https://www.youtube.com/get_video_info?video_id=" + videoId);
     QJsonObject playerResponse = KawaiConverter::convert<QString, QJsonObject>(htmlObj.arrsAndObjs.objects[3].value("args").toObject().value("player_response").toString());

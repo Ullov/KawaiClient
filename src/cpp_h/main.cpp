@@ -31,14 +31,13 @@ int main(int argc, char *argv[])
     registerTypesForQml();
     curl_global_init(CURL_GLOBAL_ALL);
 
-    //OptionsHandler *options = new OptionsHandler();
-    //Logging *logger = new Logging();
+    OptionsHandler *options = new OptionsHandler();
     ApiHandler *apiHandler = new ApiHandler();
     KawaiImageProvider *imgProvider = new KawaiImageProvider();
     FsHandler *fsExplorerHandle = new FsHandler();
 
     apiHandler->logger = new Logging();
-    apiHandler->options = new OptionsHandler();
+    apiHandler->options = options;
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("apiHandler", apiHandler);
     engine.rootContext()->setContextProperty("kTools", new KToolsQmlInterface());

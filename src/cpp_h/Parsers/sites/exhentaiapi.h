@@ -22,11 +22,11 @@ private:
     QString galleryUrl;
 
     // functions
-    QJsonObject getGalleryInfo(HtmlObject &htmlAst);
-    QJsonArray getComments(HtmlObject &htmlAst);
-    QJsonArray getLinksToPages(HtmlObject &firstPageAst);
-    void getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages);
-    QJsonObject getSectionedInfo(HtmlTag &hTag);
+    QJsonObject getGalleryInfo(KTools::HtmlAst::Object &htmlAst);
+    QJsonArray getComments(KTools::HtmlAst::Object &htmlAst);
+    QJsonArray getLinksToPages(KTools::HtmlAst::Object &firstPageAst);
+    void getPageLinksFromDiv(KTools::HtmlAst::Tag &hTag, QJsonArray &linksToPages);
+    QJsonObject getSectionedInfo(KTools::HtmlAst::Tag &hTag);
 };
 
 #endif // EXHENTAIAPI_H

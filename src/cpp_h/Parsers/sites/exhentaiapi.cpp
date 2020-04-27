@@ -27,7 +27,7 @@ void ExhentaiApi::slotDownload()
     //currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
     galleryUrl = "https://exhentai.org/g/" + galleryCode + '/';
     QString data = cc->request(currUrl);
-    HtmlObject *htmlAst = new HtmlObject();
+    KTools::HtmlAst::Object *htmlAst = new KTools::HtmlAst::Object();
     htmlAst->makeAst(data);
     QJsonObject info = getGalleryInfo(*htmlAst);
     currUrl = info["name"].toArray().at(0).toString();
@@ -49,7 +49,7 @@ void ExhentaiApi::slotDownload()
     delete htmlAst;
     for (int i = 0; i < pagesLinks.size(); i++)
     {
-        htmlAst = new HtmlObject();
+        htmlAst = new KTools::HtmlAst::Object();
         currUrl = pagesLinks[i].toObject().value("linkToPage").toString();
         htmlAst->makeAst(cc->request(currUrl));
         if (htmlAst->rootTag->find(1).find(1).find(6).isExist(1))
@@ -59,6 +59,7 @@ void ExhentaiApi::slotDownload()
         KawaiConverter::convertHtmlEntities(currUrl);
         downloadAndWriteFileWithDefinedExtension(currUrl, rootPath + "/pages/", QString::number(i));
         writeInfoLog("Page #" + QString::number(i) + " downloaded.");
+        delete htmlAst;
         delay(1);
     }
 
@@ -97,12 +98,12 @@ void ExhentaiApi::slotGetFrontPage()
     endDownloadingFunction(static_cast<int>(KEnums::ParserModes::ExHentai::FrontPage), QJsonObject());
 }
 
-QJsonObject ExhentaiApi::getGalleryInfo(HtmlObject &htmlAst)
+QJsonObject ExhentaiApi::getGalleryInfo(KTools::HtmlAst::Object &htmlAst)
 {
     QJsonObject info;
     QJsonObject tmpObj;
     QJsonArray tmp;
-    HtmlTag &hTag = htmlAst.rootTag->find(1).find(3).find(1);
+    KTools::HtmlAst::Tag &hTag = htmlAst.rootTag->find(1).find(3).find(1);
     for (int i = 0; i < hTag.getChildTagCounter(); i++)
         tmp.append(hTag.find(i).getInnerContent());
     info["name"] = tmp;
@@ -124,15 +125,15 @@ QJsonObject ExhentaiApi::getGalleryInfo(HtmlObject &htmlAst)
     return info;
 }
 
-QJsonArray ExhentaiApi::getComments(HtmlObject &htmlAst)
+QJsonArray ExhentaiApi::getComments(KTools::HtmlAst::Object &htmlAst)
 {
     QString commentId;
     QJsonObject tmpObj;
     QJsonArray comments;
-    HtmlTag &hTag = htmlAst.rootTag->find(1).find(10); // <div id="cdiv" class="gm">
+    KTools::HtmlAst::Tag &hTag = htmlAst.rootTag->find(1).find(10); // <div id="cdiv" class="gm">
     for (int i = 0; i < hTag.getChildTags().size() - 3; i++)
     {
-        HtmlTag &tmpTag = hTag.find(i);
+        KTools::HtmlAst::Tag &tmpTag = hTag.find(i);
         if (tmpTag.getName() != "a")
         {
             tmpObj = QJsonObject();
@@ -150,10 +151,10 @@ QJsonArray ExhentaiApi::getComments(HtmlObject &htmlAst)
     return comments;
 }
 
-QJsonArray ExhentaiApi::getLinksToPages(HtmlObject &firstPageAst)
+QJsonArray ExhentaiApi::getLinksToPages(KTools::HtmlAst::Object &firstPageAst)
 {
     QJsonArray linksToPages;
-    HtmlTag &hTag = firstPageAst.rootTag->find(1).find(5).find(1).find(0);
+    KTools::HtmlAst::Tag &hTag = firstPageAst.rootTag->find(1).find(5).find(1).find(0);
     //QVector<HtmlTag*> &tmpTagsVector = hTag.getChildTags();
     int pagesNumber = hTag.find(hTag.getChildTags().size() - 2).find(0).getInnerContent().toInt();
     hTag = firstPageAst.rootTag->find(1).find(7);
@@ -163,7 +164,7 @@ QJsonArray ExhentaiApi::getLinksToPages(HtmlObject &firstPageAst)
     {
         for (int i = 1; i < pagesNumber; i++)
         {
-            HtmlObject *tmpHObject = new HtmlObject();
+            KTools::HtmlAst::Object *tmpHObject = new KTools::HtmlAst::Object();
             QString url;
             if (galleryUrl[galleryUrl.size() - 1] == "/")
                 url = galleryUrl + "?p=" + QString::number(i);
@@ -177,13 +178,13 @@ QJsonArray ExhentaiApi::getLinksToPages(HtmlObject &firstPageAst)
     return linksToPages;
 }
 
-void ExhentaiApi::getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages)
+void ExhentaiApi::getPageLinksFromDiv(KTools::HtmlAst::Tag &hTag, QJsonArray &linksToPages)
 {
     QJsonObject tmpObj;
     for (int i = 0; i < hTag.getChildTags().size() - 1; i++)
     {
         tmpObj = QJsonObject();
-        HtmlTag &tmpTag = hTag.find(i).find(0);
+        KTools::HtmlAst::Tag &tmpTag = hTag.find(i).find(0);
         tmpObj["linkToPage"] = tmpTag.getAttributeValue("href");
         tmpObj["title"] = tmpTag.find(0).getAttributeValue("title");
         tmpObj["miniImageSrc"] = tmpTag.find(0).getAttributeValue("src");
@@ -191,7 +192,7 @@ void ExhentaiApi::getPageLinksFromDiv(HtmlTag &hTag, QJsonArray &linksToPages)
     }
 }
 
-QJsonObject ExhentaiApi::getSectionedInfo(HtmlTag &hTag)
+QJsonObject ExhentaiApi::getSectionedInfo(KTools::HtmlAst::Tag &hTag)
 {
     if (!hTag.isExist(0))
         return QJsonObject();
@@ -202,7 +203,7 @@ QJsonObject ExhentaiApi::getSectionedInfo(HtmlTag &hTag)
         QJsonArray tmp;
         QString key = hTag.find(i).find(0).getInnerContent();
         key.chop(1);
-        HtmlTag &tmpHTag = hTag.find(i).find(1);
+        KTools::HtmlAst::Tag &tmpHTag = hTag.find(i).find(1);
         for (int j = 0; j < tmpHTag.getChildTags().size(); j++)
         {
             tmp.append(tmpHTag.find(j).find(0).getInnerContent());

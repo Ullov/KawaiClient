@@ -10,9 +10,9 @@ void MangakakalotApi::download()
     cc->currHeaderMode = KEnums::CurlSettings::HeaderMode::None;
     cc->setOptions();
     QByteArray data = cc->request("https://mangakakalots.com/manga/" + mangaSystemName);
-    HtmlObject htmlAst = HtmlObject();
+    KTools::HtmlAst::Object htmlAst = KTools::HtmlAst::Object();
     htmlAst.makeAst(data);
-    HtmlTag &astTag = htmlAst.rootTag->find(1).find(1).find(1).find(0); // <div class="leftCol">
+    KTools::HtmlAst::Tag &astTag = htmlAst.rootTag->find(1).find(1).find(1).find(0); // <div class="leftCol">
     QByteArray cover = cc->request(astTag.find(2).find(0).find(0).getAttributeValue("src"));
     QJsonObject info;
     info["title"] = astTag.find(2).find(1).find(0).find(0).getInnerContent();
@@ -29,7 +29,7 @@ void MangakakalotApi::download()
     info["status"] = astTag.find(2).find(1).find(2).getInnerContent().replace("Status : ", "");
     info["lastUpdate"] = astTag.find(2).find(1).find(3).getInnerContent().replace("Last updated : ", "");
     info["viewCounter"] = astTag.find(2).find(1).find(5).getInnerContent().replace("View : ", "");
-    HtmlTag &genresRoot = astTag.find(2).find(1).find(6);
+    KTools::HtmlAst::Tag &genresRoot = astTag.find(2).find(1).find(6);
     QJsonArray genres;
     for (int i = 0; i < genresRoot.getChildTags().size(); i++)
     {
@@ -62,9 +62,9 @@ void MangakakalotApi::download()
         chapterFolder = "[" + QString::number(i) + "]" + chapterFolder;
         writeInfoLog("Start download chapter with name " + chapterFolder);
         data = cc->request(allChaptersData[i].toObject().value("url").toString());
-        HtmlObject chapterAst = HtmlObject();
+        KTools::HtmlAst::Object chapterAst = KTools::HtmlAst::Object();
         chapterAst.makeAst(data);
-        HtmlTag &pagesList = chapterAst.rootTag->find(1).find(6);
+        KTools::HtmlAst::Tag &pagesList = chapterAst.rootTag->find(1).find(6);
 
         for (int j = 0; j < pagesList.getChildTags().size(); j++)
         {

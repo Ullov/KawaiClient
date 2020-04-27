@@ -1,11 +1,8 @@
 #include "htmlobject.h"
 
-HtmlObject::HtmlObject()
-{
+KTools::HtmlAst::Object::Object() {}
 
-}
-
-bool HtmlObject::makeAst(const QString &data)
+bool KTools::HtmlAst::Object::makeAst(const QString &data)
 {
     htmlText = &data;
     qint32 pos = 0;
@@ -13,9 +10,9 @@ bool HtmlObject::makeAst(const QString &data)
     return setRootTag(readTag(pos, htmlText->size()));
 }
 
-HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
+KTools::HtmlAst::Tag& KTools::HtmlAst::Object::readTag(qint32 &pos, const qint32 &endPos)
 {
-    HtmlTag *tagClass = new HtmlTag();
+    Tag *tagClass = new Tag();
     while (pos < endPos)
     {
         if (htmlText->mid(pos, 2) == "<!")
@@ -31,7 +28,7 @@ HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
             ++pos; // skip < char
             if (htmlText->at(pos) == "/")
             {
-                tagClass->status = HtmlTag::StatusEnum::TagClosingDetected;
+                tagClass->status = Tag::StatusEnum::TagClosingDetected;
                 return *tagClass;
             }
             while (pos < endPos)
@@ -65,7 +62,7 @@ HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                     if (tagClass->getName().toLower() == "script")
                     {
                         readJs(tagClass->getInnerContent());
-                        tagClass->status = HtmlTag::StatusEnum::TagValid;
+                        tagClass->status = Tag::StatusEnum::TagValid;
                         pos += tagClass->getInnerContent().size() + 9;
                         return *tagClass;
                     }
@@ -74,26 +71,26 @@ HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
                     {
                         while (pos < tmpPos)
                         {
-                            HtmlTag *newTag = &readTag(pos, tmpPos);
-                            if (newTag->status == HtmlTag::StatusEnum::TagValid)
+                            Tag *newTag = &readTag(pos, tmpPos);
+                            if (newTag->status == Tag::StatusEnum::TagValid)
                             {
                                 tagClass->addChildTag(*newTag);
                             }
-                            else if (newTag->status == HtmlTag::StatusEnum::TagInvalid)
+                            else if (newTag->status == Tag::StatusEnum::TagInvalid)
                             {
                                 delete newTag;
                             }
-                            else if(newTag->status == HtmlTag::StatusEnum::TagClosingDetected)
+                            else if(newTag->status == Tag::StatusEnum::TagClosingDetected)
                             {
                                 ++pos;
                             }
                         }
-                        tagClass->status = HtmlTag::StatusEnum::TagValid;
+                        tagClass->status = Tag::StatusEnum::TagValid;
                         return *tagClass;
                     }
                     else
                     {
-                        tagClass->status = HtmlTag::StatusEnum::TagValid;
+                        tagClass->status = Tag::StatusEnum::TagValid;
                         return *tagClass;
                     }
                 }
@@ -101,16 +98,16 @@ HtmlTag& HtmlObject::readTag(qint32 &pos, const qint32 &endPos)
         }
         else
         {
-            tagClass->status = HtmlTag::StatusEnum::TagInvalid; // error handling
+            tagClass->status = Tag::StatusEnum::TagInvalid; // error handling
             pos++;
             return *tagClass;
         }
     }
-    tagClass->status = HtmlTag::StatusEnum::TagValid;
+    tagClass->status = Tag::StatusEnum::TagValid;
     return *tagClass;
 }
 
-bool HtmlObject::readTagName(qint32 &pos, HtmlTag &tagClass)
+bool KTools::HtmlAst::Object::readTagName(qint32 &pos, Tag &tagClass)
 {
     qint32 start = pos;
     while (htmlText->at(pos).isLetter() || htmlText->at(pos) == "-" || htmlText->at(pos).isDigit())
@@ -121,7 +118,7 @@ bool HtmlObject::readTagName(qint32 &pos, HtmlTag &tagClass)
     return true;
 }
 
-bool HtmlObject::readTagAttributes(qint32 &pos, HtmlTag &tagClass)
+bool KTools::HtmlAst::Object::readTagAttributes(qint32 &pos, Tag &tagClass)
 {
     while (htmlText->at(pos) != ">" || htmlText->mid(pos, 2) == "/>") // while tag not closed
     {
@@ -154,9 +151,9 @@ bool HtmlObject::readTagAttributes(qint32 &pos, HtmlTag &tagClass)
     return true;
 }
 
-bool HtmlObject::setRootTag(HtmlTag &tag)
+bool KTools::HtmlAst::Object::setRootTag(Tag &tag)
 {
-    if (tag.status == HtmlTag::StatusEnum::TagValid)
+    if (tag.status == Tag::StatusEnum::TagValid)
     {
         rootTag = &tag;
         return true;
@@ -165,7 +162,7 @@ bool HtmlObject::setRootTag(HtmlTag &tag)
         return false;
 }
 
-qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, HtmlTag &tagClass, qint32 differenceEdAndOp)
+qint32 KTools::HtmlAst::Object::findTagEndingPart(const qint32 &pos, const qint32 &endPos, Tag &tagClass, qint32 differenceEdAndOp)
 {
     qint32 tmpPos = pos; // this also ABSOLUTE end position
     ++tmpPos;
@@ -251,7 +248,7 @@ qint32 HtmlObject::findTagEndingPart(const qint32 &pos, const qint32 &endPos, Ht
     return tmpPos;
 }
 
-HtmlObject::JsReadStatus HtmlObject::readJs(const QString &inner)
+KTools::HtmlAst::Object::JsReadStatus KTools::HtmlAst::Object::readJs(const QString &inner)
 {
     //QString inner = tagClass.getInnerContent();
     /*if (tagClass.getAttributeValue("src") != QString())
@@ -259,7 +256,7 @@ HtmlObject::JsReadStatus HtmlObject::readJs(const QString &inner)
         inner
     }*/
     if (inner.size() == 0)
-        return HtmlObject::JsReadStatus::NotFound;
+        return JsReadStatus::NotFound;
 
     qint32 bracesCount = 0;
     qint32 startPos = 0;

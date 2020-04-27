@@ -1,11 +1,11 @@
 #include "htmltag.h"
 
-HtmlTag::HtmlTag()
+KTools::HtmlAst::Tag::Tag()
 {
-    childTags = QVector<HtmlTag*>();
+    childTags = QVector<Tag*>();
 }
 
-HtmlTag::~HtmlTag()
+KTools::HtmlAst::Tag::~Tag()
 {
     if (parentTagSetted)
         delete parentTag;
@@ -13,90 +13,90 @@ HtmlTag::~HtmlTag()
         delete childTags.at(i);
 }
 
-bool HtmlTag::isSelfclosing()
+bool KTools::HtmlAst::Tag::isSelfclosing()
 {
     return selfclosing;
 }
 
-void HtmlTag::setSelfclosingness(bool sc)
+void KTools::HtmlAst::Tag::setSelfclosingness(bool sc)
 {
     selfclosing = sc;
 }
 
-void HtmlTag::setName(const QString &newName)
+void KTools::HtmlAst::Tag::setName(const QString &newName)
 {
     name = newName;
 }
 
-QString& HtmlTag::getName()
+QString& KTools::HtmlAst::Tag::getName()
 {
     return name;
 }
 
-void HtmlTag::addAttribute(const QString &key, const QString &value)
+void KTools::HtmlAst::Tag::addAttribute(const QString &key, const QString &value)
 {
     attributes.insert(key, value);
 }
 
-QString HtmlTag::getAttributeValue(const QString &key)
+QString KTools::HtmlAst::Tag::getAttributeValue(const QString &key)
 {
     return attributes.value(key);
 }
 
-QMap<QString, QString>& HtmlTag::getAttributes()
+QMap<QString, QString>& KTools::HtmlAst::Tag::getAttributes()
 {
     return attributes;
 }
 
-void HtmlTag::clearAttributes()
+void KTools::HtmlAst::Tag::clearAttributes()
 {
     attributes.clear();
 }
 
-void HtmlTag::setInnerContent(const QString &content)
+void KTools::HtmlAst::Tag::setInnerContent(const QString &content)
 {
     innerContent = content;
 }
 
-QString& HtmlTag::getInnerContent()
+QString& KTools::HtmlAst::Tag::getInnerContent()
 {
     return innerContent;
 }
 
-void HtmlTag::addChildTag(HtmlTag &localTag)
+void KTools::HtmlAst::Tag::addChildTag(Tag &localTag)
 {
     childTags.append(&localTag);
     localTag.setParentTag(*this);
     ++childTagCounter;
 }
 
-QVector<HtmlTag*>& HtmlTag::getChildTags()
+QVector<KTools::HtmlAst::Tag*>& KTools::HtmlAst::Tag::getChildTags()
 {
     return childTags;
 }
 
-void HtmlTag::setParentTag(HtmlTag &localTag)
+void KTools::HtmlAst::Tag::setParentTag(Tag &localTag)
 {
     parentTag = &localTag;
     parentTagSetted = true;
 }
 
-HtmlTag& HtmlTag::getParentTag()
+KTools::HtmlAst::Tag& KTools::HtmlAst::Tag::getParentTag()
 {
     return *parentTag;
 }
 
-HtmlTag& HtmlTag::find(const qint32 numb)
+KTools::HtmlAst::Tag& KTools::HtmlAst::Tag::find(const qint32 numb)
 {
     return *childTags[numb];
 }
 
-qint32 HtmlTag::getChildTagCounter()
+qint32 KTools::HtmlAst::Tag::getChildTagCounter()
 {
     return childTagCounter;
 }
 
-bool HtmlTag::isExist(qint32 childTagIndex)
+bool KTools::HtmlAst::Tag::isExist(qint32 childTagIndex)
 {
     if (childTagIndex < childTags.size())
         return true;
