@@ -4,7 +4,7 @@ KTools::FileIdentifier::FileIdentifier() {}
 
 QStringList KTools::FileIdentifier::identifyFileFromFileSystem(const QString &path)
 {
-    NativeFs file = NativeFs();
+    KTools::File file = KTools::File();
     if (!file.open(path, QIODevice::ReadOnly))
     {
         return {"", "Permission denied", ""};

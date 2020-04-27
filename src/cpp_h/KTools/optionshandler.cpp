@@ -2,37 +2,37 @@
 
 OptionsHandler::OptionsHandler()
 {
-    bool wtf = NativeFs::fileExist(configPath + configFile);
+    bool wtf = KTools::File::fileExist(configPath + configFile);
     if (wtf)
     {
-        rootProgramPath = NativeFs::readFile<QString>(configPath, configFile, QIODevice::ReadOnly | QIODevice::Text);
+        rootProgramPath = KTools::File::readFile<QString>(configPath, configFile, QIODevice::ReadOnly | QIODevice::Text);
     }
     else
     {
         rootProgramPath = configPath;
-        NativeFs::writeFile(configPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
+        KTools::File::writeFile(configPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
     }
     logRootPath = OptionsHandler::rootProgramPath + "/log/";
     KTools::Curl::cookiePath = OptionsHandler::rootProgramPath + "/Cookie/";
 
 
-    if (!NativeFs::fileExist(rootProgramPath + "/Settings/configs.json"))
+    if (!KTools::File::fileExist(rootProgramPath + "/Settings/configs.json"))
     {
-        NativeFs::copyFile(":/resources/sampleFiles/configs.json", rootProgramPath + "/Settings", "configs.json");
+        KTools::File::copyFile(":/resources/sampleFiles/configs.json", rootProgramPath + "/Settings", "configs.json");
     }
-    QString fileContent = NativeFs::readFile<QString>(rootProgramPath + "/Settings", "configs.json");
+    QString fileContent = KTools::File::readFile<QString>(rootProgramPath + "/Settings", "configs.json");
     configsObj = KTools::Converter::convert<QString, QJsonObject>(fileContent);
 }
 
 bool OptionsHandler::save()
 {
-    return NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(configsObj), rootProgramPath, "configs.json");
+    return KTools::File::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(configsObj), rootProgramPath, "configs.json");
 }
 
 void OptionsHandler::setRootProgramPath(const QString &path)
 {
     rootProgramPath = path;
-    NativeFs::writeFile(rootProgramPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
+    KTools::File::writeFile(rootProgramPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
     save();
 }
 

@@ -12,7 +12,7 @@ namespace Kff
     class Stream
     {
     public:
-        Stream(NativeFs &NfFile, const qint64 dbStart, const qint64 inStart); // dbStart = dataBlockStart; inStart = inodeBlockStart
+        Stream(KTools::File &NfFile, const qint64 dbStart, const qint64 inStart); // dbStart = dataBlockStart; inStart = inodeBlockStart
 
         qint64 size();
         void seek(const qint64 pos);
@@ -31,7 +31,7 @@ namespace Kff
         qint64 lastClusterUsedSpace();
         void toNextCluster();
 
-        NativeFs *fileInNativeFs;
+        KTools::File *fileInNativeFs;
         qint64 inodeBlockStart;
         qint64 dataBlockStart;
         QVector<qint64> clustersPos;

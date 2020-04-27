@@ -12,7 +12,7 @@ public:
     QString& operator=(const QString &right);
     QString& getData();
     QByteArray toKffRawData();
-    void fromKffRawData(NativeFs &file, const qint64 startPos);
+    void fromKffRawData(KTools::File &file, const qint64 startPos);
 
 private:
     QString data;

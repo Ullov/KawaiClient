@@ -87,7 +87,7 @@ void VkApi::downloadPost()
 
     for (int i = 0; i < artUrls.length(); i++)
         downloadAndWriteFileWithDefinedExtension(artUrls[i], rootPath + "\\imgs", QString::number(i));
-    NativeFs::writeFile(regexResult[2][0][1].replace("<br>", "\n").toUtf8(), rootPath, "postText.txt");
+    KTools::File::writeFile(regexResult[2][0][1].replace("<br>", "\n").toUtf8(), rootPath, "postText.txt");
 
     QJsonObject info;
     QJsonArray tmpArr;
@@ -112,7 +112,7 @@ void VkApi::downloadPost()
     info["2"] = tmpArr;
     writeJsonDataInFile(info, rootPath, "info.txt");
 
-    NativeFs::writeFile(page.toUtf8(), basePath, "test.txt");
+    KTools::File::writeFile(page.toUtf8(), basePath, "test.txt");
     //writeFile(data, basePath, "test1.txt");
 
     std::string someth;

@@ -31,7 +31,7 @@ QByteArray KffVNumber<T>::toKffRawData()
 }
 
 template<typename T>
-void KffVNumber<T>::fromKffRawData(NativeFs &file, const qint64 startPos)
+void KffVNumber<T>::fromKffRawData(KTools::File &file, const qint64 startPos)
 {
     file.seek(startPos);
     data = file.read<T>();

@@ -2,7 +2,7 @@
 
 Kff::Fs::Fs(const QString &path, const QString &fileName)
 {
-    fileInNativeFs = new NativeFs();
+    fileInNativeFs = new KTools::File();
     fileInNativeFs->open(path + '/' + fileName, QIODevice::ReadWrite);
     fileInNativeFs->seek(0);
     fileInNativeFs->write(signature);

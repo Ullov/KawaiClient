@@ -12,7 +12,7 @@ public:
 
     KffVArray<T>& operator+=(const T &right);
     QByteArray toKffRawData();
-    void fromKffRawData(NativeFs &file, const qint64 startPos);
+    void fromKffRawData(KTools::File &file, const qint64 startPos);
 
 private:
     QVector<T> data;

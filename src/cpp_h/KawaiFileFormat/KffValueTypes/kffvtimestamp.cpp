@@ -7,7 +7,7 @@ QByteArray KffVTimestamp::toKffRawData()
     return KTools::Converter::convert<qint64, QByteArray>(data);
 }
 
-void KffVTimestamp::fromKffRawData(NativeFs &file, const qint64 startPos)
+void KffVTimestamp::fromKffRawData(KTools::File &file, const qint64 startPos)
 {
     file.seek(startPos);
     data = file.read<qint64>();

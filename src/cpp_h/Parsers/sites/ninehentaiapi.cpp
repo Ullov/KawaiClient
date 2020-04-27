@@ -50,11 +50,11 @@ void NinehentaiApi::download()
     KTools::Converter::toNtfsCompatibleString(titleName);
 
     rootPath = basePath + "/[" + id + "](" + titleName + ")";
-    for (int i = 0; NativeFs::dirExist(rootPath); i++)
+    for (int i = 0; KTools::File::dirExist(rootPath); i++)
         rootPath = basePath + "/[" + id + "](" + titleName + ")[" + QString::number(i);
 
     writeInfoLog("Downloading started.");
-    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(obj), rootPath, "info.json");
+    KTools::File::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(obj), rootPath, "info.json");
     writeInfoLog("Info downloaded.");
 
 
@@ -68,7 +68,7 @@ void NinehentaiApi::download()
     for (int i = 1; i <= obj["results"].toObject().value("total_page").toInt(); i++)
     {
         data = cc->request(currUrl + QString::number(i) + ".jpg");
-        NativeFs::writeFile(data, rootPath + "/pages", QString::number(i) + ".jpg");
+        KTools::File::writeFile(data, rootPath + "/pages", QString::number(i) + ".jpg");
         writeInfoLog("Page #" + QString::number(i) + " downloaded.");
     }
 

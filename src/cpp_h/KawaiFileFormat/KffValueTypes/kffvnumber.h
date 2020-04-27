@@ -15,7 +15,7 @@ public:
     T& operator=(const T &right);
     T& getData();
     QByteArray toKffRawData();
-    void fromKffRawData(NativeFs &file, const qint64 startPos);
+    void fromKffRawData(KTools::File &file, const qint64 startPos);
 
 private:
     T data;

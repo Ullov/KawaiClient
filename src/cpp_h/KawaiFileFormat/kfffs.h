@@ -20,7 +20,7 @@ namespace Kff
 
     private:
         QByteArray signature = "KFFS0001";
-        NativeFs *fileInNativeFs;
+        KTools::File *fileInNativeFs;
         qint64 inodesBlockStart = signature.size();
         qint64 inodesNumber = 0;
         qint64 inodesAppendNumber = 20;

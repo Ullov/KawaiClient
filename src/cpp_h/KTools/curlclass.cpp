@@ -3,8 +3,8 @@
 
 KTools::Curl::Curl()
 {
-    if (!NativeFs::fileExist(fullCacertPath))
-        QFile::copy(pathToCacertInQrc, fullCacertPath);
+    if (!KTools::File::fileExist(fullCacertPath))
+        KTools::File::copyFile(pathToCacertInQrc, cacertPath, cacertFileName);
     //OptionsHandler::rootProgramPath + "/Cookie/";
     gCurlHandle = curl_easy_init();
     handlesList["main"] = gCurlHandle;

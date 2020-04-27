@@ -78,7 +78,7 @@ void ParserClass::writeJsonDataInFile(const QJsonObject &object, const QString &
     QString jData;
     jData = QString();
     recExtractJson(object, "", jData);
-    NativeFs::writeFile(jData.toUtf8(), path, fileName);
+    KTools::File::writeFile(jData.toUtf8(), path, fileName);
 }
 
 QJsonObject ParserClass::downloadJson(const QString url)
@@ -91,7 +91,7 @@ QJsonObject ParserClass::downloadJson(const QString url)
 void ParserClass::downloadAndWriteFile(const QString &url, const QString &path, const QString &fileName)
 {
     QByteArray result = cc->performing(url.toUtf8());
-    NativeFs::writeFile(result, path, fileName);
+    KTools::File::writeFile(result, path, fileName);
 }
 
 QJsonArray ParserClass::downloadJsonAsArray(const QString &url)
@@ -110,7 +110,7 @@ void ParserClass::downloadAndWriteFileWithDefinedExtension(const QString &url, c
 {
     QByteArray fileString = cc->performing(url.toUtf8());
     QString extension = defineExtension(fileString);
-    NativeFs::writeFile(fileString, path, fileName + extension);
+    KTools::File::writeFile(fileString, path, fileName + extension);
 }
 
 QString ParserClass::defineExtension(const QByteArray &file)

@@ -3,7 +3,7 @@
 KffFile::KffFile(KawaiFileFormat *formatClass, const QString path)
 {
     kff = formatClass;
-    nativeFs = new NativeFs();
+    nativeFs = new KTools::File();
     nativeFs->open(path, QIODevice::Append | QIODevice::ReadWrite | QIODevice::ExistingOnly);
     nativeFs->seek(0);
 }
@@ -166,7 +166,7 @@ T* KffFile::getFileStructure(const qint64 &pos)
 }
 
 template<typename T>
-T read(const qint64 &pos, const qint64 &lenght, NativeFs &scope)
+T read(const qint64 &pos, const qint64 &lenght, KTools::File &scope)
 {
     return KTools::Converter::byteArrayToT<T>(scope.read<T>(pos, lenght));
 }

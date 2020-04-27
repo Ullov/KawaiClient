@@ -20,7 +20,7 @@ QByteArray KffVString::toKffRawData()
     //return KawaiConverter::convert<qint32, QByteArray>(data.size()) + KawaiConverter::convert<QString, QByteArray>(data);
 }
 
-void KffVString::fromKffRawData(NativeFs &file, const qint64 startPos)
+void KffVString::fromKffRawData(KTools::File &file, const qint64 startPos)
 {
     file.seek(startPos);
     //qint32 dataSize = file.read<qint32>();

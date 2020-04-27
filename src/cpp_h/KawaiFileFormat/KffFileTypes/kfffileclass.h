@@ -17,7 +17,7 @@ public:
 // variables
     qint64 lastClusterAddress;
     QByteArray *clusters;
-    NativeFs *nativeFs;
+    KTools::File *nativeFs;
 
 // enums
     enum NumberTypesSize : int
@@ -80,7 +80,7 @@ protected:
     template<typename T>
     T readHeaderParam(quint64 &offset, const QByteArray *rawHeader, int paramLenght = 0);
     template<typename T>
-    T readRawData(const qint64 &pos, const qint64 &lenght, NativeFs &scope);
+    T readRawData(const qint64 &pos, const qint64 &lenght, KTools::File &scope);
     void deleteData(ReadedClusters &localReadedClusters);
     template<typename T>
     void appendByteArray(QByteArray &arr, const T &addData);

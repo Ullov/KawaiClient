@@ -68,7 +68,7 @@ private:
     FolderStructure folderStruct;
     FileHeader fileHeaderStruct;
     FolderHeader folderHeaderStruct;
-    NativeFs *nativeFs;
+    KTools::File *nativeFs;
 
 // functions
     void appendBitset(const QBitArray &bitArr, std::bitset<contentLenght> &stdBitset, const int startPos);

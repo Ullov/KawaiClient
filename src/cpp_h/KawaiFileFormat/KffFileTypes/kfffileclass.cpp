@@ -4,7 +4,7 @@ KffFileClass::KffFileClass() {}
 
 bool KffFileClass::openFromNativeFs(const QString &path)
 {
-    nativeFs = new NativeFs();
+    nativeFs = new KTools::File();
     return nativeFs->open(path, QIODevice::Append | QIODevice::ReadWrite);
 }
 
@@ -110,7 +110,7 @@ T KffFileClass::readHeaderParam(quint64 &offset, const QByteArray *rawHeader, in
 }
 
 template<typename T>
-T KffFileClass::readRawData(const qint64 &pos, const qint64 &lenght, NativeFs &scope)
+T KffFileClass::readRawData(const qint64 &pos, const qint64 &lenght, KTools::File &scope)
 {
     return KTools::Converter::byteArrayToT<T>(scope.read<T>(pos, lenght));
 }

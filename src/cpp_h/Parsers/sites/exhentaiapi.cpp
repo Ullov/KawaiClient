@@ -43,7 +43,7 @@ void ExhentaiApi::slotDownload()
     allInfo["comments"] = comments;
     allInfo["pagesLinks"] = pagesLinks;
     writeJsonDataInFile(allInfo, rootPath, "info.txt");
-    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QString>(allInfo).toUtf8(), rootPath, "info.json");
+    KTools::File::writeFile(KTools::Converter::convert<QJsonObject, QString>(allInfo).toUtf8(), rootPath, "info.json");
     writeInfoLog("All info data writed.");
 
     delete htmlAst;

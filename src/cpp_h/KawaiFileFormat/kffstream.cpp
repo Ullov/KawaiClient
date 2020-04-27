@@ -1,6 +1,6 @@
 #include "kffstream.h"
 
-Kff::Stream::Stream(NativeFs &NfFile, const qint64 dbStart, const qint64 inStart)
+Kff::Stream::Stream(KTools::File &NfFile, const qint64 dbStart, const qint64 inStart)
 {
     dataBlockStart = dbStart;
     fileInNativeFs = &NfFile;

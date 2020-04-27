@@ -72,7 +72,7 @@ void PixivApi::download()
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId);
     userName = object.value("body").toObject().value("name").toString();
     rootPath = basePath + "\\" + '[' + userId + "](" + userName + ')';
-    for (int i = 0; NativeFs::dirExist(rootPath); i++)
+    for (int i = 0; KTools::File::dirExist(rootPath); i++)
         rootPath = basePath + "\\" + '[' + userId + "](" + userName + ")[" + QString::number(i) + ']';
     logPath = rootPath;
     writeInfoLog("Downloading user with ID " + userId + " started.");
@@ -189,7 +189,7 @@ void PixivApi::download()
         cc->setHeader(chunk);
 
         novelContent = object.value("body").toObject().value("content").toVariant().toByteArray();
-        NativeFs::writeFile(novelContent, rootPath + "\\novel\\" + novels[i], "content.txt");
+        KTools::File::writeFile(novelContent, rootPath + "\\novel\\" + novels[i], "content.txt");
 
         writeInfoLog("Novel with ID " + novels[i] + " successfully downloaded.");
     }

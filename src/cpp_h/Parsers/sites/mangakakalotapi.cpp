@@ -21,7 +21,7 @@ void MangakakalotApi::download()
     KTools::Converter::convertHtmlEntities(currUrl);
     KTools::Converter::toNtfsCompatibleString(currUrl);
     rootPath = basePath + "/" + currUrl.trimmed();
-    for (int i = 0; NativeFs::dirExist(rootPath); i++)
+    for (int i = 0; KTools::File::dirExist(rootPath); i++)
         rootPath = basePath + "/" + currUrl.trimmed() + "[" + QString::number(i) + ']';
 
     info["altTitles"] = astTag.find(2).find(1).find(0).find(1).getInnerContent();
@@ -49,9 +49,9 @@ void MangakakalotApi::download()
         allChaptersData.append(chapterData);
     }
     info["chaptersData"] = allChaptersData;
-    NativeFs::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(info), rootPath, "info.json");
+    KTools::File::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(info), rootPath, "info.json");
     writeInfoLog("All info downloaded and writed.");
-    NativeFs::writeFile(cover, rootPath, "cover" + defineExtension(cover));
+    KTools::File::writeFile(cover, rootPath, "cover" + defineExtension(cover));
     writeInfoLog("Cover writed");
 
     for (int i = 0; i < allChaptersData.size(); i++)
@@ -71,7 +71,7 @@ void MangakakalotApi::download()
             currUrl = pagesList.find(j).getAttributeValue("data-src");
             data = cc->request(currUrl);
             QString extension = defineExtension(data);
-            NativeFs::writeFile(data, rootPath + "/chs/" + chapterFolder, QString::number(j) + extension);
+            KTools::File::writeFile(data, rootPath + "/chs/" + chapterFolder, QString::number(j) + extension);
             writeInfoLog("Page #" + QString::number(j) + " downloaded");
         }
     }

@@ -1,8 +1,8 @@
 #include "nativefs.h"
 
-NativeFs::NativeFs() {}
+KTools::File::File() {}
 
-bool NativeFs::open(const QString &path, const QIODevice::OpenMode &flags)
+bool KTools::File::open(const QString &path, const QIODevice::OpenMode &flags)
 {
     file = new QFile(path);
     if (file->open(flags))
@@ -13,46 +13,46 @@ bool NativeFs::open(const QString &path, const QIODevice::OpenMode &flags)
         return false;
 }
 
-bool NativeFs::seek(const qint64 &pos)
+bool KTools::File::seek(const qint64 &pos)
 {
     return file->seek(pos);
 }
 
-qint64 NativeFs::size()
+qint64 KTools::File::size()
 {
     return file->size();
 }
 
-qint64 NativeFs::pos()
+qint64 KTools::File::pos()
 {
     return file->pos();
 }
 
 template<typename T>
-void NativeFs::write(const T &data)
+void KTools::File::write(const T &data)
 {
     file->write(KTools::Converter::toByteArray<T>(data));
 }
 
 template<>
-void NativeFs::write(const QByteArray &data)
+void KTools::File::write(const QByteArray &data)
 {
     file->write(data);
 }
 
 template<typename T>
-T NativeFs::read(const qint64 &lenght)
+T KTools::File::read(const qint64 &lenght)
 {
     return KTools::Converter::byteArrayToT<T>(file->read(lenght));
 }
 
 template<typename T>
-T NativeFs::read()
+T KTools::File::read()
 {
     return KTools::Converter::byteArrayToT<T>(file->read(sizeof(T)));
 }
 
-bool NativeFs::writeFile(const QByteArray &data, const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
+bool KTools::File::writeFile(const QByteArray &data, const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
 {
     QString correctPath = directory;
     correctPath.replace("\\", "/").replace("//", "/");
@@ -76,7 +76,7 @@ bool NativeFs::writeFile(const QByteArray &data, const QString &directory, const
     return true;
 }
 
-void NativeFs::makePath(const QString &path)
+void KTools::File::makePath(const QString &path)
 {
     QDir dir = QDir(path);
     bool qexi = dir.exists();
@@ -84,7 +84,7 @@ void NativeFs::makePath(const QString &path)
         qexi = dir.mkpath("."); // if derictory does not exist make it
 }
 
-bool NativeFs::fileExist(const QString &path)
+bool KTools::File::fileExist(const QString &path)
 {
     QFileInfo checkFile(path);
     if (checkFile.exists() && checkFile.isFile())
@@ -93,7 +93,7 @@ bool NativeFs::fileExist(const QString &path)
         return false;
 }
 
-bool NativeFs::dirExist(const QString &path)
+bool KTools::File::dirExist(const QString &path)
 {
     QFileInfo checkFile(path);
     if (checkFile.exists() && checkFile.isDir())
@@ -102,22 +102,22 @@ bool NativeFs::dirExist(const QString &path)
         return false;
 }
 
-bool NativeFs::toEnd()
+bool KTools::File::toEnd()
 {
    return seek(size());
 }
 
-bool NativeFs::atEnd()
+bool KTools::File::atEnd()
 {
     return file->atEnd();
 }
 
-bool NativeFs::resize(const qint64 &localSize)
+bool KTools::File::resize(const qint64 &localSize)
 {
     return file->resize(localSize);
 }
 
-bool NativeFs::copyFile(const QString &oldPathToFile, const QString &newPath, const QString &newFileName)
+bool KTools::File::copyFile(const QString &oldPathToFile, const QString &newPath, const QString &newFileName)
 {
     if (!dirExist(newPath))
         makePath(newPath);
@@ -126,7 +126,7 @@ bool NativeFs::copyFile(const QString &oldPathToFile, const QString &newPath, co
 }
 
 template<typename T>
-T NativeFs::readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
+T KTools::File::readFile(const QString &directory, const QString &fileName, const QIODevice::OpenMode &flags)
 {
     if (!fileExist(directory + '\\' + fileName))
         return T();
@@ -141,17 +141,17 @@ T NativeFs::readFile(const QString &directory, const QString &fileName, const QI
     return rFile.readAll();
 }
 
-template void NativeFs::write<qint16>(const qint16&);
-template void NativeFs::write<qint64>(const qint64&);
+template void KTools::File::write<qint16>(const qint16&);
+template void KTools::File::write<qint64>(const qint64&);
 
-template qint8 NativeFs::read<qint8>(const qint64&);
-template qint16 NativeFs::read<qint16>(const qint64&);
-template qint64 NativeFs::read<qint64>(const qint64&);
-template QByteArray NativeFs::read<QByteArray>(const qint64&);
+template qint8 KTools::File::read<qint8>(const qint64&);
+template qint16 KTools::File::read<qint16>(const qint64&);
+template qint64 KTools::File::read<qint64>(const qint64&);
+template QByteArray KTools::File::read<QByteArray>(const qint64&);
 
-template qint64 NativeFs::read<qint64>();
-template quint64 NativeFs::read<quint64>();
-template qint16 NativeFs::read<qint16>();
+template qint64 KTools::File::read<qint64>();
+template quint64 KTools::File::read<quint64>();
+template qint16 KTools::File::read<qint16>();
 
-template QString NativeFs::readFile<QString>(const QString&, const QString&, const QIODevice::OpenMode&);
-template QByteArray NativeFs::readFile<QByteArray>(const QString&, const QString&, const QIODevice::OpenMode&);
+template QString KTools::File::readFile<QString>(const QString&, const QString&, const QIODevice::OpenMode&);
+template QByteArray KTools::File::readFile<QByteArray>(const QString&, const QString&, const QIODevice::OpenMode&);
