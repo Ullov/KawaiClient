@@ -21,7 +21,7 @@ private:
     QJsonObject object;
     QJsonArray pageLinks;
 
-    void downloadAndWriteMri(std::string url, CurlClass &cc, std::string directory, std::string fileName);
+    //void downloadAndWriteMri(std::string url, CurlClass &cc, std::string directory, std::string fileName);
 
 public slots:
     void downloadUser();

@@ -13,7 +13,7 @@ OptionsHandler::OptionsHandler()
         NativeFs::writeFile(configPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
     }
     logRootPath = OptionsHandler::rootProgramPath + "/log/";
-    CurlClass::cookiePath = OptionsHandler::rootProgramPath + "/Cookie/";
+    KTools::Curl::cookiePath = OptionsHandler::rootProgramPath + "/Cookie/";
 
 
     if (!NativeFs::fileExist(rootProgramPath + "/Settings/configs.json"))

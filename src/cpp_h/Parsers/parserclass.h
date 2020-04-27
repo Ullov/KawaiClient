@@ -26,7 +26,7 @@ public:
     ParserClass();
     ~ParserClass();
 
-    CurlClass *cc;
+    KTools::Curl *cc;
     KEnums::Parsers parserType;
 
 protected:

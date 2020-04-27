@@ -212,6 +212,6 @@ void ApiHandler::connectSlotsAndSignals(const QThread *thread, const T *apiClass
     connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)), thread, SLOT(quit()));
     connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)), apiClass, SLOT(deleteLater()));
     connect(apiClass, SIGNAL(downloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)), this, SLOT(slotDownloadingFinished(QList<int>, QJsonObject, QVector<QByteArray>)));
-    connect(apiClass->cc, SIGNAL(progressSignal(QList<double>,qint64,KEnums::Parsers)), this, SLOT(slotDownloadStatus(QList<double>,qint64,KEnums::Parsers)));
+    //connect(apiClass->cc, SIGNAL(progressSignal(QList<double>,qint64,KEnums::Parsers)), this, SLOT(slotDownloadStatus(QList<double>,qint64,KEnums::Parsers)));
     connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 }

@@ -3,7 +3,7 @@
 ParserClass::ParserClass()
 {
     defExt = new FileIdentifier();
-    cc = new CurlClass();
+    cc = new KTools::Curl();
 }
 
 ParserClass::~ParserClass()

@@ -2,6 +2,7 @@
 #include "logging.h"
 #include "curlclass.h"
 #include "kenums.h"
+#include "ktoolsqmlinterface.h"
 
 // Start OptionsHandler
 QString OptionsHandler::configFile = "config.txt";
@@ -54,11 +55,11 @@ QMap<KEnums::LogType, QString> Logging::logTypeNames = {
 };
 // End Logging
 // Start CurlClass
-QString CurlClass::cacertPath = QDir::temp().path() + "/KawaiClient";
-QString CurlClass::cacertFileName = "cacert.pem";
-QString CurlClass::fullCacertPath = cacertPath + '/' + cacertFileName;
-QString CurlClass::pathToCacertInQrc = ":/resources/other/cacert.pem";
-QString CurlClass::cookiePath = "";
+QString KTools::Curl::cacertPath = QDir::temp().path() + "/KawaiClient";
+QString KTools::Curl::cacertFileName = "cacert.pem";
+QString KTools::Curl::fullCacertPath = cacertPath + '/' + cacertFileName;
+QString KTools::Curl::pathToCacertInQrc = ":/resources/other/cacert.pem";
+QString KTools::Curl::cookiePath = "";
 // End CurlClass
 // Start KEnusString
 QMap<KEnums::Parsers, QString> keParsers = {
@@ -103,3 +104,6 @@ QMap<KEnums::ParserModes::YouTube, QString> pmYouTube = {
     {KEnums::ParserModes::YouTube::Download, "Download"}
 };
 // End KEnusString
+// Start KTolsQmlInterface
+KToolsQmlInterface KToolsQmlInterface::obj = KToolsQmlInterface();
+// End KTolsQmlInterface

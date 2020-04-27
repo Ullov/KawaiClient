@@ -11,14 +11,29 @@ public:
     KToolsQmlInterface();
 
 public slots:
-    void optionsHandlerSetRootProgramPath(const QString path); // OptionsHandler::setRootProgramPath()
-    void optionsHandlerEmitRootProgramPath(); // OptionsHandler::emitRootProgramPath()
-    void optionsHandlerSlotSetParam(const QString pathToParam, const QString param); // OptionsHandler::slotSetParam()
-    void optionsHandlerSlotGetParam(const QString pathToParam); // OptionsHandler::slotGetParam()
+    // Start OptionsHandler
+    void optionsHandlerSetRootProgramPath(const QString path);
+    void optionsHandlerEmitRootProgramPath();
+    void optionsHandlerSlotSetParam(const QString pathToParam, const QString param);
+    void optionsHandlerSlotGetParam(const QString pathToParam);
+    // End OptionsHandler
+
+public:
+    // Start KTools::Curl
+    static void curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
+    // End KTools::Curl
+
+private:
+    static KToolsQmlInterface obj;
 
 signals:
-    void optionsHandlerSendRootProgramPath(const QString path); // OptionsHandler::sendRootProgramPath()
-    void optionsHandlerSignalParam(const QString pathToParam, const QVariant param); // OptionsHandler::signalParam()
+    // Start OptionsHandler
+    void optionsHandlerSendRootProgramPath(const QString path);
+    void optionsHandlerSignalParam(const QString pathToParam, const QVariant param);
+    // End OptionsHandler
+    // Start KTools::Curl
+    void curlProgressSignal(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
+    // End KTools::Curl
 };
 
 #endif // KTOOLSQMLINTERFACE_H

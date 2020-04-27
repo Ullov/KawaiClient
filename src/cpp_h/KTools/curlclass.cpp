@@ -1,7 +1,7 @@
 #include "curlclass.h"
 
 
-CurlClass::CurlClass()
+KTools::Curl::Curl()
 {
     if (!NativeFs::fileExist(fullCacertPath))
         QFile::copy(pathToCacertInQrc, fullCacertPath);
@@ -15,7 +15,7 @@ CurlClass::CurlClass()
     currRequestMode = KEnums::CurlSettings::RequestMode::New;
 }
 
-CurlClass::~CurlClass()
+KTools::Curl::~Curl()
 {
     if (errFileSetted)
         unsetErrFile();
@@ -27,7 +27,7 @@ CurlClass::~CurlClass()
     }
 }
 
-QByteArray CurlClass::performing(const char* url)
+QByteArray KTools::Curl::performing(const char* url)
 {
     ForProggress fp;
 
@@ -67,7 +67,7 @@ QByteArray CurlClass::performing(const char* url)
     }
 }
 
-quint64 CurlClass::writeMemoryCallback(char *data, quint64 size, quint64 nmemb, QByteArray *writerData)
+quint64 KTools::Curl::writeMemoryCallback(char *data, quint64 size, quint64 nmemb, QByteArray *writerData)
 {
     if (writerData == NULL)
         return 0;
@@ -75,7 +75,7 @@ quint64 CurlClass::writeMemoryCallback(char *data, quint64 size, quint64 nmemb, 
     return size * nmemb;
 }
 
-void CurlClass::setHeader(QVector<QByteArray> chunk, const KEnums::CurlSettings::SetHeaderMode mode)
+void KTools::Curl::setHeader(QVector<QByteArray> chunk, const KEnums::CurlSettings::SetHeaderMode mode)
 {
     /*if (mode == KEnums::CurlSettings::SetHeaderMode::New)
         headerData = QMap<QString, QString>();
@@ -93,7 +93,7 @@ void CurlClass::setHeader(QVector<QByteArray> chunk, const KEnums::CurlSettings:
     }
 }
 
-int CurlClass::XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, double ulTotal, double ulNow)
+int KTools::Curl::XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, double ulTotal, double ulNow)
 { // all here in bytes
     ForProggress *fp = static_cast<ForProggress*>(p);
     if (fp->lastDlNow != dlNow || fp->lastDlTotal != dlTotal || fp->lastUlTotal != ulTotal || fp->lastUlNow != ulNow)
@@ -103,7 +103,7 @@ int CurlClass::XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, d
         list.append(dlTotal);
         list.append(ulNow);
         list.append(ulTotal);
-        emit fp->th->progressSignal(list, fp->timer.elapsed(), fp->th->downloaderType);
+        KToolsQmlInterface::curlSendProgress(list, fp->timer.elapsed(), fp->th->downloaderType);
         fp->lastDlNow = dlNow;
         fp->lastDlTotal = dlTotal;
         fp->lastUlTotal = ulTotal;
@@ -112,7 +112,7 @@ int CurlClass::XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, d
     return CURLE_OK;
 }
 
-QByteArray CurlClass::request(const QString &url)
+QByteArray KTools::Curl::request(const QString &url)
 {
     if (currRequestMode == KEnums::CurlSettings::RequestMode::Old)
     {
@@ -145,19 +145,19 @@ QByteArray CurlClass::request(const QString &url)
     }
 }
 
-void CurlClass::restartSession()
+void KTools::Curl::restartSession()
 {
     curl_easy_cleanup(gCurlHandle);
     gCurlHandle = curl_easy_init();
 }
 
-quint64 CurlClass::headerCallback(char *buffer, quint64 size, quint64 nitems, QByteArray *userdata)
+quint64 KTools::Curl::headerCallback(char *buffer, quint64 size, quint64 nitems, QByteArray *userdata)
 {
     userdata->append(buffer, nitems * size);
     return nitems * size;
 }
 
-void CurlClass::setOptions()
+void KTools::Curl::setOptions()
 {
     curl_easy_setopt(gCurlHandle, CURLOPT_WRITEFUNCTION, writeMemoryCallback); // send all data to this function
     curl_easy_setopt(gCurlHandle, CURLOPT_CAINFO,  fullCacertPath.toStdString().c_str());
@@ -248,7 +248,7 @@ void CurlClass::setOptions()
     }
 }
 
-void CurlClass::setRequestType(KEnums::CurlSettings::RequestType requType)
+void KTools::Curl::setRequestType(KEnums::CurlSettings::RequestType requType)
 {
     currRequestType = requType;
     if (requType == KEnums::CurlSettings::RequestType::Get)
@@ -263,7 +263,7 @@ void CurlClass::setRequestType(KEnums::CurlSettings::RequestType requType)
     }
 }
 
-void CurlClass::generateHeader()
+void KTools::Curl::generateHeader()
 {
     header = NULL;
     QMap<QString, QString>::iterator end = headerData.end();
@@ -273,7 +273,7 @@ void CurlClass::generateHeader()
     }
 }
 
-void CurlClass::setHeader(const QMap<QString, QString> &chunk)
+void KTools::Curl::setHeader(const QMap<QString, QString> &chunk)
 {
     QMap<QString, QString>::const_iterator end = chunk.end();
     for (QMap<QString, QString>::const_iterator i = chunk.begin(); i != end; ++i)
@@ -284,26 +284,26 @@ void CurlClass::setHeader(const QMap<QString, QString> &chunk)
     generateHeader();
 }
 
-void CurlClass::setHeaderLine(const std::pair<QString, QString> &headerLine)
+void KTools::Curl::setHeaderLine(const std::pair<QString, QString> &headerLine)
 {
     headerData[headerLine.first] = headerLine.second;
     generateHeader();
 }
 
-void CurlClass::delHeaderLine(const QString &key)
+void KTools::Curl::delHeaderLine(const QString &key)
 {
     headerData.remove(key);
     generateHeader();
 }
 
-void CurlClass::setErrFile(const QString &path, const QString &fileName)
+void KTools::Curl::setErrFile(const QString &path, const QString &fileName)
 {
     stdErr = fopen((path + "/" + fileName).toStdString().c_str(), "w");
     errFileSetted = true;
     verboseOutput = true;
 }
 
-void CurlClass::unsetErrFile()
+void KTools::Curl::unsetErrFile()
 {
     if (errFileSetted)
     {
@@ -313,13 +313,13 @@ void CurlClass::unsetErrFile()
     }
 }
 
-void CurlClass::addHandle(const QString &handleName)
+void KTools::Curl::addHandle(const QString &handleName)
 {
     CURL* newHandle = curl_easy_init();
     handlesList[handleName] = newHandle;
 }
 
-void CurlClass::swichHandle(const QString &handleName)
+void KTools::Curl::swichHandle(const QString &handleName)
 {
     gCurlHandle = handlesList[handleName];
 }
