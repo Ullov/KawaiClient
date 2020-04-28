@@ -2,7 +2,7 @@
 
 FsHandler::FsHandler()
 {
-    currentDir = new QDir(OptionsHandler::getParam("/fsExplorer/lastOpenedDirectory").toString());
+    currentDir = new QDir(KTools::Options::getParam("/fsExplorer/lastOpenedDirectory").toString());
 
     for (int i = 0; !currentDir->exists(); i++)
     {
@@ -67,7 +67,7 @@ QJsonObject FsHandler::fileInfoListToJsonObject(const QFileInfoList &files)
 bool FsHandler::cd(const QString &dir)
 {
     bool res = currentDir->cd(dir);
-    OptionsHandler::setParam("/fsExplorer/lastOpenedDirectory", currentDir->path());
+    KTools::Options::setParam("/fsExplorer/lastOpenedDirectory", currentDir->path());
     return res;
 }
 

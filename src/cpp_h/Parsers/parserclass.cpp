@@ -139,14 +139,14 @@ QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
 
 void ParserClass::writeInfoLog(const QString &message)
 {
-    KTools::Log::writeCustomLog(message, OptionsHandler::parsersNames[parserType], KTools::Enums::LogType::Info, rootPath, logFile);
+    KTools::Log::writeCustomLog(message, KTools::Options::parsersNames[parserType], KTools::Enums::LogType::Info, rootPath, logFile);
 }
 
 void ParserClass::setParserType(const KTools::Enums::Parsers type)
 {
     parserType = type;
-    basePath = OptionsHandler::rootProgramPath + '/' + OptionsHandler::parsersWritePathes[type];
-    parserName = OptionsHandler::parsersNames[type];
+    basePath = KTools::Options::rootProgramPath + '/' + KTools::Options::parsersWritePathes[type];
+    parserName = KTools::Options::parsersNames[type];
     cc->downloaderType = type;
 }
 

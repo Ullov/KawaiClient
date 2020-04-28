@@ -1,6 +1,6 @@
 #include "optionshandler.h"
 
-OptionsHandler::OptionsHandler()
+KTools::Options::Options()
 {
     bool wtf = KTools::File::fileExist(configPath + configFile);
     if (wtf)
@@ -12,8 +12,8 @@ OptionsHandler::OptionsHandler()
         rootProgramPath = configPath;
         KTools::File::writeFile(configPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
     }
-    logRootPath = OptionsHandler::rootProgramPath + "/log/";
-    KTools::Curl::cookiePath = OptionsHandler::rootProgramPath + "/Cookie/";
+    logRootPath = Options::rootProgramPath + "/log/";
+    KTools::Curl::cookiePath = Options::rootProgramPath + "/Cookie/";
 
 
     if (!KTools::File::fileExist(rootProgramPath + "/Settings/configs.json"))
@@ -24,24 +24,24 @@ OptionsHandler::OptionsHandler()
     configsObj = KTools::Converter::convert<QString, QJsonObject>(fileContent);
 }
 
-bool OptionsHandler::save()
+bool KTools::Options::save()
 {
     return KTools::File::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(configsObj), rootProgramPath, "configs.json");
 }
 
-void OptionsHandler::setRootProgramPath(const QString &path)
+void KTools::Options::setRootProgramPath(const QString &path)
 {
     rootProgramPath = path;
     KTools::File::writeFile(rootProgramPath.toUtf8(), configPath, configFile, QIODevice::WriteOnly | QIODevice::Text);
     save();
 }
 
-QString OptionsHandler::getRootProgramPath()
+QString KTools::Options::getRootProgramPath()
 {
     return rootProgramPath;
 }
 
-QJsonValue OptionsHandler::privateSetParam(QList<QString> pathToParam, QJsonValue currLevel, const QVariant param)
+QJsonValue KTools::Options::privateSetParam(QList<QString> pathToParam, QJsonValue currLevel, const QVariant param)
 {
     QString name = pathToParam[0];
     pathToParam.pop_front();
@@ -91,7 +91,7 @@ QJsonValue OptionsHandler::privateSetParam(QList<QString> pathToParam, QJsonValu
     return QJsonValue();
 }
 
-QJsonValue OptionsHandler::privateGetParam(QList<QString> pathToParam, const QJsonValue &previousLevel)
+QJsonValue KTools::Options::privateGetParam(QList<QString> pathToParam, const QJsonValue &previousLevel)
 {
     QString name = pathToParam[0];
     pathToParam.pop_front();
@@ -139,7 +139,7 @@ QJsonValue OptionsHandler::privateGetParam(QList<QString> pathToParam, const QJs
     return QJsonValue();
 }
 
-void OptionsHandler::setParam(const QString &pathToParam, const QString &param)
+void KTools::Options::setParam(const QString &pathToParam, const QString &param)
 {
     QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
     QString name = list[0];
@@ -149,7 +149,7 @@ void OptionsHandler::setParam(const QString &pathToParam, const QString &param)
     save();
 }
 
-QVariant OptionsHandler::getParam(const QString &pathToParam)
+QVariant KTools::Options::getParam(const QString &pathToParam)
 {
     QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
     QString name = list[0];

@@ -27,7 +27,7 @@ public:
 
     KTools::Log *logger;
     //QQmlApplicationEngine *engine;
-    OptionsHandler *options;
+    KTools::Options *options;
 
 private:
     void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::ExHentai parserMode);

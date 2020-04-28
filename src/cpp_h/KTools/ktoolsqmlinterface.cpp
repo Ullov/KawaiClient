@@ -4,22 +4,22 @@ KToolsQmlInterface::KToolsQmlInterface() {}
 
 void KToolsQmlInterface::optionsHandlerSetRootProgramPath(const QString path)
 {
-    OptionsHandler::setRootProgramPath(path);
+    KTools::Options::setRootProgramPath(path);
 }
 
 void KToolsQmlInterface::optionsHandlerEmitRootProgramPath()
 {
-    emit optionsHandlerSendRootProgramPath(OptionsHandler::rootProgramPath);
+    emit optionsHandlerSendRootProgramPath(KTools::Options::rootProgramPath);
 }
 
 void KToolsQmlInterface::optionsHandlerSlotGetParam(const QString pathToParam)
 {
-    emit optionsHandlerSignalParam(pathToParam, OptionsHandler::getParam(pathToParam));
+    emit optionsHandlerSignalParam(pathToParam, KTools::Options::getParam(pathToParam));
 }
 
 void KToolsQmlInterface::optionsHandlerSlotSetParam(const QString pathToParam, const QString param)
 {
-    OptionsHandler::setParam(pathToParam, param);
+    KTools::Options::setParam(pathToParam, param);
 }
 
 void KToolsQmlInterface::curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType)

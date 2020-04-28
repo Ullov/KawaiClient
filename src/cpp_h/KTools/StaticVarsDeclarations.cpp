@@ -5,12 +5,12 @@
 #include "ktoolsqmlinterface.h"
 
 // Start OptionsHandler
-QString OptionsHandler::configFile = "config.txt";
-QString OptionsHandler::configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/KawaiClient/";
-QString OptionsHandler::rootProgramPath = "";
-QString OptionsHandler::logRootPath = "";
+QString KTools::Options::configFile = "config.txt";
+QString KTools::Options::configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/KawaiClient/";
+QString KTools::Options::rootProgramPath = "";
+QString KTools::Options::logRootPath = "";
 
-QMap<KTools::Enums::Parsers, QString> OptionsHandler::parsersWritePathes = {
+QMap<KTools::Enums::Parsers, QString> KTools::Options::parsersWritePathes = {
     {KTools::Enums::Parsers::ExHentai, rootProgramPath + "/Downloads/Manga/ExHentai/"},
     {KTools::Enums::Parsers::MangaDex, rootProgramPath + "/Downloads/Manga/MangaDex/"},
     {KTools::Enums::Parsers::MangaIro, rootProgramPath + "/Downloads/Manga/MangaIro/"},
@@ -23,7 +23,7 @@ QMap<KTools::Enums::Parsers, QString> OptionsHandler::parsersWritePathes = {
     {KTools::Enums::Parsers::MangaKakalot, rootProgramPath + "/Downloads/Manga/MangaKakalot/"},
     {KTools::Enums::Parsers::NHentaiDotCom, rootProgramPath + "/Downloads/Manga/Nhentai.com/"}
 };
-QMap<KTools::Enums::Parsers, QString> OptionsHandler::parsersNames = {
+QMap<KTools::Enums::Parsers, QString> KTools::Options::parsersNames = {
     {KTools::Enums::Parsers::ExHentai, "ExHentai"},
     {KTools::Enums::Parsers::MangaDex, "MangaDex"},
     {KTools::Enums::Parsers::MangaIro, "MangaIro"},
@@ -36,9 +36,9 @@ QMap<KTools::Enums::Parsers, QString> OptionsHandler::parsersNames = {
     {KTools::Enums::Parsers::MangaKakalot, "MangaKakalot"},
     {KTools::Enums::Parsers::NHentaiDotCom, "NHentai.com"}
 };
-QJsonObject OptionsHandler::configsObj = QJsonObject();
+QJsonObject KTools::Options::configsObj = QJsonObject();
 // End OptionsHandler
-// Start Logging
+// Start Log
 QString KTools::Log::logFileName = QDateTime::currentDateTime().toString("yyyy.MM.dd") + ".log";
 
 QMap<KTools::Enums::LogType, QString> KTools::Log::logTypePath = {
@@ -53,7 +53,7 @@ QMap<KTools::Enums::LogType, QString> KTools::Log::logTypeNames = {
     {KTools::Enums::LogType::Error, "Error"},
     {KTools::Enums::LogType::Custom, "Custom"}
 };
-// End Logging
+// End Log
 // Start CurlClass
 QString KTools::Curl::cacertPath = QDir::temp().path() + "/KawaiClient";
 QString KTools::Curl::cacertFileName = "cacert.pem";

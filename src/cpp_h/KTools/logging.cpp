@@ -6,14 +6,14 @@ void KTools::Log::writeCustomLog(const QString &message, const QString &from, co
 {
     QString dateTime = QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss:zzz");
     QString dt = '[' + from + ']' + dateTime + ' ' + message + '\n';
-    KTools::File::writeFile(dt.toUtf8(), OptionsHandler::logRootPath + logTypePath[type], logFileName, QIODevice::Append | QIODevice::WriteOnly);
+    File::writeFile(dt.toUtf8(), Options::logRootPath + logTypePath[type], logFileName, QIODevice::Append | QIODevice::WriteOnly);
 }
 
 void KTools::Log::writeCustomLog(const QString &message, const QString &from, const KTools::Enums::LogType &type, const QString &path, const QString &fileName)
 {
     QString dateTime = QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss:zzz");
     QString dt = '[' + logTypeNames[type] + "][" + from + ']' + dateTime + ' ' + message + '\n';
-    KTools::File::writeFile(dt.toUtf8(), path, fileName, QIODevice::Append | QIODevice::WriteOnly);
+    File::writeFile(dt.toUtf8(), path, fileName, QIODevice::Append | QIODevice::WriteOnly);
 }
 
 void KTools::Log::writeInfo(const QString &message, const QString &from)

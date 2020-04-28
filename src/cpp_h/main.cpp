@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
     registerTypesForQml();
     curl_global_init(CURL_GLOBAL_ALL);
 
-    OptionsHandler *options = new OptionsHandler();
+    KTools::Options *options = new KTools::Options();
     ApiHandler *apiHandler = new ApiHandler();
     KawaiImageProvider *imgProvider = new KawaiImageProvider();
     FsHandler *fsExplorerHandle = new FsHandler();
