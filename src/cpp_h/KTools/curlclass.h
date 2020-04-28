@@ -22,13 +22,13 @@ namespace KTools
         ~Curl();
 
         QByteArray performing(const char* url);
-        void setHeader(QVector<QByteArray> chunk, const KEnums::CurlSettings::SetHeaderMode mode = KEnums::CurlSettings::SetHeaderMode::Add);
+        void setHeader(QVector<QByteArray> chunk, const KTools::Enums::Curl::SetHeaderMode mode = KTools::Enums::Curl::SetHeaderMode::Add);
         QByteArray request(const QString &url);
         void restartSession();
 
 
         void setOptions();
-        void setRequestType(KEnums::CurlSettings::RequestType requType);
+        void setRequestType(KTools::Enums::Curl::RequestType requType);
         void setHeader(const QMap<QString, QString> &chunk);
         void setHeaderLine(const std::pair<QString, QString> &headerLine);
         void delHeaderLine(const QString &key);
@@ -38,12 +38,12 @@ namespace KTools
         void addHandle(const QString &handleName);
         void swichHandle (const QString &handleName);
 
-        KEnums::Parsers downloaderType;
-        KEnums::CurlSettings::CookieMode currCookieMode;
-        KEnums::CurlSettings::HeaderMode currHeaderMode;
-        KEnums::CurlSettings::RequestType currRequestType;
-        KEnums::CurlSettings::HttpVersion currHttpVersion;
-        KEnums::CurlSettings::RequestMode currRequestMode;
+        KTools::Enums::Parsers downloaderType;
+        KTools::Enums::Curl::CookieMode currCookieMode;
+        KTools::Enums::Curl::HeaderMode currHeaderMode;
+        KTools::Enums::Curl::RequestType currRequestType;
+        KTools::Enums::Curl::HttpVersion currHttpVersion;
+        KTools::Enums::Curl::RequestMode currRequestMode;
         QString currPostParam;
         static QString cookiePath;
         QString cookieFileName;

@@ -5,79 +5,79 @@ ApiHandler::ApiHandler() {}
 void ApiHandler::slotStartDownloding(const QStringList &params, const QList<int> &mode)
 {
     emit signalDownloadingStarted(mode);
-    KEnums::Parsers parserType = static_cast<KEnums::Parsers>(mode[0]);
-    if (parserType == KEnums::Parsers::ExHentai)
+    KTools::Enums::Parsers parserType = static_cast<KTools::Enums::Parsers>(mode[0]);
+    if (parserType == KTools::Enums::Parsers::ExHentai)
     {
-        KEnums::ParserModes::ExHentai parserMode = static_cast<KEnums::ParserModes::ExHentai>(mode[1]);
+        KTools::Enums::ParserModes::ExHentai parserMode = static_cast<KTools::Enums::ParserModes::ExHentai>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::Pixiv)
+    else if (parserType == KTools::Enums::Parsers::Pixiv)
     {
-        KEnums::ParserModes::Pixiv parserMode = static_cast<KEnums::ParserModes::Pixiv>(mode[1]);
+        KTools::Enums::ParserModes::Pixiv parserMode = static_cast<KTools::Enums::ParserModes::Pixiv>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::MangaDex)
+    else if (parserType == KTools::Enums::Parsers::MangaDex)
     {
-        KEnums::ParserModes::MangaDex parserMode = static_cast<KEnums::ParserModes::MangaDex>(mode[1]);
+        KTools::Enums::ParserModes::MangaDex parserMode = static_cast<KTools::Enums::ParserModes::MangaDex>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::VK)
+    else if (parserType == KTools::Enums::Parsers::VK)
     {
-        KEnums::ParserModes::VK parserMode = static_cast<KEnums::ParserModes::VK>(mode[1]);
+        KTools::Enums::ParserModes::VK parserMode = static_cast<KTools::Enums::ParserModes::VK>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::MangaIro)
+    else if (parserType == KTools::Enums::Parsers::MangaIro)
     {
-        KEnums::ParserModes::MangaIro parserMode = static_cast<KEnums::ParserModes::MangaIro>(mode[1]);
+        KTools::Enums::ParserModes::MangaIro parserMode = static_cast<KTools::Enums::ParserModes::MangaIro>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::YouTube)
+    else if (parserType == KTools::Enums::Parsers::YouTube)
     {
-        KEnums::ParserModes::YouTube parserMode = static_cast<KEnums::ParserModes::YouTube>(mode[1]);
+        KTools::Enums::ParserModes::YouTube parserMode = static_cast<KTools::Enums::ParserModes::YouTube>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::Twitter)
+    else if (parserType == KTools::Enums::Parsers::Twitter)
     {
-        KEnums::ParserModes::Twitter parserMode = static_cast<KEnums::ParserModes::Twitter>(mode[1]);
+        KTools::Enums::ParserModes::Twitter parserMode = static_cast<KTools::Enums::ParserModes::Twitter>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::NineHentai)
+    else if (parserType == KTools::Enums::Parsers::NineHentai)
     {
-        KEnums::ParserModes::NineHentai parserMode = static_cast<KEnums::ParserModes::NineHentai>(mode[1]);
+        KTools::Enums::ParserModes::NineHentai parserMode = static_cast<KTools::Enums::ParserModes::NineHentai>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::MangaKakalot)
+    else if (parserType == KTools::Enums::Parsers::MangaKakalot)
     {
-        KEnums::ParserModes::MangaKakalot parserMode = static_cast<KEnums::ParserModes::MangaKakalot>(mode[1]);
+        KTools::Enums::ParserModes::MangaKakalot parserMode = static_cast<KTools::Enums::ParserModes::MangaKakalot>(mode[1]);
         startDownloading(params, parserMode);
     }
-    else if (parserType == KEnums::Parsers::NHentaiDotCom)
+    else if (parserType == KTools::Enums::Parsers::NHentaiDotCom)
     {
-        KEnums::ParserModes::NHentaiDotCom parserMode = static_cast<KEnums::ParserModes::NHentaiDotCom>(mode[1]);
+        KTools::Enums::ParserModes::NHentaiDotCom parserMode = static_cast<KTools::Enums::ParserModes::NHentaiDotCom>(mode[1]);
         startDownloading(params, parserMode);
     }
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::ExHentai parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::ExHentai parserMode)
 {
     QThread *thread = new QThread();
     ExhentaiApi *api = new ExhentaiApi();
 
     api->galleryCode = params[0];
-    if (parserMode == KEnums::ParserModes::ExHentai::FrontPage)
+    if (parserMode == KTools::Enums::ParserModes::ExHentai::FrontPage)
         api->numberNeddedPage = params[1].toInt();
 
     api->moveToThread(thread);
-    if (parserMode == KEnums::ParserModes::ExHentai::Download)
+    if (parserMode == KTools::Enums::ParserModes::ExHentai::Download)
         connect(thread, SIGNAL(started()), api, SLOT(slotDownload()));
-    else if (parserMode == KEnums::ParserModes::ExHentai::FrontPage)
+    else if (parserMode == KTools::Enums::ParserModes::ExHentai::FrontPage)
         connect(thread, SIGNAL(started()), api, SLOT(slotGetFrontPage()));
 
     connectSlotsAndSignals(thread, api);
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::Pixiv parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Pixiv parserMode)
 {
     QThread *thread = new QThread();
     PixivApi *api = new PixivApi();
@@ -90,7 +90,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaDex parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaDex parserMode)
 {
     QThread *thread = new QThread();
     MangadexApi *api = new MangadexApi();
@@ -106,7 +106,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::VK parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::VK parserMode)
 {
     QThread *thread = new QThread();
     VkApi *api = new VkApi();
@@ -118,7 +118,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaIro parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaIro parserMode)
 {
     QThread *thread = new QThread();
     MangairoApi *api = new MangairoApi();
@@ -131,7 +131,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::YouTube parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::YouTube parserMode)
 {
     QThread *thread = new QThread();
     YoutubeApi *api = new YoutubeApi();
@@ -144,7 +144,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Twitter parserMode)
 {
     QThread *thread = new QThread();
     TwitterApi *api = new TwitterApi();
@@ -157,7 +157,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::NineHentai parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NineHentai parserMode)
 {
     QThread *thread = new QThread();
     NinehentaiApi *api = new NinehentaiApi();
@@ -170,7 +170,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::MangaKakalot parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaKakalot parserMode)
 {
     QThread *thread = new QThread();
     MangakakalotApi *api = new MangakakalotApi();
@@ -183,7 +183,7 @@ void ApiHandler::startDownloading(const QStringList &params, const KEnums::Parse
     thread->start();
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KEnums::ParserModes::NHentaiDotCom parserMode)
+void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NHentaiDotCom parserMode)
 {
     QThread *thread = new QThread();
     NHentaiDotComApi *api = new NHentaiDotComApi();
@@ -201,7 +201,7 @@ void ApiHandler::slotDownloadingFinished(const QList<int> mode, const QJsonObjec
     emit signalDownloadingFinished(mode, data, binaryData);
 }
 
-void ApiHandler::slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType)
+void ApiHandler::slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType)
 {
     emit signalDownloadStatus(list, millisecondsFromStart, downloaderType);
 }

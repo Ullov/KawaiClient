@@ -2,7 +2,7 @@
 
 YoutubeApi::YoutubeApi()
 {
-    setParserType(KEnums::Parsers::YouTube);
+    setParserType(KTools::Enums::Parsers::YouTube);
 }
 
 void YoutubeApi::download()
@@ -21,7 +21,7 @@ void YoutubeApi::download()
     };
 
     //this->cc->setHeader(chunk);
-    cc->currHeaderMode = KEnums::CurlSettings::HeaderMode::None;
+    cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
     cc->setErrFile(basePath, "errFile.txt");
     cc->setOptions();
     QString url = "https://www.youtube.com/watch?v=9twiJbZ9-nQ";
@@ -53,7 +53,7 @@ void YoutubeApi::download()
     //NativeFs::writeFile(data, basePath, "getVideoInfo.txt");
 
 
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::YouTube::Download));
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::YouTube::Download));
 }
 
 

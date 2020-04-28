@@ -2,7 +2,7 @@
 
 NinehentaiApi::NinehentaiApi()
 {
-    setParserType(KEnums::Parsers::NineHentai);
+    setParserType(KTools::Enums::Parsers::NineHentai);
 }
 
 void NinehentaiApi::download()
@@ -29,8 +29,8 @@ void NinehentaiApi::download()
     };
 
     cc->setHeader(hea);
-    cc->setRequestType(KEnums::CurlSettings::RequestType::Post);
-    cc->currCookieMode = KEnums::CurlSettings::CookieMode::Void;
+    cc->setRequestType(KTools::Enums::Curl::RequestType::Post);
+    cc->currCookieMode = KTools::Enums::Curl::CookieMode::Void;
     cc->setOptions();
 
     cc->currPostParam = "{\"id\":" + galleryId + "}";
@@ -41,7 +41,7 @@ void NinehentaiApi::download()
     if (!obj["status"].toBool())
     {
         KTools::Log::writeError("Error in API call. URL: " + currUrl + " ; PostParam: " + cc->currPostParam, "NineHentai");
-        endDownloadingFunction(static_cast<int>(KEnums::ParserModes::NineHentai::Download));
+        endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::NineHentai::Download));
         return;
     }
 
@@ -61,7 +61,7 @@ void NinehentaiApi::download()
     cc->delHeaderLine("X-Requested-With");
     cc->delHeaderLine("Content-Type");
     cc->setHeader(imgHea);
-    cc->setRequestType(KEnums::CurlSettings::RequestType::Get);
+    cc->setRequestType(KTools::Enums::Curl::RequestType::Get);
     cc->restartSession();
     cc->setOptions();
     currUrl = obj["results"].toObject().value("image_server").toString() + id +"/";
@@ -73,5 +73,5 @@ void NinehentaiApi::download()
     }
 
     writeInfoLog("All pages downloaded.");
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::NineHentai::Download));
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::NineHentai::Download));
 }

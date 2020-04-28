@@ -2,7 +2,7 @@
 
 MangairoApi::MangairoApi()
 {
-    setParserType(KEnums::Parsers::MangaIro);
+    setParserType(KTools::Enums::Parsers::MangaIro);
 }
 
 void MangairoApi::download()
@@ -140,7 +140,7 @@ void MangairoApi::download()
         writeInfoLog("Chapter " + QString::number(i) + " downloaded");
     }
     writeInfoLog("Manga downloaded");
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::MangaIro::Download));
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::MangaIro::Download));
 
     // <title>([^<>]+) Manga \| Mangairo\.com<\/title>                          - Title name
     // <meta name="description" content="([^<>]+)" \/>([^<>]+)                  - Title summary

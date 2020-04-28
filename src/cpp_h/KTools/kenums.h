@@ -1,11 +1,11 @@
-#ifndef KENUMS_H
-#define KENUMS_H
+#ifndef KTOOLS_ENUMS_H
+#define KTOOLS_ENUMS_H
 
 #include <QMap>
 #include <QObject>
 #include <QQmlEngine>
 
-namespace KEnums
+namespace KTools::Enums
 {
     Q_NAMESPACE
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
@@ -96,7 +96,7 @@ namespace KEnums
             qRegisterMetaType<NHentaiDotCom>("ParserModesNHentaiDotCom");
         }
     };
-    namespace CurlSettings {
+    namespace Curl {
         Q_NAMESPACE
         Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
         enum class RequestType {
@@ -133,7 +133,7 @@ namespace KEnums
         Q_ENUM_NS(HeaderMode)
         static void registerTypesForQml()
         {
-            qmlRegisterUncreatableMetaObject(CurlSettings::staticMetaObject, "KEnums", 1, 0, "CurlSettings", "Is enum");
+            qmlRegisterUncreatableMetaObject(staticMetaObject, "KEnums", 1, 0, "CurlSettings", "Is enum");
             qRegisterMetaType<RequestType>("CurlSettingsRequestType");
             qRegisterMetaType<CookieMode>("CurlSettingsCookieMode");
             qRegisterMetaType<HeaderMode>("CurlSettingsHeaderMode");
@@ -142,14 +142,14 @@ namespace KEnums
     }
     static void registerTypesForQml()
     {
-        qmlRegisterUncreatableMetaObject(KEnums::staticMetaObject, "KEnums", 1, 0, "KEnums", "Is enum");
-        qRegisterMetaType<KEnums::Parsers>("KEnumParsers");
-        qRegisterMetaType<KEnums::LogType>("KEnumLogType");
-        CurlSettings::registerTypesForQml();
+        qmlRegisterUncreatableMetaObject(staticMetaObject, "KEnums", 1, 0, "KEnums", "Is enum");
+        qRegisterMetaType<Parsers>("KEnumParsers");
+        qRegisterMetaType<LogType>("KEnumLogType");
+        Curl::registerTypesForQml();
         ParserModes::registerTypesForQml();
     }
 };
-class KEnusString
+/*class KEnusString
 {
 public:
     static QMap<KEnums::Parsers, QString> keParsers;
@@ -163,6 +163,6 @@ public:
     static QMap<KEnums::ParserModes::Twitter, QString> pmTwitter;
     static QMap<KEnums::ParserModes::VK, QString> pmVK;
     static QMap<KEnums::ParserModes::YouTube, QString> pmYouTube;
-};
+};*/
 
-#endif // KENUMS_H
+#endif // KTOOLS_ENUMS_H

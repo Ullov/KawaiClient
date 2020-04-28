@@ -30,16 +30,16 @@ public:
     OptionsHandler *options;
 
 private:
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::ExHentai parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::Pixiv parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaDex parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::VK parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaIro parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::YouTube parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::Twitter parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::NineHentai parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::MangaKakalot parserMode);
-    void startDownloading(const QStringList &params, const KEnums::ParserModes::NHentaiDotCom parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::ExHentai parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Pixiv parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaDex parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::VK parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaIro parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::YouTube parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Twitter parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NineHentai parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaKakalot parserMode);
+    void startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NHentaiDotCom parserMode);
 
     template<typename T>
     void connectSlotsAndSignals(const QThread *thread, const T *apiClass);
@@ -49,12 +49,12 @@ public slots:
 
 private slots:
     void slotDownloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryData);
-    void slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
+    void slotDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType);
 
 signals:
     void signalDownloadingStarted(const QList<int> mode);
     void signalDownloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryData);
-    void signalDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
+    void signalDownloadStatus(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType);
 };
 
 #endif // APIHANDLER_H

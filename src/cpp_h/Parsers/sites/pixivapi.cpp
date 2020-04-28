@@ -2,7 +2,7 @@
 
 PixivApi::PixivApi()
 {
-    setParserType(KEnums::Parsers::Pixiv);
+    setParserType(KTools::Enums::Parsers::Pixiv);
 }
 
 PixivApi::~PixivApi() { }
@@ -195,7 +195,7 @@ void PixivApi::download()
     }
 
     writeInfoLog("Downloading user with ID " + userId + " and name " + userName + " completed.");
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::Pixiv::Download));
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::Pixiv::Download));
 }
 
 void PixivApi::viewUser()

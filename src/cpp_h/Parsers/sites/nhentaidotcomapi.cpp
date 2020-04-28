@@ -2,12 +2,12 @@
 
 NHentaiDotComApi::NHentaiDotComApi()
 {
-    setParserType(KEnums::Parsers::NHentaiDotCom);
+    setParserType(KTools::Enums::Parsers::NHentaiDotCom);
 }
 
 void NHentaiDotComApi::download()
 {
-    cc->currHeaderMode = KEnums::CurlSettings::HeaderMode::None;
+    cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
     cc->setOptions();
     cc->request("https://nhentai.com");
     QString url = "https://nhentai.com/api/comics/" + slugName;
@@ -39,5 +39,5 @@ void NHentaiDotComApi::download()
     }
     writeInfoLog("All pages downloaded.");
 
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::NHentaiDotCom::Download));
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::NHentaiDotCom::Download));
 }

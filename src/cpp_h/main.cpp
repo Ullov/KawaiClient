@@ -16,7 +16,7 @@
 static void registerTypesForQml()
 {
     qRegisterMetaType<QVector<QByteArray>>("VectorByteArray");
-    KEnums::registerTypesForQml();
+    KTools::Enums::registerTypesForQml();
 }
 
 int main(int argc, char *argv[])

@@ -26,7 +26,7 @@ void NhentaiApi::doWork()
 
     //downloadAndWriteFile("https://i.nhentai.net/galleries/885361/2.png", *cc, halfPath, "example.txt");
 
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::NHentaiDotNet::Download));
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::NHentaiDotNet::Download));
 }
 
 

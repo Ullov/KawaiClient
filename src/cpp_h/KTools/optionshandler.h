@@ -26,8 +26,8 @@ public:
     static QString configFile;
     static QString rootProgramPath;
     static QString logRootPath;
-    static QMap<KEnums::Parsers, QString> parsersWritePathes;
-    static QMap<KEnums::Parsers, QString> parsersNames;
+    static QMap<KTools::Enums::Parsers, QString> parsersWritePathes;
+    static QMap<KTools::Enums::Parsers, QString> parsersNames;
 
     static void setRootProgramPath(const QString &path);
     static void setParam(const QString &pathToParam, const QString &param); // wrapper for privateSetParam() for C++

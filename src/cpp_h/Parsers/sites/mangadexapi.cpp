@@ -1,7 +1,7 @@
 #include "mangadexapi.h"
 
 MangadexApi::MangadexApi() {
-    setParserType(KEnums::Parsers::MangaDex);
+    setParserType(KTools::Enums::Parsers::MangaDex);
 }
 
 
@@ -70,7 +70,7 @@ void MangadexApi::download()
     }
 
     writeInfoLog("All selected chapters downloaded.");
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::MangaDex::Download), QJsonObject());
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::MangaDex::Download), QJsonObject());
 // https://mangadex.org/api/?id=355650&type=chapter
 // https://mangadex.org/api/?id=15242&type=manga
 }

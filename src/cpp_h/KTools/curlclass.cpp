@@ -8,11 +8,11 @@ KTools::Curl::Curl()
     //OptionsHandler::rootProgramPath + "/Cookie/";
     gCurlHandle = curl_easy_init();
     handlesList["main"] = gCurlHandle;
-    currCookieMode = KEnums::CurlSettings::CookieMode::Void;
-    currHeaderMode = KEnums::CurlSettings::HeaderMode::Custom;
-    currRequestType = KEnums::CurlSettings::RequestType::Get;
-    currHttpVersion = KEnums::CurlSettings::HttpVersion::Http2;
-    currRequestMode = KEnums::CurlSettings::RequestMode::New;
+    currCookieMode = KTools::Enums::Curl::CookieMode::Void;
+    currHeaderMode = KTools::Enums::Curl::HeaderMode::Custom;
+    currRequestType = KTools::Enums::Curl::RequestType::Get;
+    currHttpVersion = KTools::Enums::Curl::HttpVersion::Http2;
+    currRequestMode = KTools::Enums::Curl::RequestMode::New;
 }
 
 KTools::Curl::~Curl()
@@ -75,7 +75,7 @@ quint64 KTools::Curl::writeMemoryCallback(char *data, quint64 size, quint64 nmem
     return size * nmemb;
 }
 
-void KTools::Curl::setHeader(QVector<QByteArray> chunk, const KEnums::CurlSettings::SetHeaderMode mode)
+void KTools::Curl::setHeader(QVector<QByteArray> chunk, const KTools::Enums::Curl::SetHeaderMode mode)
 {
     /*if (mode == KEnums::CurlSettings::SetHeaderMode::New)
         headerData = QMap<QString, QString>();
@@ -114,7 +114,7 @@ int KTools::Curl::XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow
 
 QByteArray KTools::Curl::request(const QString &url)
 {
-    if (currRequestMode == KEnums::CurlSettings::RequestMode::Old)
+    if (currRequestMode == KTools::Enums::Curl::RequestMode::Old)
     {
         return performing(url.toStdString().c_str());
     }
@@ -123,7 +123,7 @@ QByteArray KTools::Curl::request(const QString &url)
     curl_easy_setopt(gCurlHandle, CURLOPT_URL, url.toStdString().c_str()); // specify url to get
     curl_easy_setopt(gCurlHandle, CURLOPT_WRITEDATA, &buffer);
 
-    if (currRequestType == KEnums::CurlSettings::RequestType::Post)
+    if (currRequestType == KTools::Enums::Curl::RequestType::Post)
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_POSTFIELDS, currPostParam.toStdString().c_str());
         curl_easy_setopt(gCurlHandle, CURLOPT_POSTFIELDSIZE, currPostParam.size());
@@ -168,7 +168,7 @@ void KTools::Curl::setOptions()
     curl_easy_setopt(gCurlHandle, CURLOPT_MAXREDIRS, 5L);
     curl_easy_setopt(gCurlHandle, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0");
 
-    if (currHttpVersion == KEnums::CurlSettings::HttpVersion::Http2)
+    if (currHttpVersion == KTools::Enums::Curl::HttpVersion::Http2)
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_2TLS);
     }
@@ -181,21 +181,21 @@ void KTools::Curl::setOptions()
     /*
      * This if else construction choose what to do with cookies
      */
-    if (currCookieMode == KEnums::CurlSettings::CookieMode::GetAndKeep) // Get cookie in first request and use it in next requests
+    if (currCookieMode == KTools::Enums::Curl::CookieMode::GetAndKeep) // Get cookie in first request and use it in next requests
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_COOKIEJAR, (cookiePath + cookieFileName).toStdString().c_str());
-        currCookieMode = KEnums::CurlSettings::CookieMode::Keep;
+        currCookieMode = KTools::Enums::Curl::CookieMode::Keep;
     }
-    else if (currCookieMode == KEnums::CurlSettings::CookieMode::Keep) // Use cookie from file
+    else if (currCookieMode == KTools::Enums::Curl::CookieMode::Keep) // Use cookie from file
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_COOKIEFILE, (cookiePath + cookieFileName).toStdString().c_str());
     }
-    else if (currCookieMode == KEnums::CurlSettings::CookieMode::GetAllTimes) // Get new cookie in each request
+    else if (currCookieMode == KTools::Enums::Curl::CookieMode::GetAllTimes) // Get new cookie in each request
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_COOKIEJAR, (cookiePath + cookieFileName).toStdString().c_str());
         curl_easy_setopt(gCurlHandle, CURLOPT_COOKIEFILE, (cookiePath + cookieFileName).toStdString().c_str());
     }
-    else if (currCookieMode == KEnums::CurlSettings::CookieMode::Void) // Only starts cookie engine
+    else if (currCookieMode == KTools::Enums::Curl::CookieMode::Void) // Only starts cookie engine
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_COOKIEFILE, "");
     }
@@ -204,7 +204,7 @@ void KTools::Curl::setOptions()
     /*
      * This if construction choose what to do with header
      */
-    if (currHeaderMode == KEnums::CurlSettings::HeaderMode::Custom) // Sets header
+    if (currHeaderMode == KTools::Enums::Curl::HeaderMode::Custom) // Sets header
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_HTTPHEADER, header);
     }
@@ -248,15 +248,15 @@ void KTools::Curl::setOptions()
     }
 }
 
-void KTools::Curl::setRequestType(KEnums::CurlSettings::RequestType requType)
+void KTools::Curl::setRequestType(KTools::Enums::Curl::RequestType requType)
 {
     currRequestType = requType;
-    if (requType == KEnums::CurlSettings::RequestType::Get)
+    if (requType == KTools::Enums::Curl::RequestType::Get)
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_CUSTOMREQUEST, "GET");
         //curl_easy_setopt(gCurlHandle, CURLOPT_HTTPGET, 1L);
     }
-    else if (requType == KEnums::CurlSettings::RequestType::Post)
+    else if (requType == KTools::Enums::Curl::RequestType::Post)
     {
         curl_easy_setopt(gCurlHandle, CURLOPT_CUSTOMREQUEST, "POST");
         //curl_easy_setopt(gCurlHandle, CURLOPT_POST, 1L);

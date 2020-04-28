@@ -2,12 +2,12 @@
 
 MangakakalotApi::MangakakalotApi()
 {
-    setParserType(KEnums::Parsers::MangaKakalot);
+    setParserType(KTools::Enums::Parsers::MangaKakalot);
 }
 
 void MangakakalotApi::download()
 {
-    cc->currHeaderMode = KEnums::CurlSettings::HeaderMode::None;
+    cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
     cc->setOptions();
     QByteArray data = cc->request("https://mangakakalots.com/manga/" + mangaSystemName);
     KTools::HtmlAst::Object htmlAst = KTools::HtmlAst::Object();
@@ -76,5 +76,5 @@ void MangakakalotApi::download()
         }
     }
     writeInfoLog("Manga downloaded");
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::MangaKakalot::Download));
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::MangaKakalot::Download));
 }

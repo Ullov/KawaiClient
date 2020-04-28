@@ -17,7 +17,7 @@ ExhentaiApi::ExhentaiApi()
         "Cache-Control: no-cache"
     };
     this->cc->setHeader(chunk);
-    setParserType(KEnums::Parsers::ExHentai);
+    setParserType(KTools::Enums::Parsers::ExHentai);
     cc->setOptions();
 }
 
@@ -64,7 +64,7 @@ void ExhentaiApi::slotDownload()
     }
 
     writeInfoLog("Gallery downloaded.");
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::ExHentai::Download), QJsonObject());
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::ExHentai::Download), QJsonObject());
 }
 
 void ExhentaiApi::slotGetFrontPage()
@@ -95,7 +95,7 @@ void ExhentaiApi::slotGetFrontPage()
         tmpObj["sectionedInfo"] = getSectionedInfo(tmpHTag);
         galleriesInfoArr.append(tmpObj);
     }*/
-    endDownloadingFunction(static_cast<int>(KEnums::ParserModes::ExHentai::FrontPage), QJsonObject());
+    endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::ExHentai::FrontPage), QJsonObject());
 }
 
 QJsonObject ExhentaiApi::getGalleryInfo(KTools::HtmlAst::Object &htmlAst)

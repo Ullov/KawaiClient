@@ -20,7 +20,7 @@ public slots:
 
 public:
     // Start KTools::Curl
-    static void curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
+    static void curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType);
     // End KTools::Curl
 
 private:
@@ -32,7 +32,7 @@ signals:
     void optionsHandlerSignalParam(const QString pathToParam, const QVariant param);
     // End OptionsHandler
     // Start KTools::Curl
-    void curlProgressSignal(const QList<double> list, const qint64 millisecondsFromStart, const KEnums::Parsers downloaderType);
+    void curlProgressSignal(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType);
     // End KTools::Curl
 };
 
