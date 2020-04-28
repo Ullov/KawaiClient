@@ -126,7 +126,7 @@ QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
     QVector<QJsonObject> objects;
     pattern = "({\".+})+"; // =*({(\")(.)+})+
 
-    StringOperations::executeRegex(text, pattern, regexResult);
+    KTools::ExForString::executeRegex(text, pattern, regexResult);
     for (int i = 0; i < regexResult.size(); i++)
     {
         QString tmp = regexResult[i];

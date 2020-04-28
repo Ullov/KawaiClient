@@ -119,7 +119,7 @@ QJsonObject ExhentaiApi::getGalleryInfo(KTools::HtmlAst::Object &htmlAst)
     }
     hTag = htmlAst.rootTag->find(1).find(3).find(3).find(0).find(3); // id="gdr"
     info["peopleRatedCounter"] = hTag.find(0).find(0).find(2).find(0).getInnerContent(); // id="rating_count"
-    info["averageRating"] = StringOperations::getDoubleNumberFromString(hTag.find(0).find(1).find(0).getInnerContent())[0]; // id="rating_label"
+    info["averageRating"] = KTools::ExForString::getDoubleNumberFromString(hTag.find(0).find(1).find(0).getInnerContent())[0]; // id="rating_label"
     hTag = htmlAst.rootTag->find(1).find(3).find(3).find(1).find(0).find(0); // <div id="taglist"><table>
     info["sectionedInfo"] = getSectionedInfo(hTag);
     return info;

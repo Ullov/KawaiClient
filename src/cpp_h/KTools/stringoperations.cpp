@@ -1,8 +1,8 @@
 #include "stringoperations.h"
 
-StringOperations::StringOperations() {}
+KTools::ExForString::ExForString() {}
 
-void StringOperations::replace(QString &inp, const QVector<QString> &whatReplace, const QVector<QString> &onWhatReplace)
+void KTools::ExForString::replace(QString &inp, const QVector<QString> &whatReplace, const QVector<QString> &onWhatReplace)
 {
     std::string input = inp.toStdString();
     for (int i = 0; i < whatReplace.size(); i++)
@@ -17,7 +17,7 @@ void StringOperations::replace(QString &inp, const QVector<QString> &whatReplace
     inp = QString::fromStdString(input);
 }
 
-void StringOperations::replace(QByteArray &inp, const QVector<QByteArray> &whatReplace, const QVector<QByteArray> &onWhatReplace)
+void KTools::ExForString::replace(QByteArray &inp, const QVector<QByteArray> &whatReplace, const QVector<QByteArray> &onWhatReplace)
 {
     std::string input = inp.toStdString();
     for (int i = 0; i < whatReplace.size(); i++)
@@ -32,7 +32,7 @@ void StringOperations::replace(QByteArray &inp, const QVector<QByteArray> &whatR
     inp = QByteArray::fromStdString(input);
 }
 
-void StringOperations::deleteChars(QString &inp, const QVector<QString> &whatDelete)
+void KTools::ExForString::deleteChars(QString &inp, const QVector<QString> &whatDelete)
 {
     QVector<QString> voids;
     for (int i = 0; i < whatDelete.size(); i++)
@@ -40,7 +40,7 @@ void StringOperations::deleteChars(QString &inp, const QVector<QString> &whatDel
     replace(inp, whatDelete, voids);
 }
 
-void StringOperations::executeRegex(const QString &data, const QVector<QString> &pattens, QVector<QVector<QVector<QString>>> &regexResult)
+void KTools::ExForString::executeRegex(const QString &data, const QVector<QString> &pattens, QVector<QVector<QVector<QString>>> &regexResult)
 {
     regexResult.resize(pattens.size());
     for (int i = 0; i < pattens.size(); i++)
@@ -57,7 +57,7 @@ void StringOperations::executeRegex(const QString &data, const QVector<QString> 
     }
 }
 
-void StringOperations::executeRegex(const QString &data, const QString &pattern, QVector<QString> &result)
+void KTools::ExForString::executeRegex(const QString &data, const QString &pattern, QVector<QString> &result)
 {
     result.clear();
     QRegularExpression re(pattern);
@@ -69,7 +69,7 @@ void StringOperations::executeRegex(const QString &data, const QString &pattern,
     }
 }
 
-void StringOperations::executeRegex(const QString &data, const QString &pattern, QVector<double> &result)
+void KTools::ExForString::executeRegex(const QString &data, const QString &pattern, QVector<double> &result)
 {
     result.clear();
     QRegularExpression re(pattern);
@@ -81,7 +81,7 @@ void StringOperations::executeRegex(const QString &data, const QString &pattern,
     }
 }
 
-void StringOperations::executeRegex(const QString &data, const QString &pattern, QVector<qint64> &result)
+void KTools::ExForString::executeRegex(const QString &data, const QString &pattern, QVector<qint64> &result)
 {
     result.clear();
     QRegularExpression re(pattern);
@@ -93,14 +93,14 @@ void StringOperations::executeRegex(const QString &data, const QString &pattern,
     }
 }
 
-QVector<qint64> StringOperations::getIntegerNumberFromString(const QString &str)
+QVector<qint64> KTools::ExForString::getIntegerNumberFromString(const QString &str)
 {
     QVector<qint64> result;
     executeRegex(str, "(\\d+.\\d+)", result);
     return result;
 }
 
-QVector<double> StringOperations::getDoubleNumberFromString(const QString &str)
+QVector<double> KTools::ExForString::getDoubleNumberFromString(const QString &str)
 {
     QVector<double> result;
     executeRegex(str, "(\\d+[.,]\\d+|\\d+)", result);

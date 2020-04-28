@@ -211,21 +211,21 @@ void KTools::Converter::toNtfsCompatibleString(QString &data)
     QVector<QString> voids;
     for (int i = 0; i < wrongChars.size(); i++)
         voids.push_back("");
-    StringOperations::deleteChars(data, wrongChars);
+    ExForString::deleteChars(data, wrongChars);
 }
 
 void KTools::Converter::convertHtmlEntities(QString &inp)
 {
     QVector<QString> htmlEntities = {"&amp;", "&quot;", "&apos;", "&it;", "&gt;", "&nbsp;"};
     QVector<QString> rightSumbols = {"&", "\"", "'", "<", ">", " "};
-    StringOperations::replace(inp, htmlEntities, rightSumbols);
+    ExForString::replace(inp, htmlEntities, rightSumbols);
 }
 
 void KTools::Converter::convertHtmlEntities(QByteArray &inp)
 {
     QVector<QByteArray> htmlEntities = {"&amp;", "&quot;", "&apos;", "&it;", "&gt;", "&nbsp;"};
     QVector<QByteArray> rightSumbols = {"&", "\"", "'", "<", ">", " "};
-    StringOperations::replace(inp, htmlEntities, rightSumbols);
+    ExForString::replace(inp, htmlEntities, rightSumbols);
 }
 
 void KTools::Converter::convertHtmlHexCodes(QString &data)
@@ -233,7 +233,7 @@ void KTools::Converter::convertHtmlHexCodes(QString &data)
     QVector<QVector<QVector<QString>>> regexResult;
     QVector<QString> patterns;
     patterns.push_back("&#(\\d+);");
-    StringOperations::executeRegex(data, patterns, regexResult);
+    ExForString::executeRegex(data, patterns, regexResult);
     for (int i = 0; i < regexResult[0].size(); i++)
     {
         regexResult[0][i][1] = numberToUtf8(regexResult[0][i][1].toUShort());

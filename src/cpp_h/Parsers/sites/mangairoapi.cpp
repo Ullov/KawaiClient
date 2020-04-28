@@ -116,7 +116,7 @@ void MangairoApi::download()
         currUrl = tmpArr[i].toObject().value("link").toString();
         data = cc->performing(currUrl.toStdString().c_str());
         QVector<QString> regexResult1;
-        StringOperations::executeRegex(data, pattern, regexResult1);
+        KTools::ExForString::executeRegex(data, pattern, regexResult1);
 
         QString volume;
         QString name;

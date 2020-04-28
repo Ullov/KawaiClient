@@ -49,7 +49,7 @@ void VkApi::downloadPost()
     for (int j = 0; j < 2; j++)
     {
         regexResult.clear();
-        StringOperations::executeRegex(page, patterns, regexResult);
+        KTools::ExForString::executeRegex(page, patterns, regexResult);
         for (int i = 0; i < regexResult[0].size(); i++)
         {
             regexResult[0][i][1] = KTools::Converter::numberToUtf8(regexResult[0][i][1].toInt());
@@ -67,7 +67,7 @@ void VkApi::downloadPost()
     patterns.push_back("<a class=\"author\" href=\"([\\S]+)\" data-from-id=\"[\\S]+\">([^\\n]+)<\\/a>");
     patterns.push_back("<div class=\"wall_reply_text\">([^\\n]+)<\\/div><\\/div><\\/div>");
     patterns.push_back("<div class=\"reply_date\"><a class=\"wd_lnk\"  class=\"post_link\"  href=\"([\\S]+)\"  onclick=\"return showWiki\\({w: '[\\S]+', reply: '[\\S]+'}, false, event\\);\" ><span class=\"rel_date\">([^\\n]+)<\\/span><\\/a><\\/div>");
-    StringOperations::executeRegex(page, patterns, regexResult);
+    KTools::ExForString::executeRegex(page, patterns, regexResult);
 
     QVector<QJsonObject> object;
     QStringList artUrls;
