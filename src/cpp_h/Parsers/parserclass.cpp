@@ -1,18 +1,18 @@
 #include "parserclass.h"
 
-ParserClass::ParserClass()
+Parsers::ParserClass::ParserClass()
 {
     defExt = new KTools::FileIdentifier();
     cc = new KTools::Curl();
 }
 
-ParserClass::~ParserClass()
+Parsers::ParserClass::~ParserClass()
 {
     delete defExt;
     delete cc;
 }
 
-void ParserClass::recExtractJson(const QJsonObject &rootObject, QString offset, QString &data)
+void Parsers::ParserClass::recExtractJson(const QJsonObject &rootObject, QString offset, QString &data)
 {
     QString tmp;
     QStringList keysChain = rootObject.keys(); // Number; Null; Array; String; Object(aka array); Bool;
@@ -73,7 +73,7 @@ void ParserClass::recExtractJson(const QJsonObject &rootObject, QString offset, 
     offset.chop(1);
 }
 
-void ParserClass::writeJsonDataInFile(const QJsonObject &object, const QString &path, const QString &fileName)
+void Parsers::ParserClass::writeJsonDataInFile(const QJsonObject &object, const QString &path, const QString &fileName)
 {
     QString jData;
     jData = QString();
@@ -81,45 +81,45 @@ void ParserClass::writeJsonDataInFile(const QJsonObject &object, const QString &
     KTools::File::writeFile(jData.toUtf8(), path, fileName);
 }
 
-QJsonObject ParserClass::downloadJson(const QString url)
+QJsonObject Parsers::ParserClass::downloadJson(const QString url)
 {
     QByteArray result = cc->performing(url.toUtf8());
     QJsonObject object = KTools::Converter::convert<QString, QJsonObject>(result);
     return object;
 }
 
-void ParserClass::downloadAndWriteFile(const QString &url, const QString &path, const QString &fileName)
+void Parsers::ParserClass::downloadAndWriteFile(const QString &url, const QString &path, const QString &fileName)
 {
     QByteArray result = cc->performing(url.toUtf8());
     KTools::File::writeFile(result, path, fileName);
 }
 
-QJsonArray ParserClass::downloadJsonAsArray(const QString &url)
+QJsonArray Parsers::ParserClass::downloadJsonAsArray(const QString &url)
 {
     QByteArray result = cc->performing(url.toUtf8());
     QJsonArray arr = KTools::Converter::convert<QString, QJsonArray>(result);
     return arr;
 }
 
-void ParserClass::delay(const int &seconds)
+void Parsers::ParserClass::delay(const int &seconds)
 {
     std::this_thread::sleep_for(std::chrono::seconds(seconds));
 }
 
-void ParserClass::downloadAndWriteFileWithDefinedExtension(const QString &url, const QString &path, const QString &fileName)
+void Parsers::ParserClass::downloadAndWriteFileWithDefinedExtension(const QString &url, const QString &path, const QString &fileName)
 {
     QByteArray fileString = cc->performing(url.toUtf8());
     QString extension = defineExtension(fileString);
     KTools::File::writeFile(fileString, path, fileName + extension);
 }
 
-QString ParserClass::defineExtension(const QByteArray &file)
+QString Parsers::ParserClass::defineExtension(const QByteArray &file)
 {
     QStringList tmp = defExt->identifyFileFromString(file);
     return tmp[0];
 }
 
-QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
+QVector<QJsonObject> Parsers::ParserClass::extractJsonObjectFromText(const QString &text)
 {
     QString pattern;
     QVector<QString> regexResult;
@@ -137,12 +137,12 @@ QVector<QJsonObject> ParserClass::extractJsonObjectFromText(const QString &text)
     return objects;
 }
 
-void ParserClass::writeInfoLog(const QString &message)
+void Parsers::ParserClass::writeInfoLog(const QString &message)
 {
     KTools::Log::writeCustomLog(message, KTools::Options::parsersNames[parserType], KTools::Enums::LogType::Info, rootPath, logFile);
 }
 
-void ParserClass::setParserType(const KTools::Enums::Parsers type)
+void Parsers::ParserClass::setParserType(const KTools::Enums::Parsers type)
 {
     parserType = type;
     basePath = KTools::Options::rootProgramPath + '/' + KTools::Options::parsersWritePathes[type];
@@ -150,7 +150,7 @@ void ParserClass::setParserType(const KTools::Enums::Parsers type)
     cc->downloaderType = type;
 }
 
-void ParserClass::endDownloadingFunction(const int parserMode, const QJsonObject &data, const QVector<QByteArray> &binaryContent)
+void Parsers::ParserClass::endDownloadingFunction(const int parserMode, const QJsonObject &data, const QVector<QByteArray> &binaryContent)
 {
     QList<int> mode;
     mode.push_back(static_cast<int>(parserType));

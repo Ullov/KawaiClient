@@ -2,6 +2,7 @@
 #define MANGAKAKALOTAPI_H
 
 #include "../parserclass.h"
+#include "../../KTools/HtmlAstMaker/htmlobject.h"
 
 class MangakakalotApi : public ParserClass
 {

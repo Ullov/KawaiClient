@@ -37,8 +37,8 @@ int main(int argc, char *argv[])
     KawaiImageProvider *imgProvider = new KawaiImageProvider();
     FsHandler *fsExplorerHandle = new FsHandler();
 
-    apiHandler->logger = new KTools::Log();
-    apiHandler->options = options;
+    /*apiHandler->logger = */new KTools::Log();
+    //apiHandler->options = options;
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("parsers", &ParsersQmlInterface::obj);
     engine.rootContext()->setContextProperty("kTools", &KToolsQmlInterface::obj);

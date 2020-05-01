@@ -1,17 +1,7 @@
 #ifndef PARSERS_HANDLER_H
 #define PARSERS_HANDLER_H
 
-#include "sites/pixivapi.h"
-#include "sites/mangarockapi.h"
-#include "sites/exhentaiapi.h"
-#include "sites/mangadexapi.h"
-#include "sites/vkapi.h"
-#include "sites/mangairoapi.h"
-#include "sites/youtubeapi.h"
-#include "sites/twitterapi.h"
-#include "sites/ninehentaiapi.h"
-#include "sites/mangakakalotapi.h"
-#include "sites/nhentaidotcomapi.h"
+#include "../KTools/kenums.h"
 #include <QFuture>
 #include <QtConcurrent/QtConcurrent>
 
@@ -22,8 +12,8 @@ namespace Parsers
     public:
         Handler();
 
-        KTools::Log *logger;
-        KTools::Options *options;
+        //KTools::Log *logger;
+        //KTools::Options *options;
 
         static void slotStartDownloding(const QStringList &params, const QList<int> &mode);
 

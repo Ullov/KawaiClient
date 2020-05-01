@@ -1,5 +1,17 @@
 #include "apihandler.h"
 
+#include "sites/pixivapi.h"
+#include "sites/mangarockapi.h"
+#include "sites/exhentaiapi.h"
+#include "sites/mangadexapi.h"
+#include "sites/vkapi.h"
+#include "sites/mangairoapi.h"
+#include "sites/youtubeapi.h"
+#include "sites/twitterapi.h"
+#include "sites/ninehentaiapi.h"
+#include "sites/mangakakalotapi.h"
+#include "sites/nhentaidotcomapi.h"
+
 Parsers::Handler::Handler() {}
 
 void Parsers::Handler::slotStartDownloding(const QStringList &params, const QList<int> &mode)
