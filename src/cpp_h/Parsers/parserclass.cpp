@@ -155,5 +155,5 @@ void ParserClass::endDownloadingFunction(const int parserMode, const QJsonObject
     QList<int> mode;
     mode.push_back(static_cast<int>(parserType));
     mode.push_back(parserMode);
-    emit downloadingFinished(mode, data, binaryContent);
+    ParsersQmlInterface::obj.emitParserClassDownloadingFinished(mode, data, binaryContent);
 }

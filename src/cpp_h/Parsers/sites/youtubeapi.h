@@ -5,13 +5,12 @@
 
 class YoutubeApi : public ParserClass
 {
-    Q_OBJECT
 public:
     YoutubeApi();
 
     QString videoUrl;
 
-public slots:
+//public slots:
     void download();
 
 private:

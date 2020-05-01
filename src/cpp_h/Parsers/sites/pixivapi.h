@@ -5,7 +5,6 @@
 
 class PixivApi : public ParserClass
 {
-    Q_OBJECT
 public:
     PixivApi();
     ~PixivApi();
@@ -15,7 +14,7 @@ public:
     QJsonObject userData;
     QJsonObject userAllData;
 
-public slots:
+//public slots:
     void download();
     void viewUser();
     void getRecomendedUsers();
@@ -27,8 +26,8 @@ private:
     QByteArray novelContent;
     QVector<QByteArray> novelCoverChunk;
 
-signals:
-    void viewDataDownloaded(QJsonObject userData, QJsonObject userAllData, QStringList imagesFromApi);
+//signals:
+//    void viewDataDownloaded(QJsonObject userData, QJsonObject userAllData, QStringList imagesFromApi);
 };
 
 #endif // PIXIVAPI_H

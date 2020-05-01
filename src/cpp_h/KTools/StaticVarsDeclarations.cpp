@@ -3,6 +3,8 @@
 #include "curlclass.h"
 #include "kenums.h"
 #include "ktoolsqmlinterface.h"
+#include "../Parsers/parsersqmlinterface.h"
+#include "fileidentifier.h"
 
 // Start OptionsHandler
 QString KTools::Options::configFile = "config.txt";
@@ -61,49 +63,9 @@ QString KTools::Curl::fullCacertPath = cacertPath + '/' + cacertFileName;
 QString KTools::Curl::pathToCacertInQrc = ":/resources/other/cacert.pem";
 QString KTools::Curl::cookiePath = "";
 // End CurlClass
-// Start KEnusString
-/*QMap<KEnums::Parsers, QString> keParsers = {
-    {KEnums::Parsers::ExHentai, "ExHentai"},
-    {KEnums::Parsers::MangaDex, "MangaDex"},
-    {KEnums::Parsers::MangaIro, "MangaIro"},
-    {KEnums::Parsers::NHentaiDotNet, "NHentai"},
-    {KEnums::Parsers::Pixiv, "Pixiv"},
-    {KEnums::Parsers::Twitter, "Twitter"},
-    {KEnums::Parsers::VK, "VK"},
-    {KEnums::Parsers::YouTube, "YouTube"},
-};
-QMap<KEnums::LogType, QString> keLogType = {
-    {KEnums::LogType::Info, "Info"},
-    {KEnums::LogType::Debug, "Debug"},
-    {KEnums::LogType::Error, "Error"},
-    {KEnums::LogType::Custom, "Custom"}
-};
-QMap<KEnums::ParserModes::ExHentai, QString> pmExHentai = {
-    {KEnums::ParserModes::ExHentai::Download, "Download"},
-    {KEnums::ParserModes::ExHentai::FrontPage, "FrontPage"}
-};
-QMap<KEnums::ParserModes::MangaDex, QString> pmMangaDex = {
-    {KEnums::ParserModes::MangaDex::Download, "Download"}
-};
-QMap<KEnums::ParserModes::MangaIro, QString> pmMangaIro = {
-    {KEnums::ParserModes::MangaIro::Download, "Download"}
-};
-QMap<KEnums::ParserModes::NHentaiDotNet, QString> pmNHentai = {
-    {KEnums::ParserModes::NHentaiDotNet::Download, "Download"}
-};
-QMap<KEnums::ParserModes::Pixiv, QString> pmPixiv = {
-    {KEnums::ParserModes::Pixiv::Download, "Download"}
-};
-QMap<KEnums::ParserModes::Twitter, QString> pmTwitter = {
-    {KEnums::ParserModes::Twitter::Download, "Download"}
-};
-QMap<KEnums::ParserModes::VK, QString> pmVK = {
-    {KEnums::ParserModes::VK::Download, "Download"}
-};
-QMap<KEnums::ParserModes::YouTube, QString> pmYouTube = {
-    {KEnums::ParserModes::YouTube::Download, "Download"}
-};*/
-// End KEnusString
 // Start KTolsQmlInterface
 KToolsQmlInterface KToolsQmlInterface::obj = KToolsQmlInterface();
 // End KTolsQmlInterface
+// Start ParsersQmlInterface
+ParsersQmlInterface ParsersQmlInterface::obj = ParsersQmlInterface();
+// End ParsersQmlInterface

@@ -5,14 +5,13 @@
 
 class ExhentaiApi : public ParserClass
 {
-    Q_OBJECT
 public:
     ExhentaiApi();
 
     QString galleryCode;
     int numberNeddedPage;
 
-public slots:
+//public slots:
     void slotDownload();
     void slotGetFrontPage();
 

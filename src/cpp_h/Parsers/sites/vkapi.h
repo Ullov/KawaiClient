@@ -9,13 +9,12 @@
 
 class VkApi : public ParserClass
 {
-    Q_OBJECT
 public:
     VkApi();
 
     QString postUrl;
 
-public slots:
+//public slots:
     void downloadPost();
 };
 

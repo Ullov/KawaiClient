@@ -5,13 +5,12 @@
 
 class NinehentaiApi : public ParserClass
 {
-    Q_OBJECT
 public:
     NinehentaiApi();
 
     QString galleryId;
 
-public slots:
+//public slots:
     void download();
 
 private:

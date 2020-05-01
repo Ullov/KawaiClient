@@ -5,14 +5,13 @@
 
 class NhentaiApi : public ParserClass
 {
-    Q_OBJECT
 public:
     NhentaiApi();
     ~NhentaiApi();
 
     QString id;
 
-public slots:
+//public slots:
     void doWork();
 };
 

@@ -9,6 +9,7 @@
 #include "KawaiFileFormat/kfffs.h"
 #include "FsExplorer/fshandler.h"
 #include "KTools/ktoolsqmlinterface.h"
+#include "Parsers/parsersqmlinterface.h"
 #include <QQmlContext>
 #include <QVariant>
 #include <QTextCodec>
@@ -39,8 +40,9 @@ int main(int argc, char *argv[])
     apiHandler->logger = new KTools::Log();
     apiHandler->options = options;
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("apiHandler", apiHandler);
-    engine.rootContext()->setContextProperty("kTools", new KToolsQmlInterface());
+    //engine.rootContext()->setContextProperty("apiHandler", apiHandler);
+    engine.rootContext()->setContextProperty("parsers", &ParsersQmlInterface::obj);
+    engine.rootContext()->setContextProperty("kTools", &KToolsQmlInterface::obj);
     engine.rootContext()->setContextProperty("fsExplorerHandle", fsExplorerHandle);
     engine.addImageProvider("kimage", imgProvider);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));

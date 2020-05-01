@@ -5,13 +5,12 @@
 
 class TwitterApi : public ParserClass
 {
-    Q_OBJECT
 public:
     TwitterApi();
 
     QString userName;
 
-public slots:
+//public slots:
     void download();
 };
 

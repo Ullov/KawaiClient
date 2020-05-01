@@ -5,13 +5,12 @@
 
 class NHentaiDotComApi : public ParserClass
 {
-    Q_OBJECT
 public:
     NHentaiDotComApi();
 
     QString slugName;
 
-public slots:
+//public slots:
     void download();
 };
 

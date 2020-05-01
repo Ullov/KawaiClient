@@ -18,10 +18,10 @@
 #include "../KTools/HtmlAstMaker/htmlobject.h"
 #include "../KTools/optionshandler.h"
 #include "../KTools/kenums.h"
+#include "parsersqmlinterface.h"
 
-class ParserClass : public QObject
+class ParserClass
 {
-    Q_OBJECT
 public:
     ParserClass();
     ~ParserClass();
@@ -58,9 +58,9 @@ protected:
     QString basePath;
     QString parserName;
 
-signals:
-    void downloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryContent);
-    void logMessage(const QString message);
+//signals:
+    //void downloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryContent);
+    //void logMessage(const QString message);
 };
 
 #endif // PARSERCLASS_H

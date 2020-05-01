@@ -23,7 +23,6 @@ public:
     static void curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType);
     // End KTools::Curl
 
-private:
     static KToolsQmlInterface obj;
 
 signals:

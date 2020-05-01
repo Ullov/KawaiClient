@@ -5,13 +5,12 @@
 
 class MangairoApi : public ParserClass
 {
-    Q_OBJECT
 public:
     MangairoApi();
 
     QString mangaId;
 
-public slots:
+//public slots:
     void download();
 };
 

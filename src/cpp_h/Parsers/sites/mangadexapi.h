@@ -5,7 +5,6 @@
 
 class MangadexApi : public ParserClass
 {
-    Q_OBJECT
 public:
     MangadexApi();
 
@@ -14,7 +13,7 @@ public:
     QString ruDownload; // bool
     QString otherDownload; // bool
 
-public slots:
+//public slots:
     void download();
 };
 

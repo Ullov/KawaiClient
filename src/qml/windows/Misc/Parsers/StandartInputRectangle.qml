@@ -67,12 +67,12 @@ Rectangle {
         width: 20
     }
     Connections {
-        target: apiHandler
-        onSignalDownloadingStarted: {
+        target: parsers
+        onApiHandlerSignalDownloadingStarted: {
             if (parserType === mode[0] && parserMode === mode[1])
                 statusRectangle.color = "#ff0000"
         }
-        onSignalDownloadingFinished: {
+        onParserClassDownloadingFinished: {
             if (parserType === mode[0] && parserMode === mode[1])
                 statusRectangle.color = "#00ff08"
         }

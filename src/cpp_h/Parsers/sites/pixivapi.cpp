@@ -224,7 +224,7 @@ void PixivApi::viewUser()
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId + "/profile/all");
     userAllData = object;
     //imagesFromApi.append(downloadAllUrls(object, *cc));
-    emit viewDataDownloaded(userData, userAllData, imagesFromApi);
+    //emit viewDataDownloaded(userData, userAllData, imagesFromApi);
 }
 
 /*

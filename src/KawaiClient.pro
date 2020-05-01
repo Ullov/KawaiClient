@@ -18,6 +18,7 @@ SOURCES += \
     cpp_h/KTools/archiverw.cpp \
     cpp_h/KTools/ktoolsqmlinterface.cpp \
     cpp_h/KawaiFileFormat/kffstream.cpp \
+    cpp_h/Parsers/parsersqmlinterface.cpp \
     cpp_h/Parsers/sites/mangakakalotapi.cpp \
     cpp_h/Parsers/sites/nhentaidotcomapi.cpp \
     cpp_h/main.cpp \
@@ -95,6 +96,7 @@ HEADERS += \
     cpp_h/KawaiFileFormat/kffstream.h \
     cpp_h/Parsers/apihandler.h \
     cpp_h/Parsers/parserclass.h \
+    cpp_h/Parsers/parsersqmlinterface.h \
     cpp_h/Parsers/sites/exhentaiapi.h \
     cpp_h/Parsers/sites/mangadexapi.h \
     cpp_h/Parsers/sites/mangairoapi.h \
@@ -119,4 +121,3 @@ INCLUDEPATH += $$PWD/libs/karchive-5.69.0/include
 DEPENDPATH += $$PWD/libs/karchive-5.69.0/include
 
 QMAKE_CXXFLAGS += -O3
-
