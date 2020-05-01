@@ -1,8 +1,8 @@
 #include "apihandler.h"
 
-ApiHandler::ApiHandler() {}
+Parsers::Handler::Handler() {}
 
-void ApiHandler::slotStartDownloding(const QStringList &params, const QList<int> &mode)
+void Parsers::Handler::slotStartDownloding(const QStringList &params, const QList<int> &mode)
 {
     //emit ParsersQmlInterface::obj.apiHandlerSignalDownloadingStarted(mode);
     KTools::Enums::Parsers parserType = static_cast<KTools::Enums::Parsers>(mode[0]);
@@ -58,7 +58,7 @@ void ApiHandler::slotStartDownloding(const QStringList &params, const QList<int>
     }
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::ExHentai parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::ExHentai parserMode)
 {
     ExhentaiApi *api = new ExhentaiApi();
     api->galleryCode = params[0];
@@ -71,16 +71,18 @@ void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums
         api->numberNeddedPage = params[1].toInt();
         api->slotGetFrontPage();
     }
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Pixiv parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Pixiv parserMode)
 {
     PixivApi *api = new PixivApi();
     api->userId = params[0];
     api->download();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaDex parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaDex parserMode)
 {
     MangadexApi *api = new MangadexApi();
     api->mangaId = params[0];
@@ -88,53 +90,61 @@ void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums
     api->ruDownload = params[2];
     api->otherDownload = params[3];
     api->download();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::VK parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::VK parserMode)
 {
     VkApi *api = new VkApi();
     api->postUrl = params[0];
     api->downloadPost();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaIro parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaIro parserMode)
 {
     MangairoApi *api = new MangairoApi();
     api->mangaId = params[0];
     api->download();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::YouTube parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::YouTube parserMode)
 {
     YoutubeApi *api = new YoutubeApi();
     api->videoUrl = params[0];
     api->download();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Twitter parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Twitter parserMode)
 {
     TwitterApi *api = new TwitterApi();
     api->userName = params[0];
     api->download();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NineHentai parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NineHentai parserMode)
 {
     NinehentaiApi *api = new NinehentaiApi();
     api->galleryId = params[0];
     api->download();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaKakalot parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaKakalot parserMode)
 {
     MangakakalotApi *api = new MangakakalotApi();
     api->mangaSystemName = params[0];
     api->download();
+    delete api;
 }
 
-void ApiHandler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NHentaiDotCom parserMode)
+void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NHentaiDotCom parserMode)
 {
     NHentaiDotComApi *api = new NHentaiDotComApi();
     api->slugName = params[0];
     api->download();
+    delete api;
 }

@@ -57,10 +57,6 @@ protected:
     const QString logFile = "log.txt";
     QString basePath;
     QString parserName;
-
-//signals:
-    //void downloadingFinished(const QList<int> mode, const QJsonObject data, const QVector<QByteArray> binaryContent);
-    //void logMessage(const QString message);
 };
 
 #endif // PARSERCLASS_H

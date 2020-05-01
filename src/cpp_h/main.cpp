@@ -33,14 +33,13 @@ int main(int argc, char *argv[])
     curl_global_init(CURL_GLOBAL_ALL);
 
     KTools::Options *options = new KTools::Options();
-    ApiHandler *apiHandler = new ApiHandler();
+    Parsers::Handler *apiHandler = new Parsers::Handler();
     KawaiImageProvider *imgProvider = new KawaiImageProvider();
     FsHandler *fsExplorerHandle = new FsHandler();
 
     apiHandler->logger = new KTools::Log();
     apiHandler->options = options;
     QQmlApplicationEngine engine;
-    //engine.rootContext()->setContextProperty("apiHandler", apiHandler);
     engine.rootContext()->setContextProperty("parsers", &ParsersQmlInterface::obj);
     engine.rootContext()->setContextProperty("kTools", &KToolsQmlInterface::obj);
     engine.rootContext()->setContextProperty("fsExplorerHandle", fsExplorerHandle);
