@@ -1,4 +1,4 @@
-#include "nhentaiapi.h"
+#include "nhentai.h"
 
 Parsers::Sites::NHentai::NHentai() { }
 

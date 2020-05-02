@@ -1,4 +1,4 @@
-#include "nhentaidotcomapi.h"
+#include "nhentaidotcom.h"
 
 Parsers::Sites::NHentaiDotCom::NHentaiDotCom()
 {

@@ -1,4 +1,4 @@
-#include "twitterapi.h"
+#include "twitter.h"
 
 Parsers::Sites::Twitter::Twitter() {}
 

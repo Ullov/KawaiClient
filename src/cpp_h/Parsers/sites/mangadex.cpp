@@ -1,4 +1,4 @@
-#include "mangadexapi.h"
+#include "mangadex.h"
 
 Parsers::Sites::MangaDex::MangaDex() {
     setParserType(KTools::Enums::Parsers::MangaDex);

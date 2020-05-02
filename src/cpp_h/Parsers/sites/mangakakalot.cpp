@@ -1,4 +1,4 @@
-#include "mangakakalotapi.h"
+#include "mangakakalot.h"
 
 Parsers::Sites::MangaKakalot::MangaKakalot()
 {

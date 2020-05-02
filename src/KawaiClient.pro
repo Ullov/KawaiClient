@@ -19,8 +19,8 @@ SOURCES += \
     cpp_h/KTools/ktoolsqmlinterface.cpp \
     cpp_h/KawaiFileFormat/kffstream.cpp \
     cpp_h/Parsers/parsersqmlinterface.cpp \
-    cpp_h/Parsers/sites/mangakakalotapi.cpp \
-    cpp_h/Parsers/sites/nhentaidotcomapi.cpp \
+    cpp_h/Parsers/sites/mangakakalot.cpp \
+    cpp_h/Parsers/sites/nhentaidotcom.cpp \
     cpp_h/main.cpp \
     cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
     cpp_h/KTools/HtmlAstMaker/htmltag.cpp \
@@ -42,18 +42,18 @@ SOURCES += \
     cpp_h/KTools/nativefs.cpp \
     cpp_h/KawaiFileFormat/kawaifileformat.cpp \
     cpp_h/KawaiFileFormat/kfffile.cpp \
-    cpp_h/Parsers/apihandler.cpp \
+    cpp_h/Parsers/handler.cpp \
     cpp_h/Parsers/parserclass.cpp \
-    cpp_h/Parsers/sites/exhentaiapi.cpp \
-    cpp_h/Parsers/sites/mangadexapi.cpp \
-    cpp_h/Parsers/sites/mangairoapi.cpp \
+    cpp_h/Parsers/sites/exhentai.cpp \
+    cpp_h/Parsers/sites/mangadex.cpp \
+    cpp_h/Parsers/sites/mangairo.cpp \
     #cpp_h/Parsers/sites/mangarockapi.cpp \
-    cpp_h/Parsers/sites/nhentaiapi.cpp \
-    cpp_h/Parsers/sites/ninehentaiapi.cpp \
-    cpp_h/Parsers/sites/pixivapi.cpp \
-    cpp_h/Parsers/sites/twitterapi.cpp \
-    cpp_h/Parsers/sites/vkapi.cpp \
-    cpp_h/Parsers/sites/youtubeapi.cpp \
+    cpp_h/Parsers/sites/nhentai.cpp \
+    cpp_h/Parsers/sites/ninehentai.cpp \
+    cpp_h/Parsers/sites/pixiv.cpp \
+    cpp_h/Parsers/sites/twitter.cpp \
+    cpp_h/Parsers/sites/vk.cpp \
+    cpp_h/Parsers/sites/youtube.cpp \
 
 RESOURCES += qml.qrc
 
@@ -94,21 +94,21 @@ HEADERS += \
     cpp_h/KawaiFileFormat/kawaifileformat.h \
     cpp_h/KawaiFileFormat/kfffile.h \
     cpp_h/KawaiFileFormat/kffstream.h \
-    cpp_h/Parsers/apihandler.h \
+    cpp_h/Parsers/handler.h \
     cpp_h/Parsers/parserclass.h \
     cpp_h/Parsers/parsersqmlinterface.h \
-    cpp_h/Parsers/sites/exhentaiapi.h \
-    cpp_h/Parsers/sites/mangadexapi.h \
-    cpp_h/Parsers/sites/mangairoapi.h \
-    cpp_h/Parsers/sites/mangakakalotapi.h \
+    cpp_h/Parsers/sites/exhentai.h \
+    cpp_h/Parsers/sites/mangadex.h \
+    cpp_h/Parsers/sites/mangairo.h \
+    cpp_h/Parsers/sites/mangakakalot.h \
     #cpp_h/Parsers/sites/mangarockapi.h \
-    cpp_h/Parsers/sites/nhentaiapi.h \
-    cpp_h/Parsers/sites/nhentaidotcomapi.h \
-    cpp_h/Parsers/sites/ninehentaiapi.h \
-    cpp_h/Parsers/sites/pixivapi.h \
-    cpp_h/Parsers/sites/twitterapi.h \
-    cpp_h/Parsers/sites/vkapi.h \
-    cpp_h/Parsers/sites/youtubeapi.h
+    cpp_h/Parsers/sites/nhentai.h \
+    cpp_h/Parsers/sites/nhentaidotcom.h \
+    cpp_h/Parsers/sites/ninehentai.h \
+    cpp_h/Parsers/sites/pixiv.h \
+    cpp_h/Parsers/sites/twitter.h \
+    cpp_h/Parsers/sites/vk.h \
+    cpp_h/Parsers/sites/youtube.h
 
 #Curl
 LIBS += -L$$PWD/libs/curl-x64/lib/dll/ -llibcurl.dll

@@ -1,4 +1,4 @@
-#include "mangairoapi.h"
+#include "mangairo.h"
 
 Parsers::Sites::MangaIro::MangaIro()
 {

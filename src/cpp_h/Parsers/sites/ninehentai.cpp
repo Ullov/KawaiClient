@@ -1,4 +1,4 @@
-#include "ninehentaiapi.h"
+#include "ninehentai.h"
 
 Parsers::Sites::NineHentai::NineHentai()
 {

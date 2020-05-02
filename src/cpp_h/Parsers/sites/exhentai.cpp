@@ -1,4 +1,4 @@
-#include "exhentaiapi.h"
+#include "exhentai.h"
 
 Parsers::Sites::ExHentai::ExHentai()
 {

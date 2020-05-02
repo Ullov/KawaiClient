@@ -1,4 +1,4 @@
-#include "pixivapi.h"
+#include "pixiv.h"
 
 Parsers::Sites::Pixiv::Pixiv()
 {
