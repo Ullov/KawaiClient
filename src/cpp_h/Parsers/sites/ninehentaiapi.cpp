@@ -1,11 +1,11 @@
 #include "ninehentaiapi.h"
 
-NinehentaiApi::NinehentaiApi()
+Parsers::Sites::NineHentai::NineHentai()
 {
     setParserType(KTools::Enums::Parsers::NineHentai);
 }
 
-void NinehentaiApi::download()
+void Parsers::Sites::NineHentai::download()
 {
     QMap<QString, QString> hea = {
         {"Host", "9hentai.com"},

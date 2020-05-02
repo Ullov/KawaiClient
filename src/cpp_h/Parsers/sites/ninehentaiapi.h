@@ -1,26 +1,28 @@
-#ifndef NINEHENTAIAPI_H
-#define NINEHENTAIAPI_H
+#ifndef PARSERS_SITES_NINEHENTAI_H
+#define PARSERS_SITES_NINEHENTAI_H
 
 #include "../parserclass.h"
 
-class NinehentaiApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    NinehentaiApi();
+    class NineHentai : public Parsers::ParserClass
+    {
+    public:
+        NineHentai();
 
-    QString galleryId;
+        QString galleryId;
 
-//public slots:
-    void download();
+        void download();
 
-private:
-    enum class sortType {
-        Newest = 0,
-        PopularRightnow = 1,
-        MostFapped = 2,
-        MostViewed = 3,
-        ByTitle = 4
+    private:
+        enum class sortType {
+            Newest = 0,
+            PopularRightnow = 1,
+            MostFapped = 2,
+            MostViewed = 3,
+            ByTitle = 4
+        };
     };
-};
+}
 
-#endif // NINEHENTAIAPI_H
+#endif // PARSERS_SITES_NINEHENTAI_H

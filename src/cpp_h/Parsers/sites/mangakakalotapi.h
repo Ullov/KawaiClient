@@ -1,17 +1,19 @@
-#ifndef MANGAKAKALOTAPI_H
-#define MANGAKAKALOTAPI_H
+#ifndef PARSERS_SITES_MANGAKAKALOT_H
+#define PARSERS_SITES_MANGAKAKALOT_H
 
 #include "../parserclass.h"
 
-class MangakakalotApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    MangakakalotApi();
+    class MangaKakalot : public Parsers::ParserClass
+    {
+    public:
+        MangaKakalot();
 
-    QString mangaSystemName;
+        QString mangaSystemName;
 
-//public slots:
-    void download();
-};
+        void download();
+    };
+}
 
-#endif // MANGAKAKALOTAPI_H
+#endif // PARSERS_SITES_MANGAKAKALOT_H

@@ -1,31 +1,33 @@
-#ifndef EXHENTAIAPI_H
-#define EXHENTAIAPI_H
+#ifndef PARSERS_SITES_EXHENTAI_H
+#define PARSERS_SITES_EXHENTAI_H
 
 #include "../parserclass.h"
 
-class ExhentaiApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    ExhentaiApi();
+    class ExHentai : public Parsers::ParserClass
+    {
+    public:
+        ExHentai();
 
-    QString galleryCode;
-    int numberNeddedPage;
+        QString galleryCode;
+        int numberNeddedPage;
 
-//public slots:
-    void slotDownload();
-    void slotGetFrontPage();
+        void slotDownload();
+        void slotGetFrontPage();
 
 
-private:
-    // variables
-    QString galleryUrl;
+    private:
+        // variables
+        QString galleryUrl;
 
-    // functions
-    QJsonObject getGalleryInfo(KTools::HtmlAst::Object &htmlAst);
-    QJsonArray getComments(KTools::HtmlAst::Object &htmlAst);
-    QJsonArray getLinksToPages(KTools::HtmlAst::Object &firstPageAst);
-    void getPageLinksFromDiv(KTools::HtmlAst::Tag &hTag, QJsonArray &linksToPages);
-    QJsonObject getSectionedInfo(KTools::HtmlAst::Tag &hTag);
-};
+        // functions
+        QJsonObject getGalleryInfo(KTools::HtmlAst::Object &htmlAst);
+        QJsonArray getComments(KTools::HtmlAst::Object &htmlAst);
+        QJsonArray getLinksToPages(KTools::HtmlAst::Object &firstPageAst);
+        void getPageLinksFromDiv(KTools::HtmlAst::Tag &hTag, QJsonArray &linksToPages);
+        QJsonObject getSectionedInfo(KTools::HtmlAst::Tag &hTag);
+    };
+}
 
-#endif // EXHENTAIAPI_H
+#endif // PARSERS_SITES_EXHENTAI_H

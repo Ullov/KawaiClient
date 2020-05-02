@@ -1,18 +1,20 @@
-#ifndef NHENTAIAPI_H
-#define NHENTAIAPI_H
+#ifndef PARSERS_SITES_NHENTAI_H
+#define PARSERS_SITES_NHENTAI_H
 
 #include "../parserclass.h"
 
-class NhentaiApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    NhentaiApi();
-    ~NhentaiApi();
+    class NHentai : public Parsers::ParserClass
+    {
+    public:
+        NHentai();
+        ~NHentai();
 
-    QString id;
+        QString id;
 
-//public slots:
-    void doWork();
-};
+        void doWork();
+    };
+}
 
-#endif // NHENTAIAPI_H
+#endif // PARSERS_SITES_NHENTAI_H

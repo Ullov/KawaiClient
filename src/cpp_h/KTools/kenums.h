@@ -131,7 +131,7 @@ namespace KTools::Enums
         Q_ENUM_NS(RequestType)
         Q_ENUM_NS(CookieMode)
         Q_ENUM_NS(HeaderMode)
-        static void registerTypesForQml()
+        inline void registerTypesForQml()
         {
             qmlRegisterUncreatableMetaObject(staticMetaObject, "KEnums", 1, 0, "CurlSettings", "Is enum");
             qRegisterMetaType<RequestType>("CurlSettingsRequestType");
@@ -140,7 +140,7 @@ namespace KTools::Enums
             qRegisterMetaType<SetHeaderMode>("CurlSettingsSetHeaderMode");
         }
     }
-    static void registerTypesForQml()
+    inline void registerTypesForQml()
     {
         qmlRegisterUncreatableMetaObject(staticMetaObject, "KEnums", 1, 0, "KEnums", "Is enum");
         qRegisterMetaType<Parsers>("KEnumParsers");
@@ -149,20 +149,5 @@ namespace KTools::Enums
         ParserModes::registerTypesForQml();
     }
 };
-/*class KEnusString
-{
-public:
-    static QMap<KEnums::Parsers, QString> keParsers;
-    static QMap<KEnums::LogType, QString> keLogType;
-
-    static QMap<KEnums::ParserModes::ExHentai, QString> pmExHentai;
-    static QMap<KEnums::ParserModes::MangaDex, QString> pmMangaDex;
-    static QMap<KEnums::ParserModes::MangaIro, QString> pmMangaIro;
-    static QMap<KEnums::ParserModes::NHentaiDotNet, QString> pmNHentai;
-    static QMap<KEnums::ParserModes::Pixiv, QString> pmPixiv;
-    static QMap<KEnums::ParserModes::Twitter, QString> pmTwitter;
-    static QMap<KEnums::ParserModes::VK, QString> pmVK;
-    static QMap<KEnums::ParserModes::YouTube, QString> pmYouTube;
-};*/
 
 #endif // KTOOLS_ENUMS_H

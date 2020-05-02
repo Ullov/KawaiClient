@@ -1,11 +1,11 @@
 #include "mangadexapi.h"
 
-MangadexApi::MangadexApi() {
+Parsers::Sites::MangaDex::MangaDex() {
     setParserType(KTools::Enums::Parsers::MangaDex);
 }
 
 
-void MangadexApi::download()
+void Parsers::Sites::MangaDex::download()
 {
     chunk = {
         "Host: mangadex.org",

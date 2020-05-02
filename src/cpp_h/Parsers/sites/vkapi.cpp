@@ -1,8 +1,8 @@
 #include "vkapi.h"
 
-VkApi::VkApi() {}
+Parsers::Sites::Vk::Vk() {}
 
-void VkApi::downloadPost()
+void Parsers::Sites::Vk::downloadPost()
 {
     chunk = {
         "Host: vk.com",

@@ -1,10 +1,10 @@
 #include "nhentaiapi.h"
 
-NhentaiApi::NhentaiApi() { }
+Parsers::Sites::NHentai::NHentai() { }
 
-NhentaiApi::~NhentaiApi() { }
+Parsers::Sites::NHentai::~NHentai() { }
 
-void NhentaiApi::doWork()
+void Parsers::Sites::NHentai::doWork()
 {
     chunk = {
         "Host: nhentai.net",

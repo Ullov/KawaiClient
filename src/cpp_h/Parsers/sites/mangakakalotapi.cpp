@@ -1,11 +1,11 @@
 #include "mangakakalotapi.h"
 
-MangakakalotApi::MangakakalotApi()
+Parsers::Sites::MangaKakalot::MangaKakalot()
 {
     setParserType(KTools::Enums::Parsers::MangaKakalot);
 }
 
-void MangakakalotApi::download()
+void Parsers::Sites::MangaKakalot::download()
 {
     cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
     cc->setOptions();

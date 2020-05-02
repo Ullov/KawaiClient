@@ -1,17 +1,19 @@
-#ifndef MANGAIROAPI_H
-#define MANGAIROAPI_H
+#ifndef PARSERS_SITES_MANGAIRO_H
+#define PARSERS_SITES_MANGAIRO_H
 
 #include "../parserclass.h"
 
-class MangairoApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    MangairoApi();
+    class MangaIro : public Parsers::ParserClass
+    {
+    public:
+        MangaIro();
 
-    QString mangaId;
+        QString mangaId;
 
-//public slots:
-    void download();
-};
+        void download();
+    };
+}
 
-#endif // MANGAIROAPI_H
+#endif // PARSERS_SITES_MANGAIRO_H

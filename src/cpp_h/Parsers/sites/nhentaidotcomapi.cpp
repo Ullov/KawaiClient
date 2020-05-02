@@ -1,11 +1,11 @@
 #include "nhentaidotcomapi.h"
 
-NHentaiDotComApi::NHentaiDotComApi()
+Parsers::Sites::NHentaiDotCom::NHentaiDotCom()
 {
     setParserType(KTools::Enums::Parsers::NHentaiDotCom);
 }
 
-void NHentaiDotComApi::download()
+void Parsers::Sites::NHentaiDotCom::download()
 {
     cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
     cc->setOptions();

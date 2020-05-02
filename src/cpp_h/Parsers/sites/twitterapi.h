@@ -1,17 +1,19 @@
-#ifndef TWITTERAPI_H
-#define TWITTERAPI_H
+#ifndef PARSERS_SITES_TWITTER_H
+#define PARSERS_SITES_TWITTER_H
 
 #include "../parserclass.h"
 
-class TwitterApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    TwitterApi();
+    class Twitter : public Parsers::ParserClass
+    {
+    public:
+        Twitter();
 
-    QString userName;
+        QString userName;
 
-//public slots:
-    void download();
-};
+        void download();
+    };
+}
 
-#endif // TWITTERAPI_H
+#endif // PARSERS_SITES_TWITTER_H

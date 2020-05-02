@@ -1,8 +1,8 @@
 #include "twitterapi.h"
 
-TwitterApi::TwitterApi() {}
+Parsers::Sites::Twitter::Twitter() {}
 
-void TwitterApi::download()
+void Parsers::Sites::Twitter::download()
 {
     chunk = {
         "Host: twitter.com",

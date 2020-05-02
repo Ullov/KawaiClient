@@ -1,11 +1,11 @@
 #include "youtubeapi.h"
 
-YoutubeApi::YoutubeApi()
+Parsers::Sites::YouTube::YouTube()
 {
     setParserType(KTools::Enums::Parsers::YouTube);
 }
 
-void YoutubeApi::download()
+void Parsers::Sites::YouTube::download()
 {
     chunk = {
         //"Host: www.youtube.com",
@@ -57,7 +57,7 @@ void YoutubeApi::download()
 }
 
 
-QJsonObject YoutubeApi::getParamsToJsonObject(const QString &data)
+QJsonObject Parsers::Sites::YouTube::getParamsToJsonObject(const QString &data)
 {
     QList<QString> tmp = data.split('&');
     QVector<QList<QString>> videoInfo;

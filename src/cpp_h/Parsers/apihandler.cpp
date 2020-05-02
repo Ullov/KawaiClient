@@ -60,7 +60,7 @@ void Parsers::Handler::slotStartDownloding(const QStringList &params, const QLis
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::ExHentai parserMode)
 {
-    ExhentaiApi *api = new ExhentaiApi();
+    Sites::ExHentai *api = new Sites::ExHentai();
     api->galleryCode = params[0];
     if (parserMode == KTools::Enums::ParserModes::ExHentai::Download)
     {
@@ -76,7 +76,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Pixiv parserMode)
 {
-    PixivApi *api = new PixivApi();
+    Sites::Pixiv *api = new Sites::Pixiv();
     api->userId = params[0];
     api->download();
     delete api;
@@ -84,7 +84,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaDex parserMode)
 {
-    MangadexApi *api = new MangadexApi();
+    Sites::MangaDex *api = new Sites::MangaDex();
     api->mangaId = params[0];
     api->enDownload = params[1];
     api->ruDownload = params[2];
@@ -95,7 +95,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::VK parserMode)
 {
-    VkApi *api = new VkApi();
+    Sites::Vk *api = new Sites::Vk();
     api->postUrl = params[0];
     api->downloadPost();
     delete api;
@@ -103,7 +103,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaIro parserMode)
 {
-    MangairoApi *api = new MangairoApi();
+    Sites::MangaIro *api = new Sites::MangaIro();
     api->mangaId = params[0];
     api->download();
     delete api;
@@ -111,7 +111,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::YouTube parserMode)
 {
-    YoutubeApi *api = new YoutubeApi();
+    Sites::YouTube *api = new Sites::YouTube();
     api->videoUrl = params[0];
     api->download();
     delete api;
@@ -119,7 +119,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::Twitter parserMode)
 {
-    TwitterApi *api = new TwitterApi();
+    Sites::Twitter *api = new Sites::Twitter();
     api->userName = params[0];
     api->download();
     delete api;
@@ -127,7 +127,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NineHentai parserMode)
 {
-    NinehentaiApi *api = new NinehentaiApi();
+    Sites::NineHentai *api = new Sites::NineHentai();
     api->galleryId = params[0];
     api->download();
     delete api;
@@ -135,7 +135,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::MangaKakalot parserMode)
 {
-    MangakakalotApi *api = new MangakakalotApi();
+    Sites::MangaKakalot *api = new Sites::MangaKakalot();
     api->mangaSystemName = params[0];
     api->download();
     delete api;
@@ -143,7 +143,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::NHentaiDotCom parserMode)
 {
-    NHentaiDotComApi *api = new NHentaiDotComApi();
+    Sites::NHentaiDotCom *api = new Sites::NHentaiDotCom();
     api->slugName = params[0];
     api->download();
     delete api;

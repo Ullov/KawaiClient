@@ -1,11 +1,11 @@
 #include "mangairoapi.h"
 
-MangairoApi::MangairoApi()
+Parsers::Sites::MangaIro::MangaIro()
 {
     setParserType(KTools::Enums::Parsers::MangaIro);
 }
 
-void MangairoApi::download()
+void Parsers::Sites::MangaIro::download()
 {
     chunk = {
         "Host: mangairo.com",

@@ -1,21 +1,21 @@
-#ifndef VKAPI_H
-#define VKAPI_H
+#ifndef PARSERS_SITES_VK_H
+#define PARSERS_SITES_VK_H
 
 #include "../parserclass.h"
-#include "../../KTools/HtmlAstMaker/htmlobject.h"
-#include <QXmlStreamReader>
 #include <locale>
 #include <codecvt>
 
-class VkApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    VkApi();
+    class Vk : public Parsers::ParserClass
+    {
+    public:
+        Vk();
 
-    QString postUrl;
+        QString postUrl;
 
-//public slots:
-    void downloadPost();
-};
+        void downloadPost();
+    };
+}
 
-#endif // VKAPI_H
+#endif // PARSERS_SITES_VK_H

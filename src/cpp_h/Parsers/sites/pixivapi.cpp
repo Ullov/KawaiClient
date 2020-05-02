@@ -1,14 +1,14 @@
 #include "pixivapi.h"
 
-PixivApi::PixivApi()
+Parsers::Sites::Pixiv::Pixiv()
 {
     setParserType(KTools::Enums::Parsers::Pixiv);
 }
 
-PixivApi::~PixivApi() { }
+Parsers::Sites::Pixiv::~Pixiv() { }
 
 
-void PixivApi::download()
+void Parsers::Sites::Pixiv::download()
 {
     chunk = {
         "Another: yes",
@@ -198,7 +198,7 @@ void PixivApi::download()
     endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::Pixiv::Download));
 }
 
-void PixivApi::viewUser()
+void Parsers::Sites::Pixiv::viewUser()
 {
     chunk = {
         "Another: yes",
@@ -244,7 +244,7 @@ void PixivApi::viewUser()
     // https://www.pixiv.net/ajax/novel/8407773
 */
 
-void PixivApi::getRecomendedUsers()
+void Parsers::Sites::Pixiv::getRecomendedUsers()
 {
     chunk = {
         "Host: www.pixiv.net",

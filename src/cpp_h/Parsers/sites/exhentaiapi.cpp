@@ -1,6 +1,6 @@
 #include "exhentaiapi.h"
 
-ExhentaiApi::ExhentaiApi()
+Parsers::Sites::ExHentai::ExHentai()
 {
     chunk = {
         "Host: exhentai.org",
@@ -21,7 +21,7 @@ ExhentaiApi::ExhentaiApi()
     cc->setOptions();
 }
 
-void ExhentaiApi::slotDownload()
+void Parsers::Sites::ExHentai::slotDownload()
 {
     currUrl = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments"; // 1583231/db7901c0b7
     //currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
@@ -67,7 +67,7 @@ void ExhentaiApi::slotDownload()
     endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::ExHentai::Download), QJsonObject());
 }
 
-void ExhentaiApi::slotGetFrontPage()
+void Parsers::Sites::ExHentai::slotGetFrontPage()
 {
     /*if (numberNeddedPage >= 0)
         currUrl = "https://exhentai.org/?page=" + QString::number(numberNeddedPage) +"&inline_set=dm_e"; // URL for front page with extended view mode
@@ -98,7 +98,7 @@ void ExhentaiApi::slotGetFrontPage()
     endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::ExHentai::FrontPage), QJsonObject());
 }
 
-QJsonObject ExhentaiApi::getGalleryInfo(KTools::HtmlAst::Object &htmlAst)
+QJsonObject Parsers::Sites::ExHentai::getGalleryInfo(KTools::HtmlAst::Object &htmlAst)
 {
     QJsonObject info;
     QJsonObject tmpObj;
@@ -125,7 +125,7 @@ QJsonObject ExhentaiApi::getGalleryInfo(KTools::HtmlAst::Object &htmlAst)
     return info;
 }
 
-QJsonArray ExhentaiApi::getComments(KTools::HtmlAst::Object &htmlAst)
+QJsonArray Parsers::Sites::ExHentai::getComments(KTools::HtmlAst::Object &htmlAst)
 {
     QString commentId;
     QJsonObject tmpObj;
@@ -151,7 +151,7 @@ QJsonArray ExhentaiApi::getComments(KTools::HtmlAst::Object &htmlAst)
     return comments;
 }
 
-QJsonArray ExhentaiApi::getLinksToPages(KTools::HtmlAst::Object &firstPageAst)
+QJsonArray Parsers::Sites::ExHentai::getLinksToPages(KTools::HtmlAst::Object &firstPageAst)
 {
     QJsonArray linksToPages;
     KTools::HtmlAst::Tag &hTag = firstPageAst.rootTag->find(1).find(5).find(1).find(0);
@@ -178,7 +178,7 @@ QJsonArray ExhentaiApi::getLinksToPages(KTools::HtmlAst::Object &firstPageAst)
     return linksToPages;
 }
 
-void ExhentaiApi::getPageLinksFromDiv(KTools::HtmlAst::Tag &hTag, QJsonArray &linksToPages)
+void Parsers::Sites::ExHentai::getPageLinksFromDiv(KTools::HtmlAst::Tag &hTag, QJsonArray &linksToPages)
 {
     QJsonObject tmpObj;
     for (int i = 0; i < hTag.getChildTags().size() - 1; i++)
@@ -192,7 +192,7 @@ void ExhentaiApi::getPageLinksFromDiv(KTools::HtmlAst::Tag &hTag, QJsonArray &li
     }
 }
 
-QJsonObject ExhentaiApi::getSectionedInfo(KTools::HtmlAst::Tag &hTag)
+QJsonObject Parsers::Sites::ExHentai::getSectionedInfo(KTools::HtmlAst::Tag &hTag)
 {
     if (!hTag.isExist(0))
         return QJsonObject();

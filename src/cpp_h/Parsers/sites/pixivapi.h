@@ -1,33 +1,32 @@
-#ifndef PIXIVAPI_H
-#define PIXIVAPI_H
+#ifndef PARSERS_SITES_PIXIV_H
+#define PARSERS_SITES_PIXIV_H
 
 #include "../parserclass.h"
 
-class PixivApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    PixivApi();
-    ~PixivApi();
+    class Pixiv : public Parsers::ParserClass
+    {
+    public:
+        Pixiv();
+        ~Pixiv();
 
-    QString userId; // artist's id entered by user
-    QStringList imagesFromApi;
-    QJsonObject userData;
-    QJsonObject userAllData;
+        QString userId; // artist's id entered by user
+        QStringList imagesFromApi;
+        QJsonObject userData;
+        QJsonObject userAllData;
 
-//public slots:
-    void download();
-    void viewUser();
-    void getRecomendedUsers();
+        void download();
+        void viewUser();
+        void getRecomendedUsers();
 
-private:
-    QJsonObject object;
-    QJsonArray arrJ; // json array for art links' list
-    QString userName; // pixiv artist's user name. Now don't need
-    QByteArray novelContent;
-    QVector<QByteArray> novelCoverChunk;
+    private:
+        QJsonObject object;
+        QJsonArray arrJ; // json array for art links' list
+        QString userName; // pixiv artist's user name. Now don't need
+        QByteArray novelContent;
+        QVector<QByteArray> novelCoverChunk;
+    };
+}
 
-//signals:
-//    void viewDataDownloaded(QJsonObject userData, QJsonObject userAllData, QStringList imagesFromApi);
-};
-
-#endif // PIXIVAPI_H
+#endif // PARSERS_SITES_PIXIV_H

@@ -1,17 +1,19 @@
-#ifndef NHENTAIDOTCOMAPI_H
-#define NHENTAIDOTCOMAPI_H
+#ifndef PARSERS_SITES_NHENTAIDOTCOM_H
+#define PARSERS_SITES_NHENTAIDOTCOM_H
 
 #include "../parserclass.h"
 
-class NHentaiDotComApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    NHentaiDotComApi();
+    class NHentaiDotCom : public Parsers::ParserClass
+    {
+    public:
+        NHentaiDotCom();
 
-    QString slugName;
+        QString slugName;
 
-//public slots:
-    void download();
-};
+        void download();
+    };
+}
 
-#endif // NHENTAIDOTCOMAPI_H
+#endif // PARSERS_SITES_NHENTAIDOTCOM_H

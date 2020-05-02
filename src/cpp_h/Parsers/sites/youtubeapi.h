@@ -1,20 +1,22 @@
-#ifndef YOUTUBEAPI_H
-#define YOUTUBEAPI_H
+#ifndef PARSERS_SITES_YOUTUBE_H
+#define PARSERS_SITES_YOUTUBE_H
 
 #include "../parserclass.h"
 
-class YoutubeApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    YoutubeApi();
+    class YouTube : public Parsers::ParserClass
+    {
+    public:
+        YouTube();
 
-    QString videoUrl;
+        QString videoUrl;
 
-//public slots:
-    void download();
+        void download();
 
-private:
-    QJsonObject getParamsToJsonObject(const QString &data);
-};
+    private:
+        QJsonObject getParamsToJsonObject(const QString &data);
+    };
+}
 
-#endif // YOUTUBEAPI_H
+#endif // PARSERS_SITES_YOUTUBE_H

@@ -1,20 +1,22 @@
-#ifndef MANGADEXAPI_H
-#define MANGADEXAPI_H
+#ifndef PARSERS_SITES_MANGADEX_H
+#define PARSERS_SITES_MANGADEX_H
 
 #include "../parserclass.h"
 
-class MangadexApi : public Parsers::ParserClass
+namespace Parsers::Sites
 {
-public:
-    MangadexApi();
+    class MangaDex : public Parsers::ParserClass
+    {
+    public:
+        MangaDex();
 
-    QString mangaId;
-    QString enDownload; // bool
-    QString ruDownload; // bool
-    QString otherDownload; // bool
+        QString mangaId;
+        QString enDownload; // bool
+        QString ruDownload; // bool
+        QString otherDownload; // bool
 
-//public slots:
-    void download();
-};
+        void download();
+    };
+}
 
-#endif // MANGADEXAPI_H
+#endif // PARSERS_SITES_MANGADEX_H
