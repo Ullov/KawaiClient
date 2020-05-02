@@ -1,5 +1,5 @@
-#ifndef PARSERCLASS_H
-#define PARSERCLASS_H
+#ifndef PARSERS_PARSERCLASS_H
+#define PARSERS_PARSERCLASS_H
 
 #include <QJsonObject>
 #include <QJsonDocument>
@@ -9,11 +9,7 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
-//#include "../KTools/kenums.h"
-//#include "../KTools/logging.h"
-//#include "../KTools/kawaiconverter.h"
-//#include "../KTools/nativefs.h"
-//#include "../KTools/HtmlAstMaker/htmlobject.h"
+#include "../KTools/HtmlAstMaker/htmlobject.h"
 #include "../KTools/kenums.h"
 #include "../KTools/fileidentifier.h"
 #include "../KTools/curlclass.h"
@@ -62,4 +58,4 @@ namespace Parsers
     };
 }
 
-#endif // PARSERCLASS_H
+#endif // PARSERS_PARSERCLASS_H

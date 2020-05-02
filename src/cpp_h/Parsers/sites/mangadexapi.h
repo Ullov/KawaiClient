@@ -3,7 +3,7 @@
 
 #include "../parserclass.h"
 
-class MangadexApi : public ParserClass
+class MangadexApi : public Parsers::ParserClass
 {
 public:
     MangadexApi();

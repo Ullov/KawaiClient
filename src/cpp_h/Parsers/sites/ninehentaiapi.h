@@ -3,7 +3,7 @@
 
 #include "../parserclass.h"
 
-class NinehentaiApi : public ParserClass
+class NinehentaiApi : public Parsers::ParserClass
 {
 public:
     NinehentaiApi();

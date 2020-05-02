@@ -3,7 +3,7 @@
 
 #include "../parserclass.h"
 
-class TwitterApi : public ParserClass
+class TwitterApi : public Parsers::ParserClass
 {
 public:
     TwitterApi();

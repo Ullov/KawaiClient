@@ -3,7 +3,7 @@
 
 #include "../parserclass.h"
 
-class ExhentaiApi : public ParserClass
+class ExhentaiApi : public Parsers::ParserClass
 {
 public:
     ExhentaiApi();

@@ -1,4 +1,4 @@
-#ifndef MANGAROCKAPI_H
+/*#ifndef MANGAROCKAPI_H
 #define MANGAROCKAPI_H
 
 #include "../parserclass.h"
@@ -27,4 +27,4 @@ public slots:
     void downloadUser();
 };
 
-#endif // MANGAROCKAPI_H
+#endif*/ // MANGAROCKAPI_H

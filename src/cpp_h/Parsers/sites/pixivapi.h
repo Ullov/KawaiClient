@@ -3,7 +3,7 @@
 
 #include "../parserclass.h"
 
-class PixivApi : public ParserClass
+class PixivApi : public Parsers::ParserClass
 {
 public:
     PixivApi();

@@ -7,7 +7,7 @@
 #include <locale>
 #include <codecvt>
 
-class VkApi : public ParserClass
+class VkApi : public Parsers::ParserClass
 {
 public:
     VkApi();

@@ -3,7 +3,7 @@
 
 #include "../parserclass.h"
 
-class YoutubeApi : public ParserClass
+class YoutubeApi : public Parsers::ParserClass
 {
 public:
     YoutubeApi();
