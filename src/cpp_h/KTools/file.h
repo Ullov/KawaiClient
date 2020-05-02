@@ -1,12 +1,12 @@
 #ifndef KTOOLS_FILE_H
 #define KTOOLS_FILE_H
 
-#include "kawaiconverter.h"
+#include "converter.h"
 #include <QFile>
 #include <QIODevice>
 #include <QDataStream>
 #include <QDir>
-#include "logging.h"
+#include "log.h"
 
 namespace KTools
 {

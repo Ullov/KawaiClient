@@ -165,8 +165,8 @@ T* KffFile::getFileStructure(const qint64 &pos)
     }
 }
 
-template<typename T>
-T read(const qint64 &pos, const qint64 &lenght, KTools::File &scope)
+/*template<typename T>
+T KffFile::read(const qint64 &pos, const qint64 &lenght, KTools::File &scope)
 {
     return KTools::Converter::byteArrayToT<T>(scope.read<T>(pos, lenght));
-}
+}*/

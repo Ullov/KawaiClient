@@ -8,11 +8,11 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 #include <QVariant>
-#include "nativefs.h"
-#include "kawaiconverter.h"
-#include "kenums.h"
-#include "logging.h"
-#include "curlclass.h"
+#include "file.h"
+#include "converter.h"
+#include "enums.h"
+#include "log.h"
+#include "curl.h"
 
 
 namespace KTools

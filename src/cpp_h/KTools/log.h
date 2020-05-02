@@ -2,9 +2,9 @@
 #define KTOOLS_LOG_H
 
 #include <QDateTime>
-#include "nativefs.h"
-#include "optionshandler.h"
-#include "kenums.h"
+#include "file.h"
+#include "options.h"
+#include "enums.h"
 
 namespace KTools
 {

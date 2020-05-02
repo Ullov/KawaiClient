@@ -2,8 +2,8 @@
 #define KFFFILE_H
 
 #include "kawaifileformat.h"
-#include "../KTools/kawaiconverter.h"
-#include "../KTools/nativefs.h"
+#include "../KTools/converter.h"
+#include "../KTools/file.h"
 
 
 class KffFile

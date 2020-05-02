@@ -8,9 +8,9 @@
 #include <QFile>
 #include <QObject>
 #include <QElapsedTimer>
-#include "nativefs.h"
-#include "kenums.h"
-#include "logging.h"
+#include "file.h"
+#include "enums.h"
+#include "log.h"
 #include "ktoolsqmlinterface.h"
 
 namespace KTools

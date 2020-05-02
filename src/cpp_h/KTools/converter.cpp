@@ -1,4 +1,4 @@
-#include "kawaiconverter.h"
+#include "converter.h"
 
 KTools::Converter::Converter() {}
 

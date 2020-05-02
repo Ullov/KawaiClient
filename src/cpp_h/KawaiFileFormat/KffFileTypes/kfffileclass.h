@@ -1,8 +1,8 @@
 #ifndef KFFFILECLASS_H
 #define KFFFILECLASS_H
 
-#include "../../KTools/kawaiconverter.h"
-#include "../../KTools/nativefs.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/file.h"
 #include <QChar>
 
 class KffFileClass

@@ -1,4 +1,4 @@
-#include "htmlobject.h"
+#include "object.h"
 
 KTools::HtmlAst::Object::Object() {}
 

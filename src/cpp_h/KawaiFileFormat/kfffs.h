@@ -1,8 +1,8 @@
 #ifndef KFFFS_H
 #define KFFFS_H
 
-#include "../KTools/nativefs.h"
-#include "../KTools/kawaiconverter.h"
+#include "../KTools/file.h"
+#include "../KTools/converter.h"
 #include "KffFileTypes/kffdir.h"
 #include "kffstream.h"
 

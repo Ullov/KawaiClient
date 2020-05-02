@@ -1,4 +1,4 @@
-#include "nativefs.h"
+#include "file.h"
 
 KTools::File::File() {}
 

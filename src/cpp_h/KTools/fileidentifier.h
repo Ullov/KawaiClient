@@ -1,7 +1,7 @@
 #ifndef KTOOLS_FILEIDENTIFIER_H
 #define KTOOLS_FILEIDENTIFIER_H
 
-#include "../KTools/nativefs.h"
+#include "../KTools/file.h"
 
 namespace KTools
 {

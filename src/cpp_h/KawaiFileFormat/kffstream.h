@@ -1,8 +1,8 @@
 #ifndef KFFSTREAM_H
 #define KFFSTREAM_H
 
-#include "../KTools/nativefs.h"
-#include "../KTools/logging.h"
+#include "../KTools/file.h"
+#include "../KTools/log.h"
 #include <cmath>
 
 #define EOS 0 // "end of stream"(EOS)

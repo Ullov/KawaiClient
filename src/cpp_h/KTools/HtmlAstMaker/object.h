@@ -2,8 +2,8 @@
 #define KTOOLS_HTMLAST_OBJECT_H
 
 #include <QString>
-#include "htmltag.h"
-#include "../logging.h"
+#include "tag.h"
+#include "../log.h"
 
 namespace KTools::HtmlAst
 {

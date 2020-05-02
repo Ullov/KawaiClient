@@ -10,7 +10,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include "../KTools/fileidentifier.h"
-#include "../KTools/optionshandler.h"
+#include "../KTools/options.h"
 
 class FsHandler : public QObject
 {

@@ -22,15 +22,15 @@ SOURCES += \
     cpp_h/Parsers/sites/mangakakalot.cpp \
     cpp_h/Parsers/sites/nhentaidotcom.cpp \
     cpp_h/main.cpp \
-    cpp_h/KTools/HtmlAstMaker/htmlobject.cpp \
-    cpp_h/KTools/HtmlAstMaker/htmltag.cpp \
+    cpp_h/KTools/HtmlAstMaker/object.cpp \
+    cpp_h/KTools/HtmlAstMaker/tag.cpp \
     cpp_h/KTools/StaticVarsDeclarations.cpp \
-    cpp_h/KTools/curlclass.cpp \
+    cpp_h/KTools/curl.cpp \
     cpp_h/KTools/fileidentifier.cpp \
     cpp_h/KTools/kawaiimageprovider.cpp \
-    cpp_h/KTools/logging.cpp \
-    cpp_h/KTools/optionshandler.cpp \
-    cpp_h/KTools/stringoperations.cpp \
+    cpp_h/KTools/log.cpp \
+    cpp_h/KTools/options.cpp \
+    cpp_h/KTools/exforstring.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.cpp \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.cpp \
     cpp_h/KawaiFileFormat/KffValueTypes/kffvarray.cpp \
@@ -38,8 +38,8 @@ SOURCES += \
     cpp_h/KawaiFileFormat/KffValueTypes/kffvstring.cpp \
     cpp_h/KawaiFileFormat/KffValueTypes/kffvtimestamp.cpp \
     cpp_h/KawaiFileFormat/kfffs.cpp \
-    cpp_h/KTools/kawaiconverter.cpp \
-    cpp_h/KTools/nativefs.cpp \
+    cpp_h/KTools/converter.cpp \
+    cpp_h/KTools/file.cpp \
     cpp_h/KawaiFileFormat/kawaifileformat.cpp \
     cpp_h/KawaiFileFormat/kfffile.cpp \
     cpp_h/Parsers/handler.cpp \
@@ -71,17 +71,17 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     cpp_h/BookReader/bookreaderhandler.h \
     cpp_h/FsExplorer/fshandler.h \
-    cpp_h/KTools/HtmlAstMaker/htmlobject.h \
-    cpp_h/KTools/HtmlAstMaker/htmltag.h \
+    cpp_h/KTools/HtmlAstMaker/object.h \
+    cpp_h/KTools/HtmlAstMaker/tag.h \
     cpp_h/KTools/archiverw.h \
-    cpp_h/KTools/curlclass.h \
+    cpp_h/KTools/curl.h \
     cpp_h/KTools/fileidentifier.h \
     cpp_h/KTools/kawaiimageprovider.h \
-    cpp_h/KTools/kenums.h \
+    cpp_h/KTools/enums.h \
     cpp_h/KTools/ktoolsqmlinterface.h \
-    cpp_h/KTools/logging.h \
-    cpp_h/KTools/optionshandler.h \
-    cpp_h/KTools/stringoperations.h \
+    cpp_h/KTools/log.h \
+    cpp_h/KTools/options.h \
+    cpp_h/KTools/exforstring.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kffdir.h \
     cpp_h/KawaiFileFormat/KffFileTypes/kfffileclass.h \
     cpp_h/KawaiFileFormat/KffValueTypes/kffvarray.h \
@@ -89,8 +89,8 @@ HEADERS += \
     cpp_h/KawaiFileFormat/KffValueTypes/kffvstring.h \
     cpp_h/KawaiFileFormat/KffValueTypes/kffvtimestamp.h \
     cpp_h/KawaiFileFormat/kfffs.h \
-    cpp_h/KTools/kawaiconverter.h \
-    cpp_h/KTools/nativefs.h \
+    cpp_h/KTools/converter.h \
+    cpp_h/KTools/file.h \
     cpp_h/KawaiFileFormat/kawaifileformat.h \
     cpp_h/KawaiFileFormat/kfffile.h \
     cpp_h/KawaiFileFormat/kffstream.h \

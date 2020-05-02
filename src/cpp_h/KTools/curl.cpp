@@ -1,4 +1,4 @@
-#include "curlclass.h"
+#include "curl.h"
 
 
 KTools::Curl::Curl()

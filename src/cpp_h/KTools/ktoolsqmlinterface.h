@@ -2,7 +2,7 @@
 #define KTOOLSQMLINTERFACE_H
 
 #include <QObject>
-#include "optionshandler.h"
+#include "options.h"
 
 class KToolsQmlInterface : public QObject
 {

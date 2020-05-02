@@ -1,4 +1,4 @@
-#include "optionshandler.h"
+#include "options.h"
 
 KTools::Options::Options()
 {

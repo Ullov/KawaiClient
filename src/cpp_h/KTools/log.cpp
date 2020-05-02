@@ -1,4 +1,4 @@
-#include "logging.h"
+#include "log.h"
 
 KTools::Log::Log() {}
 

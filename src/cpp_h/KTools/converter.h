@@ -1,8 +1,8 @@
 #ifndef KTOOLS_CONVERTER_H
 #define KTOOLS_CONVERTER_H
 
-#include "stringoperations.h"
-#include "logging.h"
+#include "exforstring.h"
+#include "log.h"
 #include <QByteArray>
 #include <QString>
 #include <QJsonObject>

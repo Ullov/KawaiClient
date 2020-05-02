@@ -1,4 +1,4 @@
-#include "stringoperations.h"
+#include "exforstring.h"
 
 KTools::ExForString::ExForString() {}
 

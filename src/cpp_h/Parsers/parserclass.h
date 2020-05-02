@@ -9,12 +9,12 @@
 #include <ctime>
 #include <thread>
 #include <chrono>
-#include "../KTools/HtmlAstMaker/htmlobject.h"
-#include "../KTools/kenums.h"
+#include "../KTools/HtmlAstMaker/object.h"
+#include "../KTools/enums.h"
 #include "../KTools/fileidentifier.h"
-#include "../KTools/curlclass.h"
+#include "../KTools/curl.h"
 #include "parsersqmlinterface.h"
-#include "../KTools/optionshandler.h"
+#include "../KTools/options.h"
 
 namespace Parsers
 {
