@@ -1,18 +1,7 @@
 #ifndef PARSERS_HANDLER_H
 #define PARSERS_HANDLER_H
 
-#include "sites/pixiv.h"
-#include "sites/exhentai.h"
-#include "sites/mangadex.h"
-#include "sites/vk.h"
-#include "sites/mangairo.h"
-#include "sites/youtube.h"
-#include "sites/twitter.h"
-#include "sites/ninehentai.h"
-#include "sites/mangakakalot.h"
-#include "sites/nhentaidotcom.h"
-#include <QFuture>
-#include <QtConcurrent/QtConcurrent>
+#include "../KTools/enums.h"
 
 namespace Parsers
 {

@@ -11,7 +11,6 @@ Rectangle {
         anchors.fill: parent
         Component.onCompleted: {
             addTab("Files", Qt.createComponent("FileBrowserTab.qml"))
-            //addTab("Settings", Qt.createComponent("qrc:/qml/Tabs/SettingsTab.qml"))
         }
 
         function loadTab(siteFile, title){

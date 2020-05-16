@@ -1,5 +1,7 @@
 #include "ktoolsqmlinterface.h"
 
+#include "options.h"
+
 KToolsQmlInterface::KToolsQmlInterface() {}
 
 void KToolsQmlInterface::optionsHandlerSetRootProgramPath(const QString path)

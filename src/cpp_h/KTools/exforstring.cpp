@@ -1,5 +1,10 @@
 #include "exforstring.h"
 
+#include <string>
+#include <QString>
+#include <QVector>
+#include <QRegularExpression>
+
 KTools::ExForString::ExForString() {}
 
 void KTools::ExForString::replace(QString &inp, const QVector<QString> &whatReplace, const QVector<QString> &onWhatReplace)

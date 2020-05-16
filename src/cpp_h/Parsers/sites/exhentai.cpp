@@ -1,5 +1,12 @@
 #include "exhentai.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/file.h"
+#include "../../KTools/HtmlAstMaker/object.h"
+#include "../../KTools/exforstring.h"
+#include <QJsonArray>
+
 Parsers::Sites::ExHentai::ExHentai()
 {
     chunk = {

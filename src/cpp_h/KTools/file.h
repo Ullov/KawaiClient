@@ -1,12 +1,10 @@
 #ifndef KTOOLS_FILE_H
 #define KTOOLS_FILE_H
 
-#include "converter.h"
-#include <QFile>
 #include <QIODevice>
-#include <QDataStream>
-#include <QDir>
-#include "log.h"
+#include <QtGlobal>
+
+class QFile;
 
 namespace KTools
 {

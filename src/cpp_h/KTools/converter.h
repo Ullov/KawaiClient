@@ -1,17 +1,9 @@
 #ifndef KTOOLS_CONVERTER_H
 #define KTOOLS_CONVERTER_H
 
-#include "exforstring.h"
-#include "log.h"
-#include <QByteArray>
-#include <QString>
-#include <QJsonObject>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QVector>
-#include <QRegularExpression>
-#include <QTextCodec>
-#include <QDataStream>
+#include <QtGlobal>
+
+class QByteArray;
 
 namespace KTools
 {

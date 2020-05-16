@@ -1,5 +1,11 @@
 #include "nhentaidotcom.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/file.h"
+#include "../../KTools/HtmlAstMaker/object.h"
+#include <QJsonArray>
+
 Parsers::Sites::NHentaiDotCom::NHentaiDotCom()
 {
     setParserType(KTools::Enums::Parsers::NHentaiDotCom);

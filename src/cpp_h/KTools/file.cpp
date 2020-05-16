@@ -1,5 +1,9 @@
 #include "file.h"
 
+#include <QFile>
+#include "converter.h"
+#include <QDir>
+
 KTools::File::File() {}
 
 bool KTools::File::open(const QString &path, const QIODevice::OpenMode &flags)

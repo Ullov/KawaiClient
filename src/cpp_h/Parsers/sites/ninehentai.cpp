@@ -1,5 +1,10 @@
 #include "ninehentai.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/log.h"
+#include "../../KTools/file.h"
+#include "../../KTools/converter.h"
+
 Parsers::Sites::NineHentai::NineHentai()
 {
     setParserType(KTools::Enums::Parsers::NineHentai);

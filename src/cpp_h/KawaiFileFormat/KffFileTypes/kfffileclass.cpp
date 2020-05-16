@@ -1,5 +1,7 @@
 #include "kfffileclass.h"
 
+#include <QDataStream>
+
 KffFileClass::KffFileClass() {}
 
 bool KffFileClass::openFromNativeFs(const QString &path)

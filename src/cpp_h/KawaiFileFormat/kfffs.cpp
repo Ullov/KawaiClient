@@ -1,5 +1,7 @@
 #include "kfffs.h"
 
+#include <QDataStream>
+
 Kff::Fs::Fs(const QString &path, const QString &fileName)
 {
     fileInNativeFs = new KTools::File();

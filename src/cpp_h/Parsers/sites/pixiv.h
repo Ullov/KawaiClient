@@ -2,6 +2,7 @@
 #define PARSERS_SITES_PIXIV_H
 
 #include "../parserclass.h"
+#include <QJsonArray>
 
 namespace Parsers::Sites
 {

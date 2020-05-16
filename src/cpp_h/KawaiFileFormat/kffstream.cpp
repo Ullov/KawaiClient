@@ -14,7 +14,7 @@ bool Kff::Stream::findClearInode()
     while (fileInNativeFs->pos() < dataBlockStart)
     {
         qint64 currPos = fileInNativeFs->pos();
-        qint64 tmp = fileInNativeFs->read<qint64>() == -1;
+        bool tmp = fileInNativeFs->read<qint64>() == -1;
         if (tmp)
         {
             inodePos = currPos;
@@ -61,8 +61,6 @@ qint64 Kff::Stream::appendCluster()
 
     if (clustersPos.size() > 1)
     {
-        //fileInNativeFs->seek(clustersPos[clustersPos.size() - 2]);
-        //fileInNativeFs->write(clustersPos.last());
         writeInCluster(clustersPos.last(), clustersPos.size() - 2);
     }
 

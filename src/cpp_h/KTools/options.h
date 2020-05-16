@@ -1,19 +1,7 @@
 #ifndef KTOOLS_OPTIONS_H
 #define KTOOLS_OPTIONS_H
 
-#include <QObject>
-#include <QJsonObject>
-#include <QStandardPaths>
-#include <QFile>
-#include <QJsonDocument>
-#include <QFileInfo>
-#include <QVariant>
-#include "file.h"
-#include "converter.h"
 #include "enums.h"
-#include "log.h"
-#include "curl.h"
-
 
 namespace KTools
 {

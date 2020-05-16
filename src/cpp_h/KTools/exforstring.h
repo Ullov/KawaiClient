@@ -1,9 +1,7 @@
 #ifndef KTOOLS_EXFORSTRING_H
 #define KTOOLS_EXFORSTRING_H
 
-#include <QString>
-#include <QVector>
-#include <QRegularExpression>
+#include <QtGlobal>
 
 namespace KTools
 {

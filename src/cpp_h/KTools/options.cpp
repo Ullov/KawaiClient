@@ -1,5 +1,12 @@
 #include "options.h"
 
+#include <QJsonArray>
+#include <QJsonObject>
+#include "file.h"
+#include "curl.h"
+#include "converter.h"
+#include "log.h"
+
 KTools::Options::Options()
 {
     bool wtf = KTools::File::fileExist(configPath + configFile);

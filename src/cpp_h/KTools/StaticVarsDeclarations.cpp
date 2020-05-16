@@ -6,6 +6,10 @@
 #include "../Parsers/parsersqmlinterface.h"
 #include "fileidentifier.h"
 
+#include <QStandardPaths>
+#include <QDir>
+#include <QDateTime>
+
 // Start OptionsHandler
 QString KTools::Options::configFile = "config.txt";
 QString KTools::Options::configPath = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation) + "/KawaiClient/";

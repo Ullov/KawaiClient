@@ -18,6 +18,13 @@ static void registerTypesForQml()
 {
     qRegisterMetaType<QVector<QByteArray>>("VectorByteArray");
     KTools::Enums::registerTypesForQml();
+
+    /*Kff::Fs kffFs = Kff::Fs("E:/Win7アプリ/downloads", "kffTestFile.kff");
+    Kff::Stream kffStream = kffFs.create<Kff::Stream>();
+    QString path = "E:/Win7アプリ/downloads/kffTestFile.kff";
+    if (KTools::File::fileExist(path))
+        QFile::remove(path);
+    kffStream.write(KTools::File::readFile<QByteArray>("E:/Win7アプリ/downloads", "MikuDB-VOM@S28-v2.torrent"));*/
 }
 
 int main(int argc, char *argv[])

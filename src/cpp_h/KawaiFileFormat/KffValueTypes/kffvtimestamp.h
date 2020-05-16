@@ -1,7 +1,7 @@
 #ifndef KFFVTIMESTAMP_H
 #define KFFVTIMESTAMP_H
 
-#include "../../KTools/nativefs.h"
+#include "../../KTools/file.h"
 #include <QDateTime>
 
 class KffVTimestamp

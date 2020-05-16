@@ -1,8 +1,8 @@
 #ifndef KFFVSTRING_H
 #define KFFVSTRING_H
 
-#include "../../KTools/kawaiconverter.h"
-#include "../../KTools/nativefs.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/file.h"
 
 class KffVString
 {

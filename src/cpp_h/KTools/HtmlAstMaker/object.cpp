@@ -1,5 +1,9 @@
 #include "object.h"
 
+#include "../../KTools/converter.h"
+#include <QJsonObject>
+#include <QJsonArray>
+
 KTools::HtmlAst::Object::Object() {}
 
 bool KTools::HtmlAst::Object::makeAst(const QString &data)

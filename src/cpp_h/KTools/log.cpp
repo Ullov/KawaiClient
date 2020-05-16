@@ -1,5 +1,10 @@
 #include "log.h"
 
+#include <QDateTime>
+#include <QIODevice>
+#include "file.h"
+#include "options.h"
+
 KTools::Log::Log() {}
 
 void KTools::Log::writeCustomLog(const QString &message, const QString &from, const KTools::Enums::LogType &type)

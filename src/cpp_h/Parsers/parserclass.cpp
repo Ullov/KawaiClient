@@ -1,5 +1,15 @@
 #include "parserclass.h"
 
+#include "../KTools/fileidentifier.h"
+#include "../KTools/curl.h"
+#include "../KTools/converter.h"
+#include "../KTools/options.h"
+#include "../KTools/log.h"
+#include "../KTools/exforstring.h"
+#include <thread>
+#include "parsersqmlinterface.h"
+#include <QJsonArray>
+
 Parsers::ParserClass::ParserClass()
 {
     defExt = new KTools::FileIdentifier();
@@ -115,7 +125,7 @@ void Parsers::ParserClass::downloadAndWriteFileWithDefinedExtension(const QStrin
 
 QString Parsers::ParserClass::defineExtension(const QByteArray &file)
 {
-    QStringList tmp = defExt->identifyFileFromString(file);
+    QStringList tmp = KTools::FileIdentifier::identifyFileFromString(file);
     return tmp[0];
 }
 

@@ -1,9 +1,6 @@
 #ifndef KTOOLS_LOG_H
 #define KTOOLS_LOG_H
 
-#include <QDateTime>
-#include "file.h"
-#include "options.h"
 #include "enums.h"
 
 namespace KTools

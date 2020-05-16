@@ -1,5 +1,11 @@
 #include "mangairo.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/exforstring.h"
+#include <QRegularExpression>
+#include <QJsonArray>
+
 Parsers::Sites::MangaIro::MangaIro()
 {
     setParserType(KTools::Enums::Parsers::MangaIro);

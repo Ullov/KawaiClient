@@ -1,5 +1,5 @@
 #include "parsersqmlinterface.h"
-#include "apihandler.h" // included here because of circular include issue
+#include "handler.h" // included here because of circular include issue
 
 ParsersQmlInterface::ParsersQmlInterface() {}
 

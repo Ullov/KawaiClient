@@ -1,5 +1,11 @@
 #include "vk.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/exforstring.h"
+#include "../../KTools/file.h"
+#include <QJsonArray>
+
 Parsers::Sites::Vk::Vk() {}
 
 void Parsers::Sites::Vk::downloadPost()

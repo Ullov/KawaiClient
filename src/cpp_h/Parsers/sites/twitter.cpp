@@ -1,5 +1,9 @@
 #include "twitter.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/exforstring.h"
+
 Parsers::Sites::Twitter::Twitter() {}
 
 void Parsers::Sites::Twitter::download()

@@ -1,5 +1,18 @@
 #include "handler.h"
 
+#include "sites/pixiv.h"
+#include "sites/exhentai.h"
+#include "sites/mangadex.h"
+#include "sites/vk.h"
+#include "sites/mangairo.h"
+#include "sites/youtube.h"
+#include "sites/twitter.h"
+#include "sites/ninehentai.h"
+#include "sites/mangakakalot.h"
+#include "sites/nhentaidotcom.h"
+#include <QFuture>
+#include <QtConcurrent/QtConcurrent>
+
 Parsers::Handler::Handler() {}
 
 void Parsers::Handler::slotStartDownloding(const QStringList &params, const QList<int> &mode)

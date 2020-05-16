@@ -2,19 +2,19 @@
 #define PARSERS_PARSERCLASS_H
 
 #include <QJsonObject>
-#include <QJsonDocument>
-#include <QJsonArray>
-#include <QJsonValue>
-#include <QVariant>
-#include <ctime>
-#include <thread>
-#include <chrono>
-#include "../KTools/HtmlAstMaker/object.h"
 #include "../KTools/enums.h"
-#include "../KTools/fileidentifier.h"
-#include "../KTools/curl.h"
-#include "parsersqmlinterface.h"
-#include "../KTools/options.h"
+#include <QString>
+
+namespace KTools
+{
+    class Curl;
+    class FileIdentifier;
+    namespace HtmlAst
+    {
+        class Object;
+        class Tag;
+    }
+}
 
 namespace Parsers
 {

@@ -1,5 +1,7 @@
 #include "fshandler.h"
 
+#include "../KTools/log.h"
+
 FsHandler::FsHandler()
 {
     currentDir = new QDir(KTools::Options::getParam("/fsExplorer/lastOpenedDirectory").toString());

@@ -1,5 +1,9 @@
 #include "pixiv.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/file.h"
+
 Parsers::Sites::Pixiv::Pixiv()
 {
     setParserType(KTools::Enums::Parsers::Pixiv);

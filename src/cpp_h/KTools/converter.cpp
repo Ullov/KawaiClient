@@ -1,5 +1,12 @@
 #include "converter.h"
 
+#include <QDataStream>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include "exforstring.h"
+#include <QTextCodec>
+
 KTools::Converter::Converter() {}
 
 template<typename T>

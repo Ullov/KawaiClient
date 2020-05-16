@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QJsonObject>
 
+
 class ParsersQmlInterface : public QObject
 {
     Q_OBJECT

@@ -1,5 +1,10 @@
 #include "youtube.h"
 
+#include "../../KTools/curl.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/HtmlAstMaker/object.h"
+#include <QJsonArray>
+
 Parsers::Sites::YouTube::YouTube()
 {
     setParserType(KTools::Enums::Parsers::YouTube);

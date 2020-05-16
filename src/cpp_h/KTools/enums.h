@@ -1,7 +1,6 @@
 #ifndef KTOOLS_ENUMS_H
 #define KTOOLS_ENUMS_H
 
-#include <QMap>
 #include <QObject>
 #include <QQmlEngine>
 

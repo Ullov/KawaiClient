@@ -1,8 +1,8 @@
 #ifndef KFFVARRAY_H
 #define KFFVARRAY_H
 
-#include "../../KTools/kawaiconverter.h"
-#include "../../KTools/nativefs.h"
+#include "../../KTools/converter.h"
+#include "../../KTools/file.h"
 
 template<typename T>
 class KffVArray

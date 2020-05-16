@@ -2,16 +2,8 @@
 #define KTOOLS_CURL_H
 
 #include <curl/curl.h>
-#include <string>
-#include <vector>
-#include <QDir>
-#include <QFile>
-#include <QObject>
 #include <QElapsedTimer>
-#include "file.h"
 #include "enums.h"
-#include "log.h"
-#include "ktoolsqmlinterface.h"
 
 namespace KTools
 {
