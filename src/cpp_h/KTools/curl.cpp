@@ -122,13 +122,14 @@ QByteArray KTools::Curl::request(const QString &url)
         return performing(url.toStdString().c_str());
     }
     QByteArray buffer;
+    std::string c = currPostParam.toStdString();
 
     curl_easy_setopt(gCurlHandle, CURLOPT_URL, url.toStdString().c_str()); // specify url to get
     curl_easy_setopt(gCurlHandle, CURLOPT_WRITEDATA, &buffer);
 
     if (currRequestType == KTools::Enums::Curl::RequestType::Post)
     {
-        curl_easy_setopt(gCurlHandle, CURLOPT_POSTFIELDS, currPostParam.toStdString().c_str());
+        curl_easy_setopt(gCurlHandle, CURLOPT_POSTFIELDS, c.c_str());
         curl_easy_setopt(gCurlHandle, CURLOPT_POSTFIELDSIZE, currPostParam.size());
     }
 
