@@ -77,6 +77,7 @@ void Parsers::Sites::Pixiv::download()
 
     object = downloadJson("https://www.pixiv.net/ajax/user/" + userId);
     userName = object.value("body").toObject().value("name").toString();
+    KTools::Converter::toNtfsCompatibleString(userName);
     rootPath = basePath + "\\" + '[' + userId + "](" + userName + ')';
     for (int i = 0; KTools::File::dirExist(rootPath); i++)
         rootPath = basePath + "\\" + '[' + userId + "](" + userName + ")[" + QString::number(i) + ']';
