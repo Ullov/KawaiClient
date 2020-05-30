@@ -3,12 +3,13 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include "../Parsers/parserclass.h"
 
 namespace KTools::Enums
 {
     Q_NAMESPACE
     Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-    enum class Parsers {
+    /*enum class Parsers {
         ExHentai,
         MangaDex,
         MangaIro,
@@ -20,14 +21,14 @@ namespace KTools::Enums
         NineHentai,
         MangaKakalot,
         NHentaiDotCom
-    };
+    };*/
     enum class LogType {
         Custom,
         Info,
         Error,
         Debug
     };
-    Q_ENUM_NS(Parsers)
+    //Q_ENUM_NS(Parsers)
     Q_ENUM_NS(LogType)
     namespace ParserModes
     {
@@ -95,56 +96,12 @@ namespace KTools::Enums
             qRegisterMetaType<NHentaiDotCom>("ParserModesNHentaiDotCom");
         }
     };
-    namespace Curl {
-        Q_NAMESPACE
-        Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
-        enum class RequestType {
-            Get,
-            Post
-        };
-        enum class CookieMode {
-            None,
-            GetAllTimes,
-            GetAndKeep,
-            Keep,
-            Void
-        };
-        enum class HeaderMode {
-            None,
-            Custom
-        };
-        enum class SetHeaderMode {
-            Add,
-            New
-        };
-        enum class HttpVersion {
-            Http2,
-            Standart
-        };
-        enum class RequestMode {
-            Old,
-            New
-        };
-
-        Q_ENUM_NS(SetHeaderMode)
-        Q_ENUM_NS(RequestType)
-        Q_ENUM_NS(CookieMode)
-        Q_ENUM_NS(HeaderMode)
-        inline void registerTypesForQml()
-        {
-            qmlRegisterUncreatableMetaObject(staticMetaObject, "KEnums", 1, 0, "CurlSettings", "Is enum");
-            qRegisterMetaType<RequestType>("CurlSettingsRequestType");
-            qRegisterMetaType<CookieMode>("CurlSettingsCookieMode");
-            qRegisterMetaType<HeaderMode>("CurlSettingsHeaderMode");
-            qRegisterMetaType<SetHeaderMode>("CurlSettingsSetHeaderMode");
-        }
-    }
     inline void registerTypesForQml()
     {
         qmlRegisterUncreatableMetaObject(staticMetaObject, "KEnums", 1, 0, "KEnums", "Is enum");
-        qRegisterMetaType<Parsers>("KEnumParsers");
+        /*qmlRegisterUncreatableMetaObject(Parsers::staticMetaObject, "KEnums", 1, 0, "KEnums", "Is enum");
+        qRegisterMetaType<Parsers::Parsers>("KEnumParsers");*/
         qRegisterMetaType<LogType>("KEnumLogType");
-        Curl::registerTypesForQml();
         ParserModes::registerTypesForQml();
     }
 };

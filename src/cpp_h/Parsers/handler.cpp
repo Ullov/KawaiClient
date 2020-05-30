@@ -18,53 +18,53 @@ Parsers::Handler::Handler() {}
 void Parsers::Handler::slotStartDownloding(const QStringList &params, const QList<int> &mode)
 {
     //emit ParsersQmlInterface::obj.apiHandlerSignalDownloadingStarted(mode);
-    KTools::Enums::Parsers parserType = static_cast<KTools::Enums::Parsers>(mode[0]);
-    if (parserType == KTools::Enums::Parsers::ExHentai)
+    Parsers parserType = static_cast<Parsers>(mode[0]);
+    if (parserType == Parsers::ExHentai)
     {
         KTools::Enums::ParserModes::ExHentai parserMode = static_cast<KTools::Enums::ParserModes::ExHentai>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::Pixiv)
+    else if (parserType == Parsers::Pixiv)
     {
         KTools::Enums::ParserModes::Pixiv parserMode = static_cast<KTools::Enums::ParserModes::Pixiv>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::MangaDex)
+    else if (parserType == Parsers::MangaDex)
     {
         KTools::Enums::ParserModes::MangaDex parserMode = static_cast<KTools::Enums::ParserModes::MangaDex>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::VK)
+    else if (parserType == Parsers::VK)
     {
         KTools::Enums::ParserModes::VK parserMode = static_cast<KTools::Enums::ParserModes::VK>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::MangaIro)
+    else if (parserType == Parsers::MangaIro)
     {
         KTools::Enums::ParserModes::MangaIro parserMode = static_cast<KTools::Enums::ParserModes::MangaIro>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::YouTube)
+    else if (parserType == Parsers::YouTube)
     {
         KTools::Enums::ParserModes::YouTube parserMode = static_cast<KTools::Enums::ParserModes::YouTube>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::Twitter)
+    else if (parserType == Parsers::Twitter)
     {
         KTools::Enums::ParserModes::Twitter parserMode = static_cast<KTools::Enums::ParserModes::Twitter>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::NineHentai)
+    else if (parserType == Parsers::NineHentai)
     {
         KTools::Enums::ParserModes::NineHentai parserMode = static_cast<KTools::Enums::ParserModes::NineHentai>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::MangaKakalot)
+    else if (parserType == Parsers::MangaKakalot)
     {
         KTools::Enums::ParserModes::MangaKakalot parserMode = static_cast<KTools::Enums::ParserModes::MangaKakalot>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});
     }
-    else if (parserType == KTools::Enums::Parsers::NHentaiDotCom)
+    else if (parserType == Parsers::NHentaiDotCom)
     {
         KTools::Enums::ParserModes::NHentaiDotCom parserMode = static_cast<KTools::Enums::ParserModes::NHentaiDotCom>(mode[1]);
         QtConcurrent::run([=](){startDownloading(params, parserMode);});

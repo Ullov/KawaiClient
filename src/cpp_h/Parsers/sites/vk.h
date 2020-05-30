@@ -7,7 +7,7 @@
 
 namespace Parsers::Sites
 {
-    class Vk : public Parsers::ParserClass
+    class Vk : public ParserClass
     {
     public:
         Vk();

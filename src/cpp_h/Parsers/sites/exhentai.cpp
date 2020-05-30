@@ -5,6 +5,7 @@
 #include "../../KTools/file.h"
 #include "../../KTools/HtmlAstMaker/object.h"
 #include "../../KTools/exforstring.h"
+#include "../../KTools/enums.h"
 #include <QJsonArray>
 
 Parsers::Sites::ExHentai::ExHentai()
@@ -24,7 +25,7 @@ Parsers::Sites::ExHentai::ExHentai()
         "Cache-Control: no-cache"
     };
     this->cc->setHeader(chunk);
-    setParserType(KTools::Enums::Parsers::ExHentai);
+    setParserType(Parsers::ExHentai);
     cc->setOptions();
 }
 

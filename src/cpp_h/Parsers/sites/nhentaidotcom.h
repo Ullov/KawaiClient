@@ -5,7 +5,7 @@
 
 namespace Parsers::Sites
 {
-    class NHentaiDotCom : public Parsers::ParserClass
+    class NHentaiDotCom : public ParserClass
     {
     public:
         NHentaiDotCom();

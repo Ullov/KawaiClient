@@ -8,12 +8,12 @@
 
 Parsers::Sites::MangaKakalot::MangaKakalot()
 {
-    setParserType(KTools::Enums::Parsers::MangaKakalot);
+    setParserType(Parsers::MangaKakalot);
 }
 
 void Parsers::Sites::MangaKakalot::download()
 {
-    cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
+    cc->setHeaderMode(KTools::Curl::HeaderMode::None);
     cc->setOptions();
     QByteArray data = cc->request("https://mangakakalots.com/manga/" + mangaSystemName);
     KTools::HtmlAst::Object htmlAst = KTools::HtmlAst::Object();

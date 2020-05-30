@@ -149,7 +149,22 @@ QByteArray KTools::Converter::convert<QJsonObject, QByteArray>(const QJsonObject
 {
     return convert<QJsonObject, QString>(data).toUtf8();
 }
-
+template<>
+QJsonObject* KTools::Converter::convert<QString, QJsonObject*>(const QString &data)
+{
+    QJsonObject *obj;
+    QJsonDocument doc = QJsonDocument::fromJson(data.toUtf8());
+    if (!doc.isNull())
+    {
+        if (doc.isObject())
+            obj = new QJsonObject(doc.object());
+        else
+            return {}; // document is not an object
+    }
+    else
+        return {}; // invalid JSON
+    return obj;
+}
 
 
 template<typename T>

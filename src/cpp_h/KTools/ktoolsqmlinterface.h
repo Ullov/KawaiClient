@@ -2,7 +2,8 @@
 #define KTOOLSQMLINTERFACE_H
 
 #include <QObject>
-#include "enums.h"
+#include <QVariant>
+#include "../Parsers/parserclass.h"
 
 class KToolsQmlInterface : public QObject
 {
@@ -20,7 +21,7 @@ public slots:
 
 public:
     // Start KTools::Curl
-    static void curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType);
+    static void curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const Parsers::Parsers downloaderType);
     // End KTools::Curl
 
     static KToolsQmlInterface obj;
@@ -31,7 +32,7 @@ signals:
     void optionsHandlerSignalParam(const QString pathToParam, const QVariant param);
     // End OptionsHandler
     // Start KTools::Curl
-    void curlProgressSignal(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType);
+    void curlProgressSignal(const QList<double> list, const qint64 millisecondsFromStart, const Parsers::Parsers downloaderType);
     // End KTools::Curl
 };
 

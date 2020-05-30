@@ -17,6 +17,7 @@
 static void registerTypesForQml()
 {
     qRegisterMetaType<QVector<QByteArray>>("VectorByteArray");
+    Parsers::registerQmlTypes();
     KTools::Enums::registerTypesForQml();
 
     /*Kff::Fs kffFs = Kff::Fs("E:/Win7アプリ/downloads", "kffTestFile.kff");

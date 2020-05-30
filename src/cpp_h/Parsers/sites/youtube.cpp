@@ -1,13 +1,14 @@
 #include "youtube.h"
 
 #include "../../KTools/curl.h"
+#include "../../KTools/file.h"
 #include "../../KTools/converter.h"
 #include "../../KTools/HtmlAstMaker/object.h"
 #include <QJsonArray>
 
 Parsers::Sites::YouTube::YouTube()
 {
-    setParserType(KTools::Enums::Parsers::YouTube);
+    setParserType(Parsers::YouTube);
 }
 
 void Parsers::Sites::YouTube::download()
@@ -26,7 +27,7 @@ void Parsers::Sites::YouTube::download()
     };
 
     //this->cc->setHeader(chunk);
-    cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
+    cc->setHeaderMode(KTools::Curl::HeaderMode::None);
     cc->setErrFile(basePath, "errFile.txt");
     cc->setOptions();
     QString url = "https://www.youtube.com/watch?v=9twiJbZ9-nQ";
@@ -36,7 +37,9 @@ void Parsers::Sites::YouTube::download()
     htmlObj.makeAst(data);
     //data = cc->request("https://www.youtube.com/get_video_info?video_id=" + videoId);
     QJsonObject playerResponse = KTools::Converter::convert<QString, QJsonObject>(htmlObj.arrsAndObjs.objects[3].value("args").toObject().value("player_response").toString());
-    QString cipher = playerResponse.value("streamingData").toObject().value("adaptiveFormats").toArray()[1].toObject().value("cipher").toString();
+    QString cipher = playerResponse.value("streamingData").toObject().value("adaptiveFormats").toArray()[0].toObject().value("cipher").toString();
+    if (cipher == "")
+        cipher = playerResponse.value("streamingData").toObject().value("adaptiveFormats").toArray()[0].toObject().value("signatureCipher").toString();
     QList<QString> cipherList = cipher.split("&");
     QMap<QString, QString> cipherMap;
     for (int i = 0; i < cipherList.size(); i++)
@@ -46,16 +49,33 @@ void Parsers::Sites::YouTube::download()
     }
     currUrl = cipherMap["url"];
     KTools::Converter::percentEncodingToString(currUrl);
+
+    QMap<QString, QString> urlParams;
+    urlParams["cver"] = htmlObj.arrsAndObjs.objects[0].value("INNERTUBE_CONTEXT_CLIENT_VERSION").toString();
+    urlParams["rbuf"] = "0";
+    urlParams["rn"] = "1";
+    urlParams["range"] = "0-" + playerResponse.value("streamingData").toObject().value("adaptiveFormats").toArray()[0].toObject().value("contentLength").toString();
+    urlParams["alr"] = "yes";
+    urlParams["cpn"] = "BfTdx81hgqbg9Tkc"; // because it just for logs it can be whaever you want be
+
+    for (QMap<QString, QString>::const_iterator i = urlParams.begin(); i != urlParams.end(); i++)
+    {
+        currUrl += "&" + i.key() + "=" + i.value();
+    }
+    cc->setHeader(chunk);
+    cc->setHeaderMode(KTools::Curl::HeaderMode::Custom);
+    cc->setOptions();
+
     //currUrl += "&range=0-" + QString::number(100)/*playerResponse.value("streamingData").toObject().value("adaptiveFormats").toArray()[0].toObject().value("contentLength").toString()*/;
     data = cc->request(currUrl);
     //NativeFs::writeFile(currUrl.toUtf8(), basePath, "currUrl2.txt");
 
-    data = cc->request("https://www.youtube.com/get_video_info?video_id=" + videoId);
+    data = cc->request("https://www.youtube.com/get_video_info?video_id=" + videoId + "&el=embedded&ps=default");
     QList<QByteArray> info = data.split('&');
     data = info.join("\n");
     KTools::Converter::percentEncodingToString(data);
     data = data.split('&').join("\n\t");
-    //NativeFs::writeFile(data, basePath, "getVideoInfo.txt");
+    KTools::File::writeFile(data, basePath, "getVideoInfo.txt");
 
 
     endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::YouTube::Download));

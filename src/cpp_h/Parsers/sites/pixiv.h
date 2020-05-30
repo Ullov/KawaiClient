@@ -6,14 +6,14 @@
 
 namespace Parsers::Sites
 {
-    class Pixiv : public Parsers::ParserClass
+    class Pixiv : public ParserClass
     {
     public:
         Pixiv();
         ~Pixiv();
 
         QString userId; // artist's id entered by user
-        QStringList imagesFromApi;
+        QStringList *imagesFromApi;
         QJsonObject userData;
         QJsonObject userAllData;
 

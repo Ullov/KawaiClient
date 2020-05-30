@@ -8,12 +8,12 @@
 
 Parsers::Sites::NHentaiDotCom::NHentaiDotCom()
 {
-    setParserType(KTools::Enums::Parsers::NHentaiDotCom);
+    setParserType(Parsers::NHentaiDotCom);
 }
 
 void Parsers::Sites::NHentaiDotCom::download()
 {
-    cc->currHeaderMode = KTools::Enums::Curl::HeaderMode::None;
+    cc->setHeaderMode(KTools::Curl::HeaderMode::None);
     cc->setOptions();
     cc->request("https://nhentai.com");
     QString url = "https://nhentai.com/api/comics/" + slugName;

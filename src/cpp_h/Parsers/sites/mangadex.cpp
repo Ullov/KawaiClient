@@ -2,10 +2,11 @@
 
 #include "../../KTools/curl.h"
 #include "../../KTools/converter.h"
+#include "../../KTools/enums.h"
 #include <QJsonArray>
 
 Parsers::Sites::MangaDex::MangaDex() {
-    setParserType(KTools::Enums::Parsers::MangaDex);
+    setParserType(Parsers::MangaDex);
 }
 
 

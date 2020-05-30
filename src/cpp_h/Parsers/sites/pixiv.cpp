@@ -3,10 +3,12 @@
 #include "../../KTools/curl.h"
 #include "../../KTools/converter.h"
 #include "../../KTools/file.h"
+#include "../../KTools/enums.h"
+#include <QVariant>
 
 Parsers::Sites::Pixiv::Pixiv()
 {
-    setParserType(KTools::Enums::Parsers::Pixiv);
+    setParserType(Parsers::Pixiv);
 }
 
 Parsers::Sites::Pixiv::~Pixiv() { }

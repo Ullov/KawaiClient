@@ -5,7 +5,7 @@
 
 namespace Parsers::Sites
 {
-    class NineHentai : public Parsers::ParserClass
+    class NineHentai : public ParserClass
     {
     public:
         NineHentai();

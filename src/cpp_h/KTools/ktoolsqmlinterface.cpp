@@ -1,6 +1,7 @@
 #include "ktoolsqmlinterface.h"
 
 #include "options.h"
+#include "../Parsers/parserclass.h"
 
 KToolsQmlInterface::KToolsQmlInterface() {}
 
@@ -24,7 +25,7 @@ void KToolsQmlInterface::optionsHandlerSlotSetParam(const QString pathToParam, c
     KTools::Options::setParam(pathToParam, param);
 }
 
-void KToolsQmlInterface::curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const KTools::Enums::Parsers downloaderType)
+void KToolsQmlInterface::curlSendProgress(const QList<double> list, const qint64 millisecondsFromStart, const Parsers::Parsers downloaderType)
 {
     emit obj.curlProgressSignal(list, millisecondsFromStart, downloaderType);
 }

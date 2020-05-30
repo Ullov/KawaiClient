@@ -5,7 +5,7 @@
 
 namespace Parsers::Sites
 {
-    class MangaIro : public Parsers::ParserClass
+    class MangaIro : public ParserClass
     {
     public:
         MangaIro();

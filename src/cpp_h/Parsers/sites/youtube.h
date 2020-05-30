@@ -5,7 +5,7 @@
 
 namespace Parsers::Sites
 {
-    class YouTube : public Parsers::ParserClass
+    class YouTube : public ParserClass
     {
     public:
         YouTube();

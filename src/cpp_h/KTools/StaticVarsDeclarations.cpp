@@ -5,6 +5,7 @@
 #include "ktoolsqmlinterface.h"
 #include "../Parsers/parsersqmlinterface.h"
 #include "fileidentifier.h"
+#include "../Parsers/parserclass.h"
 
 #include <QStandardPaths>
 #include <QDir>
@@ -16,33 +17,33 @@ QString KTools::Options::configPath = QStandardPaths::writableLocation(QStandard
 QString KTools::Options::rootProgramPath = "";
 QString KTools::Options::logRootPath = "";
 
-QMap<KTools::Enums::Parsers, QString> KTools::Options::parsersWritePathes = {
-    {KTools::Enums::Parsers::ExHentai, rootProgramPath + "/Downloads/Manga/ExHentai/"},
-    {KTools::Enums::Parsers::MangaDex, rootProgramPath + "/Downloads/Manga/MangaDex/"},
-    {KTools::Enums::Parsers::MangaIro, rootProgramPath + "/Downloads/Manga/MangaIro/"},
-    {KTools::Enums::Parsers::NHentaiDotNet, rootProgramPath + "/Downloads/Manga/NHentai.net/"},
-    {KTools::Enums::Parsers::Pixiv, rootProgramPath + "/Downloads/Images/Pixiv/"},
-    {KTools::Enums::Parsers::Twitter, rootProgramPath + "/Downloads/Mixed/Twitter/"},
-    {KTools::Enums::Parsers::VK, rootProgramPath + "/Downloads/Mixed/VK/"},
-    {KTools::Enums::Parsers::YouTube, rootProgramPath + "/Downloads/Video/YouTube/"},
-    {KTools::Enums::Parsers::NineHentai, rootProgramPath + "/Downloads/Manga/9Hentai/"},
-    {KTools::Enums::Parsers::MangaKakalot, rootProgramPath + "/Downloads/Manga/MangaKakalot/"},
-    {KTools::Enums::Parsers::NHentaiDotCom, rootProgramPath + "/Downloads/Manga/Nhentai.com/"}
+QMap<Parsers::Parsers, QString> Parsers::ParserClass::parsersWritePathes = {
+    {Parsers::ExHentai, KTools::Options::rootProgramPath + "/Downloads/Manga/ExHentai/"},
+    {Parsers::MangaDex, KTools::Options::rootProgramPath + "/Downloads/Manga/MangaDex/"},
+    {Parsers::MangaIro, KTools::Options::rootProgramPath + "/Downloads/Manga/MangaIro/"},
+    {Parsers::NHentaiDotNet, KTools::Options::rootProgramPath + "/Downloads/Manga/NHentai.net/"},
+    {Parsers::Pixiv, KTools::Options::rootProgramPath + "/Downloads/Images/Pixiv/"},
+    {Parsers::Twitter, KTools::Options::rootProgramPath + "/Downloads/Mixed/Twitter/"},
+    {Parsers::VK, KTools::Options::rootProgramPath + "/Downloads/Mixed/VK/"},
+    {Parsers::YouTube, KTools::Options::rootProgramPath + "/Downloads/Video/YouTube/"},
+    {Parsers::NineHentai, KTools::Options::rootProgramPath + "/Downloads/Manga/9Hentai/"},
+    {Parsers::MangaKakalot, KTools::Options::rootProgramPath + "/Downloads/Manga/MangaKakalot/"},
+    {Parsers::NHentaiDotCom, KTools::Options::rootProgramPath + "/Downloads/Manga/Nhentai.com/"}
 };
-QMap<KTools::Enums::Parsers, QString> KTools::Options::parsersNames = {
-    {KTools::Enums::Parsers::ExHentai, "ExHentai"},
-    {KTools::Enums::Parsers::MangaDex, "MangaDex"},
-    {KTools::Enums::Parsers::MangaIro, "MangaIro"},
-    {KTools::Enums::Parsers::NHentaiDotNet, "NHentai.net"},
-    {KTools::Enums::Parsers::Pixiv, "Pixiv"},
-    {KTools::Enums::Parsers::Twitter, "Twitter"},
-    {KTools::Enums::Parsers::VK, "VK"},
-    {KTools::Enums::Parsers::YouTube, "YouTube"},
-    {KTools::Enums::Parsers::NineHentai, "9Hentai"},
-    {KTools::Enums::Parsers::MangaKakalot, "MangaKakalot"},
-    {KTools::Enums::Parsers::NHentaiDotCom, "NHentai.com"}
+QMap<Parsers::Parsers, QString> Parsers::ParserClass::parsersNames = {
+    {Parsers::ExHentai, "ExHentai"},
+    {Parsers::MangaDex, "MangaDex"},
+    {Parsers::MangaIro, "MangaIro"},
+    {Parsers::NHentaiDotNet, "NHentai.net"},
+    {Parsers::Pixiv, "Pixiv"},
+    {Parsers::Twitter, "Twitter"},
+    {Parsers::VK, "VK"},
+    {Parsers::YouTube, "YouTube"},
+    {Parsers::NineHentai, "9Hentai"},
+    {Parsers::MangaKakalot, "MangaKakalot"},
+    {Parsers::NHentaiDotCom, "NHentai.com"}
 };
-QJsonObject KTools::Options::configsObj = QJsonObject();
+QJsonObject *KTools::Options::configsObj = new QJsonObject();
 // End OptionsHandler
 // Start Log
 QString KTools::Log::logFileName = QDateTime::currentDateTime().toString("yyyy.MM.dd") + ".log";

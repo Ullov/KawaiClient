@@ -1,5 +1,7 @@
 #include "kffvtimestamp.h"
 
+#include "../../KTools/converter.h"
+
 KffVTimestamp::KffVTimestamp() {}
 
 QByteArray KffVTimestamp::toKffRawData()

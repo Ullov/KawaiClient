@@ -2,6 +2,7 @@ import QtQuick 2.0
 import QtQuick.Controls 2.5
 import "../../../QmlIncludes"
 import KEnums 1.0
+import PEnums 1.0
 import "ParserFunctions.js" as ParsFuncs
 
 
@@ -34,13 +35,13 @@ Rectangle {
     }
     ListModel {
         id: parsersModelItem
-        ListElement {name: "Pixiv";  placeholder:"Enter user ID..."; functionType:"standart"; parserMode: ParserModes.Pixiv.Download; parserType: KEnums.Parsers.Pixiv}
-        ListElement {name: "MangaDex"; placeholder:"Enter manga ID..."; functionType:"mangadex"; parserMode: ParserModes.MangaDex.Download; parserType: KEnums.Parsers.MangaDex}
-        ListElement {name: "ExHentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.ExHentai.Download; parserType: KEnums.Parsers.ExHentai}
-        ListElement {name: "9Hentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.NineHentai.Download; parserType: KEnums.Parsers.NineHentai}
-        ListElement {name: "MangaKakalot"; placeholder:"Enter manga system name..."; functionType:"standart"; parserMode: ParserModes.MangaKakalot.Download; parserType: KEnums.Parsers.MangaKakalot}
-        ListElement {name: "NHentai.com"; placeholder:"Enter gallery slug..."; functionType:"standart"; parserMode: ParserModes.NHentaiDotCom.Download; parserType: KEnums.Parsers.NHentaiDotCom}
-        ListElement {name: "YouTube"; placeholder:"Enter video url..."; functionType:"standart"; parserMode: ParserModes.YouTube.Download; parserType: KEnums.Parsers.YouTube}
+        ListElement {name: "Pixiv";  placeholder:"Enter user ID..."; functionType:"standart"; parserMode: ParserModes.Pixiv.Download; parserType: Parsers.Parsers.Pixiv}
+        ListElement {name: "MangaDex"; placeholder:"Enter manga ID..."; functionType:"mangadex"; parserMode: ParserModes.MangaDex.Download; parserType: Parsers.Parsers.MangaDex}
+        ListElement {name: "ExHentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.ExHentai.Download; parserType: Parsers.Parsers.ExHentai}
+        ListElement {name: "9Hentai"; placeholder:"Enter gallery ID..."; functionType:"standart"; parserMode: ParserModes.NineHentai.Download; parserType: Parsers.Parsers.NineHentai}
+        ListElement {name: "MangaKakalot"; placeholder:"Enter manga system name..."; functionType:"standart"; parserMode: ParserModes.MangaKakalot.Download; parserType: Parsers.Parsers.MangaKakalot}
+        ListElement {name: "NHentai.com"; placeholder:"Enter gallery slug..."; functionType:"standart"; parserMode: ParserModes.NHentaiDotCom.Download; parserType: Parsers.Parsers.NHentaiDotCom}
+        ListElement {name: "YouTube"; placeholder:"Enter video url..."; functionType:"standart"; parserMode: ParserModes.YouTube.Download; parserType: Parsers.Parsers.YouTube}
     }
     Component {
         id: parsersDelegateItem
@@ -52,7 +53,7 @@ Rectangle {
             radius: 20
             Component.onCompleted: {
                 var path;
-                if (parserType === KEnums.Parsers.MangaDex)
+                if (parserType === Parsers.Parsers.MangaDex)
                     path = "qrc:/qml/windows/Misc/Parsers/MangadexInputRectangle.qml"
                 else
                     path = "qrc:/qml/windows/Misc/Parsers/StandartInputRectangle.qml"

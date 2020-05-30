@@ -5,7 +5,7 @@
 
 namespace Parsers::Sites
 {
-    class MangaKakalot : public Parsers::ParserClass
+    class MangaKakalot : public ParserClass
     {
     public:
         MangaKakalot();

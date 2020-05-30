@@ -5,7 +5,7 @@
 
 namespace Parsers::Sites
 {
-    class MangaDex : public Parsers::ParserClass
+    class MangaDex : public ParserClass
     {
     public:
         MangaDex();

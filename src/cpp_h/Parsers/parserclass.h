@@ -2,8 +2,9 @@
 #define PARSERS_PARSERCLASS_H
 
 #include <QJsonObject>
-#include "../KTools/enums.h"
 #include <QString>
+#include <QVector>
+#include <QObject>
 
 namespace KTools
 {
@@ -18,6 +19,24 @@ namespace KTools
 
 namespace Parsers
 {
+    Q_NAMESPACE
+    Q_CLASSINFO("RegisterEnumClassesUnscoped", "false")
+    enum class Parsers {
+        ExHentai,
+        MangaDex,
+        MangaIro,
+        NHentaiDotNet,
+        Pixiv,
+        Twitter,
+        VK,
+        YouTube,
+        NineHentai,
+        MangaKakalot,
+        NHentaiDotCom
+    };
+    Q_ENUM_NS(Parsers)
+    void registerQmlTypes();
+
     class ParserClass
     {
     public:
@@ -25,7 +44,6 @@ namespace Parsers
         ~ParserClass();
 
         KTools::Curl *cc;
-        KTools::Enums::Parsers parserType;
 
     protected:
         // JSON
@@ -43,7 +61,7 @@ namespace Parsers
         QVector<QJsonObject> extractJsonObjectFromText(const QString &text);
         QString defineExtension(const QByteArray &file);
         void writeInfoLog(const QString &message);
-        void setParserType(const KTools::Enums::Parsers type);
+        void setParserType(const Parsers type);
         void endDownloadingFunction(const int parserMode, const QJsonObject &data = QJsonObject(), const QVector<QByteArray> &binaryContent = QVector<QByteArray>());
 
         // variables
@@ -55,6 +73,10 @@ namespace Parsers
         const QString logFile = "log.txt";
         QString basePath;
         QString parserName;
+
+        static QMap<Parsers, QString> parsersWritePathes;
+        static QMap<Parsers, QString> parsersNames;
+        Parsers parserType;
     };
 }
 

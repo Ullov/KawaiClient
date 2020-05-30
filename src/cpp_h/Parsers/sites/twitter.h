@@ -5,7 +5,7 @@
 
 namespace Parsers::Sites
 {
-    class Twitter : public Parsers::ParserClass
+    class Twitter : public ParserClass
     {
     public:
         Twitter();

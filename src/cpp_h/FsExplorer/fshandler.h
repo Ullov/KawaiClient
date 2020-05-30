@@ -9,6 +9,7 @@
 #include <QDir>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QVariant>
 #include "../KTools/fileidentifier.h"
 #include "../KTools/options.h"
 

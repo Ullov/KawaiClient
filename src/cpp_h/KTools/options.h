@@ -1,7 +1,11 @@
 #ifndef KTOOLS_OPTIONS_H
 #define KTOOLS_OPTIONS_H
 
-#include "enums.h"
+#include "curl.h"
+
+class QJsonObject;
+class QVariant;
+class QJsonValue;
 
 namespace KTools
 {
@@ -11,13 +15,11 @@ namespace KTools
         Options();
         QString getRootProgramPath();
 
-        static QJsonObject configsObj;
+        static QJsonObject *configsObj;
         static QString configPath;
         static QString configFile;
         static QString rootProgramPath;
         static QString logRootPath;
-        static QMap<KTools::Enums::Parsers, QString> parsersWritePathes;
-        static QMap<KTools::Enums::Parsers, QString> parsersNames;
 
         static void setRootProgramPath(const QString &path);
         static void setParam(const QString &pathToParam, const QString &param); // wrapper for privateSetParam() for C++

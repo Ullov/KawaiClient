@@ -7,7 +7,7 @@
 
 Parsers::Sites::NineHentai::NineHentai()
 {
-    setParserType(KTools::Enums::Parsers::NineHentai);
+    setParserType(Parsers::NineHentai);
 }
 
 void Parsers::Sites::NineHentai::download()
@@ -34,18 +34,18 @@ void Parsers::Sites::NineHentai::download()
     };
 
     cc->setHeader(hea);
-    cc->setRequestType(KTools::Enums::Curl::RequestType::Post);
-    cc->currCookieMode = KTools::Enums::Curl::CookieMode::Void;
+    cc->setRequestType(KTools::Curl::RequestType::Post);
+    cc->setCookieMode(KTools::Curl::CookieMode::Void);
     cc->setOptions();
 
-    cc->currPostParam = "{\"id\":" + galleryId + "}";
+    cc->setPostParam("{\"id\":" + galleryId + "}");
     currUrl = "https://9hentai.com/api/getBookByID";
     QByteArray data = cc->request(currUrl);
     QJsonObject obj = KTools::Converter::convert<QString, QJsonObject>(data);
 
     if (!obj["status"].toBool())
     {
-        KTools::Log::writeError("Error in API call. URL: " + currUrl + " ; PostParam: " + cc->currPostParam, "NineHentai");
+        KTools::Log::writeError("Error in API call. URL: " + currUrl + " ; PostParam: " + cc->getPostParam(), "NineHentai");
         endDownloadingFunction(static_cast<int>(KTools::Enums::ParserModes::NineHentai::Download));
         return;
     }
@@ -66,7 +66,7 @@ void Parsers::Sites::NineHentai::download()
     cc->delHeaderLine("X-Requested-With");
     cc->delHeaderLine("Content-Type");
     cc->setHeader(imgHea);
-    cc->setRequestType(KTools::Enums::Curl::RequestType::Get);
+    cc->setRequestType(KTools::Curl::RequestType::Get);
     cc->restartSession();
     cc->setOptions();
     currUrl = obj["results"].toObject().value("image_server").toString() + id +"/";

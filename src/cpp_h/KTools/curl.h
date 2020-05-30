@@ -2,77 +2,148 @@
 #define KTOOLS_CURL_H
 
 #include <curl/curl.h>
-#include <QElapsedTimer>
-#include "enums.h"
+#include <QString>
+#include <QMap>
+
+class QElapsedTimer;
 
 namespace KTools
 {
     class Curl
     {
     public:
+        enum class RequestType {
+            Get,
+            Post
+        };
+        enum class CookieMode {
+            None,
+            GetAllTimes,
+            GetAndKeep,
+            Keep,
+            Void
+        };
+        enum class HeaderMode {
+            None,
+            Custom
+        };
+        enum class SetHeaderMode {
+            Add,
+            New
+        };
+        enum class HttpVersion {
+            Http2,
+            Standart
+        };
+        enum class RequestMode {
+            Old,
+            New
+        };
+    private:
+        struct CurlHandle
+        {
+            CurlHandle()
+            {
+                handle = curl_easy_init();
+                cookieMode = CookieMode::Void;
+                headerMode = HeaderMode::Custom;
+                requestType = RequestType::Get;
+                requestMode = RequestMode::New;
+                httpVersion = HttpVersion::Http2;
+                stdErr = NULL;
+                postParam = new QString();
+                cookieFileName = new QString();
+                requestHeader = new QMap<QString, QString>();
+                slistHeader = NULL;
+                responseHeader = new QByteArray();
+            }
+            ~CurlHandle()
+            {
+                curl_easy_cleanup(handle);
+                if (stdErr != NULL)
+                    delete stdErr;
+                if (postParam != NULL)
+                    delete postParam;
+                if (cookieFileName != NULL)
+                    delete cookieFileName;
+                if (slistHeader != NULL)
+                    curl_slist_free_all(slistHeader);
+                if (requestHeader != NULL)
+                    delete requestHeader;
+                if (responseHeader != NULL)
+                    delete responseHeader;
+            }
+            CURL *handle;
+            CURLcode res;
+            struct curl_slist *slistHeader;
+            FILE *stdErr;
+            CookieMode cookieMode;
+            HeaderMode headerMode;
+            RequestType requestType;
+            RequestMode requestMode;
+            HttpVersion httpVersion;
+            QMap<QString, QString> *requestHeader;
+            QByteArray *responseHeader;
+            QString *postParam;
+            QString *cookieFileName;
+            long responseCode; // response code for last request
+            bool emitProgress = false;
+            bool autoRefer = true;
+        };
+
+    public:
         Curl();
         ~Curl();
 
         QByteArray performing(const char* url);
-        void setHeader(QVector<QByteArray> chunk, const KTools::Enums::Curl::SetHeaderMode mode = KTools::Enums::Curl::SetHeaderMode::Add);
         QByteArray request(const QString &url);
         void restartSession();
 
-
         void setOptions();
-        void setRequestType(KTools::Enums::Curl::RequestType requType);
+        void setHttpVersion(const HttpVersion vers);
+        void setCookieMode(const CookieMode mode);
+        void setHeaderMode(const HeaderMode mode);
+        void setAutoReferer(const bool ref);
+        void setPostParam(const QString &data);
+        void setHeader(QVector<QByteArray> chunk, const SetHeaderMode mode = SetHeaderMode::Add);
         void setHeader(const QMap<QString, QString> &chunk);
         void setHeaderLine(const std::pair<QString, QString> &headerLine);
         void delHeaderLine(const QString &key);
+        void setRequestType(RequestType requType);
         void setErrFile(const QString &path, const QString &fileName);
         void unsetErrFile();
 
-        void addHandle(const QString &handleName);
-        void swichHandle (const QString &handleName);
+        const QString& getPostParam();
 
-        KTools::Enums::Parsers downloaderType;
-        KTools::Enums::Curl::CookieMode currCookieMode;
-        KTools::Enums::Curl::HeaderMode currHeaderMode;
-        KTools::Enums::Curl::RequestType currRequestType;
-        KTools::Enums::Curl::HttpVersion currHttpVersion;
-        KTools::Enums::Curl::RequestMode currRequestMode;
-        QString currPostParam;
+        void addHandle();
+        void swichHandle(const qint32 handleNumber);
+
+        //Parsers downloaderType;
         static QString cookiePath;
-        QString cookieFileName;
-        bool emitProgress = false;
-        long responseCode; // response code for last request
-        bool autoRefer = true;
-        bool saveHeader = false;
-        QByteArray savedHeaderData;
-        FILE *stdErr;
-        bool errFileSetted = false;
-        bool verboseOutput = false;
 
     private:
-        CURLcode res;
+        //CURLcode res;
         static quint64 writeMemoryCallback(char *data, quint64 size, quint64 nmemb, QByteArray *writerData);
-        static int XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, double ulTotal, double ulNow);
+        //static int XFerInfoFunctionCallback(void *p, double dlTotal, double dlNow, double ulTotal, double ulNow);
         static quint64 headerCallback(char *buffer, quint64 size, quint64 nitems, QByteArray *userdata);
         void generateHeader();
 
-        struct curl_slist *header;
+        //struct curl_slist *header;
         static QString cacertPath;
         static QString cacertFileName;
         static QString fullCacertPath;
         static QString pathToCacertInQrc;
-        CURL *gCurlHandle;
-        QMap<QString, QString> headerData;
-        QMap<QString, CURL*> handlesList;
-
-        struct ForProggress
+        QVector<CurlHandle*> *handlesList;
+        qint32 numb; // number of the current hadle
+        /*struct ForProggress
         {
             Curl *th;
-            QElapsedTimer timer;
+            QElapsedTimer *timer;
             double lastDlTotal;
             double lastUlTotal;
             double lastDlNow;
             double lastUlNow;
-        };
+        };*/
     };
 }
 

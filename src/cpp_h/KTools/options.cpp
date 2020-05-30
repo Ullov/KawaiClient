@@ -28,7 +28,7 @@ KTools::Options::Options()
         KTools::File::copyFile(":/resources/sampleFiles/configs.json", rootProgramPath + "/Settings", "configs.json");
     }
     QString fileContent = KTools::File::readFile<QString>(rootProgramPath + "/Settings", "configs.json");
-    configsObj = KTools::Converter::convert<QString, QJsonObject>(fileContent);
+    configsObj = KTools::Converter::convert<QString, QJsonObject*>(fileContent);
 }
 
 bool KTools::Options::save()
@@ -151,8 +151,8 @@ void KTools::Options::setParam(const QString &pathToParam, const QString &param)
     QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
     QString name = list[0];
     list.pop_front();
-    QJsonValueRef jsVal = configsObj[name];
-    configsObj[name] = privateSetParam(list, jsVal, param);
+    QJsonValueRef jsVal = configsObj->operator[](name);
+    configsObj->operator[](name) = privateSetParam(list, jsVal, param);
     save();
 }
 
@@ -161,6 +161,6 @@ QVariant KTools::Options::getParam(const QString &pathToParam)
     QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
     QString name = list[0];
     list.pop_front();
-    QJsonValue jsVal = configsObj[name];
+    QJsonValue jsVal = configsObj->operator[](name);
     return privateGetParam(list, jsVal);
 }

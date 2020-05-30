@@ -1,5 +1,7 @@
 #include "nhentai.h"
 
+#include "../../KTools/enums.h"
+
 Parsers::Sites::NHentai::NHentai() { }
 
 Parsers::Sites::NHentai::~NHentai() { }

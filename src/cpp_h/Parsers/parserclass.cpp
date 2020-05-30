@@ -149,15 +149,15 @@ QVector<QJsonObject> Parsers::ParserClass::extractJsonObjectFromText(const QStri
 
 void Parsers::ParserClass::writeInfoLog(const QString &message)
 {
-    KTools::Log::writeCustomLog(message, KTools::Options::parsersNames[parserType], KTools::Enums::LogType::Info, rootPath, logFile);
+    KTools::Log::writeCustomLog(message, parsersNames[parserType], KTools::Enums::LogType::Info, rootPath, logFile);
 }
 
-void Parsers::ParserClass::setParserType(const KTools::Enums::Parsers type)
+void Parsers::ParserClass::setParserType(const Parsers type)
 {
     parserType = type;
-    basePath = KTools::Options::rootProgramPath + '/' + KTools::Options::parsersWritePathes[type];
-    parserName = KTools::Options::parsersNames[type];
-    cc->downloaderType = type;
+    basePath = KTools::Options::rootProgramPath + '/' + parsersWritePathes[type];
+    parserName = parsersNames[type];
+    //cc->downloaderType = type;
 }
 
 void Parsers::ParserClass::endDownloadingFunction(const int parserMode, const QJsonObject &data, const QVector<QByteArray> &binaryContent)
@@ -166,4 +166,10 @@ void Parsers::ParserClass::endDownloadingFunction(const int parserMode, const QJ
     mode.push_back(static_cast<int>(parserType));
     mode.push_back(parserMode);
     ParsersQmlInterface::obj.emitParserClassDownloadingFinished(mode, data, binaryContent);
+}
+
+void Parsers::registerQmlTypes()
+{
+    qmlRegisterUncreatableMetaObject(staticMetaObject, "PEnums", 1, 0, "Parsers", "Is enum");
+    qRegisterMetaType<Parsers>("ParsersParsers");
 }
