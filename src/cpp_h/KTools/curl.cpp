@@ -17,7 +17,7 @@ KTools::Curl::~Curl()
 {
     QVector<CurlHandle*>::iterator end = handlesList->end();
     for (QVector<CurlHandle*>::iterator i = handlesList->begin(); i != end; ++i)
-        delete i;
+        delete (*i);
 
     delete handlesList;
 }
