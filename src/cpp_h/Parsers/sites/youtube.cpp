@@ -34,6 +34,7 @@ void Parsers::Sites::YouTube::download()
     QString videoId = "9twiJbZ9-nQ";
     QByteArray data = cc->request(url); // https://www.youtube.com/watch?v=OCsqmC2KPsY&pbj=1
     KTools::HtmlAst::Object htmlObj = KTools::HtmlAst::Object();
+    htmlObj.parseJs = true;
     htmlObj.makeAst(data);
     //data = cc->request("https://www.youtube.com/get_video_info?video_id=" + videoId);
     QJsonObject playerResponse = KTools::Converter::convert<QString, QJsonObject>(htmlObj.arrsAndObjs.objects[3].value("args").toObject().value("player_response").toString());

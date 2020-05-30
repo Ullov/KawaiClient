@@ -65,7 +65,9 @@ KTools::HtmlAst::Tag& KTools::HtmlAst::Object::readTag(qint32 &pos, const qint32
 
                     if (tagClass->getName().toLower() == "script")
                     {
-                        readJs(tagClass->getInnerContent());
+                        if (parseJs)
+                            readJs(tagClass->getInnerContent());
+
                         tagClass->status = Tag::StatusEnum::TagValid;
                         pos += tagClass->getInnerContent().size() + 9;
                         return *tagClass;

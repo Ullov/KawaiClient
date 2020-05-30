@@ -14,6 +14,7 @@ namespace KTools::HtmlAst
 
         bool makeAst(const QString &data);
         Tag *rootTag;
+        bool parseJs = false;
 
     private:
 
