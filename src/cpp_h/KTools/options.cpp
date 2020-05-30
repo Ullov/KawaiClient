@@ -33,7 +33,7 @@ KTools::Options::Options()
 
 bool KTools::Options::save()
 {
-    return KTools::File::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(configsObj), rootProgramPath, "configs.json");
+    return KTools::File::writeFile(KTools::Converter::convert<QJsonObject, QByteArray>(*configsObj), rootProgramPath + "/Settings", "configs.json");
 }
 
 void KTools::Options::setRootProgramPath(const QString &path)
