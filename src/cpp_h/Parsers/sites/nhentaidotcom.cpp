@@ -21,11 +21,7 @@ void Parsers::Sites::NHentaiDotCom::download()
     QJsonObject info = KTools::Converter::convert<QString, QJsonObject>(data);
     QString title = info.value("title").toString();
     QString id = QString::number(info.value("id").toInt());
-    KTools::Converter::toNtfsCompatibleString(title);
-
-    rootPath = basePath + "/[" + id + "](" + title + ')';
-    for (int i = 0; KTools::File::dirExist(rootPath); i++)
-        rootPath = basePath + "/[" + id + "](" + title + ")[" + QString::number(i) + ']';
+    setRootPath('[' + id + "](" + title + ')');
 
     writeInfoLog("Downloading started.");
 
