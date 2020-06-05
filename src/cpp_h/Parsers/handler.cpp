@@ -109,7 +109,7 @@ void Parsers::Handler::startDownloading(const QStringList &params, const KTools:
 void Parsers::Handler::startDownloading(const QStringList &params, const KTools::Enums::ParserModes::VK parserMode)
 {
     Sites::Vk *api = new Sites::Vk();
-    api->postUrl = params[0];
+    api->postId = params[0];
     api->downloadPost();
     delete api;
 }

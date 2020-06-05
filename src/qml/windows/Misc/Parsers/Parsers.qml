@@ -42,6 +42,7 @@ Rectangle {
         ListElement {name: "MangaKakalot"; placeholder:"Enter manga system name..."; functionType:"standart"; parserMode: ParserModes.MangaKakalot.Download; parserType: Parsers.Parsers.MangaKakalot}
         ListElement {name: "NHentai.com"; placeholder:"Enter gallery slug..."; functionType:"standart"; parserMode: ParserModes.NHentaiDotCom.Download; parserType: Parsers.Parsers.NHentaiDotCom}
         ListElement {name: "YouTube"; placeholder:"Enter video url..."; functionType:"standart"; parserMode: ParserModes.YouTube.Download; parserType: Parsers.Parsers.YouTube}
+        ListElement {name: "VK"; placeholder:"Enter post id..."; functionType:"standart"; parserMode: ParserModes.VK.Download; parserType: Parsers.Parsers.VK}
     }
     Component {
         id: parsersDelegateItem

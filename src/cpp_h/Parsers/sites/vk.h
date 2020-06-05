@@ -12,7 +12,7 @@ namespace Parsers::Sites
     public:
         Vk();
 
-        QString postUrl;
+        QString postId;
 
         void downloadPost();
     };

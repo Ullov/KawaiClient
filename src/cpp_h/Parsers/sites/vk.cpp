@@ -4,50 +4,43 @@
 #include "../../KTools/converter.h"
 #include "../../KTools/exforstring.h"
 #include "../../KTools/file.h"
+#include "../../KTools/HtmlAstMaker/object.h"
 #include <QJsonArray>
 
-Parsers::Sites::Vk::Vk() {}
+Parsers::Sites::Vk::Vk()
+{
+    setParserType(Parsers::VK);
+}
 
 void Parsers::Sites::Vk::downloadPost()
 {
     chunk = {
         "Host: vk.com",
-        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0",
-        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language: ja,en-US;q=0.7,en;q=0.3",
+        //"User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:70.0) Gecko/20100101 Firefox/70.0",
+        "Accept: */*",
         "Accept-Encoding: gzip, deflate, br",
-        "Referer: https://vk.com/bookmarks",
-        "Connection: keep-alive",
-        "DNT: 1",
-        "Connection: keep-alive",
-        "Cookie: remixrefkey=3c7b150f28a23c49be; remixflash=0.0.0; remixscreen_depth=24; remixdt=-10800; remixab=1; remixseenads=0; remixfeed=*.*.*.*.*.*.ps%2Ctp.photos%2Cvideos%2Cfriends%2Cgroups%2Cpodcasts%2Ckrsk2019; remixstid=1782892298_b06dee564c8becaa47; remixlang=20; remixsid=1c9285b2e5f34f18daa73dc0f2cecbc7ce8526c8b5c74a4dcadc6ac65e17c; remixua=29%7C-1%7C277%7C-1721256372; remixmdevice=1680/1050/1/!!-!!!!; remixscreen_orient=1; remixvoice=0; remixusid=NWZkY2YwODFjZDYyYWZjNDYyNmVhN2Ex; remixgp=6ce88c32eb383bb03c2c786b26128d75; remixcurr_audio=236071586_456241410; remixsts=%7B%22data%22%3A%5B%5B1576979208%2C%22time_spent%22%2C%7B%22bookmarks%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979204779%2C%22options%22%3A%7B%7D%7D%2C%22im%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979205127%2C%22options%22%3A%7B%7D%7D%2C%22wall%22%3A%7B%22full%22%3A1971%2C%22last%22%3A1576979207637%2C%22options%22%3A%7B%7D%7D%7D%5D%2C%5B1576979209%2C%22time_spent%22%2C%7B%22im%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979208129%2C%22options%22%3A%7B%7D%7D%2C%22wall%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979208667%2C%22options%22%3A%7B%7D%7D%2C%22groups%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979208749%2C%22options%22%3A%7B%7D%7D%2C%22bookmarks%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979208776%2C%22options%22%3A%7B%7D%7D%7D%5D%2C%5B1576979209%2C%22app_use_time%22%2C%22wall%7C1576940116020%7C1576940116020%7C1576979209273%7C154061%7C0%22%5D%2C%5B1576979219%2C%22time_spent%22%2C%7B%22wall%22%3A%7B%22full%22%3A6003%2C%22last%22%3A1576979216641%2C%22options%22%3A%7B%7D%7D%2C%22im%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979217133%2C%22options%22%3A%7B%7D%7D%7D%5D%2C%5B1576979230%2C%22time_spent%22%2C%7B%22wall%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979229680%2C%22options%22%3A%7B%7D%7D%2C%22groups%22%3A%7B%22full%22%3A0%2C%22last%22%3A1576979229754%2C%22options%22%3A%7B%7D%7D%7D%5D%5D%2C%22uniqueId%22%3A472534307%7D",
-        "Upgrade-Insecure-Requests: 1",
-        "Pragma: no-cache",
-        "Cache-Control: no-cache",
-        "TE: Trailers"
-    };
-    QVector<QByteArray> alterChunk = {
-        "Host: saucenao.com",
-        "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0",
-        "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-        "Accept-Language: ja,en-US;q=0.7,en;q=0.3",
-        "Accept-Encoding: gzip, deflate, br",
-        "DNT: 1",
-        "Connection: keep-alive",
-        "Cookie: _ga=GA1.2.1219073593.1547232016; __utma=4212273.1219073593.1547232016.1547417279.1547417279.1; __cfduid=d2086943cd7470681f3e46dcbd8163a051579295836",
-        "Upgrade-Insecure-Requests: 1",
-        "Pragma: no-cache",
-        "Cache-Control: no-cache"
+        "Connection: keep-alive"
     };
 
-    //this->cc->setHeader(chunk);
-    //QByteArray data = cc->performing(postUrl.toUtf8());
-    this->cc->setHeader(alterChunk);
-    QByteArray data = cc->performing("https://saucenao.com/");
-    //KawaiHtmlParser *khp = new KawaiHtmlParser();
-    //khp->open(data);
-
+    KTools::File::makePath(basePath);
+    cc->setHeaderMode(KTools::Curl::HeaderMode::Custom);
+    cc->setHttpVersion(KTools::Curl::HttpVersion::Standart);
+    cc->setHeader(chunk);
+    cc->setErrFile(basePath, "errFile.txt");
+    cc->setOptions();
+    QByteArray data = cc->request("https://vk.com/wall-64992977_1472");
     QString page = KTools::Converter::nationalEncodingToUtf8("Windows-1251", data);
+    KTools::HtmlAst::Object htmlObj = KTools::HtmlAst::Object();
+    htmlObj.parseJs = true;
+    htmlObj.makeAst(page);
+    Vk &th = *this;
+    th.cc->unsetErrFile();
+    //KTools::File::writeFile(page.toUtf8(), basePath, "postHtml.txt");
+    KTools::HtmlAst::Tag &tagObj = htmlObj.rootTag->find("1/9/0/0/1/1/1/0/0/0/0/0/0/0");
+    QString posterName = tagObj.find("0/1/0").getInnerContent();
+    QString postUrl;
+
+
 
     QVector<QVector<QVector<QString>>> regexResult;
     QVector<QString> patterns;

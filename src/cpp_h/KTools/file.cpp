@@ -35,7 +35,7 @@ qint64 KTools::File::pos()
 template<typename T>
 void KTools::File::write(const T &data)
 {
-    file->write(KTools::Converter::toByteArray<T>(data));
+    file->write(KTools::Converter::toByteArray(data));
 }
 
 template<>

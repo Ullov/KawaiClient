@@ -25,7 +25,7 @@ static void registerTypesForQml()
     QString path = "E:/Win7アプリ/downloads/kffTestFile.kff";
     if (KTools::File::fileExist(path))
         QFile::remove(path);
-    kffStream.write(KTools::File::readFile<QByteArray>("E:/Win7アプリ/downloads", "MikuDB-VOM@S28-v2.torrent"));*/
+    kffStream.write(KTools::File::readFile<QByteArray>(R"(E:\KawaiClient\log\debug)", "2020.03.15.log"));*/
 }
 
 int main(int argc, char *argv[])
