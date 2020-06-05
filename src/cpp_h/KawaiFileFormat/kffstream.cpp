@@ -1,5 +1,7 @@
 #include "kffstream.h"
 
+#include <QTime>
+
 Kff::Stream::Stream(KTools::File &NfFile, const qint64 dbStart, const qint64 inStart)
 {
     dataBlockStart = dbStart;
@@ -70,7 +72,7 @@ qint64 Kff::Stream::appendCluster()
     }
 
     fileInNativeFs->seek(clustersPos.last() + 8);
-
+    posInCurrCluster = 0;
     return clearClusterPos;
 }
 
@@ -180,15 +182,20 @@ void Kff::Stream::write(const QByteArray &data)
         fileInNativeFs->write(firstWriteBlock);
         toNextCluster();
 
-        for (qint64 i = 0; i * 256 < data.size(); i++)
+        qint64 writedSize = 0;
+        qint64 firstBlockSize = firstWriteBlock.size();
+        for (qint64 i = 0; (writedSize = i * 256) < data.size(); i++)
         {
-            QByteArray writeBlock = data.mid((i * 256) + firstWriteBlock.size(), 256);
+            //qint64 forDebug = writedSize + firstBlockSize;
+            QString start = QTime::currentTime().toString("mm:ss:zzz");
+            QByteArray writeBlock = data.mid(writedSize + firstBlockSize, 256);
             qint64 blockLenght = writeBlock.size();
             fileInNativeFs->write(writeBlock);
             if (blockLenght == 256)
                 toNextCluster();
             else
                 posInCurrCluster += blockLenght;
+            KTools::Log::writeDebug("Start: " + start + " End: " + QTime::currentTime().toString("mm:ss:zzz"), "Kff::Stream::appendCluster()");
         }
     }
 }
