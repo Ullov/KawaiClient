@@ -28,7 +28,8 @@ namespace KTools::HtmlAst
         qint32 getChildTagCounter();
 
         void clearAttributes();
-        Tag& find(const qint32 numb); // returns child tag ny number
+        Tag& find(const qint32 numb); // returns child tag by number
+        Tag& find(const QString path); // returns tag by path. example "1/0/2/5"
         bool isExist(qint32 childTagIndex);
 
         enum class StatusEnum

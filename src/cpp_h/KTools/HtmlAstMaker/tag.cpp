@@ -103,3 +103,21 @@ bool KTools::HtmlAst::Tag::isExist(qint32 childTagIndex)
     else
         return false;
 }
+
+KTools::HtmlAst::Tag& KTools::HtmlAst::Tag::find(const QString path)
+{
+    QList<QString> list = path.split("/", QString::SplitBehavior::SkipEmptyParts);
+    Tag *currTag = this;
+    for (qint32 i = 0; i < list.size(); i++)
+    {
+        if (list[i] == "..")
+        {
+            currTag = &currTag->getParentTag();
+        }
+        else
+        {
+            currTag = &currTag->find(list[i].toInt());
+        }
+    }
+    return *currTag;
+}
