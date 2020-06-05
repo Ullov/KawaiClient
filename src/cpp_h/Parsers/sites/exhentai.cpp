@@ -32,15 +32,12 @@ Parsers::Sites::ExHentai::ExHentai()
 void Parsers::Sites::ExHentai::slotDownload()
 {
     currUrl = "https://exhentai.org/g/" + galleryCode + "/?hc=10#comments"; // 1583231/db7901c0b7
-    //currUrl = "https://exhentai.org/g/1583231/db7901c0b7/";
     galleryUrl = "https://exhentai.org/g/" + galleryCode + '/';
     QString data = cc->request(currUrl);
     KTools::HtmlAst::Object *htmlAst = new KTools::HtmlAst::Object();
     htmlAst->makeAst(data);
     QJsonObject info = getGalleryInfo(*htmlAst);
-    currUrl = info["name"].toArray().at(0).toString();
-    KTools::Converter::toNtfsCompatibleString(currUrl);
-    rootPath = basePath + "/" + currUrl;
+    setRootPath(info["name"].toArray().at(0).toString());
     writeInfoLog("Downloading started. Info extracted.");
     QJsonArray comments = getComments(*htmlAst);
     writeInfoLog("Comments extracted.");
@@ -115,7 +112,7 @@ QJsonObject Parsers::Sites::ExHentai::getGalleryInfo(KTools::HtmlAst::Object &ht
     for (int i = 0; i < hTag.getChildTagCounter(); i++)
         tmp.append(hTag.find(i).getInnerContent());
     info["name"] = tmp;
-    hTag = htmlAst.rootTag->find(1).find(3).find(3).find(0); // id="gd3"
+    hTag = htmlAst.rootTag->find("1/3/2/0"); // id="gd3"
     info["type"] = hTag.find(0).find(0).getInnerContent();
     info["uploader"] = hTag.find(1).find(0).getInnerContent();
     hTag = hTag.find(2).find(0);
@@ -125,10 +122,10 @@ QJsonObject Parsers::Sites::ExHentai::getGalleryInfo(KTools::HtmlAst::Object &ht
         key.chop(1);
         info[key] = hTag.find(i).find(1).getInnerContent();
     }
-    hTag = htmlAst.rootTag->find(1).find(3).find(3).find(0).find(3); // id="gdr"
+    hTag = htmlAst.rootTag->find("1/3/2/0/3"); // id="gdr"
     info["peopleRatedCounter"] = hTag.find(0).find(0).find(2).find(0).getInnerContent(); // id="rating_count"
     info["averageRating"] = KTools::ExForString::getDoubleNumberFromString(hTag.find(0).find(1).find(0).getInnerContent())[0]; // id="rating_label"
-    hTag = htmlAst.rootTag->find(1).find(3).find(3).find(1).find(0).find(0); // <div id="taglist"><table>
+    hTag = htmlAst.rootTag->find("1/3/2/1/0/0"); // <div id="taglist"><table>
     info["sectionedInfo"] = getSectionedInfo(hTag);
     return info;
 }
