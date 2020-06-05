@@ -63,6 +63,7 @@ namespace Parsers
         void writeInfoLog(const QString &message);
         void setParserType(const Parsers type);
         void endDownloadingFunction(const int parserMode, const QJsonObject &data = QJsonObject(), const QVector<QByteArray> &binaryContent = QVector<QByteArray>());
+        void setRootPath(const QString &name);
 
         // variables
         QString currUrl;

@@ -168,8 +168,18 @@ void Parsers::ParserClass::endDownloadingFunction(const int parserMode, const QJ
     ParsersQmlInterface::obj.emitParserClassDownloadingFinished(mode, data, binaryContent);
 }
 
+void Parsers::ParserClass::setRootPath(const QString &name)
+{
+    QString tmp = name;
+    KTools::Converter::toNtfsCompatibleString(tmp);
+    rootPath = basePath + '/' + tmp;
+    for (int i = 0; KTools::File::dirExist(rootPath); i++)
+        rootPath = basePath + '/' + tmp + '[' + QString::number(i) + ']';
+}
+
 void Parsers::registerQmlTypes()
 {
     qmlRegisterUncreatableMetaObject(staticMetaObject, "PEnums", 1, 0, "Parsers", "Is enum");
     qRegisterMetaType<Parsers>("ParsersParsers");
 }
+
