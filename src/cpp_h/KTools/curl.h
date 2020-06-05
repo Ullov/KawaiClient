@@ -90,6 +90,12 @@ namespace KTools
             bool emitProgress = false;
             bool autoRefer = true;
         };
+        struct RequestTypesStrings
+        {
+            std::string get = "GET";
+            std::string post = "POST";
+        };
+        RequestTypesStrings requestTypesStrings;
 
     public:
         Curl();
@@ -128,7 +134,21 @@ namespace KTools
         static quint64 headerCallback(char *buffer, quint64 size, quint64 nitems, QByteArray *userdata);
         void generateHeader();
 
+        void curlEasySetopt(const CURLoption &option, std::string &parameter);
+        void curlEasySetopt(const CURLoption &option, long parameter);
+        void curlEasySetopt(const CURLoption &option, QByteArray &parameter);
+        void curlEasySetopt(const CURLoption &option, std::nullptr_t parameter);
+        void curlEasySetopt(const CURLoption &option, curl_slist *parameter);
+        void curlEasySetopt(const CURLoption &option, FILE *parameter);
+        void curlEasySetopt(const CURLoption &option, void *parameter);
+
+        //void curlEasyGetinfo();
+
         //struct curl_slist *header;
+        std::string voidString = "";
+        std::string userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:74.0) Gecko/20100101 Firefox/74.0";
+        std::string acceptEncoding = "gzip, deflate, br";
+        std::string stdFullCacertPath;
         static QString cacertPath;
         static QString cacertFileName;
         static QString fullCacertPath;
