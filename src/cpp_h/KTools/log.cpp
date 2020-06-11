@@ -5,6 +5,10 @@
 #include "file.h"
 #include "options.h"
 
+#ifdef KAWAI_DEBUG
+#include <iostream>
+#endif
+
 KTools::Log::Log() {}
 
 void KTools::Log::writeCustomLog(const QString &message, const QString &from, const KTools::Enums::LogType &type)
@@ -12,6 +16,18 @@ void KTools::Log::writeCustomLog(const QString &message, const QString &from, co
     QString dateTime = QDateTime::currentDateTime().toString("yyyy.MM.dd hh:mm:ss:zzz");
     QString dt = '[' + from + ']' + dateTime + ' ' + message + '\n';
     File::writeFile(dt.toUtf8(), Options::logRootPath + logTypePath[type], logFileName, QIODevice::Append | QIODevice::WriteOnly);
+#ifdef KAWAI_DEBUG
+    if (type == Enums::LogType::Info)
+        std::clog << "Info: " << dt.data();
+    else if (type == Enums::LogType::Debug)
+        std::clog << "Debug: " << dt.data();
+    else if (type == Enums::LogType::Error)
+        std::cerr << "Error: " << dt.data();
+    else if (type == Enums::LogType::Custom)
+        std::clog << "Custom: " << dt.data();
+    else
+        std::clog << "Undefined log type: " << dt.data();
+#endif
 }
 
 void KTools::Log::writeCustomLog(const QString &message, const QString &from, const KTools::Enums::LogType &type, const QString &path, const QString &fileName)

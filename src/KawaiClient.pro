@@ -121,3 +121,6 @@ INCLUDEPATH += $$PWD/libs/karchive-5.69.0/include
 DEPENDPATH += $$PWD/libs/karchive-5.69.0/include
 
 QMAKE_CXXFLAGS += -O3
+
+# defines macros for debug build
+debug {DEFINES += KAWAI_DEBUG}
