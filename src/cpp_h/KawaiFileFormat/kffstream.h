@@ -3,9 +3,6 @@
 
 #include "../KTools/file.h"
 #include "../KTools/log.h"
-#include <cmath>
-
-#define EOS 0 // "end of stream"(EOS)
 
 namespace Kff
 {
@@ -40,6 +37,11 @@ namespace Kff
         qint64 inodePos;
         qint64 streamLenght = 0;
         qint64 globalPos;
+
+        static const qint32 contentLenght;
+        static const qint64 eos;
+        template <typename T>
+        static const T voidPtr();
     };
 }
 
