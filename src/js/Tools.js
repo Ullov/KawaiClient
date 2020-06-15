@@ -1,7 +1,7 @@
 function bytesToHumanReadable(bytes, mode)
 {
     var ext = "/s"
-    if (mode === null)
+    if (mode !== null)
         ext = ""
     if (bytes === 0)
         return 0 + " Bit" + ext
