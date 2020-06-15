@@ -7,6 +7,8 @@ Rectangle {
     visible: true
     anchors.fill: parent
 
+    signal signalOnSimpleLeftClick(int numb)
+
     Component.onCompleted: fsExplorerHandle.init()
     Rectangle {
         id: topBar
@@ -56,7 +58,13 @@ Rectangle {
 
     Component {
         id: delegateItem
-        DelegateItemForFolderList {}
+        DelegateItemForFolderList {
+            Component.onCompleted: {
+                oneLineSelected.connect(root.sampleFunction)
+                root.signalOnSimpleLeftClick.connect(slotOnSimpleLeftClick)
+            }
+            Component.onDestruction: root.signalOnSimpleLeftClick.disconnect(slotOnSimpleLeftClick)
+        }
     }
     ListModel {
         id: modelItem
@@ -95,5 +103,9 @@ Rectangle {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton
         onClicked: contextMenu.popup()
+    }
+    function sampleFunction(numb)
+    {
+        signalOnSimpleLeftClick(numb)
     }
 }
