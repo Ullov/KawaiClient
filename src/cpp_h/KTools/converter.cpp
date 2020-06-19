@@ -169,11 +169,11 @@ QJsonObject* KTools::Converter::convert<QString, QJsonObject*>(const QString &da
 
 template<typename T>
 QByteArray KTools::Converter::toByteArray(const T &data)
-{
-    QByteArray byteArr;
-    QDataStream byteStream(byteArr);
-    byteStream << data;
-    return byteArr;
+{   
+    QByteArray result;
+    QDataStream str(&result, QIODevice::WriteOnly);
+    str << data;
+    return result;
 }
 
 QString KTools::Converter::numberToUtf8(const quint16 &code)
