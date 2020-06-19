@@ -20,12 +20,12 @@ static void registerTypesForQml()
     Parsers::registerQmlTypes();
     KTools::Enums::registerTypesForQml();
 
-    /*Kff::Fs kffFs = Kff::Fs("E:/Win7アプリ/downloads", "kffTestFile.kff");
+    Kff::Fs kffFs = Kff::Fs("E:/Win7アプリ/downloads", "kffTestFile.kff");
     Kff::Stream kffStream = kffFs.create<Kff::Stream>();
     QString path = "E:/Win7アプリ/downloads/kffTestFile.kff";
     if (KTools::File::fileExist(path))
         QFile::remove(path);
-    kffStream.write(KTools::File::readFile<QByteArray>(R"(E:\KawaiClient\log\debug)", "2020.03.15.log"));*/
+    kffStream.write(KTools::File::readFile<QByteArray>(R"(E:\KawaiClient\log\debug)", "2020.03.15.log"));
 }
 
 int main(int argc, char *argv[])

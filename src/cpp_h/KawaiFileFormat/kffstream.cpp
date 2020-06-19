@@ -1,10 +1,11 @@
 #include "kffstream.h"
 
 #include <cmath>
-#include <QTime>
+#include "../KTools/converter.h"
 
 const qint64 Kff::Stream::eos = 0;
-const qint32 Kff::Stream::contentLenght = 256;
+const qint64 Kff::Stream::contentLenght = 4096;
+const qint64 Kff::Stream::clusterLenght = contentLenght + 8 + 8;
 
 Kff::Stream::Stream(KTools::File &NfFile, const qint64 dbStart, const qint64 inStart)
 {
@@ -20,7 +21,7 @@ bool Kff::Stream::findClearInode()
     while (fileInNativeFs->pos() < dataBlockStart)
     {
         qint64 currPos = fileInNativeFs->pos();
-        bool tmp = fileInNativeFs->read<qint64>() == -1;
+        bool tmp = fileInNativeFs->read<qint64>() == voidPtr<qint64>();
         if (tmp)
         {
             inodePos = currPos;
@@ -38,11 +39,11 @@ bool Kff::Stream::findClearInode()
 qint64 Kff::Stream::appendCluster()
 {
     fileInNativeFs->seek(dataBlockStart);
-    qint64 clearClusterPos = -1;
+    qint64 clearClusterPos = voidPtr<qint64>();
     while (!fileInNativeFs->atEnd())
     {
         qint64 currPos = fileInNativeFs->pos();
-        if (fileInNativeFs->read<qint64>() == -1)
+        if (fileInNativeFs->read<qint64>() == voidPtr<qint64>())
         {
             clearClusterPos = currPos;
             break;
@@ -53,13 +54,14 @@ qint64 Kff::Stream::appendCluster()
         }
     }
 
-    if (clearClusterPos == -1)
+    if (clearClusterPos == voidPtr<qint64>())
     {
         // if all clusters full append new cluster
         fileInNativeFs->toEnd();
         clearClusterPos = fileInNativeFs->pos();
         fileInNativeFs->write<qint64>(eos);
         fileInNativeFs->resize(fileInNativeFs->size() + contentLenght);
+        fileInNativeFs->write<QByteArray>(QByteArray().append(contentLenght, 0));
     }
 
     clustersPos.append(clearClusterPos);
@@ -80,7 +82,7 @@ qint64 Kff::Stream::appendCluster()
     return clearClusterPos;
 }
 
-void Kff::Stream::writeInInode(const qint64 firstClusterPos, const qint64 contentLenght)
+void Kff::Stream::writeInInode(qint64 firstClusterPos, qint64 contentLenght)
 {
     qint64 currStreamPos = fileInNativeFs->pos();
     fileInNativeFs->seek(inodePos);
@@ -190,7 +192,6 @@ void Kff::Stream::write(const QByteArray &data)
         qint64 firstBlockSize = firstWriteBlock.size();
         for (qint64 i = 0; (writedSize = i * contentLenght) < data.size(); i++)
         {
-            //QString start = QTime::currentTime().toString("mm:ss:zzz");
             QByteArray writeBlock = data.mid(writedSize + firstBlockSize, contentLenght);
             qint64 blockLenght = writeBlock.size();
             fileInNativeFs->write(writeBlock);
@@ -198,7 +199,6 @@ void Kff::Stream::write(const QByteArray &data)
                 toNextCluster();
             else
                 posInCurrCluster += blockLenght;
-            //KTools::Log::writeDebug("Start: " + start + " End: " + QTime::currentTime().toString("mm:ss:zzz"), "Kff::Stream::appendCluster()");
         }
     }
 }
@@ -244,4 +244,24 @@ T Kff::Stream::voidPtr()
 {
     T tmp = -1;
     return tmp;
+}
+
+void Kff::Stream::addClusterPos(const qint64 pos)
+{
+    qint64 lastCluster = clustersPos.last();
+    clustersPos.append(pos);
+    fileInNativeFs->seek(pos);
+    fileInNativeFs->write(voidCluster(lastCluster));
+
+    fileInNativeFs->seek(lastCluster + 8);
+    fileInNativeFs->write(pos);
+}
+
+const QByteArray Kff::Stream::voidCluster(const qint64 previousClusterPos)
+{
+    QByteArray result;
+    result.append(KTools::Converter::toByteArray(previousClusterPos)); // pos of a previous cluster [qint64]
+    result.append(KTools::Converter::toByteArray(voidPtr<qint64>())); // pos of a next cluster [qint64]
+    result.append(contentLenght, 0); // cluster's content. Raw bytes, 4096 bytes lenght
+    return result;
 }

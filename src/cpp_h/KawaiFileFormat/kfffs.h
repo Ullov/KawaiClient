@@ -18,12 +18,16 @@ namespace Kff
         template<typename T>
         T create();
 
+        void appendVoidClusters(const qint64 lenght, Stream &kffStream);
+
     private:
         QByteArray signature = "KFFS0001";
         KTools::File *fileInNativeFs;
         qint64 inodesBlockStart = signature.size();
         qint64 inodesNumber = 0;
         qint64 inodesAppendNumber = 20;
+        QVector<qint64> clearClustersPos;
+
 
         void appendInodes();
         qint64 findClearInode();

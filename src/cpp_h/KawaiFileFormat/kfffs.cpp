@@ -1,6 +1,7 @@
 #include "kfffs.h"
 
 #include <QDataStream>
+#include <cmath>
 
 Kff::Fs::Fs(const QString &path, const QString &fileName)
 {
@@ -31,4 +32,25 @@ template<>
 Kff::Stream Kff::Fs::create<Kff::Stream>()
 {
     return Kff::Stream(*fileInNativeFs, dataBlockStart, inodesBlockStart);
+}
+
+void Kff::Fs::appendVoidClusters(const qint64 lenght, Stream &kffStream)
+{
+    qint64 finalLenght = (clearClustersPos.size() * Stream::contentLenght) - lenght;
+    if (finalLenght > 0)
+    {
+        qint64 firstNewClusterPos = fileInNativeFs->size();
+        qint64 newClustersNumber = std::ceil((double)finalLenght / (double)Stream::contentLenght);
+        fileInNativeFs->resize(Stream::clusterLenght * newClustersNumber);
+        for (int i = 0; i < newClustersNumber; i++)
+        {
+            clearClustersPos.append(firstNewClusterPos + ((Stream::clusterLenght) * i));
+        }
+    }
+
+    for (int i = 0; i < std::ceil((double)lenght / (double)Stream::contentLenght); i++)
+    {
+        kffStream.addClusterPos(clearClustersPos[0]);
+        clearClustersPos.pop_front();
+    }
 }
