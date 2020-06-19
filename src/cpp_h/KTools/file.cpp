@@ -3,6 +3,7 @@
 #include <QFile>
 #include "converter.h"
 #include <QDir>
+#include "log.h"
 
 KTools::File::File() {}
 
@@ -35,7 +36,9 @@ qint64 KTools::File::pos()
 template<typename T>
 void KTools::File::write(const T &data)
 {
-    file->write(KTools::Converter::toByteArray(data));
+    QByteArray tmp = KTools::Converter::toByteArray(data);
+    if (file->write(tmp) == -1)
+        KTools::Log::writeError("Write error. data: " + tmp, "KTools::File::write()");
 }
 
 template<>
