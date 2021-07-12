@@ -148,7 +148,7 @@ QJsonValue KTools::Options::privateGetParam(QList<QString> pathToParam, const QJ
 
 void KTools::Options::setParam(const QString &pathToParam, const QString &param)
 {
-    QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
+    QList<QString> list = pathToParam.split("/", Qt::SkipEmptyParts);
     QString name = list[0];
     list.pop_front();
     QJsonValueRef jsVal = configsObj->operator[](name);
@@ -158,7 +158,7 @@ void KTools::Options::setParam(const QString &pathToParam, const QString &param)
 
 QVariant KTools::Options::getParam(const QString &pathToParam)
 {
-    QList<QString> list = pathToParam.split("/", QString::SplitBehavior::SkipEmptyParts);
+    QList<QString> list = pathToParam.split("/", Qt::SkipEmptyParts);
     QString name = list[0];
     list.pop_front();
     QJsonValue jsVal = configsObj->operator[](name);

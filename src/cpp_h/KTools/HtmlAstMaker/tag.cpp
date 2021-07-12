@@ -106,7 +106,7 @@ bool KTools::HtmlAst::Tag::isExist(qint32 childTagIndex)
 
 KTools::HtmlAst::Tag& KTools::HtmlAst::Tag::find(const QString path)
 {
-    QList<QString> list = path.split("/", QString::SplitBehavior::SkipEmptyParts);
+    QList<QString> list = path.split("/", Qt::SkipEmptyParts);
     Tag *currTag = this;
     for (qint32 i = 0; i < list.size(); i++)
     {

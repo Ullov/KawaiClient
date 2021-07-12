@@ -68,11 +68,11 @@ Rectangle {
     }
     Connections {
         target: parsers
-        onApiHandlerSignalDownloadingStarted: {
+        function onApiHandlerSignalDownloadingStarted(mode) {
             if (parserType === mode[0] && parserMode === mode[1])
                 statusRectangle.color = "#ff0000"
         }
-        onParserClassDownloadingFinished: {
+        function onParserClassDownloadingFinished(mode, data, binaryContent) {
             if (parserType === mode[0] && parserMode === mode[1])
                 statusRectangle.color = "#00ff08"
         }

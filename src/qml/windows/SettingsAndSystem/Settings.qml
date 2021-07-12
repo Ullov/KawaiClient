@@ -10,8 +10,8 @@ Rectangle {
     }
     Connections {
         target: kTools
-        onOptionsHandlerSendRootProgramPath: rootProgtramPathField.klifcTextField.text = path
-        onOptionsHandlerSignalParam: testParamField.klifcLabel.text = param
+        function onOptionsHandlerSendRootProgramPath(path){rootProgtramPathField.klifcTextField.text = path}
+        function onOptionsHandlerSignalParam(param){testParamField.klifcLabel.text = param}
     }
 
     KawaiLabelInputFieldCombination {
