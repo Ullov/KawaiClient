@@ -44,7 +44,9 @@ void KTools::File::write(const T &data)
 template<>
 void KTools::File::write(const QByteArray &data)
 {
-    file->write(data);
+    //file->write(data);
+    if (file->write(data) == -1)
+        KTools::Log::writeError("Write error. data: " + data, "KTools::File::write()");
 }
 
 template<typename T>
